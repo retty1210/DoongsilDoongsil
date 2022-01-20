@@ -3,9 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx https://www.springframework.org/schema/tx/spring-tx.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -13,7 +17,16 @@
 	<annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/resources/**" location="/resources/" />
+	<!-- << 리소스명 설정 >> -->
+	<resources mapping="/stc/jq/**" location="/resources/jquery/" />
+	<resources mapping="/stc/css/**" location="/resources/css/" />
+	<resources mapping="/stc/js/**" location="/resources/js/" />
+	<resources mapping="/stc/img/**" location="/resources/staticimg/" />
+	<resources mapping="/stc/up/**" location="/resources/upload/" />
+	<!-- 
+	upload 폴더는 일단은 만들어두긴 했는데 multipartResolver가 절대경로로 업로드를 안하면 오류가 많이 나서..
+	저 폴더 못쓸수도 있어요...업로드 만드는 사람들 다들 화이팅..
+	-->
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -23,6 +36,57 @@
 	
 	<context:component-scan base-package="doongsil.com.web" />
 	
+	<!-- 트랜잭션 설정 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
 	
+	
+	<!-- << DB설정 후 변경 >>외부 구성 파일 로드 -->
+	<context:property-placeholder location="classpath:/oracle/oracle_connection2.prop" />
+	
+	<!-- << DB설정 후 변경 >>데이터 베이스 연결을 위한 구성정보를 가지는 DataSource 객체 생성 -->
+	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></beans:property>
+		<beans:property name="url" value="${DB_URL}"></beans:property>
+		<beans:property name="username" value="${user}"></beans:property>
+		<beans:property name="password" value="${password}"></beans:property>
+	</beans:bean>
+	
+	<!-- mybatis와 연결하여 mybatis로 DB 연결 세션 factory 생성 -->
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource"></beans:property>
+		<beans:property name="configLocation" value="classpath:/mybatis/mybatis-config.xml"></beans:property>
+		<beans:property name="mapperLocations" value="classpath:/mybatis/mappers/*.xml"></beans:property>
+	</beans:bean>
+	
+	<!-- mybatis DB 세션 factory로부터 연결 세션 생성 -->
+	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<beans:constructor-arg ref="sqlSessionFactory"></beans:constructor-arg>
+	</beans:bean>
+	
+	<!-- multipartResolver, 파일 업로드 사이즈 설정 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+  		<!-- 최대 업로드 사이즈(전체 총합): 1024 * 1024 * 30 bytes = 30MB -->
+		<beans:property name="maxUploadSize" value="31457280"></beans:property>
+		<!-- 최대 업로드 사이즈(전체 총합): 1024 * 1024 * 10 bytes = 10MB -->
+		<beans:property name="maxUploadSizePerFile" value="10485760"></beans:property>
+  		<beans:property name="defaultEncoding" value="utf-8"></beans:property>
+	</beans:bean>
+	
+	<!-- TransactionManager -->
+	<beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<beans:property name="dataSource" ref="dataSource"></beans:property>
+	</beans:bean>
+	
+	<!-- Weaving at Runtime -->
+	<aop:aspectj-autoproxy />
+	
+	<!-- 인터셉터 예시
+	<interceptors>
+		<interceptor>
+			<mapping path="/board/*" />
+			<exclude-mapping path="/board/detail" />
+			<beans:bean class="doongsil.com.web.interceptor.LoginCheckInterceptor"></beans:bean>
+		</interceptor>
+	 -->
 	
 </beans:beans>

@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -13,9 +15,12 @@
 <div>
 	<h2>대략적인 폴더 경로 설명</h2>
 	<p>
-	main/resources/oracle: wallet과 oracle_connect파일을 넣습니다.<br>
-	참고로 oracle 폴더는 git에 안 올라가게 설정해두었기 때문에 따로 공유해서 복붙해 넣어야 합니다.<br>
-	지금은 테스트를 위해 제 oracle setting을 적용중이며 나중에 DB담당자가 wallet을 만드는 대로 값을 변경해야 합니다.<br> 
+	main/resources/oracle: wallet과 doongsil_connect파일을 넣습니다.<br>
+	참고로 oracle 폴더는 git에 안 올라가게 설정해두었기 때문에 각자 알아서 넣어야 합니다.<br>
+	doongsil_connect 파일을 열어서 프로젝트 위치/src/main/resources/oracle/Wallet_laptopTestDB 경로를 각자 추가해줍니다. <br>
+	oracle 폴더는 git에 업로드가 안 되기 때문에 각자 보관&관리하셔야 합니다. <br>
+	<br>
+	<hr>
 	<br>
 	main/webapp/resources: build path에서 여기를 classpath로 인식하게 설정해야합니다.<br>
 	그 하위폴더들 설명)<br>
@@ -26,6 +31,8 @@
 	sql: DB담당자가 만든 sql파일들을 보관하는 곳입니다.<br>
 	staticimg: 아이콘 등 사이트의 구성에 필요한 정적 이미지들을 보관하는 곳입니다.<br>
 	upload: 이용자가 업로드한 파일을 보관하는 곳입니다.(개발방향에 따라 삭제될 수 있습니다.)<br>
+	<br>
+	<hr>
 	<br>
 	main/webapp/WEB-INF/views/module: 여러 폴더의 jsp파일에서 공통적으로 사용하는 것들을 보관합니다.<br>
 	module/default.jsp: 제이쿼리, 기본 css등 모든 jsp파일에 공통적으로 들어가는 script를 한번에 불러옵니다.<br>

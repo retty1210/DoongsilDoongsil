@@ -101,3 +101,5 @@ oracle/
 
 # image upload folder
 upload/
+.DS_Store
+.gitignore

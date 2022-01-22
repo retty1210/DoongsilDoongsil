@@ -7,4 +7,156 @@
 	<select id="selectHWList" resultType="t_homework">
 		SELECT * FROM T_HOMEWORK ORDER BY THO_ID DESC
 	</select>
+	
+	<select id="selectOneHW" parameterType="t_homework" resultType="t_homework">
+		SELECT * FROM T_HOMEWORK
+		WHERE
+		THO_ID = #{tho_id}
+	</select>
+	
+	<select id="selectSHList" parameterType="s_homework" resultType="s_homework">
+		SELECT * FROM S_HOMEWORK
+		WHERE
+		SHO_TID = #{sho_tid}
+	</select>
+	
+	<select id="selectOneSH" parameterType="s_homework" resultType="s_homework">
+		SELECT * FROM S_HOMEWORK
+		WHERE
+		SHO_ID = #{sho_id}
+	</select>
+	
+	<insert id="insertHW" parameterType="t_homework">
+		INSERT INTO T_HOMEWORK
+		<choose>
+			<when test="tho_deadline == null and tho_filelink == null">
+				(
+					THO_ID,
+					THO_WRITER,
+					THO_GRADE,
+					THO_CLASS,
+					THO_TITLE,
+					THO_CONTENTS,
+					THO_HOMEWORKTYPE,
+					THO_WRITEDATE,
+					THO_COUNT
+				) VALUES (
+					#{tho_id},
+					#{tho_writer},
+					#{tho_grade),
+					#{tho_class},
+					#{tho_title},
+					#{tho_contents},
+					#{tho_homeworktype},
+					#{tho_writedate},
+					#{tho_count}
+				)
+			</when>
+			<when test="tho_deadline != null and tho_filelink == null">
+				(
+					THO_ID,
+					THO_WRITER,
+					THO_GRADE,
+					THO_CLASS,
+					THO_TITLE,
+					THO_CONTENTS,
+					THO_HOMEWORKTYPE,
+					THO_WRITEDATE,
+					THO_DEADLINE,
+					THO_COUNT
+				) VALUES (
+					#{tho_id},
+					#{tho_writer},
+					#{tho_grade),
+					#{tho_class},
+					#{tho_title},
+					#{tho_contents},
+					#{tho_homeworktype},
+					#{tho_writedate},
+					#(tho_deadline},
+					#{tho_count}
+				)
+			</when>
+			<when test="tho_deadline == null and tho_filelink != null">
+				(
+					THO_ID,
+					THO_WRITER,
+					THO_GRADE,
+					THO_CLASS,
+					THO_TITLE,
+					THO_CONTENTS,
+					THO_HOMEWORKTYPE,
+					THO_WRITEDATE,
+					THO_FILELINK,
+					THO_COUNT
+				) VALUES (
+					#{tho_id},
+					#{tho_writer},
+					#{tho_grade),
+					#{tho_class},
+					#{tho_title},
+					#{tho_contents},
+					#{tho_homeworktype},
+					#{tho_writedate},
+					#(tho_filelink},
+					#{tho_count}
+				)
+			</when>
+			<otherwise>
+				VALUES(
+					#{tho_id},
+					#{tho_writer},
+					#{tho_grade),
+					#{tho_class},
+					#{tho_title},
+					#{tho_contents},
+					#{tho_homeworktype},
+					#{tho_writedate},
+					#{tho_deadline},
+					#(tho_filelink},
+					#{tho_count}
+				)
+			</otherwise>
+		</choose>
+	</insert>
+	
+	<insert id="insertSH" parameterType="s_homework">
+		INSERT INTO S_HOMEWORK(
+			SHO_ID,
+			SHO_TID,
+			SHO_WRITER,
+			SHO_HOMEWORKTYPE,
+			SHO_GRADE,
+			SHO_CLASS,
+			SHO_CONTENTS,
+			SHO_DATE
+			<if test="sho_fileurl != null">
+				,
+				SHO_FILEURL
+			</if>
+		) VALUES (
+			#{sho_id},
+			#{sho_tid},
+			#{sho_writer},
+			#{sho_homeworktype},
+			#{sho_grade},
+			#{sho_class},
+			#{sho_contents},
+			#{sho_date}
+			<if test="sho_fileurl != null">
+				,
+				#{sho_fileurl}
+			</if>
+		)
+	</insert>
+	
+	<delete id="deleteHW" parameterType="t_homework">
+		DELETE FROM T_HOMEWORK
+			WHERE THO_ID = #{tho_id}
+	</delete>
+	
+	<delete id="deleteSH" parameterType="s_homework">
+		DELETE FROM S_HOMEWORK
+			WHERE SHO_ID = #{sho_id}
+	</delete>
 </mapper>

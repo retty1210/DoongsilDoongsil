@@ -4,10 +4,10 @@ import java.sql.Date;
 
 public class S_HomeworkVO {
 
-	private int sho_id;
-	private int sho_tid;
-	private int sho_writer;
-	private int sho_homeworktype;
+	private int sho_id; //ID고유값. SEQ
+	private int sho_tid; //T_HOMEWORK FK
+	private int sho_writer; //STAccount FK
+	private int sho_homeworktype; //T_Category FK
 	private int sho_grade;
 	private int sho_class;
 	private String sho_contents;
@@ -15,6 +15,13 @@ public class S_HomeworkVO {
 	private Date sho_date;
 	private String sho_fileurl;
 	private String sho_comment;
+	
+	public S_HomeworkVO() {}
+	
+	public S_HomeworkVO(int id) {
+		this.sho_id = id;
+	}
+	
 	public int getSho_id() {
 		return sho_id;
 	}

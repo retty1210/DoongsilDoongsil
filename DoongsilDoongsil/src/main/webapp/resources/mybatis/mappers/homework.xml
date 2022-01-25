@@ -10,8 +10,24 @@
 	
 	<select id="selectOneHW" parameterType="t_homework" resultType="t_homework">
 		SELECT * FROM T_HOMEWORK
-		WHERE
-		THO_ID = #{tho_id}
+		<where>
+			<choose>
+				<when test="tho_id != 0">
+					THO_ID = #{tho_id}
+				</when>
+				<when test="tho_id == 0">
+					
+					THO_WRITER = #{tho_writer} AND
+					THO_GRADE = #{tho_grade} AND
+					THO_CLASS = #{tho_class} AND
+					THO_TITLE = #{tho_title} AND
+					THO_CONTENTS = #{tho_contents} AND
+					THO_HOMEWORKTYPE = #{tho_homeworktype} AND
+					THO_WRITEDATE = #{tho_writedate}
+					
+				</when>
+			</choose>	
+		</where>
 	</select>
 	
 	<select id="selectSHList" parameterType="s_homework" resultType="s_homework">
@@ -22,8 +38,27 @@
 	
 	<select id="selectOneSH" parameterType="s_homework" resultType="s_homework">
 		SELECT * FROM S_HOMEWORK
-		WHERE
-		SHO_ID = #{sho_id}
+		<where>
+			<choose>
+				<when test="sho_id != 0">
+					SHO_ID = #{sho_id}
+				</when>
+				<when test="sho_id == 0">
+					
+					SHO_TID = #{sho_tid} AND
+					SHO_WRITER = #{sho_writer} AND
+					SHO_HOMEWORKTYPE = #{sho_homeworktype} AND
+					SHO_GRADE = #{sho_grade} AND
+					SHO_CLASS = #{sho_class} AND
+					SHO_CONTENTS = #{sho_contents} AND
+					SHO_DATE = #{sho_date}
+					
+				</when>
+				<otherwise>
+					1 = 1
+				</otherwise>
+			</choose>
+		</where>
 	</select>
 	
 	<insert id="insertHW" parameterType="t_homework">
@@ -41,9 +76,9 @@
 					THO_WRITEDATE,
 					THO_COUNT
 				) VALUES (
-					#{tho_id},
+					T_HOMEWORK_SEQ.NEXTVAL,
 					#{tho_writer},
-					#{tho_grade),
+					#{tho_grade},
 					#{tho_class},
 					#{tho_title},
 					#{tho_contents},
@@ -65,15 +100,15 @@
 					THO_DEADLINE,
 					THO_COUNT
 				) VALUES (
-					#{tho_id},
+					T_HOMEWORK_SEQ.NEXTVAL,
 					#{tho_writer},
-					#{tho_grade),
+					#{tho_grade},
 					#{tho_class},
 					#{tho_title},
 					#{tho_contents},
 					#{tho_homeworktype},
 					#{tho_writedate},
-					#(tho_deadline},
+					#{tho_deadline},
 					#{tho_count}
 				)
 			</when>
@@ -90,30 +125,30 @@
 					THO_FILELINK,
 					THO_COUNT
 				) VALUES (
-					#{tho_id},
+					T_HOMEWORK_SEQ.NEXTVAL,
 					#{tho_writer},
-					#{tho_grade),
+					#{tho_grade},
 					#{tho_class},
 					#{tho_title},
 					#{tho_contents},
 					#{tho_homeworktype},
 					#{tho_writedate},
-					#(tho_filelink},
+					#{tho_filelink},
 					#{tho_count}
 				)
 			</when>
 			<otherwise>
 				VALUES(
-					#{tho_id},
+					T_HOMEWORK_SEQ.NEXTVAL,
 					#{tho_writer},
-					#{tho_grade),
+					#{tho_grade},
 					#{tho_class},
 					#{tho_title},
 					#{tho_contents},
 					#{tho_homeworktype},
 					#{tho_writedate},
 					#{tho_deadline},
-					#(tho_filelink},
+					#{tho_filelink},
 					#{tho_count}
 				)
 			</otherwise>
@@ -135,7 +170,7 @@
 				SHO_FILEURL
 			</if>
 		) VALUES (
-			#{sho_id},
+			S_HOMEWORK_SEQ.NEXTVAL,
 			#{sho_tid},
 			#{sho_writer},
 			#{sho_homeworktype},

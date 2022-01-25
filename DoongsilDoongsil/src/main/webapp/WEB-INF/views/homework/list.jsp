@@ -29,10 +29,10 @@
 					
 						<tr>
 							<td>${data.getTho_id() }</td>
-							<c:url var="t_homeURL" value="/homework?id=${data.getTho_id() }" />
+							<c:url var="t_homeURL" value="/homework/detail?tho_id=${data.getTho_id() }" />
 							<td><a href="${t_homeURL}">${data.getTho_title()}</a></td>
 							<td>
-								<fmt:formatDate value="${data.getTho_writedate() }" type="both" pattern="YY/MM/dd(E) a hh:mm"/>
+								<fmt:formatDate value="${data.getTho_writedate() }" type="date" pattern="YY/MM/dd(E)"/>
 							</td>
 							<td>
 								<c:choose>
@@ -40,7 +40,7 @@
 										X
 									</c:when>
 									<c:otherwise>
-										${data.getTho_deadline() }
+										<fmt:formatDate value="${data.getTho_deadline() }" type="date" pattern="YY/MM/dd(E)"/>
 									</c:otherwise>
 								</c:choose>
 							</td>

@@ -19,8 +19,23 @@
 			<div>
 				<h3>새로운 숙제 올리기</h3><!-- 사진은 따로 업로드한 후 주소를 받아서 textarea에 뿌릴 수 있으면 좋겠는데 -->		
 			</div>
+			<div>
+				<form id="hw_up_form" name="hw_up_form" action="/homework/write/up/file" method="post" enctype="multipart/form-data">
+					<div>
+						<button id="btn_up" name="btn_up" type="button">업로드할 사진 선택하기</button>
+						<span>사진 업로드는 3장까지 가능합니다.</span>
+					</div>
+					<div id="uploadFileName">
+						
+					</div>
+					<input multiple="multiple" type="file" name="picFile" id="picFile" style="display:none;">
+				</form>
+			</div>
+			<div>
+				<button type="button" onclick="fileUp()">사진 업로드</button>
+			</div>
 			<div id="hw_write">
-				<form id="hw_write_form" onsubmit="return registerAction()">
+				<form id="hw_write_form" name="hw_write_form" action="/homework/write/up" method="post" enctype="multipart/form-data">
 					<table id="t_hw_write_t">
 						<tr>
 							<td>숙제 유형</td>
@@ -51,7 +66,14 @@
 							</td>
 						</tr>
 					</table>
+					<div>
+						<input type="number" name="tho_writer" value="5" style="display:none;">
+						<input type="number" name="tho_grade" value="1" style="display:none;">
+						<input type="number" name="tho_class" value="2" style="display:none;">
+						<input type="number" name="tho_count" value="0" style="display:none;">
+					</div>
 					<div id="t_hw_write_type1">
+						
 						<table>
 							<tr>
 								<td>내용</td>
@@ -60,35 +82,26 @@
 								</td>
 							</tr>
 							<tr>
-								<td>파일 업로드</td>
-								<td colspan="3">
-									<button id="btn_upload" type="button">파일 추가</button>
-									<input id="input_file" multiple="multiple" type="file" style="display:none;">
-									<span>첨부파일은 최대 3개까지 첨부 가능합니다.</span>
+								<td colspan="4">
+									<input type="hidden" id="tho_filelink" name="tho_filelink">
+									<button type="button" onclick="formUp()">제출</button>
 								</td>
 							</tr>
-							<tr>
-								<td>첨부 파일</td>
-								<td colspan="3">
-									<div id="fileChange"></div>
-								</td>
-							</tr>
+							
 						</table>
-						<div>
-							<input type="hidden" name="tho_writer" value="1">
-							<input type="hidden" name="tho_grade" value="1">
-							<input type="hidden" name="tho_class" value="1">
-							<input type="hidden" name="tho_count" value="0">
-						</div>
+						
+						
+						
 					</div>
 					<div id="t_hw_write_type2">
 						<p>type2</p>
-					</div>
-					<div>
-						<button type="submit">작성 완료</button>
+						<div>
+							<button type="button" onclick="formUp()">작성 완료</button>
+						</div>
 					</div>
 				</form>
 			</div>
+			
 		</section>
 	</main>
 </body>

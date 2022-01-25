@@ -4,14 +4,14 @@ import java.sql.Date;
 
 public class T_HomeworkVO {
 
-	private int tho_id;
-	private int tho_writer;
+	private int tho_id;//SEQ
+	private int tho_writer;//ST_Account FK
 	private int tho_grade;
 	private int tho_class;
 	private String tho_title;
 	private String tho_contents;
 	private int tho_homeworktype;
-	private Date tho_writedate;
+	private Date tho_writedate;//dao.getToday()
 	private Date tho_deadline;
 	private String tho_filelink;
 	private int tho_count;

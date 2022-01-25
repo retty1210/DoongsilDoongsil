@@ -1,5 +1,6 @@
 package doongsil.com.web.homework.model;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -25,13 +26,24 @@ public class HomeworkDAO {
 		return data;
 	}
 	
-	public List<S_HomeworkVO> selectSHList() {
-		List<S_HomeworkVO> datas = this.sess.selectList("HomeworkMapper.selectSHList");
+	public T_HomeworkVO selectOneHW(T_HomeworkVO vo) {
+		T_HomeworkVO data = this.sess.selectOne("HomeworkMapper.selectOneHW", vo);
+		return data;
+	}
+	
+	public List<S_HomeworkVO> selectSHList(S_HomeworkVO vo) {
+		List<S_HomeworkVO> datas = this.sess.selectList("HomeworkMapper.selectSHList", vo);
 		return datas;
 	}
 	
-	public S_HomeworkVO selectOneSH(STAccountVO sta) {
-		S_HomeworkVO data = this.sess.selectOne("HomeworkMapper.selectOneSH", sta);
+	public S_HomeworkVO selectOneSH(int id) {
+		S_HomeworkVO vo = new S_HomeworkVO(id);
+		S_HomeworkVO data = this.sess.selectOne("HomeworkMapper.selectOneSH", vo);
+		return data;
+	}
+	
+	public S_HomeworkVO selectOneSH(S_HomeworkVO vo) {
+		S_HomeworkVO data = this.sess.selectOne("HomeworkMapper.selectOneSH", vo);
 		return data;
 	}
 	
@@ -55,6 +67,47 @@ public class HomeworkDAO {
 		return res == 1 ? true : false;
 	}
 	
+	public boolean SHGoodbad(S_HomeworkVO vo) {
+		int res = this.sess.update("HomeworkMapper.updateSHGoodbad", vo);
+		return res == 1 ? true : false;
+	}
 	
+	public boolean SHComment(S_HomeworkVO vo) {
+		int res = this.sess.update("HomeworkMapper.updateSHComment", vo);
+		return res == 1 ? true : false;
+	}
+	
+	//TODAY 날짜값 구하는 로직(이걸 안쓰길 바랬는데..)
+	public Date getToday() {
+		java.util.Date today = new java.util.Date();
+		long timeinMilli = today.getTime();
+		java.sql.Date day = new java.sql.Date(timeinMilli);
+		return day;
+	}
+	
+	//검증 로직
+	public boolean TconfInsert(T_HomeworkVO vo) {
+		T_HomeworkVO data = this.selectOneHW(vo);
+		if(data != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean SconfInsert(S_HomeworkVO vo) {
+		S_HomeworkVO data = this.selectOneSH(vo);
+		return data != null ? true : false;
+	}
+	
+	public boolean confDelete(T_HomeworkVO vo) {
+		T_HomeworkVO data = this.selectOneHW(vo.getTho_id());
+		return data == null ? true : false;
+	}
+	
+	public boolean confDelete(S_HomeworkVO vo) {
+		S_HomeworkVO data = this.selectOneSH(vo.getSho_id());
+		return data == null ? true : false;
+	}
 
 }

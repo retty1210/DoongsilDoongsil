@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false"/>
+<link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false"/>
@@ -43,7 +43,7 @@
 					<li></li>
 				</ul>
 			</div>
-			<div class="schoolEvent_list_box">
+			<div class="schoolEvent_list_S_box">
 				<h5>학사일정</h5>
 				<ul>
 					<li></li>
@@ -56,5 +56,6 @@
 			</div>
 		</div>
 	</div>
+	<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false"/>
 </body>
 </html>

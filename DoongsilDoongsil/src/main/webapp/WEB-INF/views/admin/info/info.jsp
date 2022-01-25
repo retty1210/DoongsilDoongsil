@@ -7,6 +7,15 @@
 <title>Insert title here</title>
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false"/>
 <link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+	function studentDel(href){
+		window.open('/studentDel','','width=500,height=700');
+
+	}
+	function MyInfoUpdate(href){
+		window.open('/infoUpdate','','width=500,height=700');
+	}
+</script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false"/>
@@ -31,8 +40,8 @@
 			</div>
 			<div class="subMenu_box">
 				<ul>
-					<li><a href="#">학생관리</a></li>
-					<li><a href="#">내 정보 수정</a></li>
+					<li><a href="javascript:void(0);" onclick="studentDel(this)">학생관리</a></li>
+					<li><a href="javascript:void(0);" onclick="MyInfoUpdate(this);">내 정보 수정</a></li>
 				</ul>
 			</div>
 		</div>

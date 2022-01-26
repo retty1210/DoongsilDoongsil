@@ -1,0 +1,53 @@
+@charset "UTF-8";
+/* calenddar option */
+  body {
+    margin: 40px 10px;
+    padding: 0;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+  #calendar {
+    max-width: 450px;
+    font-size: 9px;
+  }
+
+/* 중복 되는 부분 */
+.notice-only-table, 
+.classBoard-only-table {
+	border: 1px solid gray;
+	border-left: none;
+	border-right: none;
+	width: 400px;
+	height: 100px;
+}
+
+/* 공지사항부분 css*/
+.main-first-top {
+	display: flex;
+	justify-content: space-around;
+}
+
+.notice-only-table,
+.classBoard-only-table {
+	margin-bottom: 15px;
+}
+
+.notice-only-table td,
+.classBoard-only-table td {
+	border-top: 1px solid gray;
+}
+
+/* th text position 조정*/
+.th-text-position {
+	text-align: left;
+	padding-left : 10px;
+}
+
+/* 학사 일정 */
+.school-events {
+	width: 300px;
+	height: 300px;
+	border : 1px solid gray;
+}
+

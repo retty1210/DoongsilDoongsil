@@ -31,13 +31,14 @@ public class CalendarController {
 	@RequestMapping(value="/cal", method=RequestMethod.POST)
 	@ResponseBody
 	public String calendar(Model model, HttpServletRequest req) throws Exception {
-	   SimpleDateFormat start = new SimpleDateFormat("yyyy-MM-DD HH:mm:ss");
+	   SimpleDateFormat start = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	   java.sql.Date realStart = new java.sql.Date(start.parse(req.getParameter("cal_start")).getTime());
 	   
-	   SimpleDateFormat end = new SimpleDateFormat("yyyy-MM-DD HH:mm:ss");
+	   SimpleDateFormat end = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	   java.sql.Date realEnd = new java.sql.Date(end.parse(req.getParameter("cal_end")).getTime());
 	   
-	   
+	   System.out.println(start.parse(req.getParameter("cal_start")).getTime());
+	   System.out.println(start.parse(req.getParameter("cal_end")).getTime());
 	   System.out.println(realStart);
 	   System.out.println(realEnd);
 		logger.info("post 동작");

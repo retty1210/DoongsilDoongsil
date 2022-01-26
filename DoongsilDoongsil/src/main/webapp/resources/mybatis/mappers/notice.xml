@@ -4,16 +4,67 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="noticeMapper">
 	  <!-- 공지사항 작성 -->
-	  <insert id="insert">
-	   INSERT INTO NOTICE(  NOT_ID 
-	   						  , NOT_PERMIT
-	   					      , NOT_TITLE 
-	   					      , NOT_CONTENTS
-	   					      , NOT_WRITER )	   					        
+	  <insert id="insert" parameterType="doongsil.com.web.notice.model.NoticeVO">
+	   INSERT INTO NOTICE(    NOT_ID 
+	   					    , NOT_WRITER 	   					    					        
+	   						, NOT_PERMIT
+	   					    , NOT_TITLE 
+	   					    , NOT_CONTENTS
+	   					    , NOT_WRITEDATE
+	   					      )
 	                 VALUES(  NOTICE_SEQ.NEXTVAL 
+	                 		  , #{not_writer} 
 	                 		  , #{not_permit}
 	                 		  , #{not_title}
 	                 		  , #{not_contents}
-	                 		  , #{not_writer} )
+	                 		  , SYSDATE
+	                 		  )
     </insert>
+    
+    <!-- 공지사항 목록보기 -->
+    <select id="list" resultType="doongsil.com.web.notice.model.NoticeVO">
+    SELECT NOT_ID
+    		,NOT_TITLE
+    		,NOT_WRITER
+    		,NOT_WRITEDATE
+    		,NOT_COUNT
+    	FROM NOTICE
+ 			ORDER BY NOT_ID DESC
+    </select>
+    
+    <!-- 공지사항 상세페이지-->
+    <select id="read" parameterType="int" resultType="doongsil.com.web.notice.model.NoticeVO" >
+     SELECT NOT_ID
+     		,NOT_PERMIT
+    		,NOT_TITLE
+    		,NOT_CONTENTS
+    		,NOT_WRITEDATE
+    	FROM NOTICE
+ 		WHERE NOT_ID = #{not_id}
+    </select>
+    
+    <!-- 공지사항 수정 -->
+    <update id="update" parameterType="doongsil.com.web.notice.model.NoticeVO">
+    	UPDATE NOTICE
+    	   SET 
+    	   	   NOT_PERMIT = #{not_permit},
+    	   	   NOT_TITLE = #{not_title},
+    	  	   NOT_CONTENTS = #{not_contents}
+    	 WHERE NOT_ID = #{not_id}	   	
+    </update>
+    
+    <!-- 공지사항 삭제 -->
+    <delete id="delete" parameterType="int">
+    	DELETE
+    	  FROM NOTICE
+    	 WHERE NOT_ID = #{not_id}
+    </delete>
+    
+    <!-- 공지사항 조회수 -->
+    <update id="noticeCount" parameterType="int">
+    	UPDATE NOTICE
+    	   SET NOT_COUNT = NOT_COUNT+1
+    	 WHERE NOT_ID = #{NOT_ID}
+    </update>
+    
 </mapper>

@@ -1,44 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>calendar</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
-<link href="/stc/css/doongmain.css" / rel="stylesheet">
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
-<script>
-
-		document.addEventListener('DOMContentLoaded', function() {
-		  var calendarEl = document.getElementById('calendar');
-		
-		  var calendar = new FullCalendar.Calendar(calendarEl, {
-			  // initialDate: '2020-09-12' 페이지 켰을 때 보여지는 날짜 지정할 수 있고 
-			  // initialDate사용안하면 현재 날짜로 표시
-		    editable: false, // calendar의 일정바?를 옮길 수 있게 하는 기능 
-		    selectable: true, // claendar의 날짜박스를 클릭할 수 있게 하는 기능
-		    businessHours: true, // 월~금 09~17시까지 업무시간으로 이 시간대 이벤트는 모두 강조됨
-		    dayMaxEvents: true, // allow "more" link when too many events
-		    events: [
-		    	{
-		    		title: 'OT',
-		    		start: '2022-01-24',
-		    		backgroundColor: 'red'
-		    	}
-		    ]
-		  });
-		
-		  calendar.render();
-		});
-
-</script>
-<style>
-
-</style>
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
+<script src="/stc/js/cal.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js'></script>
+<link href="/stc/css/doongmain.css" rel="stylesheet">
 </head>
 <body>
+<form action="/cal" method="post" name="hiddenForm">
+<input type="hidden" name="cal_title"/>
+<input type="hidden" name="cal_start"/>
+<input type="hidden" name="cal_end"/>
+</form>
 	<div class="main-first-top">
 		<div class="notice-area">
 		<table class="notice-table, notice-only-table">

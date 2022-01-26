@@ -34,6 +34,10 @@
 					</td>
 				</tr>
 				<tr>
+					<td colspan="3">조회수</td>
+					<td>${data.getTho_count() } 회</td>
+				</tr>
+				<tr>
 					<td>
 						글 쓴 날짜
 					</td>
@@ -98,39 +102,75 @@
 				<c:when test="${sdatas != null }">
 					<c:if test="${data.getTho_homeworktype() == 1 }">
 						<c:forEach var="sdata" items="${sdatas }">
-							<form action="/ajaxComment" method="post" id="ajaxComment${sdata.getSho_id() }">
-							<table>
-								<tr>
-									<td>${sdata.getSho_id() }</td> <!-- 나중에는 Account table 서치해서 이름 넣게 -->
-									<td colspan="5">${sdata.getSho_contents() }</td>
-									<td>
-										<div name="ajax_good" id="ajax_good${sdata.getSho_id() }" onclick="ajax_good(${sdata.getSho_id() })">잘했어요</div>
-										<input type="hidden" name="sho_goodbad" id="sho_good${sdata.getSho_id() }" value="G" disabled>
-									</td>
-									<td>
-										<div name="ajax_bad" id="ajax_bad${sdata.getSho_id() }" onclick="ajax_bad(${sdata.getSho_id() })">아쉬워요</div>
-										<input type="hidden" name="sho_goodbad" id="sho_bad${sdata.getSho_id() }" value="N" disabled>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="8">
-										<button type="button" id="btn_comment${sdata.getSho_id() }" onclick="commentCheck(${sdata.getSho_id() })">숙제에 대한 평가 입력창 열기</button>
-									</td>
-								</tr>
-							</table>
+						<!-- sdata의 goodbad가 null이면 폼, 값이 있으면 테이블을 띄움 -->
+							<c:choose>
+								<c:when test="${sdata.getSho_goodbad() != null }">
+										<table>
+											<tr>
+												<td>${sdata.getSho_id() }</td> <!-- 나중에는 Account table 서치해서 이름 넣게 -->
+												<td colspan="5">${sdata.getSho_contents() }</td>
+												<c:if test="${sdata.getSho_goodbad() == 'G' }">
+													<td colspan="2">잘했어요</td>
+												</c:if>
+												<c:if test="${sdata.getSho_goodbad() == 'N' }">
+													<td colspan="2">아쉬워요</td>
+												</c:if>
+											</tr>
+											<c:if test="${sdata.getSho_comment() != null }">
+												<tr>
+													<td colspan="8">
+														${sdata.getSho_comment() }
+													</td>
+												</tr>
+											</c:if>
+										</table>
+								</c:when>
+								<c:otherwise>
+									<form action="/ajaxComment" method="post" id="ajaxComment${sdata.getSho_id() }">
+										<table>
+											<tr>
+												<td>
+													${sdata.getSho_id() }
+												</td> <!-- 나중에는 Account table 서치해서 이름 넣게 -->
+												<td colspan="5">
+													${sdata.getSho_contents() }
+												</td>
+												<td>
+													<div name="ajax_good" id="ajax_good${sdata.getSho_id() }" >
+														<button id="btn_ajaxGood${sdata.getSho_id() }" type="button" onclick="ajax_good(${sdata.getSho_id() })">잘했어요</button>
+													</div>
+													<input type="hidden" name="sho_goodbad" id="sho_good${sdata.getSho_id() }" value="G" disabled>
+												</td>
+												<td>
+													<div name="ajax_bad" id="ajax_bad${sdata.getSho_id() }" >
+														<button id="btn_ajaxBad${sdata.getSho_id() }" type="button" onclick="ajax_bad(${sdata.getSho_id() })">아쉬워요</button>
+													</div>
+													<input type="hidden" name="sho_goodbad" id="sho_bad${sdata.getSho_id() }" value="N" disabled>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="8">
+													<button type="button" id="btn_comment${sdata.getSho_id() }" onclick="commentCheck(${sdata.getSho_id() })">숙제에 대한 평가 입력창 열기</button>
+												</td>
+											</tr>
+										</table>
+										
+										<div name="commentArea" id="commentArea${sdata.getSho_id() }">
+											<div>
+												<textarea name="sho_comment" id="sho_comment${sdata.getSho_id() }" placeholder="학생의 숙제에 대한 평가를 입력하세요(선택)"></textarea>
+											</div>
+											<div>
+												<input type="number" name="sho_id" id="sho_comment_id${sdata.getSho_id() }" value="${sdata.getSho_id() }" style="display:none;">
+											</div>
+											<div>
+												<button type="button" onclick="submitAjaxComment(${sdata.getSho_id() })">채점결과와 숙제에 대한 평가 함께 제출하기</button>
+											</div>
+										</div>
+									</form>
+								</c:otherwise>
+							</c:choose>
 							
-							<div id="commentArea${sdata.getSho_id() }">
-								<div>
-									<textarea name="sho_comment" id="sho_comment${sdata.getSho_id() }" placeholder="학생의 숙제에 대한 평가를 입력하세요(선택)"></textarea>
-								</div>
-								<div>
-									<input type="number" name="sho_id" id="sho_comment_id${sdata.getSho_id() }" value="${sdata.getSho_id() }" style="display:none;">
-								</div>
-								<div>
-									<button type="button" onclick="submitAjaxComment(${sdata.getSho_id() })">채점결과와 숙제에 대한 평가 함께 제출하기</button>
-								</div>
-							</div>
-						</form>
+							
 						</c:forEach>
 					
 						

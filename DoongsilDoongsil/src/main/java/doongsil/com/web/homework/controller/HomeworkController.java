@@ -3,7 +3,11 @@ package doongsil.com.web.homework.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import doongsil.com.web.homework.model.*;
 
@@ -42,8 +47,12 @@ public class HomeworkController {
 	}
 	
 	@RequestMapping(value="homework/write", method = RequestMethod.GET)
-	public String homeworkwrite() {
-		return "homework/write";
+	public ModelAndView homeworkwrite() {
+		ModelAndView mod = new ModelAndView();
+		List<THO_CategoryVO> datas = service.selectTHOCategory();
+		mod.addObject("datas", datas);
+		mod.setViewName("homework/write");
+		return mod;
 	}
 	
 	@RequestMapping(value="/homework/write/up", method = RequestMethod.POST)
@@ -67,9 +76,18 @@ public class HomeworkController {
 			if(!tho_filelink.isEmpty()) {
 				tho_filelink += "_";
 			}
+			//파일명 정하기
 			String originalFileName = file.getOriginalFilename();	//오리지날 파일명
 			String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-			String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+			
+			String rand = UUID.randomUUID() + "";//랜덤한 문자열
+			String randomstr = rand.substring(rand.lastIndexOf("-") + 1);
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("YYMMDDHHmm"); //업로드날짜와 시간
+			java.util.Date date = new java.util.Date();
+			String datetostr = sdf.format(date);
+			
+			String savedFileName = datetostr + randomstr + extension;	//저장될 파일명
 			System.out.println("HomeworkController, filename: " + savedFileName);
 			tho_filelink += savedFileName;
 			
@@ -86,8 +104,18 @@ public class HomeworkController {
 	@RequestMapping(value="/homework/detail", method=RequestMethod.GET)
 	public String homeworkDetail(T_HomeworkVO vo, HttpServletRequest request) {
 		T_HomeworkVO data = service.selectOneHW(vo);
+		
+		//조회수
+		int count = data.getTho_count() + 1;
+		data.setTho_count(count);
+		boolean countres = service.updateTHCount(data);
+		if(!countres) {
+			return "homework/error";
+		}
+		System.out.println("count결과: " + data.getTho_count());
+		
 		String[] imgarr = new String[1];
-		if(data.getTho_filelink().isEmpty()) {
+		if(data.getTho_filelink()== null) {
 			imgarr[0] = "noimage";
 		} else {
 			imgarr = service.getImgList(data.getTho_filelink());
@@ -123,16 +151,19 @@ public class HomeworkController {
 	
 	@ResponseBody
 	@RequestMapping(value="/ajaxComment", method=RequestMethod.POST)
-	public String ajaxComment(S_HomeworkVO vo) {
-		if(vo.getSho_comment().isEmpty()) {
+	public HashMap<String, String> ajaxComment(S_HomeworkVO vo) {
+		HashMap<String, String> resultmap = new HashMap();
+		if(vo.getSho_comment() == null) {
 			boolean res = service.updateSHGood(vo);
-			String ret = "{ result: " + res + ", GoodBad: " + vo.getSho_goodbad() + "}";
-			return ret;
+			resultmap.put("result", res + "");
 		} else {
 			String res = service.updateSHGoodCom(vo);
-			String ret = "{ result: " + res + ", GoodBad: " + vo.getSho_goodbad() + "}";
-			return ret;
+			String[] resarr = service.getImgList(res);
+			resultmap.put("GBresult", resarr[0]);
+			resultmap.put("Comresult", resarr[1]);
 		}
+		resultmap.put("GoodBad", vo.getSho_goodbad() + "");
+		return resultmap;
 	}
 	
 	//S_HOMEWORK 선생님용 로직

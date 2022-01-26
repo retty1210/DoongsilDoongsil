@@ -77,6 +77,16 @@ public class HomeworkDAO {
 		return res == 1 ? true : false;
 	}
 	
+	public boolean updateTHCount(T_HomeworkVO vo) {
+		int res = this.sess.update("HomeworkMapper.updateTHCount", vo);
+		return res == 1 ? true : false;
+	}
+	
+	public List<THO_CategoryVO> selectTHOCategory() {
+		List<THO_CategoryVO> data = this.sess.selectList("HomeworkMapper.selectTHOCategory");
+		return data;
+	}
+	
 	//TODAY 날짜값 구하는 로직(이걸 안쓰길 바랬는데..)
 	public Date getToday() {
 		java.util.Date today = new java.util.Date();

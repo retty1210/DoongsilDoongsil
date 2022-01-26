@@ -21,6 +21,9 @@ $(document).ready(function() {
 		//마우스 커서 모양 처리
 		$("div[name=ajax_good]").css("cursor", "pointer");
 		$("div[name=ajax_bad]").css("cursor", "pointer");
+		
+		//조회수 관련 처리
+		
 });
 
 // 파일 현재 필드 숫자 totalCount랑 비교값
@@ -122,46 +125,104 @@ function commentCheck(e) {
 
 //학생숙제 채점-Good
 function ajax_good(e) {
-	if($("#commentCont"+e).val() == true) {
+	if($("#commentArea"+e).css("display") === 'none') {
+		
 		$("#sho_good"+e).attr('disabled', false);
+		
+		$.ajax({
+			url: '/ajaxComment',
+			type: 'POST',
+			cache: false,
+			data: {
+				sho_id: e,
+				sho_goodbad: 'G',
+			},
+			success: function(data) {
+				alert(data.result);
+				alert(data.GoodBad);
+				$("#sho_good"+e).attr('disabled', true);
+				$("#sho_bad"+e).attr('disabled', true);
+				$("#btn_ajaxGood"+e).css({ background: "#87CEEB", color: "#FCFBF4"});
+				$("#sho_bad"+e).hide();
+			},
+			error: function() {
+				alert("ajax error 발생");
+			}
+		});
 	} else {
 		$("#sho_good"+e).attr('disabled', false);
-		$("#ajaxComment"+e).submit();
+		$("#btn_ajaxGood"+e).css({ background: "#87CEEB", color: "#FCFBF4"});
 	}
 }
 
 //학생숙제 채점-Bad
 function ajax_bad(e) {
-	if($("#commentCont"+e).val() == true) {
+	if($("#commentArea"+e).css("display") === 'none') {
 		$("#sho_bad"+e).attr('disabled', false);
+		var goodbad = $('#sho_bad'+e).val();
+		$.ajax({
+			url: '/ajaxComment',
+			type: 'POST',
+			cache: false,
+			data: {
+				sho_id: e,
+				sho_goodbad: goodbad,
+			},
+			success: function(data) {
+				alert(data.result);
+				alert(data.GoodBad);
+				$("#sho_bad"+e).attr('disabled', true);
+				$("#sho_good"+e).attr('disabled', true);
+				$("#btn_ajaxBad"+e).css({ background: "#87CEEB", color: "#FCFBF4"});
+				$("#sho_good"+e).hide();
+			},
+			error: function() {
+				alert("ajax error 발생");
+			}
+		});
 	} else {
 		$("#sho_bad"+e).attr('disabled', false);
-		$("#ajaxComment"+e).submit();
+		$("#btn_ajaxBad"+e).css({ background: "#87CEEB", color: "#FCFBF4"});
 	}
 }
 
 //학생숙제 채점 전체
 function submitAjaxComment(e) {
+	
 	if($("#ajax_good"+e).attr("disabled") && $("#ajax_bad"+e).attr("disabled")) {
 		alert("숙제 채점이 되지 않았습니다.");
 	} else {
-		$("#ajaxComment"+e).submit();
+		var goodbad = $("#sho_good"+e).attr('disabled', false) ? 'G' : 'N';
+		alert("goodbad: " + goodbad);
+		var comment = $("#sho_comment"+e).val();
+		$.ajax({
+			url: '/ajaxComment',
+			type: 'POST',
+			cache: false,
+			data: {
+				sho_id: e,
+				sho_goodbad: goodbad,
+				sho_comment: comment
+			},
+			success: function(data) {
+				alert(data.GBresult);
+				alert(data.Comresult);
+				alert(data.GoodBad);
+				$("#sho_bad"+e).attr('disabled', true);
+				$("#sho_good"+e).attr('disabled', true);
+				if(goodbad == 'G') {
+					$("#sho_bad"+e).hide();
+					$("#btn_ajaxGood"+e).css({ background: "#87CEEB", color: "#FCFBF4"});
+				} else {
+					$("#sho_good"+e).hide();
+					$("#btn_ajaxBad"+e).css({ background: "#87CEEB", color: "#FCFBF4"});
+				}
+			},
+			error: function() {
+				alert("ajax error 발생");
+			}
+		});
 	}
-}
-
-function ajax() {
-	$.ajax({
-		url: '/ajaxComment',
-		type: 'POST',
-		cache: false,
-		data: {
-			//...val
-		},
-		success: function(data) {
-			alert(data.result);
-			alert(data.GoodBad);
-		}
-	});
 }
 
 function submitSH() {

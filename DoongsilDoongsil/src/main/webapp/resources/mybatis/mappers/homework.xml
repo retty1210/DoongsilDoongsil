@@ -34,6 +34,7 @@
 		SELECT * FROM S_HOMEWORK
 		WHERE
 		SHO_TID = #{sho_tid}
+		ORDER BY SHO_ID DESC
 	</select>
 	
 	<select id="selectOneSH" parameterType="s_homework" resultType="s_homework">
@@ -194,4 +195,24 @@
 		DELETE FROM S_HOMEWORK
 			WHERE SHO_ID = #{sho_id}
 	</delete>
+	
+	<update id="updateSHGoodbad" parameterType="s_homework">
+		UPDATE S_HOMEWORK
+			<set>
+				<if test="sho_comment != null">
+					SHO_COMMENT = #{sho_comment} AND
+				</if>
+				SHO_GOODBAD = #{sho_goodbad}
+			</set>
+			WHERE SHO_ID = #{sho_id}	
+	</update>
+	
+	<update id="updateTHCount" parameterType="t_homework">
+		UPDATE T_HOMEWORK SET THO_COUNT = #{tho_count} WHERE THO_ID = #{tho_id}
+	</update>
+	
+	<select id="selectTHOCategory" resultType="tho_category">
+		SELECT * FROM THO_CATEGORY ORDER BY TCA_ID
+	</select>
+	
 </mapper>

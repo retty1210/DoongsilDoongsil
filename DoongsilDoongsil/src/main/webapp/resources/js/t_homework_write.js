@@ -135,7 +135,7 @@ function fileUp() {
 				alert("업로드할 파일이 없어 업로드기 진행되지 않았습니다.");
 			} else {
 				alert(j + " 개의 파일 업로드에 성공하였습니다.");
-			$('#sho_fileurl').attr('value', data);
+			$('#tho_filelink').attr('value', data);
 			$('#btn_up').attr('disabled', true);
 			}
 		},

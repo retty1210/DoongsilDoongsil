@@ -105,6 +105,14 @@ public class HomeworkService {
 		return res;
 	}
 	
+	public boolean updateTHCount(T_HomeworkVO vo) {
+		return dao.updateTHCount(vo);
+	}
+	
+	public List<THO_CategoryVO> selectTHOCategory() {
+		return dao.selectTHOCategory();
+	}
+	
 	public String[] getImgList(String filelink) {
 		String[] slist = new String[1];
 		if(filelink.isEmpty()) {

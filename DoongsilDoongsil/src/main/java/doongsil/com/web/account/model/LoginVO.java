@@ -1,5 +1,6 @@
 package doongsil.com.web.account.model;
 
+// 공통 로그인
 public class LoginVO {
 	private String username;
 	private String password;

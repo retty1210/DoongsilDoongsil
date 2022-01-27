@@ -1,20 +1,13 @@
 package doongsil.com.web.account.model;
 
-// 학부모 계정
-public class PAAccountVO extends STAccountVO {
-	private int paa_id;
+// 학부모 회원가입
+public class PAJoinVO extends STAccountVO {
 	private String paa_username;
+	private String paa_name;
 	private String paa_password;
+	private String paa_password_chk;
 	private String paa_phonenumber;
-	private String paa_child_id;
-
-	public int getPaa_id() {
-		return paa_id;
-	}
-	
-	public void setPaa_id(int paa_id) {
-		this.paa_id = paa_id;
-	}
+	private String sta_name;
 	
 	public String getPaa_username() {
 		return paa_username;
@@ -22,6 +15,14 @@ public class PAAccountVO extends STAccountVO {
 	
 	public void setPaa_username(String paa_username) {
 		this.paa_username = paa_username;
+	}
+	
+	public String getPaa_name() {
+		return paa_name;
+	}
+	
+	public void setPaa_name(String paa_name) {
+		this.paa_name = paa_name;
 	}
 	
 	public String getPaa_password() {
@@ -32,6 +33,14 @@ public class PAAccountVO extends STAccountVO {
 		this.paa_password = paa_password;
 	}
 	
+	public String getPaa_password_chk() {
+		return paa_password_chk;
+	}
+	
+	public void setPaa_password_chk(String paa_password_chk) {
+		this.paa_password_chk = paa_password_chk;
+	}
+	
 	public String getPaa_phonenumber() {
 		return paa_phonenumber;
 	}
@@ -40,18 +49,11 @@ public class PAAccountVO extends STAccountVO {
 		this.paa_phonenumber = paa_phonenumber;
 	}
 	
-	public String getPaa_child_id() {
-		return paa_child_id;
+	public String getSta_name() {
+		return sta_name;
 	}
 	
-	public void setPaa_child_id(String paa_child_id) {
-		this.paa_child_id = paa_child_id;
+	public void setSta_name(String sta_name) {
+		this.sta_name = sta_name;
 	}
-
-	@Override
-	public String toString() {
-		return "PAAccountVO [paa_id=" + paa_id + ", paa_username=" + paa_username + ", paa_password=" + paa_password
-				+ ", paa_phonenumber=" + paa_phonenumber + ", sta_id=" + this.getSta_id() + "]";
-	}
-	
 }

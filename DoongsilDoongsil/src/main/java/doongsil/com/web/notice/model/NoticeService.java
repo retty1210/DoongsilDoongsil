@@ -23,6 +23,10 @@ public class NoticeService {
 	public List<NoticeVO> list() throws Exception{
 		return dao.list();
 	}
+	//내정보 페이지에 공지사항 목록 조회
+	public List<NoticeVO> infoNoticeList(int writer) throws Exception{
+		return dao.infoNoticeList(writer);
+	}
 	
 	//공지사항 상세 페이지, 조회수
 	@Transactional(isolation = Isolation.READ_COMMITTED)

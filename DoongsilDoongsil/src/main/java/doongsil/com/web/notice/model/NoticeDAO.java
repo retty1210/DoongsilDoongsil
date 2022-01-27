@@ -22,6 +22,10 @@ public class NoticeDAO {
 	public List<NoticeVO> list() throws Exception {
 		return sess.selectList("noticeMapper.list");
 	}
+	//내정보 페이지에서 공지사항 목록 조회
+	public List<NoticeVO> infoNoticeList(int writer) throws Exception {
+		return sess.selectList("noticeMapper.infoNoticeList",writer);
+	}
 	
 	//공지사항 상세 페이지
 	public NoticeVO read(int not_id) throws Exception{

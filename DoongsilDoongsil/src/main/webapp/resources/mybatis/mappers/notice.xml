@@ -42,6 +42,12 @@
     	FROM NOTICE
  		WHERE NOT_ID = #{not_id}
     </select>
+    <!-- 내정보 페이지에서 공지사항 목록 불러오기 -->
+    <select id="infoNoticeList" parameterType="int" resultType="doongsil.com.web.notice.model.NoticeVO" >
+     SELECT *
+    	FROM NOTICE
+ 		WHERE NOT_WRITER = #{not_writer}
+    </select>
     
     <!-- 공지사항 수정 -->
     <update id="update" parameterType="doongsil.com.web.notice.model.NoticeVO">

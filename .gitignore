@@ -103,3 +103,6 @@ oracle/
 upload/
 .DS_Store
 .gitignore
+
+# target folder
+target/

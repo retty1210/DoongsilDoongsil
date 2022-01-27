@@ -14,6 +14,10 @@
 <link href="/stc/css/doongmain.css" rel="stylesheet">
 </head>
 <body>
+<header>
+	<jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
+	<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
+</header>
 <form action="/cal" method="post" name="hiddenForm">
 <input type="hidden" name="cal_title"/>
 <input type="hidden" name="cal_start"/>

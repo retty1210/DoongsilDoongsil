@@ -11,7 +11,7 @@
       selectable: true,
       selectMirror: true,
       select: function(arg) {
-        var title = prompt('Event Title:');
+        var title = prompt('일정 추가:');
         if (title) {
           calendar.addEvent({
             title: title,
@@ -33,7 +33,7 @@
 					alert('일정이 추가 되었습니다.');
 				},
 				error: function(data){
-					alert(data.cal_start);
+					alert('일정이 추가 되지않았습니다.');
 				}
 				
 			});
@@ -41,8 +41,9 @@
         calendar.unselect()
       },
       eventClick: function(arg) {
-        if (confirm('Are you sure you want to delete this event?')) {
-          arg.event.remove()
+        if (confirm('일정을 삭제하시겠습니까?')) {
+          arg.event.remove();
+		  alert("삭제 되었습니다.");
         }
       },
       editable: true,

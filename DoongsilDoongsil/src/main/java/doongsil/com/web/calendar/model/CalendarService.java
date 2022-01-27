@@ -14,10 +14,10 @@ public class CalendarService {
 	CalendarDAO dao;
 	
 	
-	public CalendarDTO InsertEvent(CalendarDTO dto) {
+	public boolean InsertEvent(CalendarDTO dto) {
 		
 		logger.info("service 동작");
-		CalendarDTO data = dao.insertEvents(dto);
+		boolean data = dao.insertEvents(dto);
 		return data;
 	}
 

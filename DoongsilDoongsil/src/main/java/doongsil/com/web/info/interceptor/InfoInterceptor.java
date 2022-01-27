@@ -13,7 +13,7 @@ public class InfoInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		HttpSession session = request.getSession();
-		
+		System.out.println(session.getAttribute("logined") != null);
 		if(session.getAttribute("logined") != null) {
 			return true;
 		} else {
@@ -26,11 +26,11 @@ public class InfoInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		HttpSession session = request.getSession();
-		AccountVO vo = (AccountVO) session.getAttribute("account");
-		
-		if(vo.getUserType().equals("T")) {
+		String userType = String.valueOf(session.getAttribute("accountType"));
+		System.out.println("userType = " + userType);
+		if(userType.equals("T")) {
 			modelAndView.setViewName("admin/" + modelAndView.getViewName());
-		} else if(vo.getUserType().equals("S")) {
+		} else if(userType.equals("S")) {
 			modelAndView.setViewName("student/" + modelAndView.getViewName());
 		}else {
 			modelAndView.setViewName("parent/" + modelAndView.getViewName());

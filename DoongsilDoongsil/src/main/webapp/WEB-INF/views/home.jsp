@@ -39,6 +39,7 @@
 	module/default.jsp: 제이쿼리, 기본 css등 모든 jsp파일에 공통적으로 들어가는 script를 한번에 불러옵니다.<br>
 	module/top.jsp: 사이트의 상단바 데이터를 넣습니다. 
 	</p>
+	${sessionScope.account }
 </div>
 
 </body>

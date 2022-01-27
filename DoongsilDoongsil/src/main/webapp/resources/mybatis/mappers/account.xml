@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AccountMapper">
+	<select id="stLoginSelect" parameterType="login" resultType="staccount">
+		SELECT * FROM ST_ACCOUNT
+		 WHERE STA_USERNAME = #{username} 
+		   AND STA_PASSWORD = #{password}
+	</select>
+	<select id="pLoginSelect" parameterType="login" resultType="paaccount">
+		SELECT * FROM PARENTS_ACCOUNT
+		 WHERE PAA_USERNAME = #{username} 
+		   AND PAA_PASSWORD = #{password}
+	</select>
+
+</mapper>

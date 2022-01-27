@@ -8,6 +8,11 @@
 </head>
 <body>
 	<form action="./login" method="post">
+	<select name="userType">
+		<option value="S">학생</option>
+		<option value="T">교사</option>
+		<option value="P">학부모</option>
+	</select>
 		<div>
 			<label>아이디</label>
 			<input type="text" name="username" >

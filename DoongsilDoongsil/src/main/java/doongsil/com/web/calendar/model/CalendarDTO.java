@@ -7,7 +7,7 @@ public class CalendarDTO {
 	private String cal_title;
 	private Date cal_start;
 	private Date cal_end;
-	private String cal_bgc = "#77b0bf";
+	private String cal_bgc;
 	
 	public CalendarDTO() {}
 	

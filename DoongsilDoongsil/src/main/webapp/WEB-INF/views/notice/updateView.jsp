@@ -23,8 +23,8 @@
 			<input type="text" name="not_id" class="form-control" id="exampleFormControlInput1" value="${update.not_id}">
 		</div>
 		<div class="mb-3">
-			<label for="not_permit" >열람 권한</label>
-			<select class="not_permit" name="not_permit" >
+			<label for="exampleFormControlInput1" class="form-label" >열람 권한</label>
+			<select class="form-select form-select-sm" aria-label=".form-select-sm example" name="not_permit" >
 			<option selected >${update.not_permit}</option>
 			<option value="S">학생</option>
 			<option value="P">학부모님</option>

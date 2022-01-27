@@ -1,0 +1,154 @@
+@charset "UTF-8";
+a{
+	text-decoration: none;
+	color:black;
+}
+a:hover{
+	color:rgba(0,0,0,0.4);
+}
+.mainbodybox{
+	padding:0px 50px;
+	display:flex;
+}
+.myInfoBox{
+	border:2px solid #77B0BF;
+	width:300px;
+	height:300px;
+	margin:30px 0px;
+	padding:32px;
+}
+.myInfo_setting{
+	display:flex;
+	justify-content: flex-end;
+}
+.myInfo_photo_box{
+	display:flex;
+	justify-content: center;
+	border:1px solid black;
+	width:128px;
+	height:128px;
+	border-radius:50%;
+	margin:30px auto;
+}
+.myInfo_text_tb{
+	display:flex;
+	justify-content: center;
+	
+}
+.myInfo_td{
+	padding:0px 5px;
+}
+.myInfo_td:nth-child(2){
+	border-left: 2px solid rgba(0,0,0,0.5);
+	border-right: 2px solid rgba(0,0,0,0.5);
+	margin:0px 10px;
+	
+}
+.myInfo_photo{
+	width:128px;
+	height:128px;
+	border-radius:50%;
+}
+.subMenu_box{
+	width:300px;
+	height:370px;
+	border:2px solid #77B0BF;
+	overflow-y:scroll;
+	white-space: nowrap;
+	padding:32px;
+}
+.subMainBox{
+	display:flex;
+	justify-content:space-between;
+	margin:30px 50px;
+}
+.homework_list_box{
+	border:2px solid #77B0BF;
+	width:500px;
+	height:300px;
+	margin-right:30px;
+	padding:32px;
+}
+.schoolEvent_list_S_box{
+	border:2px solid #77B0BF;
+	width:430px;
+	height:300px;
+	padding:32px;
+}
+.schoolEvent_list_P_box{
+	border:2px solid #77B0BF;
+	width:250px;
+	height:300px;
+	padding:32px;
+}
+.calendar_box{
+	padding:32px;
+	display:flex;
+	border:2px solid #77B0BF;
+	width:960px;
+	height:370px;
+	margin:0px 50px;
+}
+/* 상위 css는 학생내정보의 코드임 */
+
+.parentBoardList_box{
+	border:2px solid #77B0BF;
+	margin:0px 30px;
+	width:700px;
+	height:700px;
+	padding:15px;
+}
+.parentList_all_box{
+	width:100%;
+}
+.parentList_all{
+	color:rgba(0,0,0,0.4);
+	float:right;
+}
+.parentBoardList_tb{
+	width:100%;
+	text-align: center;
+	
+}
+.parentBoardList_tb th,
+.parentBoardList_tb td{
+	border:1px solid black;
+}
+/* 상위 css는 학부모용 내정보 코드입니다.*/
+.studentList_box{
+	border:2px solid #77B0BF;
+	width:450px;
+	height:700px;
+	margin-right:30px;
+	padding:32px;
+}
+.studentList_tb{
+	width:100%;
+	text-align: center;
+}
+.studentList_tb th,
+.studentList_tb td{
+	border:1px solid black;
+}
+.noticeList_box{
+	border:2px solid #77B0BF;
+	width:500px;
+	height:700px;
+	padding:32px;
+}
+.noticeList_all_box{
+	width:100%;
+}
+.noticeList_all{
+	color:rgba(0,0,0,0.4);
+	float:right;
+}
+.noticeList_tb{
+	width:100%;
+	text-align: center;
+}
+.noticeList_tb th,
+.noticeList_tb td{
+	border:1px solid black;
+}
+	

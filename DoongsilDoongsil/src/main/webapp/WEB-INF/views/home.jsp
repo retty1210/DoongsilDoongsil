@@ -7,6 +7,7 @@
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false"/>
 <h1>
 	Hello world!  
 </h1>

@@ -8,7 +8,8 @@
   }
 
   #calendar {
-    max-width: 450px;
+  	width: 450px;
+    max-width: 550px;
     font-size: 9px;
   }
 
@@ -23,10 +24,7 @@
 }
 
 /* 공지사항부분 css*/
-.main-first-top {
-	display: flex;
-	justify-content: space-around;
-}
+
 
 .notice-only-table,
 .classBoard-only-table {
@@ -49,5 +47,29 @@
 	width: 300px;
 	height: 300px;
 	border : 1px solid gray;
+}
+
+/* 내정보 박스 css */
+.today-box{
+	border:2px solid #77B0BF;
+	width:300px;
+	height:320px;
+	margin:30px 0px;
+	padding:32px;
+}
+
+.all-area {
+	display: flex;
+}
+
+.main-board-area {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.main-first-top,
+.main-second-bottom {
+	display:flex;
+	justify-content: space-around;
 }
 

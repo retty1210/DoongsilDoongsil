@@ -30,18 +30,28 @@ public class CalendarController {
 	
 	@RequestMapping(value="/cal", method=RequestMethod.POST)
 	@ResponseBody
-	public String calendar(Model model, HttpServletRequest req) throws Exception {
-	   SimpleDateFormat start = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	   java.sql.Date realStart = new java.sql.Date(start.parse(req.getParameter("cal_start")).getTime());
+	public String calendar(CalendarDTO dto, Model model, HttpServletRequest req) throws Exception {
+		String title = req.getParameter("cal_title");
+		
+		SimpleDateFormat start = new SimpleDateFormat("yyyy-MM-dd");
+		java.sql.Date realStart = new java.sql.Date(start.parse(req.getParameter("cal_start")).getTime());
+		dto.setCal_start(realStart);
+		SimpleDateFormat end = new SimpleDateFormat("yyyy-MM-dd");
+		java.sql.Date realEnd = new java.sql.Date(end.parse(req.getParameter("cal_end")).getTime());
+		dto.setCal_end(realEnd);
+		System.out.println(start.parse(req.getParameter("cal_start")).getTime());
+		System.out.println(start.parse(req.getParameter("cal_end")).getTime());
+		System.out.println(dto.getCal_title());
+		System.out.println(dto.getCal_start());
+		System.out.println(dto.getCal_end());
 	   
-	   SimpleDateFormat end = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	   java.sql.Date realEnd = new java.sql.Date(end.parse(req.getParameter("cal_end")).getTime());
+		//CalendarDTO data = new CalendarDTO(title, realStart, realEnd);
+		
+		//if(data != null) {
+			service.InsertEvent(dto);
+			logger.info("post 동작");
+		//}
 	   
-	   System.out.println(start.parse(req.getParameter("cal_start")).getTime());
-	   System.out.println(start.parse(req.getParameter("cal_end")).getTime());
-	   System.out.println(realStart);
-	   System.out.println(realEnd);
-		logger.info("post 동작");
 		return "module/cal";
 	}
 }

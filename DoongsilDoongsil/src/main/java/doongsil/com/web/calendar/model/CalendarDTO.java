@@ -11,6 +11,12 @@ public class CalendarDTO {
 	
 	public CalendarDTO() {}
 	
+	public CalendarDTO(String cal_title, Date cal_start, Date cal_end) {
+		this.cal_title = cal_title;
+		this.cal_start = cal_start;
+		this.cal_end = cal_end;
+	}
+	
 	public int getCal_id() {
 		return cal_id;
 	}

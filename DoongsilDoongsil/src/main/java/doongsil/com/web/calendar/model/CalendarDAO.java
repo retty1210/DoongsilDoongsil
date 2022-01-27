@@ -15,11 +15,15 @@ public class CalendarDAO {
 	@Autowired
 	private SqlSession sess;
 
-	public CalendarDTO insertEvents(CalendarDTO dto) {
+	public boolean insertEvents(CalendarDTO dto) {
 
 		logger.info("dao 동작");
-		CalendarDTO data = this.sess.selectOne("CalendarXml.addEvent", dto);
-		return data;
+		int data = this.sess.insert("CalendarMapper.addEvent", dto);
+		logger.info("dao 동작 = " + data);
+		if(data == 1) {
+			return true;			
+		}else {
+			return false;
+		}
 	}
-
 }

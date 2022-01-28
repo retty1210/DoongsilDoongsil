@@ -21,13 +21,16 @@ public class CalendarController {
 	
 	@Autowired
 	private CalendarService service;
-	private NoticeService NService;
 	
 	@RequestMapping(value="/cal", method=RequestMethod.GET)
 	public String calendar(Model model) {
+		// 공지사항 출력하는 부분
 		List<NoticeVO> arr = service.selectNotice_two();
 		logger.info("controller 동작");
 		model.addAttribute("noticeList", arr);
+		// 학급게시판 출력 부분
+		// 캘린더 출력 부분
+		// 학사일정 출력 부분
 		return "module/cal";
 	}
 	
@@ -42,11 +45,11 @@ public class CalendarController {
 		SimpleDateFormat end = new SimpleDateFormat("yyyy-MM-dd");
 		java.sql.Date realEnd = new java.sql.Date(end.parse(req.getParameter("cal_end")).getTime());
 		dto.setCal_end(realEnd);
-		System.out.println(start.parse(req.getParameter("cal_start")).getTime());
-		System.out.println(start.parse(req.getParameter("cal_end")).getTime());
-		System.out.println(dto.getCal_title());
-		System.out.println(dto.getCal_start());
-		System.out.println(dto.getCal_end());
+		//System.out.println(start.parse(req.getParameter("cal_start")).getTime());
+		//System.out.println(start.parse(req.getParameter("cal_end")).getTime());
+		//System.out.println(dto.getCal_title());
+		//System.out.println(dto.getCal_start());
+		//System.out.println(dto.getCal_end());
 	   
 		//CalendarDTO data = new CalendarDTO(title, realStart, realEnd);
 		

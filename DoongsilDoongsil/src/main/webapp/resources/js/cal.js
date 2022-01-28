@@ -5,7 +5,7 @@
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        right: 'dayGridMonth'
       },
       navLinks: true, // can click day/week names to navigate views
       selectable: true,
@@ -19,15 +19,15 @@
             end:arg.end,
 			allDay: true
           })
-		console.log('start = >' + moment(arg.start).format('YYYY-MM-DD hh:mm:ss'));
-		console.log('end = >'+ moment(arg.end).format('YYYY-MM-DD hh:mm:ss'));
+		console.log('start = >' + moment(arg.start).format('YYYY-MM-DD'));
+		console.log('end = >'+ moment(arg.end).format('YYYY-MM-DD'));
 			$.ajax({
 				url:"/cal",
 				type:"post",
 				data:{
 					cal_title:title,
-					cal_start: moment(arg.start).format('YYYY-MM-DD hh:mm:ss'),
-					cal_end: moment(arg.end).format('YYYY-MM-DD hh:mm:ss')
+					cal_start: moment(arg.start).format('YYYY-MM-DD'),
+					cal_end: moment(arg.end).format('YYYY-MM-DD')
 				},
 				success: function(response){
 					alert('일정이 추가 되었습니다.');
@@ -43,7 +43,7 @@
       eventClick: function(arg) {
         if (confirm('일정을 삭제하시겠습니까?')) {
           arg.event.remove();
-		  alert("삭제 되었습니다.");
+		  alert("일정이 삭제 되었습니다.");
         }
       },
       editable: true,

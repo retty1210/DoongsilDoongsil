@@ -1,11 +1,9 @@
 package doongsil.com.web.calendar;
 
-import java.sql.Date;
 import java.text.*;
 import java.util.*;
 
 import javax.servlet.http.*;
-
 
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
@@ -14,6 +12,7 @@ import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
 import doongsil.com.web.calendar.model.*;
+import doongsil.com.web.notice.model.*;
 
 @Controller
 public class CalendarController {
@@ -21,10 +20,14 @@ public class CalendarController {
 	private static final Logger logger = LoggerFactory.getLogger(CalendarController.class);
 	
 	@Autowired
-	CalendarService service;
+	private CalendarService service;
+	private NoticeService NService;
 	
 	@RequestMapping(value="/cal", method=RequestMethod.GET)
-	public String calendar() {
+	public String calendar(Model model) {
+		List<NoticeVO> arr = service.selectNotice_two();
+		logger.info("controller 동작");
+		model.addAttribute("noticeList", arr);
 		return "module/cal";
 	}
 	
@@ -54,4 +57,5 @@ public class CalendarController {
 	   
 		return "module/cal";
 	}
+	
 }

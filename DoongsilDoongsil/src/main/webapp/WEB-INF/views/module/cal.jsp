@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
@@ -53,29 +54,46 @@
 			<div class="main-first-top">
 				<div class="notice-area">
 				<table class="notice-table, notice-only-table">
+					<span><a href="/notice/noticeList" class="more-list-text">+ 더보기</a></span>
 					<th class="notice-table, th-text-position">공지사항</th>
-					<tr>
-						<td class="notice-table">s</td>
-					</tr>
-					<tr>
-						<td class="notice-table">s</td>
-					</tr>
+					<c:forEach var="notice" items="${noticeList}">
+						<tr>
+							<td class="notice-table">
+								<span>
+									<img src="https://img.icons8.com/ultraviolet/50/000000/airplane-mode-on.png" class="class-board-icon" />
+								</span> 
+								<span>
+									<a href="/notice/noticeView?not_id=${notice.not_id }" class="notice-list-title">${notice.not_title }</a>
+								</span>
+							</td>
+						</tr>
+					</c:forEach>
+					
 				</table>
 				</div>
+				
 				<div class="classBoard-area">
 					<table class="classBoard-table, classBoard-only-table">
-					<th class="classBoard-table, th-text-position">학급게시판</th>
+					<span><a href="" class="more-list-text">+ 더보기</a></span>
+					<th class="classBoard-table, th-text-position">학급게시판(숙제올리는 곳)</th>
 					<tr>
-						<td class="classBoard-table">b</td>
+						<td class="classBoard-table">
+							<span><img src="https://img.icons8.com/dusk/50/000000/filled-circle.png" class="class-board-icon"/></span>
+							<span>학급게시판1</span>
+						</td>
 					</tr>
 					<tr>
-						<td class="classBoard-table">b</td>
+						<td class="classBoard-table"> 
+							<span><img src="https://img.icons8.com/dusk/50/000000/filled-circle.png" class="class-board-icon"/></span>
+								<span>학급게시판2</span>
+						</td>
 					</tr>
 				</table>
 				</div>
 			</div>
 			<div class="main-second-bottom">
-				<div id='calendar'></div>
+				<div id='calendar' class="calendar-area">
+				</div>
 				<div class="school-events-area">
 					<div class="school-events"></div>
 				</div>

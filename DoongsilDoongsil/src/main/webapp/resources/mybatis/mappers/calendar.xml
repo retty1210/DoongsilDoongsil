@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="CalendarMapper">
+<mapper namespace="mainPageMapper">
 	<insert id="addEvent" parameterType="calendarDTO">
 		INSERT INTO CALENDAR VALUES(
 		     CALENDAR_SEQ.NEXTVAL
@@ -13,7 +13,9 @@
 		)
 	</insert>
 	
-	<select id="selectEvent" parameterType="calendarDTO" resultType="list">
-		
+	<select id="selectNotice" resultType="doongsil.com.web.notice.model.NoticeVO">
+		SELECT NOT_TITLE, NOT_ID FROM 
+		(SELECT * FROM NOTICE ORDER BY NOT_ID DESC) 
+		 WHERE ROWNUM &lt;= 2
 	</select>
 </mapper>

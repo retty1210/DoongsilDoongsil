@@ -18,6 +18,25 @@ public class STAccountVO {
 	private String sta_profile;
 	private String sta_usertype;
 	
+	public STAccountVO() {}
+	
+	
+	public STAccountVO(int sta_id,String sta_name, String sta_email, String sta_address, String sta_phonenumber, int sta_grade,
+			int sta_class, Date sta_birthday, String sta_profile, String sta_usertype) {
+		this.sta_id = sta_id;
+		this.sta_name = sta_name;
+		this.sta_email = sta_email;
+		this.sta_address = sta_address;
+		this.sta_phonenumber = sta_phonenumber;
+		this.sta_grade = sta_grade;
+		this.sta_class = sta_class;
+		this.sta_birthday = sta_birthday;
+		this.sta_profile = sta_profile;
+		this.sta_usertype = sta_usertype;
+	}
+
+
+
 	public int getSta_id() {
 		return sta_id;
 	}

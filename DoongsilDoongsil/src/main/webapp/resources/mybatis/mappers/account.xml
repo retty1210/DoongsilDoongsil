@@ -3,15 +3,43 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AccountMapper">
+	<!-- 학생,교사 로그인 -->
 	<select id="stLoginSelect" parameterType="login" resultType="staccount">
 		SELECT * FROM ST_ACCOUNT
 		 WHERE STA_USERNAME = #{username} 
 		   AND STA_PASSWORD = #{password}
 	</select>
+	<!-- 학부모 로그인 -->
 	<select id="pLoginSelect" parameterType="login" resultType="paaccount">
 		SELECT * FROM PARENTS_ACCOUNT
 		 WHERE PAA_USERNAME = #{username} 
 		   AND PAA_PASSWORD = #{password}
 	</select>
+	<!-- 교사용 내정보 페이지에서 학생 목록 불러오기 -->
+	<select id="infoStudentList" parameterType="staccount" resultType="staccount">
+		SELECT * FROM ST_ACCOUNT
+		 WHERE STA_USERTYPE = 'S' 
+		   AND STA_GRADE = #{sta_grade}
+		   AND STA_CLASS = #{sta_class}
+	</select>
+	<!-- 교사용 학생 정보수정  목록 불러오기 -->
+	<select id="studentUpdate" parameterType="int" resultType="staccount">
+		SELECT * FROM ST_ACCOUNT
+		 WHERE STA_ID = #{id}
+	</select>
+	<update id="infoUpdate" parameterType="staccount">
+		UPDATE ST_ACCOUNT
+		   SET STA_NAME = #{sta_name},
+		   	   STA_EMAIL = #{sta_email},
+		   	   STA_ADDRESS = #{sta_address},
+		   	   STA_PHONENUMBER = #{sta_phonenumber},
+		   	   STA_GRADE = #{sta_grade},
+		   	   STA_class = #{sta_class},
+		   	   STA_BIRTHDAY = #{sta_birthday},
+		   	   STA_PROFILE = #{sta_profile},
+		   	   STA_USERTYPE = #{sta_usertype}
+		 WHERE STA_ID = #{sta_id}
+	</update>
+	
 
 </mapper>

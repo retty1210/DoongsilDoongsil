@@ -14,7 +14,12 @@
 
 	}
 	function MyInfoUpdate(href){
-		window.open('/infoUpdate','','width=500,height=700');
+		window.open('/infoUpdate?id=${sessionScope.account.sta_id}','','width=500,height=700');
+	}
+	function studentUpdate(href){
+		<c:forEach var="studentUpdate" items="${sessionScope.infoStudentList}">
+			window.open('/infoUpdate?id=${studentUpdate.sta_id}','','width=500,height=700');
+		</c:forEach>	
 	}
 </script>
 </head>
@@ -29,7 +34,7 @@
 					</svg>
 				</a>
 				<div class="myInfo_photo_box">
-					<img src="#" alt="profilePhoto" class="myInfo_photo"/>
+					<img src="${sessionScope.account.sta_profile }" alt="profilePhoto" class="myInfo_photo"/>
 				</div>
 				<table class="myInfo_text_tb">
 					<tr class="myInfo_text_tr">
@@ -53,7 +58,7 @@
 		<div class="subMainBox">
 			<div class="studentList_box">
 				<div class="parentList_all_box">
-					<a href="#" class="parentList_all">>전체보기</a>
+					<a href="/studentDel" class="parentList_all">>전체보기</a>
 				</div>
 				<table border="1" class="studentList_tb">
 					<tr class="studentList_tr">
@@ -61,11 +66,13 @@
 						<th width="60%">Name</th>
 						<th>Birthday</th>
 					</tr>
-					<tr>
-						<td>1</td>
-						<td><a href="#">이종훈</a></td>
-						<td>1994.03.11</td>
-					</tr>
+					<c:forEach var="studentList" items="${sessionScope.infoStudentList}">
+						<tr>
+							<td>${studentList.sta_id }</td>
+							<td><a href="javascript:void(0);" onclick="studentUpdate(this);">${studentList.sta_name }</a></td>
+							<td>${studentList.sta_birthday }</td>
+						</tr>
+					</c:forEach>
 				</table>
 			</div>
 			<div class="noticeList_box">

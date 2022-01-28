@@ -36,7 +36,6 @@ public class AccountController {
 		PrintWriter out = response.getWriter();
 		if(loginVo.getUserType().equals("S")||loginVo.getUserType().equals("T") ) {
 			STAccountVO stData = this.staService.staLogin(loginVo);
-			System.out.println(stData);
 			if(stData != null) {
 				session.setAttribute("logined", true);
 				session.setAttribute("account", stData);

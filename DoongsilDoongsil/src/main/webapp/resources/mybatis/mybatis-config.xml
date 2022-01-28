@@ -9,5 +9,7 @@
 			<typeAlias type="doongsil.com.web.homework.model.T_HomeworkVO" alias="t_homework" />
 			<typeAlias type="doongsil.com.web.homework.model.S_HomeworkVO" alias="s_homework" />
 			<typeAlias type="doongsil.com.web.homework.model.THO_CategoryVO" alias="tho_category" />
+			<typeAlias type="doongsil.com.web.calendar.model.CalendarDTO" alias="calendarDTO" />
+			<typeAlias type="doongsil.com.web.calendar.model.CalendarService" alias="cal_service" />
 	</typeAliases>
 </configuration>

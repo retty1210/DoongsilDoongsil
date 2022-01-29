@@ -40,6 +40,14 @@
 		   	   STA_USERTYPE = #{sta_usertype}
 		 WHERE STA_ID = #{sta_id}
 	</update>
-	
+	<delete id="allDelete" parameterType="staccount">
+		DELETE FROM ST_ACCOUNT
+		 WHERE STA_GRADE = #{sta_grade} 
+		   AND STA_CLASS = #{sta_class}
+	</delete>
+	<delete id="selectDelete" parameterType="int">
+		DELETE FROM ST_ACCOUNT
+		 WHERE STA_ID = #{id}
+	</delete>
 
 </mapper>

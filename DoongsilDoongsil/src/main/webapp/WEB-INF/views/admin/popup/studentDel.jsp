@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +42,6 @@
 			}else{
 				all.checked = true;
 				all.value=true;
-				boxes[i].value = boxes[i].parentElement.nextElementSibling.innerText;
 			}
 		}
 	}
@@ -88,18 +88,14 @@
 					<th width="60%">이름</th>
 					<th>생일</th>
 				</tr>
-				<tr class="studentDelList_tr">
-					<td><input type="checkbox" name="selectStudent" onchange="selectBoxes();"/></td>
-					<td>1</td>
-					<td>이종훈</td>
-					<td>1994.03.11</td>
-				</tr>
-				<tr>
-					<td><input type="checkbox" name="selectStudent" onchange="selectBoxes();"/></td>
-					<td>2</td>
-					<td>이종훈</td>
-					<td>1994.03.11</td>
-				</tr>
+				<c:forEach var="studentList" items="${sessionScope.infoStudentList}">
+					<tr class="studentDelList_tr">
+						<td><input type="checkbox" name="selectStudent" onchange="selectBoxes();" value="${studentList.sta_id }"/></td>
+						<td>${studentList.sta_id }</td>
+						<td>${studentList.sta_name }</td>
+						<td>${studentList.sta_birthday }</td>
+					</tr>
+				</c:forEach>
 			</table>
 		</div>
 	</form>

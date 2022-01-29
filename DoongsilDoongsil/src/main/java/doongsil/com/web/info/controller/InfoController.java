@@ -64,19 +64,48 @@ public class InfoController {
 		return "admin/popup/studentDel";
 	}
 	@RequestMapping(value="/studentDel",method=RequestMethod.POST)
-	public String studentDel(HttpServletRequest request) {
+	public String studentDel(HttpServletResponse response,HttpServletRequest request, HttpSession session) throws Exception {
 		boolean all = Boolean.valueOf(request.getParameter("selectAll"));
 		String[] student = request.getParameterValues("selectStudent");
-		
-		
-//		if(all) {
-////			service.AllDelete();
-//		}else {
-////			for(String s: student) {
-////				service.selectDelete(Integer.parseInt(s));
-//			}
-////		}
-		
+		PrintWriter out = response.getWriter();
+		System.out.println("all delete = > " + all);
+		System.out.println("student delete = > " + Arrays.toString(student));
+		if(all) {
+			boolean allDel = staSer.allDelete((STAccountVO)session.getAttribute("account"));
+			if(allDel) {
+				out.println("<script>alert('학생데이터를 전체 삭제 했습니다.');"
+						+ "location.reload();"
+						+ "opener.location.reload();"
+						+ "</script>");
+				
+			}else {
+				out.println("<script>alert('삭제에 실패 하셨습니다. 다시 시도해주세요.');"
+						+ "location.reload();"
+						+ "opener.location.reload();"
+						+ "</script>");
+			}
+		}else {
+			boolean selectDel = false;
+			for(String s: student) {
+				if(staSer.selectDelete(Integer.parseInt(s))) {
+					selectDel = true;
+					break;
+				}
+			}
+			if(selectDel) {
+				out.println("<script>alert('선택하신 학생데이터를 삭제 했습니다.');"
+						+ "location.reload();"
+						+ "opener.location.reload();"
+						+ "</script>");
+				
+			}else {
+				out.println("<script>alert('삭제에 실패 하셨습니다. 다시 시도해주세요.');"
+						+ "location.reload();"
+						+ "opener.location.reload();"
+						+ "</script>");
+			}
+		}
+		out.flush();
 		return "admin/popup/studentDel";
 	}
 	@RequestMapping(value="/infoUpdate",method=RequestMethod.GET)
@@ -103,6 +132,7 @@ public class InfoController {
 		String type = request.getParameter("userType");
 		File file = new File(save);
 		multi.transferTo(file);
+		
 		STAccountVO update = new STAccountVO(id,name,email,adress,phone,grade,Gclass,bd,path,type);
 		
 		PrintWriter out = response.getWriter();

@@ -87,6 +87,11 @@ public class HomeworkDAO {
 		return data;
 	}
 	
+	public List<S_HomeworkVO> selectStudentHWs(S_HomeworkVO vo) {
+		List<S_HomeworkVO> datas = this.sess.selectList("HomeworkMapper.selectStudentHWs", vo);
+		return datas;
+	}
+	
 	//TODAY 날짜값 구하는 로직(이걸 안쓰길 바랬는데..)
 	public Date getToday() {
 		java.util.Date today = new java.util.Date();

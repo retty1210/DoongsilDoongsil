@@ -1,5 +1,6 @@
 $(document).ready(function() {
 		//기본값 외의 입력창들 안 보이게 처리
+		$("#t_hw_write_type1").attr('style', "display:none;");
 		$("#t_hw_write_type2").attr('style', "display:none;");
 		
 		//deadline 기본적으로는 안 보이게 처리
@@ -89,7 +90,7 @@ function fileCheck(e) {
         $('#uploadFileName').append(
        		'<div id="file' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
        		+ '<font style="font-size:12px">' + f.name + '</font>'  
-       		+ '<img src="/stc/img/dash-circle-dotted.svg" style="width:20px; height:auto; vertical-align: middle; cursor: pointer;"/>' 
+       		+ '<img src="/stc/img/dash-circle-dotted.svg" class="ic20 skyblue"/>' 
        		+ '<div/>'
 		);
         fileNum ++;

@@ -10,263 +10,266 @@
 <title>숙제 상세 페이지</title>
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
 <c:url var="shwr_url" value="/stc/js/s_homework_write.js" />
+<c:url var="hwr_css_url" value="/stc/css/homework.css" />
+<link href="${hwr_css_url}" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${shwr_url}" ></script>
 </head>
 <body>
-	<header></header>
-	<main role="main">
-		<section>
-			<table>
-				<tr>
-					<td colspan="4">
-						<h3>${data.getTho_title() }</h3>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						글쓴이
-					</td>
-					<td>
-						<!-- tho_writer값으로 STAccount select해서 session에 글쓴이 이름 추가 -->
-					</td>
-					<td colspan="2">
-						${data.getTho_grade() }학년 ${data.getTho_class() }반
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">조회수</td>
-					<td>${data.getTho_count() } 회</td>
-				</tr>
-				<tr>
-					<td>
-						글 쓴 날짜
-					</td>
+	<header>
+		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false"/>
+	</header>
+	<main role="main" class="container-fluid">
+		<div class="container">
+		<div class="row tmg20">
+			<section class="bdr-1 bdr-r5">
+				<div class="row tmg10">
+					<div class="col-md-10"><h3>${data.getTho_title() }</h3></div>
+					<div class="col-md-2"><button type="button" class="btn btn-sm btn-sbl" onclick="location='/homework'">목록으로</button></div>
+				</div>
+				<div class="row tmg10">
+					<div class="col-md-2"><strong>글쓴이</strong></div>
+					<div class="col-md-3"><p>글쓴사람이름</p></div>
+					<div class="col-md-3">
+						<p>${data.getTho_grade() }학년 ${data.getTho_class() }반</p>
+					</div>
+					<div class="col-md-1"><strong>조회수</strong></div>
+					<div class="col-md-1"><p>${data.getTho_count() } 회</p></div>
+					<!-- 만약 작성자=로그인한 사람인 경우 -->
+					<div class="col-md-1">
+						<button type="button" class="btn btn-sm btn-drt" onclick="TSHWupdate()">수정</button>
+					</div>
+					<div class="col-md-1">
+						<button type="button" class="btn btn-sm btn-drt" onclick="THWdelete()">삭제</button>
+					</div>
+				</div>
+				<div class="row tmg10">
+					<div class="col-md-2"><strong>글 쓴 날짜</strong></div>
 					<c:choose>
 						<c:when test="${data.getTho_deadline() != null}">
-							<td>
-								${data.getTho_writedate() }
-							</td>
-							<td>
-								제출 마감일
-							</td>
-							<td>
-								${data.getTho_deadline() }
-							</td>
+							<div class="col-md-4">${data.getTho_writedate() }</div>
+							<div class="col-md-2"><strong>제출 마감일</strong></div>
+							<div class="col-md-4">${data.getTho_deadline() }</div>
+							<input type="hidden" id="tho_deadline" value="${data.getTho_deadline() }">
 						</c:when>
 						<c:otherwise>
-							<td colspan="3">
-								${data.getTho_writedate() }
-							</td>
+							<div class="col-md-10">${data.getTho_writedate() }</div>
 						</c:otherwise>
 					</c:choose>
-				</tr>
-				<c:choose>
-					<c:when test="${data.getTho_homeworktype() == 1 }">
-						<c:if test="${img != null }">
-							<c:forEach items="${img }" var="i" varStatus="index">
-								<tr>
-									<td>
-										${index.count}번째 이미지
-									</td>
-									<td colspan="3">
-										<c:url var="imgURL" value="/stc/up/${i}" />
-										<img src="${imgURL }">
-									</td>
-								</tr>
-							</c:forEach>
+				</div>
+				<div class="row tmg10">
+					<c:choose>
+						<c:when test="${data.getTho_homeworktype() == 1 }">
+							<c:if test="${img != null }">
+								<c:forEach items="${img }" var="i" varStatus="index">
+									<div class="row flex">
+										<div class="col-md-12">
+											<c:url var="imgURL" value="/stc/up/${i}" />
+											<img class="imgfull" src="${imgURL }">
+										</div>
+									</div>
+								</c:forEach>
+							</c:if>
 							
-						</c:if>
-						<tr>
-							<td>
-								내용
-							</td>
-							<td colspan="3">
-								${data.getTho_contents() }
-							</td>
-						</tr>
-					</c:when>
-					<c:when test="${data.getTho_homeworktype() == 2 }">
-						<tr>
-							<td colspan="4">2</td>
-						</tr>
-					</c:when>
-				</c:choose>
-			</table>
-		</section>
-		
-		<hr>
-		
-		<!-- 교사용 section->구분은 interceptor가 아니라 controller로 할 것 -->
-		<section>
-			<c:choose>
-				<c:when test="${sdatas != null }">
-					<c:if test="${data.getTho_homeworktype() == 1 }">
-						<c:forEach var="sdata" items="${sdatas }">
-						<!-- sdata의 goodbad가 null이면 폼, 값이 있으면 테이블을 띄움 -->
-							<c:choose>
-								<c:when test="${sdata.getSho_goodbad() != null }">
-										<table>
-											<tr>
-												<td>${sdata.getSho_id() }</td> <!-- 나중에는 Account table 서치해서 이름 넣게 -->
-												<td colspan="5">${sdata.getSho_contents() }</td>
-												<c:if test="${sdata.getSho_goodbad() == 'G' }">
-													<td colspan="2">잘했어요</td>
-												</c:if>
-												<c:if test="${sdata.getSho_goodbad() == 'N' }">
-													<td colspan="2">아쉬워요</td>
-												</c:if>
-											</tr>
-											<c:if test="${sdata.getSho_comment() != null }">
-												<tr>
-													<td colspan="8">
-														${sdata.getSho_comment() }
-													</td>
-												</tr>
+							<div class="row flex tmg5 minh400">
+								<div class="col-md-2 vtc">
+									<strong>내용</strong>
+								</div>
+								<div class="col-md-10 vtc">
+									${data.getTho_contents() }
+								</div>
+							</div>
+						</c:when>
+						<c:when test="${data.getTho_homeworktype() == 2 }">
+							<div class="row flex tmg5">
+								<div class="col-md-2">
+									<strong>type2</strong>
+								</div>
+							</div>
+						</c:when>
+					</c:choose>
+				</div>
+			</section>
+			
+			<hr>
+		</div>	
+			<!-- 교사용 section->구분은 interceptor가 아니라 controller로 할 것 -->
+		<div class="container row tmg40">	
+			<section class="bdr-1 bdr-r5">
+				<span>교사용 section</span>
+				<c:choose>
+					<c:when test="${sdatas != null }">
+						<c:if test="${data.getTho_homeworktype() == 1 }">
+							<c:forEach var="sdata" items="${sdatas }">
+							<!-- sdata의 goodbad가 null이면 폼, 값이 있으면 테이블을 띄움 -->
+								<c:choose>
+									<c:when test="${sdata.getSho_goodbad() != null }">
+										<div class="row tmg10">
+											<div class="col-md-1">${sdata.getSho_id() }</div>
+											<div class="col-md-2">${sdata.getSho_date() }</div>
+											<div class="col-md-7">${sdata.getSho_contents() }</div>
+											<c:if test="${sdata.getSho_goodbad() == 'G' }">
+												<div class="col-md-1 strblue-b whtcream bdr-1 bdr-r5 mg10">잘했어요</div>
 											</c:if>
-										</table>
-								</c:when>
-								<c:otherwise>
-									<form action="/ajaxComment" method="post" id="ajaxComment${sdata.getSho_id() }">
-										<table>
-											<tr>
-												<td>
-													${sdata.getSho_id() }
-												</td> <!-- 나중에는 Account table 서치해서 이름 넣게 -->
-												<td colspan="5">
-													${sdata.getSho_contents() }
-												</td>
-												<td>
-													<div name="ajax_good" id="ajax_good${sdata.getSho_id() }" >
-														<button id="btn_ajaxGood${sdata.getSho_id() }" type="button" onclick="ajax_good(${sdata.getSho_id() })">잘했어요</button>
+											<c:if test="${sdata.getSho_goodbad() == 'N' }">
+												<div class="col-md-1 strblue-b whtcream bdr-1 bdr-r5 mg10">아쉬워요</div>
+											</c:if>
+										</div>
+										<c:if test="${sdata.getSho_comment() != null }">
+											<div class="row tmg10 pd10">
+												<div class="col-md-12 bdr-1 bdr-r5 palesblue-b drtblue">
+													${sdata.getSho_comment() }
+												</div>
+											</div>
+										</c:if>
+									</c:when>
+									<c:otherwise>
+										<form class="form-horizontal" action="/ajaxComment" method="post" id="ajaxComment${sdata.getSho_id() }">
+											<div class="form-group bdr-1 bdr-r5 tmg10" style="display:flex;">
+												<div class="col-md-1">${sdata.getSho_id() }</div>
+												<div class="col-md-9">${sdata.getSho_contents() }</div>
+												<div class="col-md-1">
+													<div name="ajax_good" id="ajax_good${sdata.getSho_id() }" class="mg10">
+														<button class="btn btn-wht btn-sm" id="btn_ajaxGood${sdata.getSho_id() }" type="button" onclick="ajax_good(${sdata.getSho_id() })">잘했어요</button>
 													</div>
 													<input type="hidden" name="sho_goodbad" id="sho_good${sdata.getSho_id() }" value="G" disabled>
-												</td>
-												<td>
-													<div name="ajax_bad" id="ajax_bad${sdata.getSho_id() }" >
-														<button id="btn_ajaxBad${sdata.getSho_id() }" type="button" onclick="ajax_bad(${sdata.getSho_id() })">아쉬워요</button>
+												</div>
+												<div class="col-md-1">
+													<div name="ajax_bad" id="ajax_bad${sdata.getSho_id() }" class="mg10">
+														<button class="btn btn-wht btn-sm" id="btn_ajaxBad${sdata.getSho_id() }" type="button" onclick="ajax_bad(${sdata.getSho_id() })">아쉬워요</button>
 													</div>
 													<input type="hidden" name="sho_goodbad" id="sho_bad${sdata.getSho_id() }" value="N" disabled>
-												</td>
-											</tr>
-											<tr>
-												<td colspan="8">
-													<button type="button" id="btn_comment${sdata.getSho_id() }" onclick="commentCheck(${sdata.getSho_id() })">숙제에 대한 평가 입력창 열기</button>
-												</td>
-											</tr>
-										</table>
-										
-										<div name="commentArea" id="commentArea${sdata.getSho_id() }">
-											<div>
-												<textarea name="sho_comment" id="sho_comment${sdata.getSho_id() }" placeholder="학생의 숙제에 대한 평가를 입력하세요(선택)"></textarea>
+												</div>
 											</div>
-											<div>
-												<input type="number" name="sho_id" id="sho_comment_id${sdata.getSho_id() }" value="${sdata.getSho_id() }" style="display:none;">
+											<div class="form-group tmg10">
+												<div class="col-md-12 tmg10">
+													<button class="btn btn-sbl" type="button" id="btn_comment${sdata.getSho_id() }" onclick="commentCheck(${sdata.getSho_id() })">숙제에 대한 평가 입력창 열기</button>
+												</div>
 											</div>
-											<div>
-												<button type="button" onclick="submitAjaxComment(${sdata.getSho_id() })">채점결과와 숙제에 대한 평가 함께 제출하기</button>
+											<div class="form-group tmg10 flex" name="commentArea" id="commentArea${sdata.getSho_id() }" >
+												<div class="col-md-10">
+													<textarea class="form-control" rows="1" name="sho_comment" id="sho_comment${sdata.getSho_id() }" placeholder="학생의 숙제에 대한 평가를 입력하세요(선택)"></textarea>
+												</div>
+												<div>
+													<input type="number" name="sho_id" id="sho_comment_id${sdata.getSho_id() }" value="${sdata.getSho_id() }" style="display:none;">
+												</div>
+												<div class="col-md-2">
+													<button class="btn btn-sbl" type="button" id="btn_submitcomm${sdata.getSho_id() }" onclick="submitAjaxComment(${sdata.getSho_id() })">채점결과와 숙제에 대한 평가 함께 제출하기</button>
+												</div>
 											</div>
-										</div>
-									</form>
-								</c:otherwise>
-							</c:choose>
-							
-							
-						</c:forEach>
-					
+										</form>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</c:if>
 						
-					</c:if>
-					
-					<c:if test="${data.getTho_homeworktype() == 2 }">
-						<table>
-							<tr>
-								<td colspan="2"><p>homework type 2</p></td>
-							</tr>
-						</table>
-					</c:if>
-				</c:when>
-				<c:otherwise>
-					<h4>아직 아무도 숙제를 제출하지 않았습니다.</h4>
-				</c:otherwise>
-			</c:choose>
-			
-		</section>
+						<c:if test="${data.getTho_homeworktype() == 2 }">
+							<table>
+								<tr>
+									<td colspan="2"><p>homework type 2</p></td>
+								</tr>
+							</table>
+						</c:if>
+					</c:when>
+					<c:otherwise>
+						<div class="col-md-12 tmg10">
+							<h4>아직 아무도 숙제를 제출하지 않았습니다.</h4>
+						</div>
+					</c:otherwise>
+				</c:choose>
+				
+			</section>
+		</div>
 		
-		<hr>
-		
+		<div class="container row tmg40">
 		<!-- 학생용 section -->
-		<section>
+		<section class="bdr-1 bdr-r5">
 			<!-- session에 있는 학생정보와 TID값으로 select했을때 결과값이 null인 경우 -->
-			<div>
-				<span>학생이 올린 숙제가 없을때</span>
-				<form id="hw_up_form" name="hw_up_form" action="/homework/write/up/file" method="post" enctype="multipart/form-data">
-					<div>
-						<button id="btn_up" name="btn_up" type="button">업로드할 사진 선택하기</button>
-						<span>사진 업로드는 3장까지 가능합니다.</span>
-					</div>
-					<div id="uploadFileName">
-						
-					</div>
-					<input multiple="multiple" type="file" name="picFile" id="picFile" style="display:none;">
-				</form>
+			<div class="col-md-12 tmg20">
+				<c:choose>
+					<c:when test="${sworksnull == true }">
+						<div class="row tmg10">
+							<form id="hw_up_form" name="hw_up_form" class="form-horizontal" action="/homework/write/up/file" method="post" enctype="multipart/form-data">
+								<div class="form-group pd10">
+									<button id="btn_up" name="btn_up" type="button" class="btn btn-wht btn-sm">업로드할 사진 선택하기</button>
+									<span class="subtxt">사진 업로드는 3장까지 가능합니다.</span>
+								</div>
+								<div id="uploadFileName"  class="form-group pd10">
+									
+								</div>
+								<input multiple="multiple" type="file" name="picFile" id="picFile" style="display:none;">
+								<div class="form-group pd10">
+									<button type="button" id="btn_img_up" onclick="fileUp()" class="btn btn-wht btn-sm">사진 업로드</button>
+								</div>
+							</form>
+						</div>
+						<hr>
+						<form id="s_homework_input" action="/studentup" method="post" class="form-inline block">
+							<div class="form-group flex tmg10">
+								<div class="col-md-10 inline">
+									<textarea name="sho_contents" id="sho_contents" class="form-control" rows="2" placeholder="내용을 입력하세요"></textarea>
+								</div>
+								<div class="col-md-1 inline">
+									<button type="button" id="btn_submitsh" class="btn-square btn btn-sbl" onclick="submitSH()">제출하기</button>
+								</div>
+							</div>
+							<div>
+								<input type="number" name="sho_tid" id="sho_tid" value="${data.getTho_id() }" style="display:none;">
+								<input type="number" name="sho_writer" id="sho_writer" value="4" style="display:none;">
+								<input type="number" name="sho_homeworktype" id="sho_homeworktype" value="${data.getTho_homeworktype() }" style="display:none;">
+								<input type="number" name="sho_grade" id="sho_grade" value="1" style="display:none;">
+								<input type="number" name="sho_class" id="sho_class" value="2" style="display:none;">
+								<input type="date" name="sho_date" id="sho_date" style="display:none;">
+								<input type="hidden" name="sho_fileurl" id="sho_fileurl">
+							</div>
+						</form>
+					</c:when>
+					<c:otherwise>
+						<div class="row flex tmg10">
+							<c:forEach var="swork" items="${sworks }">
+								<div class="row tmg5">
+									<div class="col-md-8">${swork.getSho_contents() }</div>
+									<c:choose>
+										<c:when test="${swork.getSho_goodbad() == null }">
+											<div class="col-md-2 drtblue-b whtcream bdr-r5 tmg5" id="SHResult${swork.getSho_id() }">
+												<h6>아직 채점중이예요</h6>
+											</div>
+											<div class="col-md-1 tmg5">
+												<button type="button" class="btn btn-sm btn-drt" onclick="SHWupdate()">수정</button>
+											</div>
+											<div class="col-md-1 tmg5">
+												<button type="button" class="btn btn-sm btn-drt" onclick="SHWdelete()">삭제</button>
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div class="col-md-4 drtblue-b bdr-n bdr-r5 whtcream tmg5" id="SHResult${swork.getSho_id() }">
+												<c:if test="${swork.getSho_goodbad() == 'G' }">
+													잘했어요
+												</c:if>
+												<c:if test="${swork.getSho_goodbad() == 'N' }">
+													아쉬워요
+												</c:if>
+											</div>
+										</c:otherwise>
+									</c:choose>
+								</div>
+								<c:if test="${swork.getSho_comment() != null }">
+									<div class="row tmg10 pd10">
+										<div class="col-md-12 bdr-1 bdr-r5 palesblue-b drtblue">
+											선생님의 한마디: ${swork.getSho_comment() }
+										</div>
+									</div>
+								</c:if>
+							</c:forEach>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</div>
-			<div>
-				<button type="button" onclick="fileUp()">사진 업로드</button>
-			</div>
-			<form id="s_homework_input" action="/studentup" method="post">
-				<table>
-					<tr>
-						<td colspan="3">
-							<textarea name="sho_contents" id="sho_contents" placeholder="내용을 입력하세요"></textarea>
-						</td>
-						<td>
-							<button type="button" onclick="submitSH()">제출하기</button>
-						</td>
-					</tr>
-				</table>
-				<div>
-					<input type="number" name="sho_tid" id="sho_tid" value="${data.getTho_id() }" style="display:none;">
-					<input type="number" name="sho_writer" id="sho_writer" value="4" style="display:none;">
-					<input type="number" name="sho_homeworktype" id="sho_homeworktype" value="${data.getTho_homeworktype() }" style="display:none;">
-					<input type="number" name="sho_grade" id="sho_grade" value="1" style="display:none;">
-					<input type="number" name="sho_class" id="sho_class" value="2" style="display:none;">
-					<input type="date" name="sho_date" id="sho_date" style="display:none;">
-					<input type="hidden" name="sho_fileurl" id="sho_fileurl">
-				</div>
-			</form>
-			
-			<hr>
-			
-			<!-- select했을 때 결과값이 있을 경우 -->
-			<span>학생이 올린 숙제가 있을때</span>
-			<table>
-				<tr>
-					<td colspan="5">숙제내용</td>
-					<!-- 채점이 되었을 때 -->
-					<td colspan="3"><div id="SHResult">select한 채점결과 insert</div></td>
-					<!-- 채점이 안 되었을 때
-						<td>아직 채점중이예요</td>
-						<td><button type="button" onclick="updateSH()">수정하기</button></td>
-						<td><button type="button" onclick="deleteSH()">삭제하기</button></td>
-					 -->
-				</tr>
-				<!-- comment가 있을 경우 -->
-				<tr>
-					<td colspan="8">comment 내용</td>
-				</tr>
-			</table>
-			
-			<hr>
-			
-			<!-- 숙제 제출은 안 했는데 마감기한이 지난 경우 -->
-			<span>마감기한이 지났을때</span>
-			<table>
-				<tr>
-					<td colspan="8">
-						<h6>숙제 제출 기한이 지났어요.</h6>
-					</td>
-				</tr>
-			</table>
 		</section>
+		</div>
+		</div>
 	</main>
+	<footer>
+		<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false"/>
+	</footer>
 </body>
 </html>

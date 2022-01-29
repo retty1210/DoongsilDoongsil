@@ -77,10 +77,13 @@ public class HomeworkService {
 		return res;
 	}
 	
-	public String updateSHGoodCom(S_HomeworkVO vo) {
+	public String[] updateSHGoodCom(S_HomeworkVO vo) {
 		boolean goodbadres = dao.SHGoodbad(vo);
 		boolean commentres = dao.SHComment(vo);
-		return goodbadres + "_" + commentres;
+		String[] res = new String[2];
+		res[0] = goodbadres + "";
+		res[1] = commentres + "";
+		return res;
 	}
 	
 	public boolean updateSHGood(S_HomeworkVO vo) {
@@ -111,6 +114,10 @@ public class HomeworkService {
 	
 	public List<THO_CategoryVO> selectTHOCategory() {
 		return dao.selectTHOCategory();
+	}
+	
+	public List<S_HomeworkVO> selectStudentHWs(S_HomeworkVO vo) {
+		return dao.selectStudentHWs(vo);
 	}
 	
 	public String[] getImgList(String filelink) {

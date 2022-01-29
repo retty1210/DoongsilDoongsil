@@ -198,13 +198,14 @@
 	
 	<update id="updateSHGoodbad" parameterType="s_homework">
 		UPDATE S_HOMEWORK
-			<set>
-				<if test="sho_comment != null">
-					SHO_COMMENT = #{sho_comment} AND
-				</if>
-				SHO_GOODBAD = #{sho_goodbad}
-			</set>
+			SET	SHO_GOODBAD = #{sho_goodbad}
 			WHERE SHO_ID = #{sho_id}	
+	</update>
+	
+	<update id="updateSHComment" parameterType="s_homework">
+		UPDATE S_HOMEWORK
+			SET	SHO_COMMENT = #{sho_comment}
+			WHERE SHO_ID = #{sho_id}
 	</update>
 	
 	<update id="updateTHCount" parameterType="t_homework">
@@ -213,6 +214,12 @@
 	
 	<select id="selectTHOCategory" resultType="tho_category">
 		SELECT * FROM THO_CATEGORY ORDER BY TCA_ID
+	</select>
+	
+	<select id="selectStudentHWs" parameterType="s_homework" resultType="s_homework">
+		SELECT * FROM S_HOMEWORK 
+			WHERE SHO_WRITER = #{sho_writer} AND
+				SHO_TID = #{sho_tid}
 	</select>
 	
 </mapper>

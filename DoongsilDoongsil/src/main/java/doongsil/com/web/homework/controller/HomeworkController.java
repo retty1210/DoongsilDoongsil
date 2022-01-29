@@ -69,7 +69,8 @@ public class HomeworkController {
 	
 	@ResponseBody
 	@RequestMapping(value="/homework/write/up/file")
-	public String upHomeworkFile(MultipartFile[] uploadFile) {
+	public String upHomeworkFile(MultipartFile[] uploadFile, HttpServletRequest request) {
+		String r = request.getServletContext().getRealPath("/resources/upload/");
 		String uploadFolder = "C:\\Users\\retty\\git\\DoongsilDoongsil\\DoongsilDoongsil\\src\\main\\webapp\\resources\\upload";
 		String tho_filelink = "";
 		for(MultipartFile file: uploadFile) {
@@ -91,7 +92,7 @@ public class HomeworkController {
 			System.out.println("HomeworkController, filename: " + savedFileName);
 			tho_filelink += savedFileName;
 			
-			File saveFile = new File(uploadFolder, savedFileName);
+			File saveFile = new File(r, savedFileName); //uploadFolder
 			try {
 				file.transferTo(saveFile);
 			} catch (Exception e) {
@@ -131,9 +132,23 @@ public class HomeworkController {
 		}
 		if(data != null) {
 			request.setAttribute("data", data);
-			return "homework/detail";
+			
 		} 
-		return "homework/error";
+		
+		//만약 학생일 경우
+		S_HomeworkVO shwVO = new S_HomeworkVO();
+		shwVO.setSho_tid(data.getTho_id()); 
+		shwVO.setSho_writer(4);//session에서 값 받아서 설정하도록 나중에 수정
+		List<S_HomeworkVO> sworks = service.selectStudentHWs(shwVO);
+		if(sworks == null || sworks.size() == 0) {
+			request.setAttribute("sworksnull", true);
+			System.out.println("학생 숙제값 없음");
+		} else {
+			request.setAttribute("sworksnull", false);
+			System.out.println("학생 숙제값 있음");
+			request.setAttribute("sworks", sworks);
+		}
+		return "homework/detail";
 		
 	}
 	
@@ -142,7 +157,7 @@ public class HomeworkController {
 		boolean res = service.insertSH(vo);
 		if(res) {
 			System.out.println("homework form 업로드 성공");
-			return "redirect:/homework";
+			return "redirect:/homework/detail?tho_id=" + vo.getSho_tid();
 		} else {
 			System.out.println("homework form 업로드 실패");
 			return "homework/error";
@@ -152,13 +167,13 @@ public class HomeworkController {
 	@ResponseBody
 	@RequestMapping(value="/ajaxComment", method=RequestMethod.POST)
 	public HashMap<String, String> ajaxComment(S_HomeworkVO vo) {
+		System.out.println("ajaxComment: " + vo);
 		HashMap<String, String> resultmap = new HashMap();
 		if(vo.getSho_comment() == null) {
 			boolean res = service.updateSHGood(vo);
 			resultmap.put("result", res + "");
 		} else {
-			String res = service.updateSHGoodCom(vo);
-			String[] resarr = service.getImgList(res);
+			String[] resarr = service.updateSHGoodCom(vo);
 			resultmap.put("GBresult", resarr[0]);
 			resultmap.put("Comresult", resarr[1]);
 		}

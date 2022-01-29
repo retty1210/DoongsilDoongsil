@@ -5,6 +5,24 @@ $(document).ready(function() {
 		var newday = date.toISOString().substring(0, 10);
 		$('#sho_date').attr('value', newday);
 		
+		//마감날짜 관련 처리
+		var endday = $("#tho_deadline").val();
+		if(typeof endday == "undefined" || endday == "" || endday == null) {
+			console.log("마감일 없음");
+		} else {
+			var newdayArr = newday.split('-');
+			var enddayArr = endday.split('-');
+			var newDComp = new Date(newdayArr[0], parseInt(newdayArr[1])-1, newdayArr[2]); 
+			var endDComp = new Date(enddayArr[0], parseInt(enddayArr[1])-1, enddayArr[2]);
+			if(newDComp.getTime() > endDComp.getTime()) {
+				$("#btn_up").attr('disabled', true);
+				$("#btn_img_up").attr('disabled', true);
+				$("#sho_contents").attr('disabled', true);
+				$("#sho_contents").attr('placeholder', "마감이 지나서 숙제를 올릴 수 없어요.");
+				$("#btn_submitsh").attr('disabled', true);
+			}
+		}
+		
 		//input hidden 관련 버튼 action 처리
 		$("#btn_up").click(function(e){
 			e.preventDefault();
@@ -144,6 +162,7 @@ function ajax_good(e) {
 				$("#sho_bad"+e).attr('disabled', true);
 				$("#btn_ajaxGood"+e).css({ background: "#87CEEB", color: "#FCFBF4"});
 				$("#sho_bad"+e).hide();
+				$("#btn_ajaxGood"+e).attr('disabled', true);
 			},
 			error: function() {
 				alert("ajax error 발생");
@@ -175,6 +194,7 @@ function ajax_bad(e) {
 				$("#sho_good"+e).attr('disabled', true);
 				$("#btn_ajaxBad"+e).css({ background: "#87CEEB", color: "#FCFBF4"});
 				$("#sho_good"+e).hide();
+				$("#btn_ajaxBad"+e).attr('disabled', true);
 			},
 			error: function() {
 				alert("ajax error 발생");
@@ -192,8 +212,10 @@ function submitAjaxComment(e) {
 	if($("#ajax_good"+e).attr("disabled") && $("#ajax_bad"+e).attr("disabled")) {
 		alert("숙제 채점이 되지 않았습니다.");
 	} else {
-		var goodbad = $("#sho_good"+e).attr('disabled', false) ? 'G' : 'N';
-		alert("goodbad: " + goodbad);
+		var goodbad = 'G';
+		if($("#sho_good"+e).attr('disabled')) {
+			goodbad = 'N';
+		}
 		var comment = $("#sho_comment"+e).val();
 		$.ajax({
 			url: '/ajaxComment',
@@ -205,11 +227,14 @@ function submitAjaxComment(e) {
 				sho_comment: comment
 			},
 			success: function(data) {
-				alert(data.GBresult);
-				alert(data.Comresult);
-				alert(data.GoodBad);
+				alert(data.GoodBad + "으로 채점: " + data.GBresult + "<br>코멘트 업로드 결과: " + data.Comresult);
 				$("#sho_bad"+e).attr('disabled', true);
 				$("#sho_good"+e).attr('disabled', true);
+				$("#btn_ajaxBad"+e).attr('disabled', true);
+				$("#btn_ajaxGood"+e).attr('disabled', true);
+				$("#btn_comment"+e).hide();
+				$("#sho_comment"+e).attr('disabled', true);
+				$("#btn_submitcomm"+e).hide();
 				if(goodbad == 'G') {
 					$("#sho_bad"+e).hide();
 					$("#btn_ajaxGood"+e).css({ background: "#87CEEB", color: "#FCFBF4"});

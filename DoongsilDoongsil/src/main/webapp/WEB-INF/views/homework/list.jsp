@@ -9,32 +9,35 @@
 <meta charset="UTF-8">
 <title>학년 반의 학급게시판</title>
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
+<c:url var="hwr_css_url" value="/stc/css/homework.css" />
+<link href="${hwr_css_url}" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<header>
+		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false"/>
 	</header>
-	<main role="main">
-		<section>
-			<div>
-				<table name="t_hw_table" id="t_hw_table">
+	<main role="main" class="container">
+		<section class="perc80">
+				<table name="t_hw_table" id="t_hw_table" class="table table-bordered">
+					<thead>
+					<tr class="info">
+						<td scope="col">ID</td>
+						<td scope="col" colspan="8">제목</td>
+						<td scope="col" colspan="2">날짜</td>
+						<td scope="col" colspan="2">마감기한</td>
+						<td scope="col">조회수</td>
 					<tr>
-						<td>ID</td>
-						<td>제목</td>
-						<td>날짜</td>
-						<td>마감기한</td>
-						<td>조회수</td>
-					<tr>
-					
+					</thead>
 					<c:forEach var="data" items="${datas}">
 					
 						<tr>
 							<td>${data.getTho_id() }</td>
 							<c:url var="t_homeURL" value="/homework/detail?tho_id=${data.getTho_id() }" />
-							<td><a href="${t_homeURL}">${data.getTho_title()}</a></td>
-							<td>
+							<td colspan="8"><a href="${t_homeURL}">${data.getTho_title()}</a></td>
+							<td colspan="2">
 								<fmt:formatDate value="${data.getTho_writedate() }" type="date" pattern="YY/MM/dd(E)"/>
 							</td>
-							<td>
+							<td colspan="2">
 								<c:choose>
 									<c:when test="${data.getTho_deadline() == null}">
 										X
@@ -50,11 +53,14 @@
 					</c:forEach>
 					
 				</table>
-			</div>
+			
 			<div>
-				<button type="button" onclick="window.open('/homework/write')">새로운 숙제 올리기</button>
-			</div>
+				<button type="button" onclick="location.href='/homework/write'" class="btn btn-sbl btn-lg">새로운 숙제 올리기</button>
+			</div> <!-- -->
 		</section>
 	</main>
+	<footer>
+		<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false"/>
+	</footer>
 </body>
 </html>

@@ -102,6 +102,7 @@ function type2qplus(a) {
 			+'</div>'
 			+'<div id="type2_q_bArea'+numb+'" name="type2_q_bArea" class="col-md-2">'
 			+'<button type="button" id="btn_mc'+numb+'" name="btn_mc" onclick="type2mc('+numb+')" class="btn btn-rwh btn-sm">객관식</button>'
+			+' '
 			+'<button type="button" id="btn_sc'+numb+'" name="btn_sc" onclick="type2sc('+numb+')" class="btn btn-rwh btn-sm">주관식</button>'
 			+'</div>'
 			+'</div>'
@@ -196,35 +197,50 @@ function type2makeContents() {
 	var questionlength = $("div[name=type2_q_no]").length;
 	//있는 번호까지 for문 돌림
 	outer: for(question = 0; question < questionlength; question++) {
-		//1번문제로 가정하고 진행-문제의 값 받을 array 만듬
+		//문제의 값 받을 array 만듬
 		var type2qarr = [];
 		var index = question + 1;//문제번호
+		console.log("outer for문 시작: " + index + "번 문제 시작");
 		//1. 학생에게 낼 문제입력하기
-		type2qarr.push("||q"+index+"||" + $("#type2_q"+index).val().replace('|',''));//구분자를 사용하기 위해서 사용자가 입력한 |를 없애줌
+		questiontext = $("#type2_q"+index).val().replace('|','');//구분자를 사용하기 위해서 사용자가 입력한 |를 없애줌
+		if(questiontext == "" || typeof questiontext == "undefined" || questiontext == null || questiontext.length == 0) {
+			alert("문제는 빈칸으로 남겨둘 수 없습니다.");
+			console.log("빈칸: " + index+ "번");
+			$("#type2_q"+index).focus();
+			return false;
+		}
+		type2qarr.push("||"+index+"||" + $("#type2_q"+index).val().replace('|',''));
 		//2. 객관식인지 주관식인지, 혹은 비어있는지 확인
 		if($("#type2_mcArea"+index+"_q").is(':visible')) {//객관식
-			type2qarr.push("||mc||");
+			type2qarr.push("||mc");
 			//객관식 번호가 몇번까지 있는지 확인
-			var multichoice = $("div[name=type2_mcArea"+index+"_mc_input]").length;
+			var multichoice = $("input[name=type2_mcArea"+index+"_mc_input]").length;
+			console.log(index + "번 문제 객관식 답 개수: " + multichoice + " 개");
+			if(multichoice < 2) {
+				alert(index + "번 문제의 객관식 답 수가 너무 적습니다.\n객관식의 답은 반드시 2개 이상이어야 합니다.");
+				console.log("객관식 문제수 에러: " + index + "번");
+				return false;
+			}
 			inner: for(multi = 0; multi < multichoice; multi++) {//있는 번호까지 값을 넣어준다
 				var mcindex = multi + 1;
+				console.log("inner for문 시작: " + index + "번 문제의 " + mcindex + "번");
 				//input이 입력되어 있는지 확인
 				var mcval = $("#type2_mcArea"+index+"_mc"+mcindex).val().replace('|','');
-				if(typeof mcval == "undefined" || mcval == "" || mcval == null) {//빈칸<-제대로 작동안함
+				if(typeof mcval == "undefined" || mcval == "" || mcval == null || mcval.length == 0) {//빈칸<-제대로 작동안함
 					let mctext = index+"번 문제의 "+mcindex+" 번 칸이 빈칸입니다.\n이대로 업로드하시겠습니까?";
-					if(confirm(mctext) == true) {
-						//null값으로 업로드를 해도 되나?
-					} else { //해당 input으로 커서 옮겨주고 작업중단
+					if(confirm(mctext) == false) { //해당 input으로 커서 옮겨주고 작업중단
 						$("#type2_mcArea"+index+"_mc"+mcindex).focus();
 						isquestionblank = false;
 						//break outer;
 						return false;
+					} else { 
+						//null값으로 업로드를 해도 되나?
 					}
 				}
-				type2qarr.push("||mc"+mcindex+"||"+$("#type2_mcArea"+index+"_mc"+mcindex).val().replace('|',''));
+				type2qarr.push("||mc"+mcindex+"||"+mcval);
 			}
 			type2qarr.push("||end||");
-		} else if($("#type2_scArea1_q").is(':visible')) {//주관식
+		} else if($("#type2_scArea"+index+"_q").is(':visible')) {//주관식
 			type2qarr.push("||sc||");
 			//설명이 입력되었는지 확인
 			var scval = $("#type2_scArea"+index+"_sc").val().replace('|','');
@@ -240,13 +256,13 @@ function type2makeContents() {
 			//break outer;
 			return false;
 		}
-		var cont = type2qarr.join();
+		var cont = type2qarr.join('');
 		console.log(index + "번 문제: " + cont);
 		type2contents.push(cont);
 	}
 	//form을 올려도 되는지 판단
 	if(isquestionblank) {//업로드 가능
-		var contents = type2contents.join();
+		var contents = type2contents.join('');
 		console.log("전체 입력값: " + contents);
 		//textarea hidden으로 만들어서 거기에 값 input
 		$("#type2_q_textarea").attr('value', contents);

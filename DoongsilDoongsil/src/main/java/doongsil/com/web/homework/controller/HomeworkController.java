@@ -115,12 +115,25 @@ public class HomeworkController {
 		}
 		System.out.println("count결과: " + data.getTho_count());
 		
+		//이미지
 		String[] imgarr = new String[1];
 		if(data.getTho_filelink()== null) {
 			imgarr[0] = "noimage";
 		} else {
 			imgarr = service.getImgList(data.getTho_filelink());
 		}
+		
+		//type별 처리
+		if(data.getTho_homeworktype() == 2) {
+			HashMap<Integer, String[]> type2contents = service.makeType2Visible(data.getTho_contents());
+			request.setAttribute("type2contents", type2contents);
+		}
+		
+		//글 값 넣기
+		if(data != null) {
+			request.setAttribute("data", data);
+			
+		} 
 		
 		//만약 선생님일 경우
 		List<S_HomeworkVO> sdatas = service.selectSHList(vo.getTho_id());
@@ -130,10 +143,6 @@ public class HomeworkController {
 		if(!imgarr[0].equals("noimage")) {
 			request.setAttribute("img", imgarr);
 		}
-		if(data != null) {
-			request.setAttribute("data", data);
-			
-		} 
 		
 		//만약 학생일 경우
 		S_HomeworkVO shwVO = new S_HomeworkVO();
@@ -181,10 +190,8 @@ public class HomeworkController {
 		return resultmap;
 	}
 	
-	//S_HOMEWORK 선생님용 로직
-	/*
-	 * detail에 들어갈 때 id값을 받음
-	 * 해당 id값을 sho_tid에 넣어서 list 받음
-	 * 
-	 */
+	@RequestMapping(value="/homework/test", method=RequestMethod.GET)
+	public String homeworktest(S_HomeworkVO vo) {
+		return "homework/empty";
+	}
 }

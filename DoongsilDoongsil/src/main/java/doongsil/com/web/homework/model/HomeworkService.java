@@ -1,6 +1,7 @@
 package doongsil.com.web.homework.model;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +135,53 @@ public class HomeworkService {
 		return slist;
 	}
 	
-	
+	public HashMap<Integer, String[]> makeType2Visible(String contents) {
+		HashMap<Integer, String[]> type2contents = new HashMap<Integer, String[]>();
+		String[] contentsarr = contents.split("||end||");
+		String[] mcarr = new String[10];
+		int mcindex = 0; //객관식 문제 수
+		String[] scarr = new String[10];
+		int scindex = 0; //주관식 문제 수
+		for(String a: contentsarr) {//객관식, 주관식 배열에 각각 구분해서 담는다
+			if(a.contains("||mc||")) {
+				mcarr[mcindex] = a;
+				mcindex++;
+			} else {
+				scarr[scindex] = a;
+				scindex++;
+			}
+		}
+		//객관식 처리
+		for(int mc = 0; mc < mcindex; mc++) {
+			String[] mcfor = mcarr[mc].split("||");
+			int num = Integer.parseInt(mcfor[0]);
+			int length = (mcfor.length - 3) / 2;
+			String[] value = new String[length + 3];
+			value[0] = "mc";
+			value[1] = mcfor[1];
+			value[2] = length + ""; 
+			for(int valnum = 3; valnum < length + 3; valnum++) {
+				value[valnum] = mcfor[(valnum * 2) + 3];
+			}
+			type2contents.put(num, value);
+		}
+		//주관식 처리
+		for(int sc = 0; sc < scindex; sc++) {
+			String[] scfor = scarr[sc].split("||");
+			int num = Integer.parseInt(scfor[0]);
+			boolean res = scfor.length == 4 ? true: false;
+			String[] value = new String[scfor.length];
+			value[0] = "sc";
+			value[1] = scfor[1];
+			value[2] = res + "";
+			if(res) {
+				value[3] = scfor[3];
+			}
+			type2contents.put(num, value);
+		}
+		//String r = type2contents.get(1)[0];
+		return type2contents;
+		
+	}
 
 }

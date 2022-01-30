@@ -70,7 +70,7 @@
 						<div class="form-group pd10 flex">
 							<div class="col-md-2"><strong>제목</strong></div>
 							<div class="col-md-10">
-								<input type="text" name="tho_title" id="tho_title" class="form-control" placeholder="제목을 입력해주세요">
+								<input type="text" name="tho_title" id="tho_title" class="form-control" placeholder="제목을 입력해주세요" required>
 							</div>
 						</div>
 					</div>
@@ -82,7 +82,7 @@
 						<input type="hidden" id="tho_filelink" name="tho_filelink">
 					</div>
 					<div id="t_hw_write_type1" class="col-md-12 tmg10">
-						<p>type1</p>
+						<p>기본: '|'는 금칙어로 자동으로 입력 내용에서 삭제된 후 업로드되니 주의 바랍니다.</p>
 						<div class="form-group pd10 col-md-12 tmg10">
 							<label for="tho_contents" class="col-md-2 control-label">내용</label>
 							<textarea name="tho_contents" id="tho_contents" class="form-control" rows="10" placeholder="내용을 입력해주세요"></textarea>
@@ -93,7 +93,7 @@
 						</div>
 					</div>
 					<div id="t_hw_write_type2" class="col-md-12 tmg20">
-						<p>type2</p>
+						<p>객관식/주관식: 한번에 10문제까지 업로드할 수 있습니다. '|'는 금칙어로 자동으로 삭제 후 업로드됩니다.</p>
 						<div id="t_hw_write_type2_container">
 							<div id="t_hw_2_question_1" class="mg20 bdr-1 bdr-r5">
 								<div class="row tmg10">

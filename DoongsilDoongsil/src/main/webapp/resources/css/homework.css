@@ -121,8 +121,9 @@ tr:hover {
 	font-weight: bold;
 }
 .btn-wht:hover {
-	color: #4052D7;
-	border: 1px solid #4052D7;
+	color: #FCFBF4;
+	background-color: #87CEEB;
+	border: 1px solid #87CEEB;
 }
 
 .btn-rwh {
@@ -134,19 +135,19 @@ tr:hover {
 .btn-rwh:hover {
 	background-color: #4052D7;
 	color: #FCFBF4;
-	border: 1px solid #344953;
+	border: 1px solid #4052D7;
 }
 
 .btn-sbl {
 	background-color: #87CEEB;
 	color: #FCFBF4;
-	border: 1px solid #344953;
+	border: 1px solid #87CEEB;
 	font-weight: bold;
 }
 .btn-sbl:hover {
-	background-color: #0E9BD1;
-	color: #FCFBF4;
-	border: 1px solid #344953;
+	background-color: #FCFBF4;
+	color: #87CEEB;
+	border: 1px solid #87CEEB;
 }
 
 .btn-drt {
@@ -180,9 +181,9 @@ tr:hover {
 	font-weight: bold;
 }
 .btn-lsr:hover {
-	background-color: #3F5EF9;
-	color: #FCFBF4;
-	border: 1px solid #344953;
+	background-color: #FCFBF4;
+	color: #3F5EF9;
+	border: 1px solid #3F5EF9;
 }
 
 .btn-square {

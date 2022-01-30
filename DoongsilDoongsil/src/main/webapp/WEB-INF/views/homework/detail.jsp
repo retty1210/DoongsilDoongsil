@@ -57,20 +57,19 @@
 					</c:choose>
 				</div>
 				<div class="row tmg10">
+					<c:if test="${img != null }">
+						<c:forEach items="${img }" var="i" varStatus="index">
+							<div class="row flex">
+								<div class="col-md-12">
+									<c:url var="imgURL" value="/stc/up/${i}" />
+									<img class="imgfull" src="${imgURL }">
+								</div>
+							</div>
+						</c:forEach>
+					</c:if>
 					<c:choose>
 						<c:when test="${data.getTho_homeworktype() == 1 }">
-							<c:if test="${img != null }">
-								<c:forEach items="${img }" var="i" varStatus="index">
-									<div class="row flex">
-										<div class="col-md-12">
-											<c:url var="imgURL" value="/stc/up/${i}" />
-											<img class="imgfull" src="${imgURL }">
-										</div>
-									</div>
-								</c:forEach>
-							</c:if>
-							
-							<div class="row flex tmg5 minh400">
+							<div class="row flex tmg20">
 								<div class="col-md-2 vtc">
 									<strong>내용</strong>
 								</div>
@@ -79,13 +78,25 @@
 								</div>
 							</div>
 						</c:when>
-						<c:when test="${data.getTho_homeworktype() == 2 }">
-							<div class="row flex tmg5">
-								<div class="col-md-2">
-									<strong>type2</strong>
-								</div>
+						<!--<c:when test="${data.getTho_homeworktype() == 2 }">
+							<div class="row flex tmg20">
+								<c:forEach items="${type2contents }" var="t2q" varStatus="index">
+									<div class="col-md-12">
+										<strong>${index }번 문제</strong>
+										<c:if test="${t2q.get(index)[0] == 'mc' }">
+											<c:forEach var="mc" begin="3" end="${t2q.get(index)[2] }">
+												<div class="row">
+													(${index }) 
+												</div>
+											</c:forEach>
+										</c:if>
+										<c:if test="${t2q.get(index)[0] == 'sc' }">
+										
+										</c:if>
+									</div>
+								</c:forEach>
 							</div>
-						</c:when>
+						</c:when>-->
 					</c:choose>
 				</div>
 			</section>
@@ -183,87 +194,147 @@
 		<div class="container row tmg40">
 		<!-- 학생용 section -->
 		<section class="bdr-1 bdr-r5">
-			<!-- session에 있는 학생정보와 TID값으로 select했을때 결과값이 null인 경우 -->
-			<div class="col-md-12 tmg20">
-				<c:choose>
-					<c:when test="${sworksnull == true }">
-						<div class="row tmg10">
-							<form id="hw_up_form" name="hw_up_form" class="form-horizontal" action="/homework/write/up/file" method="post" enctype="multipart/form-data">
-								<div class="form-group pd10">
-									<button id="btn_up" name="btn_up" type="button" class="btn btn-wht btn-sm">업로드할 사진 선택하기</button>
-									<span class="subtxt">사진 업로드는 3장까지 가능합니다.</span>
+			<c:choose>
+			<!-- type 1 -->
+			<c:when test="${data.getTho_homeworktype() == 1 }">
+				<!-- session에 있는 학생정보와 TID값으로 select했을때 결과값이 null인 경우 -->
+				<div class="col-md-12 tmg20">
+					<c:choose>
+						<c:when test="${sworksnull == true }">
+							<div class="row tmg10">
+								<form id="hw_up_form" name="hw_up_form" class="form-horizontal" action="/homework/write/up/file" method="post" enctype="multipart/form-data">
+									<div class="form-group pd10">
+										<button id="btn_up" name="btn_up" type="button" class="btn btn-wht btn-sm">업로드할 사진 선택하기</button>
+										<span class="subtxt">사진 업로드는 3장까지 가능합니다.</span>
+									</div>
+									<div id="uploadFileName"  class="form-group pd10">
+										
+									</div>
+									<input multiple="multiple" type="file" name="picFile" id="picFile" style="display:none;">
+									<div class="form-group pd10">
+										<button type="button" id="btn_img_up" onclick="fileUp()" class="btn btn-wht btn-sm">사진 업로드</button>
+									</div>
+								</form>
+							</div>
+							<hr>
+							<form id="s_homework_input" action="/studentup" method="post" class="form-inline block">
+								<div class="form-group flex tmg10">
+									<div class="col-md-10 inline">
+										<textarea name="sho_contents" id="sho_contents" class="form-control" rows="2" placeholder="내용을 입력하세요"></textarea>
+									</div>
+									<div class="col-md-1 inline">
+										<button type="button" id="btn_submitsh" class="btn-square btn btn-sbl" onclick="submitSH()">제출하기</button>
+									</div>
 								</div>
-								<div id="uploadFileName"  class="form-group pd10">
-									
-								</div>
-								<input multiple="multiple" type="file" name="picFile" id="picFile" style="display:none;">
-								<div class="form-group pd10">
-									<button type="button" id="btn_img_up" onclick="fileUp()" class="btn btn-wht btn-sm">사진 업로드</button>
+								<div>
+									<input type="number" name="sho_tid" id="sho_tid" value="${data.getTho_id() }" style="display:none;">
+									<input type="number" name="sho_writer" id="sho_writer" value="4" style="display:none;">
+									<input type="number" name="sho_homeworktype" id="sho_homeworktype" value="${data.getTho_homeworktype() }" style="display:none;">
+									<input type="number" name="sho_grade" id="sho_grade" value="1" style="display:none;">
+									<input type="number" name="sho_class" id="sho_class" value="2" style="display:none;">
+									<input type="date" name="sho_date" id="sho_date" style="display:none;">
+									<input type="hidden" name="sho_fileurl" id="sho_fileurl">
 								</div>
 							</form>
-						</div>
-						<hr>
-						<form id="s_homework_input" action="/studentup" method="post" class="form-inline block">
-							<div class="form-group flex tmg10">
-								<div class="col-md-10 inline">
-									<textarea name="sho_contents" id="sho_contents" class="form-control" rows="2" placeholder="내용을 입력하세요"></textarea>
-								</div>
-								<div class="col-md-1 inline">
-									<button type="button" id="btn_submitsh" class="btn-square btn btn-sbl" onclick="submitSH()">제출하기</button>
-								</div>
+						</c:when>
+						<c:otherwise>
+							<div class="row flex tmg10">
+								<c:forEach var="swork" items="${sworks }">
+									<div class="row tmg5">
+										<div class="col-md-8">${swork.getSho_contents() }</div>
+										<c:choose>
+											<c:when test="${swork.getSho_goodbad() == null }">
+												<div class="col-md-2 drtblue-b whtcream bdr-r5 tmg5" id="SHResult${swork.getSho_id() }">
+													<h6>아직 채점중이예요</h6>
+												</div>
+												<div class="col-md-1 tmg5">
+													<button type="button" class="btn btn-sm btn-drt" onclick="SHWupdate()">수정</button>
+												</div>
+												<div class="col-md-1 tmg5">
+													<button type="button" class="btn btn-sm btn-drt" onclick="SHWdelete()">삭제</button>
+												</div>
+											</c:when>
+											<c:otherwise>
+												<div class="col-md-4 drtblue-b bdr-n bdr-r5 whtcream tmg5" id="SHResult${swork.getSho_id() }">
+													<c:if test="${swork.getSho_goodbad() == 'G' }">
+														잘했어요
+													</c:if>
+													<c:if test="${swork.getSho_goodbad() == 'N' }">
+														아쉬워요
+													</c:if>
+												</div>
+											</c:otherwise>
+										</c:choose>
+									</div>
+									<c:if test="${swork.getSho_comment() != null }">
+										<div class="row tmg10 pd10">
+											<div class="col-md-12 bdr-1 bdr-r5 palesblue-b drtblue">
+												선생님의 한마디: ${swork.getSho_comment() }
+											</div>
+										</div>
+									</c:if>
+								</c:forEach>
 							</div>
-							<div>
-								<input type="number" name="sho_tid" id="sho_tid" value="${data.getTho_id() }" style="display:none;">
-								<input type="number" name="sho_writer" id="sho_writer" value="4" style="display:none;">
-								<input type="number" name="sho_homeworktype" id="sho_homeworktype" value="${data.getTho_homeworktype() }" style="display:none;">
-								<input type="number" name="sho_grade" id="sho_grade" value="1" style="display:none;">
-								<input type="number" name="sho_class" id="sho_class" value="2" style="display:none;">
-								<input type="date" name="sho_date" id="sho_date" style="display:none;">
-								<input type="hidden" name="sho_fileurl" id="sho_fileurl">
-							</div>
-						</form>
-					</c:when>
-					<c:otherwise>
-						<div class="row flex tmg10">
-							<c:forEach var="swork" items="${sworks }">
-								<div class="row tmg5">
-									<div class="col-md-8">${swork.getSho_contents() }</div>
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</c:when>
+			<!-- type 2 -->
+			<c:when test="${data.getTho_homeworktype() == 2 }">
+				<div class="container">
+					<form class="form-horizontal" id="type2studentsmform">
+						<div class="row flex tmg20">
+							<c:forEach items="${type2contents }" var="t2q" varStatus="index">
+								<div class="col-md-12">
+									<div class="row">
+										<div class="col-md-1"><strong>${index }번 문제</strong></div>
+									<div class="col-md-11">${t2q.get(index)[1] }</div>
+									</div>
+									<c:if test="${t2q.get(index)[0] == 'mc' }"><!-- 객관식 -->
+										<c:forEach var="mc" begin="3" end="${t2q.get(index)[2] }">
+											<div class="row">
+												<div class="col-md-1">
+													<input type="radio" id="type2studentsmformmcq${index }a${mc-2}" name="type2studentsmformmcq${index }" value="${mc-2 }">
+												</div>
+												<div class="col-md-1"></div>
+												<div class="col-md-10">${t2q.get(index)[mc] }</div>
+											</div>
+										</c:forEach>
+									</c:if>
+									<c:if test="${t2q.get(index)[0] == 'sc' }"><!-- 주관식 -->
+										<c:if test="${t2q.get(index)[2] == true }">
+											<div class="row">
+												<div class="col-md-12">
+													${t2q.get(index)[3]}
+												</div>
+											</div>
+										</c:if>
+										<div class="row">
+											<div class="col-md-1">답 입력하기</div>
+											<div class="col-md-11">
+												<input type="text" id="type2studentsmformq${index }sc" class="form-control">
+											</div>
+										</div>
+									</c:if><!-- 주관식 -->
+								</div>
+							</c:forEach><!-- type2contents -->
+							<div class="row flex" id="type2studentsmformbtnArea">
+								<div class="col-md-12">
 									<c:choose>
-										<c:when test="${swork.getSho_goodbad() == null }">
-											<div class="col-md-2 drtblue-b whtcream bdr-r5 tmg5" id="SHResult${swork.getSho_id() }">
-												<h6>아직 채점중이예요</h6>
-											</div>
-											<div class="col-md-1 tmg5">
-												<button type="button" class="btn btn-sm btn-drt" onclick="SHWupdate()">수정</button>
-											</div>
-											<div class="col-md-1 tmg5">
-												<button type="button" class="btn btn-sm btn-drt" onclick="SHWdelete()">삭제</button>
-											</div>
+										<c:when test="${sworksnull == true }">
+											<button type="button" class="btn btn-sbl">수정하기</button>
 										</c:when>
 										<c:otherwise>
-											<div class="col-md-4 drtblue-b bdr-n bdr-r5 whtcream tmg5" id="SHResult${swork.getSho_id() }">
-												<c:if test="${swork.getSho_goodbad() == 'G' }">
-													잘했어요
-												</c:if>
-												<c:if test="${swork.getSho_goodbad() == 'N' }">
-													아쉬워요
-												</c:if>
-											</div>
+											<button type="button" class="btn btn-sbl">숙제 내기</button>
 										</c:otherwise>
 									</c:choose>
 								</div>
-								<c:if test="${swork.getSho_comment() != null }">
-									<div class="row tmg10 pd10">
-										<div class="col-md-12 bdr-1 bdr-r5 palesblue-b drtblue">
-											선생님의 한마디: ${swork.getSho_comment() }
-										</div>
-									</div>
-								</c:if>
-							</c:forEach>
+							</div>
 						</div>
-					</c:otherwise>
-				</c:choose>
-			</div>
+					</form>
+				</div>
+			</c:when>
+			</c:choose>
 		</section>
 		</div>
 		</div>

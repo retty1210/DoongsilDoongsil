@@ -35,12 +35,14 @@ function type2sc(a) {
 function type2mcplus(a, e) {
 	if(e >= 5) {
 		alert("객관식 문항은 5개까지만 입력할 수 있습니다.");
+		return false;
 	} else {
 		var numb = 1;
 		var name = "type2_mcArea" + a;
 		var length = $("input[name="+name+"_mc_input]").length;
 		if(length >= 5) { //총 번호 개수가 5개 이상
 			alert("객관식 답은 5번까지만 입력 가능합니다.");
+			return false;
 		} else  {
 			if(e == length) { //마지막 번호에서 추가 누름
 				numb = e + 1;
@@ -50,8 +52,12 @@ function type2mcplus(a, e) {
 			$("#"+name+"_mc"+numb+"_q").show();
 			$("#"+name+"_mc"+numb+"_q").append(
 				'<div class="col-md-1"><span><strong>('+numb+')</strong></span></div>'
-				+'<div class="col-md-9">'
+				+'<div class="col-md-8">'
 				+'<input type="text" id="'+name+'_mc'+numb+'" class="form-control" name="'+name+'_mc_input">'
+				+'</div>'
+				+'<div class="col-md-1" style="padding-top:6px;">'
+				+'정답 '
+				+'<input type="radio" class="form-check-input" id="'+name+'_ans'+numb+'" name="'+name+'_ans" value="'+numb+'">'
 				+'</div>'
 				+'<div class="col-md-1" id="'+name+'_mc'+numb+'_plus'+numb+'" name="'+name+'" onclick="type2mcplus('+a+', '+numb+')">'
 				+'<img src="/stc/img/plus-circle-dotted.svg" class="ic30 filter-lsrblue filter-skyblue-hover" />'
@@ -67,6 +73,7 @@ function type2mcplus(a, e) {
 function type2mcminus(a, e) {
 	if(e == 1) {
 		alert("1번 항목은 삭제할 수 없습니다.");
+		return false;
 	} else {
 		var name = "type2_mcArea"+a;
 		var length = $("input[name="+name+"_mc_input]").length;
@@ -78,6 +85,7 @@ function type2mcminus(a, e) {
 			alert(a+"번 문제의 "+e+"번 답안을 삭제하였습니다.");
 		} else {
 			alert("해당 문제의 가장 마지막 번호부터 삭제해주세요.");
+			return false;
 		}
 	}
 }
@@ -86,6 +94,7 @@ function type2qplus(a) {
 	var length = $("div[name=type2_q_no]").length;
 	if(length >= 10) {
 		alert("문제는 10번까지만 추가할 수 있습니다.");
+		return false;
 	} else {
 		var numb = 1;
 		if(a == length) { //마지막 문제에서 추가 누름
@@ -110,8 +119,12 @@ function type2qplus(a) {
 			+'<span class="help-block tmg10 small"><strong>객관식 문제의 답을 입력하세요.(최대 5개까지 입력할 수 있습니다.)</strong></span>'
 			+'<div id="type2_mcArea'+numb+'_mc1_q" name="type2_mcArea'+numb+'_q" class="row flex tmg10">'
 			+'<div class="col-md-1"><span><strong>(1)</strong></span></div>'
-			+'<div class="col-md-9">'
+			+'<div class="col-md-8">'
 			+'<input type="text" id="type2_mcArea'+numb+'_mc1" class="form-control" name="type2_mcArea'+numb+'_mc_input">'
+			+'</div>'
+			+'<div class="col-md-1" style="padding-top:6px;">'
+			+'정답 '
+			+'<input type="radio" class="form-check-input" id="type2_mcArea'+numb+'_ans1" name="type2_mcArea'+numb+'_ans" value="1">'
 			+'</div>'
 			+'<div class="col-md-1" id="type2_mcArea'+numb+'_mc1_plus1" name="type2_mcArea'+numb+'" onclick="type2mcplus('+numb+', 1)">'
 			+'<img src="/stc/img/plus-circle-dotted.svg" class="ic30 filter-rylblue filter-drtblue-hover" />'
@@ -173,20 +186,6 @@ function type2qminus(a) {
 	}
 }
 
-function type2completeForm() {
-	var res = false;
-	$("div[name=type2_q_noArea]").each(function (i, e) {
-		if($(e).css("display") === 'none') {
-			res = true;
-		}
-	});
-	if(res) {
-		alert("form 넘길수있음");
-		//
-	} else {
-		alert("form 못넘김");
-	}
-}
 
 function type2makeContents() {
 	//답 넣을 array 만듬
@@ -209,7 +208,7 @@ function type2makeContents() {
 			$("#type2_q"+index).focus();
 			return false;
 		}
-		type2qarr.push("||"+index+"||" + $("#type2_q"+index).val().replace('|',''));
+		type2qarr.push(index+"||" + $("#type2_q"+index).val().replace('|',''));
 		//2. 객관식인지 주관식인지, 혹은 비어있는지 확인
 		if($("#type2_mcArea"+index+"_q").is(':visible')) {//객관식
 			type2qarr.push("||mc");
@@ -219,6 +218,11 @@ function type2makeContents() {
 			if(multichoice < 2) {
 				alert(index + "번 문제의 객관식 답 수가 너무 적습니다.\n객관식의 답은 반드시 2개 이상이어야 합니다.");
 				console.log("객관식 문제수 에러: " + index + "번");
+				return false;
+			}
+			var answer = $("input[name=type2_mcArea"+index+"_ans]:checked").val();
+			if(answer == "" || typeof answer == "undefined" || answer == null || answer == 0) {
+				alert("객관식 " + index + "번 문제의 정답을 지정하지 않았습니다.");
 				return false;
 			}
 			inner: for(multi = 0; multi < multichoice; multi++) {//있는 번호까지 값을 넣어준다
@@ -239,6 +243,7 @@ function type2makeContents() {
 				}
 				type2qarr.push("||mc"+mcindex+"||"+mcval);
 			}
+			type2qarr.push("||" + $("input[name=type2_mcArea"+index+"_ans]:checked").val());
 			type2qarr.push("||end||");
 		} else if($("#type2_scArea"+index+"_q").is(':visible')) {//주관식
 			type2qarr.push("||sc||");
@@ -264,9 +269,12 @@ function type2makeContents() {
 	if(isquestionblank) {//업로드 가능
 		var contents = type2contents.join('');
 		console.log("전체 입력값: " + contents);
+		//$("#tho_contents_type1").attr('disabled', true);
 		//textarea hidden으로 만들어서 거기에 값 input
-		$("#type2_q_textarea").attr('value', contents);
-		//form 업로드
+		$("#tho_contents").val('');
+		$("#tho_contents").val(contents);
+		//$("#type2_q_textarea").attr('value', contents);
+		$('#hw_write_form').submit();
 	} else {//업로드 못함
 		return false;
 	}

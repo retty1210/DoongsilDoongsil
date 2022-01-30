@@ -78,25 +78,7 @@
 								</div>
 							</div>
 						</c:when>
-						<!--<c:when test="${data.getTho_homeworktype() == 2 }">
-							<div class="row flex tmg20">
-								<c:forEach items="${type2contents }" var="t2q" varStatus="index">
-									<div class="col-md-12">
-										<strong>${index }번 문제</strong>
-										<c:if test="${t2q.get(index)[0] == 'mc' }">
-											<c:forEach var="mc" begin="3" end="${t2q.get(index)[2] }">
-												<div class="row">
-													(${index }) 
-												</div>
-											</c:forEach>
-										</c:if>
-										<c:if test="${t2q.get(index)[0] == 'sc' }">
-										
-										</c:if>
-									</div>
-								</c:forEach>
-							</div>
-						</c:when>-->
+						
 					</c:choose>
 				</div>
 			</section>
@@ -195,7 +177,7 @@
 		<!-- 학생용 section -->
 		<section class="bdr-1 bdr-r5">
 			<c:choose>
-			<!-- type 1 -->
+			
 			<c:when test="${data.getTho_homeworktype() == 1 }">
 				<!-- session에 있는 학생정보와 TID값으로 select했을때 결과값이 null인 경우 -->
 				<div class="col-md-12 tmg20">
@@ -279,53 +261,53 @@
 					</c:choose>
 				</div>
 			</c:when>
-			<!-- type 2 -->
+			
 			<c:when test="${data.getTho_homeworktype() == 2 }">
 				<div class="container">
 					<form class="form-horizontal" id="type2studentsmform">
 						<div class="row flex tmg20">
 							<c:forEach items="${type2contents }" var="t2q" varStatus="index">
-								<div class="col-md-12">
-									<div class="row">
-										<div class="col-md-1"><strong>${index }번 문제</strong></div>
-									<div class="col-md-11">${t2q.get(index)[1] }</div>
+								<div class="col-md-12 tmg20">
+									<div class="row tmg10">
+										<div class="col-md-2"><strong>${t2q.key }번 문제</strong></div>
+										<div class="col-md-10 left">${t2q.value[1] }</div>
 									</div>
-									<c:if test="${t2q.get(index)[0] == 'mc' }"><!-- 객관식 -->
-										<c:forEach var="mc" begin="3" end="${t2q.get(index)[2] }">
-											<div class="row">
-												<div class="col-md-1">
-													<input type="radio" id="type2studentsmformmcq${index }a${mc-2}" name="type2studentsmformmcq${index }" value="${mc-2 }">
+									<c:if test="${t2q.value[0] == 'mc' }"> <!-- 객관식 -->
+										<c:forEach var="mc" begin="3" end="${t2q.value[2] }">
+											<div class="row tmg10">
+												<div class="col-md-2 right">
+													<input type="radio" id="type2studentsmformmcq${t2q.key }a${mc-2}" name="type2studentsmformmcq${t2q.key }" value="${mc-2 }">
 												</div>
-												<div class="col-md-1"></div>
-												<div class="col-md-10">${t2q.get(index)[mc] }</div>
+												<div class="col-md-10 left">${t2q.value[mc] }</div>
 											</div>
 										</c:forEach>
 									</c:if>
-									<c:if test="${t2q.get(index)[0] == 'sc' }"><!-- 주관식 -->
-										<c:if test="${t2q.get(index)[2] == true }">
-											<div class="row">
-												<div class="col-md-12">
-													${t2q.get(index)[3]}
+									<c:if test="${t2q.value[0] == 'sc' }"> <!-- 주관식 -->
+										<c:if test="${t2q.value[2] == true }">
+											<div class="row tmg10">
+												<div class="col-md-2"></div>
+												<div class="col-md-10 left">
+													${t2q.value[3]}
 												</div>
 											</div>
 										</c:if>
-										<div class="row">
-											<div class="col-md-1">답 입력하기</div>
-											<div class="col-md-11">
-												<input type="text" id="type2studentsmformq${index }sc" class="form-control">
+										<div class="row tmg10">
+											<div class="col-md-2">답 입력하기</div>
+											<div class="col-md-10">
+												<input type="text" id="type2studentsmformq${t2q.key }sc" class="form-control">
 											</div>
 										</div>
-									</c:if><!-- 주관식 -->
+									</c:if> <!-- 주관식 -->
 								</div>
-							</c:forEach><!-- type2contents -->
-							<div class="row flex" id="type2studentsmformbtnArea">
+							</c:forEach> <!-- type2contents -->
+							<div class="row flex tmg20" id="type2studentsmformbtnArea">
 								<div class="col-md-12">
 									<c:choose>
 										<c:when test="${sworksnull == true }">
-											<button type="button" class="btn btn-sbl">수정하기</button>
+											<button type="button" class="btn btn-sbl">숙제 내기</button>
 										</c:when>
 										<c:otherwise>
-											<button type="button" class="btn btn-sbl">숙제 내기</button>
+											<button type="button" class="btn btn-sbl">수정하기</button>
 										</c:otherwise>
 									</c:choose>
 								</div>

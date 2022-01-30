@@ -55,6 +55,15 @@ tr:hover {
 	background-color: #F0F5F6 !important;
 }
 
+/* text */
+.left {
+	text-align: left;
+}
+
+.right {
+	text-align: right;
+}
+
 /* height */
 
 .minh400 {

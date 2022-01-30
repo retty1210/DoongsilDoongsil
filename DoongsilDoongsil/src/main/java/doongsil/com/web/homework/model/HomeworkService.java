@@ -137,37 +137,46 @@ public class HomeworkService {
 	
 	public HashMap<Integer, String[]> makeType2Visible(String contents) {
 		HashMap<Integer, String[]> type2contents = new HashMap<Integer, String[]>();
-		String[] contentsarr = contents.split("||end||");
+		String[] contentsarr = contents.split("\\|\\|end\\|\\|");
 		String[] mcarr = new String[10];
 		int mcindex = 0; //객관식 문제 수
 		String[] scarr = new String[10];
 		int scindex = 0; //주관식 문제 수
 		for(String a: contentsarr) {//객관식, 주관식 배열에 각각 구분해서 담는다
-			if(a.contains("||mc||")) {
+			System.out.println("contentsarr: " + a);
+			if(a.contains("||mc||") || a.indexOf("||mc||") > 0) {
 				mcarr[mcindex] = a;
 				mcindex++;
-			} else {
+			} else if(a.contains("||sc||") || a.indexOf("||sc||") > 0) {
 				scarr[scindex] = a;
 				scindex++;
 			}
 		}
+		System.out.println("객관식 문제수: " + mcindex + "|주관식 문제수: " + scindex);
 		//객관식 처리
 		for(int mc = 0; mc < mcindex; mc++) {
-			String[] mcfor = mcarr[mc].split("||");
+			String[] mcfor = mcarr[mc].split("\\|\\|");
+			for(String m : mcfor) {
+				System.out.println("mcfor: " + m);
+			}
 			int num = Integer.parseInt(mcfor[0]);
-			int length = (mcfor.length - 3) / 2;
-			String[] value = new String[length + 3];
+			int length = (mcfor.length - 4) / 2;
+			String[] value = new String[length + 4];
 			value[0] = "mc";
 			value[1] = mcfor[1];
 			value[2] = length + ""; 
 			for(int valnum = 3; valnum < length + 3; valnum++) {
-				value[valnum] = mcfor[(valnum * 2) + 3];
+				int index = (valnum * 2) - 2;
+				value[valnum] = mcfor[index];
+				System.out.println(mc + "번| " + index + " index| " + value[valnum]);
 			}
+			value[length + 3] = mcfor[mcfor.length - 1];
+			
 			type2contents.put(num, value);
 		}
 		//주관식 처리
 		for(int sc = 0; sc < scindex; sc++) {
-			String[] scfor = scarr[sc].split("||");
+			String[] scfor = scarr[sc].split("\\|\\|");
 			int num = Integer.parseInt(scfor[0]);
 			boolean res = scfor.length == 4 ? true: false;
 			String[] value = new String[scfor.length];

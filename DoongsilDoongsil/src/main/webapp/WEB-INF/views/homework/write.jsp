@@ -110,8 +110,12 @@
 									<span class="help-block tmg10 small"><strong>객관식 문제의 답을 입력하세요.(최대 5개까지 입력할 수 있습니다.)</strong></span>
 									<div id="type2_mcArea1_mc1_q" name="type2_mcArea1_q" class="row flex tmg10">
 										<div class="col-md-1"><span><strong>(1)</strong></span></div>
-										<div class="col-md-9">
+										<div class="col-md-8">
 											<input type="text" id="type2_mcArea1_mc1" class="form-control" name="type2_mcArea1_mc_input">
+										</div>
+										<div class="col-md-1" style="padding-top:6px;">
+											정답
+											<input type="radio" class="form-check-input" id="type2_mcArea1_ans1" name="type2_mcArea1_ans" value="1">
 										</div>
 										<div class="col-md-1" id="type2_mcArea1_mc1_plus1" name="type2_mcArea1" onclick="type2mcplus(1, 1)">
 											<img src="/stc/img/plus-circle-dotted.svg" class="ic30 filter-rylblue filter-drtblue-hover" />
@@ -156,12 +160,12 @@
 							<div id="t_hw_2_question_9" class="mg20 bdr-1 bdr-r5" style="display:none;"></div>
 							<div id="t_hw_2_question_10" class="mg20 bdr-1 bdr-r5" style="display:none;"></div>
 						</div>
+						<!--<div>
+							<textarea id="type2_q_textarea" name="tho_contents" style="display:none;"></textarea>
+						</div>  -->
 						<div class="tmg20">
 							<button type="button" class="btn btn-wht btn-lg" style="width: 200px;" onclick="location='/homework'">취소</button>
 							<button id="btn_type2submit" type="button" style="width: 200px;" onclick="type2makeContents()" class="btn btn-lsr btn-lg btn-block">작성 완료</button>
-						</div>
-						<div class="none">
-							<textarea id="type2_q_textarea" name="tho_contents" style="display:none;"></textarea>
 						</div>
 					</div>
 				</form>

@@ -125,7 +125,9 @@ public class HomeworkController {
 		
 		//type별 처리
 		if(data.getTho_homeworktype() == 2) {
+			System.out.println(data.getTho_contents());
 			HashMap<Integer, String[]> type2contents = service.makeType2Visible(data.getTho_contents());
+			System.out.println(type2contents);
 			request.setAttribute("type2contents", type2contents);
 		}
 		

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import doongsil.com.web.account.model.STAccountVO;
+import doongsil.com.web.paging.model.PagingVo;
 
 @Service
 public class HomeworkService {
@@ -191,6 +192,52 @@ public class HomeworkService {
 		//String r = type2contents.get(1)[0];
 		return type2contents;
 		
+	}
+	
+	public int selectListCount() {
+		int totalCount = dao.selectListCount();
+		return totalCount;
+	}
+	
+	public int getTotalPage(int countList) { //구하는값: 총 페이지 수 /변수: 한 페이지에 들어갈 글 개수
+		int totalCount = dao.selectListCount();
+		int totalPage = totalCount / countList;
+		if(totalCount % countList > 0) {
+			totalPage++;
+		}//총 페이지 수를 구함: 수가 countList로 딱 나눠 떨어지지 않을 경우 1을 더해줌
+		return totalPage;
+	}
+	
+	public PagingVo getPageList(int pageNo, int pageListNum) {//현재 보고있는 페이지, 페이지용 ul에 한번에 띄울 페이지수
+		int startdata = (pageNo - 1) / pageListNum;
+		PagingVo page = new PagingVo();
+		page.setLastPage(pageListNum * (startdata + 1));//리스트의 마지막 페이지
+		page.setStartPage(page.getLastPage() - pageListNum + 1); //리스트의 첫번째 페이지
+		return page;
+	}
+	
+	public PagingVo getRNList(int pageNo, int countList, int pageListNum) {
+		PagingVo page = this.getPageList(pageNo, pageListNum);
+		int start = (page.getStartPage() - 1) * countList + 1;
+		int end = (page.getLastPage()) * countList;
+		page.setStart(start);
+		page.setEnd(end);
+		return page;
+	}
+	
+	public List<T_HomeworkVO> getPage(int pageNo, int countList, int pageListNum) {
+		//변수: 지금 보고있는 페이지, 한페이지에 들어갈 글 개수, 페이지용 ul 리스트에 한번에 띄울 페이지 수
+		int totalCount = this.getTotalPage(countList);
+		PagingVo page = this.getRNList(pageNo, countList, pageListNum);
+		System.out.println("시작 줄 수: " + page.getStart() + "마지막 줄 수: " + page.getEnd());
+		//현재페이지가 앞쪽에 가까울때/뒤쪽에 가까울때 쿼리 다르게 함
+//		if((totalCount / pageNo) > 2) {
+			List<T_HomeworkVO> datas = dao.selectHWListFromFront(page);
+			return datas;
+//		} else {
+//			List<T_HomeworkVO> datas = dao.selectHWListFromBack(page);
+//			return datas;
+//		}
 	}
 
 }

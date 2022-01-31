@@ -8,6 +8,30 @@
 		SELECT * FROM T_HOMEWORK ORDER BY THO_ID DESC
 	</select>
 	
+	<select id="selectHWListFromFront" parameterType="doongsil.com.web.paging.model.PagingVo" resultType="t_homework">
+		SELECT 
+		    *
+		    FROM
+		    (SELECT 
+		        A.*
+		         FROM
+		        (SELECT ROW_NUMBER() OVER (ORDER BY B.THO_ID DESC) AS RN, B.* 
+		            FROM T_HOMEWORK B) A
+		    WHERE RN <![CDATA[<=]]> #{end}) X
+		WHERE X.RN <![CDATA[>=]]> #{start}
+	</select>
+	
+	<select id="selectHWListFromBack" parameterType="int" resultType="t_homework">
+		SELECT 
+		    *
+		    FROM
+		    (SELECT A.* FROM
+		        (SELECT ROW_NUMBER() OVER (ORDER BY A.THO_ID DESC) AS RN, A.* 
+		            FROM T_HOMEWORK A) A
+		    WHERE RN <![CDATA[>=]]> #{start}) X
+		WHERE X.RN <![CDATA[>=]]> #{end}
+	</select>
+	
 	<select id="selectOneHW" parameterType="t_homework" resultType="t_homework">
 		SELECT * FROM T_HOMEWORK
 		<where>
@@ -220,6 +244,10 @@
 		SELECT * FROM S_HOMEWORK 
 			WHERE SHO_WRITER = #{sho_writer} AND
 				SHO_TID = #{sho_tid}
+	</select>
+	
+	<select id="selectListCount" resultType="int">
+		SELECT COUNT(*) AS TOTALCOUNT FROM T_HOMEWORK
 	</select>
 	
 </mapper>

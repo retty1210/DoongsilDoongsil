@@ -6,9 +6,11 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -26,6 +28,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import doongsil.com.web.homework.model.*;
+import doongsil.com.web.paging.model.PagingVo;
 
 @Controller
 public class HomeworkController {
@@ -34,16 +37,57 @@ public class HomeworkController {
 	private HomeworkService service;
 	
 	@RequestMapping(value = "/homework", method = RequestMethod.GET)
-	public String homeworklist(HttpServletRequest request, HttpSession session) {
-		List<T_HomeworkVO> datas = service.selectHWList();
-		if(datas.size() == 0) {
-			return "homework/empty";
+	public ModelAndView homeworklist(HttpServletRequest request, HttpSession session, @RequestParam(value="pageNo", defaultValue="1") int pageNo) {
+		ModelAndView mod = new ModelAndView();
+		int totalcount = service.selectListCount();
+		//List<T_HomeworkVO> datas = service.selectHWList();
+		if(totalcount == 0) {
+			mod.setViewName("homework/empty");
+			
 		} else {
-			session.setAttribute("datas", datas);
+			//페이지별로 가져오는 걸로 코드 고치기-여기선 1페이지 기준으로(RequestParam pageNo)
+			System.out.println("pageNo: " + pageNo);
+			int countList = 3; //한페이지에 들어갈 글 개수
+			int pageListNum = 3; //페이지용 ul 리스트에 한번에 띄울 페이지 수
+			int totalpage = service.getTotalPage(countList);
+			if(pageNo > totalpage) {
+				pageNo = totalpage;
+			} else if(pageNo < 1) {
+				pageNo = 1;
+			}
+			List<T_HomeworkVO> lists = service.getPage(pageNo, countList, pageListNum);
+			Iterator<T_HomeworkVO> iter = lists.iterator();
+			System.out.println("초기리스트 개수: " + lists.size() + "|처음: " + lists.get(0));
+			Map<String, Integer>pages = new HashMap<String, Integer>();
+			//startPage: view에서 보이는 첫 페이지 /lastPage:view에서 보이는 마지막 페이지
+			PagingVo page = service.getPageList(pageNo, pageListNum);
+			pages.put("startpage", page.getStartPage());
+			pages.put("lastpage", page.getLastPage());
+			pages.put("countlist", countList);
+			pages.put("totalpage", totalpage);
+			pages.put("pagelistnum", pageListNum);
+			
+			//페이지별로 나눠담는 작업
+			Map<Integer, List<T_HomeworkVO>> datas = new HashMap<Integer, List<T_HomeworkVO>>();
+			outer: for(int i = 0; i < pageListNum; i++) {
+				List<T_HomeworkVO> templist = new ArrayList<T_HomeworkVO>();
+				for(int j = 0; j < countList; j++) {
+					if(iter.hasNext()) {
+						templist.add(iter.next());
+					} else {
+						datas.put(i+pages.get("startpage"), templist);
+						break outer;
+					}
+				}
+				datas.put(i+pages.get("startpage"), templist);
+			}
+			mod.addObject("pageNo", pageNo);
+			mod.addObject("pages", pages);
+			mod.addObject("datas", datas);
+			mod.setViewName("homework/list");
 		}
 		
-		
-		return "homework/list";
+		return mod;
 	}
 	
 	@RequestMapping(value="homework/write", method = RequestMethod.GET)

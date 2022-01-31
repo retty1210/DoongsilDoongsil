@@ -10,11 +10,4 @@
 <script src='https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js'></script>
 <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
 
-
-<form action="/mainpage" method="post" name="hiddenForm">
-	<input type="hidden" name="cal_title"/>
-	<input type="hidden" name="cal_start"/>
-	<input type="hidden" name="cal_end"/>
-</form>
-
 <div id='calendar' class="calendar-area"></div>

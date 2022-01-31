@@ -31,12 +31,16 @@ public class CalendarService {
 	}
 	
 	public List<NoticeVO> selectNotice_two() {
-		logger.info("Service 동작");
 		return dao.selectNotice();
 	}
 
 	public List<T_HomeworkVO> selectHomework() {
 		return dao.selectHomework();
+	}
+
+	public List<CalendarDTO> selectCalendar() {
+		logger.info("Service 동작");
+		return dao.selectCalendar();
 	}
 
 }

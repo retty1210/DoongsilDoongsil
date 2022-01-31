@@ -27,12 +27,15 @@ public class CalendarController {
 	public String calendar(Model model) {
 		// 공지사항 출력하는 부분
 		List<NoticeVO> notice_list = service.selectNotice_two();
-		logger.info("controller 동작");
 		model.addAttribute("noticeList", notice_list);
 		// 학급게시판 출력 부분
 		List<T_HomeworkVO> homework_list = service.selectHomework();
 		model.addAttribute("homeworkList", homework_list);
 		// 캘린더 출력 부분
+		List<CalendarDTO> calendar_list = service.selectCalendar();
+		System.out.println(calendar_list);
+		model.addAttribute("calendarList", calendar_list);
+		logger.info("controller 동작");
 		// 학사일정 출력 부분
 		return "main/mainpage";
 	}

@@ -34,14 +34,16 @@ public class CalendarDAO {
 	}
 
 	public List<NoticeVO> selectNotice() {
-		logger.info("Notice관련 DAO 동작");
-		List<NoticeVO> a = this.sess.selectList("mainPageMapper.selectNotice");
-		System.out.println(a);
 		return this.sess.selectList("mainPageMapper.selectNotice");
 	}
 
 	public List<T_HomeworkVO> selectHomework() {
 		return this.sess.selectList("mainPageMapper.selectHomework");
+	}
+
+	public List<CalendarDTO> selectCalendar() {
+		logger.info("DAO 동작");
+		return this.sess.selectList("mainPageMapper.selectCalendar");
 	}
 	
 }

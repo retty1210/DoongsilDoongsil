@@ -89,12 +89,11 @@ public class InfoController {
 			for(String s: student) {
 				if(staSer.selectDelete(Integer.parseInt(s))) {
 					selectDel = true;
-					break;
 				}
 			}
 			if(selectDel) {
 				out.println("<script>alert('선택하신 학생데이터를 삭제 했습니다.');"
-						+ "location.reload();"
+						+ "window.close();"
 						+ "opener.location.reload();"
 						+ "</script>");
 				
@@ -118,7 +117,7 @@ public class InfoController {
 		return "admin/popup/infoUpdate";
 	}
 	@RequestMapping(value="/infoUpdate",method=RequestMethod.POST)
-	public String infoUpdate(@RequestParam("userPhoto")MultipartFile multi,HttpServletRequest request,HttpServletResponse response, STAccountVO staVo,HttpSession session) throws Exception {
+	public String infoUpdate(@RequestParam("userPhoto")MultipartFile multi,HttpServletRequest request,HttpServletResponse response, STAccountVO staVo,HttpSession session,Model model) throws Exception {
 		String save = request.getServletContext().getRealPath("/stc/up/")+multi.getOriginalFilename();
 		int id = Integer.parseInt(request.getParameter("userId"));
 		String name = request.getParameter("userName");
@@ -131,14 +130,17 @@ public class InfoController {
 		String path = "/stc/up/" + multi.getOriginalFilename();
 		String type = request.getParameter("userType");
 		File file = new File(save);
-		multi.transferTo(file);
 		
+		if(!save.substring(save.indexOf("up/")+3,save.length()).equals("")) {
+			multi.transferTo(file);
+		}
+
 		STAccountVO update = new STAccountVO(id,name,email,adress,phone,grade,Gclass,bd,path,type);
 		
 		PrintWriter out = response.getWriter();
 		if(staSer.infoUpdate(update)) {
 			update = staSer.studentUpdate(id);
-			session.setAttribute("account", update);
+			model.addAttribute("studentUpdate", update);
 			out.println("<script>opener.location.reload(); window.close();</script>");
 		}else {
 			out.println("<script>alert('정보 수정에 실패 하였습니다.');");

@@ -1,0 +1,67 @@
+package doongsil.com.web.calendar.controller;
+
+import java.text.*;
+import java.util.*;
+
+import javax.servlet.http.*;
+
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
+
+import doongsil.com.web.calendar.model.*;
+import doongsil.com.web.homework.model.*;
+import doongsil.com.web.notice.model.*;
+
+@Controller
+public class CalendarController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(CalendarController.class);
+	
+	@Autowired
+	private CalendarService service;
+	
+	@RequestMapping(value="/mainpage", method=RequestMethod.GET)
+	public String calendar(Model model) {
+		// 공지사항 출력하는 부분
+		List<NoticeVO> notice_list = service.selectNotice_two();
+		logger.info("controller 동작");
+		model.addAttribute("noticeList", notice_list);
+		// 학급게시판 출력 부분
+		List<T_HomeworkVO> homework_list = service.selectHomework();
+		model.addAttribute("homeworkList", homework_list);
+		// 캘린더 출력 부분
+		// 학사일정 출력 부분
+		return "main/mainpage";
+	}
+	
+	@RequestMapping(value="/mainpage", method=RequestMethod.POST)
+	@ResponseBody
+	public String calendar(CalendarDTO dto, Model model, HttpServletRequest req) throws Exception {
+		String title = req.getParameter("cal_title");
+		
+		SimpleDateFormat start = new SimpleDateFormat("yyyy-MM-dd");
+		java.sql.Date realStart = new java.sql.Date(start.parse(req.getParameter("cal_start")).getTime());
+		dto.setCal_start(realStart);
+		SimpleDateFormat end = new SimpleDateFormat("yyyy-MM-dd");
+		java.sql.Date realEnd = new java.sql.Date(end.parse(req.getParameter("cal_end")).getTime());
+		dto.setCal_end(realEnd);
+		//System.out.println(start.parse(req.getParameter("cal_start")).getTime());
+		//System.out.println(start.parse(req.getParameter("cal_end")).getTime());
+		//System.out.println(dto.getCal_title());
+		//System.out.println(dto.getCal_start());
+		//System.out.println(dto.getCal_end());
+	   
+		//CalendarDTO data = new CalendarDTO(title, realStart, realEnd);
+		
+		//if(data != null) {
+			service.InsertEvent(dto);
+			logger.info("post 동작");
+		//}
+	   
+		return "main/mainpage";
+	}
+	
+}

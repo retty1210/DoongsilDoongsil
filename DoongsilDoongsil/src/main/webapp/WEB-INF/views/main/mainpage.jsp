@@ -7,11 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>calendar</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
-<script src="/stc/js/cal.js"></script>
-<script src='https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js'></script>
 <link href="/stc/css/doongmain.css" rel="stylesheet" type="text/css" />
 <link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -20,11 +15,7 @@
 		<jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
 		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
 	</header>
-	<form action="/cal" method="post" name="hiddenForm">
-		<input type="hidden" name="cal_title"/>
-		<input type="hidden" name="cal_start"/>
-		<input type="hidden" name="cal_end"/>
-	</form>
+
 	<div class="all-area">
 		<div class="myInfo-area">
 			<div class="myInfoBox">
@@ -93,7 +84,9 @@
 			</div>
 			
 			<div class="main-second-bottom">
-				<div id='calendar' class="calendar-area"></div>
+				<div class="calendar-area">
+					<jsp:include page="/WEB-INF/views/module/calendar.jsp" flush="false" />
+				</div>
 				<div class="school-events-area">
 					<div class="school-events"></div>
 				</div>

@@ -7,6 +7,7 @@ import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import doongsil.com.web.homework.model.*;
 import doongsil.com.web.notice.model.*;
 
 @Repository
@@ -37,6 +38,10 @@ public class CalendarDAO {
 		List<NoticeVO> a = this.sess.selectList("mainPageMapper.selectNotice");
 		System.out.println(a);
 		return this.sess.selectList("mainPageMapper.selectNotice");
+	}
+
+	public List<T_HomeworkVO> selectHomework() {
+		return this.sess.selectList("mainPageMapper.selectHomework");
 	}
 	
 }

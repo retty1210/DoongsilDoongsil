@@ -6,6 +6,7 @@ import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import doongsil.com.web.homework.model.*;
 import doongsil.com.web.notice.model.*;
 
 
@@ -32,6 +33,10 @@ public class CalendarService {
 	public List<NoticeVO> selectNotice_two() {
 		logger.info("Service 동작");
 		return dao.selectNotice();
+	}
+
+	public List<T_HomeworkVO> selectHomework() {
+		return dao.selectHomework();
 	}
 
 }

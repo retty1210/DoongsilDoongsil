@@ -47,7 +47,7 @@ public class HomeworkController {
 		} else {
 			//페이지별로 가져오는 걸로 코드 고치기-여기선 1페이지 기준으로(RequestParam pageNo)
 			System.out.println("pageNo: " + pageNo);
-			int countList = 3; //한페이지에 들어갈 글 개수
+			int countList = 5; //한페이지에 들어갈 글 개수
 			int pageListNum = 3; //페이지용 ul 리스트에 한번에 띄울 페이지 수
 			int totalpage = service.getTotalPage(countList);
 			if(pageNo > totalpage) {
@@ -147,7 +147,9 @@ public class HomeworkController {
 	}
 	
 	@RequestMapping(value="/homework/detail", method=RequestMethod.GET)
-	public String homeworkDetail(T_HomeworkVO vo, HttpServletRequest request) {
+	public ModelAndView homeworkDetail(T_HomeworkVO vo, HttpServletRequest request) {
+		ModelAndView mod = new ModelAndView();
+		
 		T_HomeworkVO data = service.selectOneHW(vo);
 		
 		//조회수
@@ -155,7 +157,8 @@ public class HomeworkController {
 		data.setTho_count(count);
 		boolean countres = service.updateTHCount(data);
 		if(!countres) {
-			return "homework/error";
+			mod.setViewName("homework/error");
+			return mod;
 		}
 		System.out.println("count결과: " + data.getTho_count());
 		
@@ -172,22 +175,29 @@ public class HomeworkController {
 			System.out.println(data.getTho_contents());
 			HashMap<Integer, String[]> type2contents = service.makeType2Visible(data.getTho_contents());
 			System.out.println(type2contents);
-			request.setAttribute("type2contents", type2contents);
+			mod.addObject("type2contents", type2contents);
 		}
 		
 		//글 값 넣기
 		if(data != null) {
-			request.setAttribute("data", data);
-			
+			mod.addObject("data", data);
 		} 
 		
 		//만약 선생님일 경우
 		List<S_HomeworkVO> sdatas = service.selectSHList(vo.getTho_id());
 		if(sdatas != null) {
-			request.setAttribute("sdatas", sdatas);
+			mod.addObject("sdatas", sdatas);
+			if(data.getTho_homeworktype() == 2) {
+				HashMap<Integer, String[]> type2answers = new HashMap<Integer, String[]>();
+				for(S_HomeworkVO s: sdatas) {
+					String[] tempsdatas = service.makeType2Answer(s);
+					type2answers.put(s.getSho_id(), tempsdatas);
+				}
+				mod.addObject("type2answers", type2answers);
+			}
 		}
 		if(!imgarr[0].equals("noimage")) {
-			request.setAttribute("img", imgarr);
+			mod.addObject("img", imgarr);
 		}
 		
 		//만약 학생일 경우
@@ -196,14 +206,19 @@ public class HomeworkController {
 		shwVO.setSho_writer(4);//session에서 값 받아서 설정하도록 나중에 수정
 		List<S_HomeworkVO> sworks = service.selectStudentHWs(shwVO);
 		if(sworks == null || sworks.size() == 0) {
-			request.setAttribute("sworksnull", true);
+			mod.addObject("sworksnull", true);
 			System.out.println("학생 숙제값 없음");
 		} else {
-			request.setAttribute("sworksnull", false);
+			mod.addObject("sworksnull", false);
 			System.out.println("학생 숙제값 있음");
-			request.setAttribute("sworks", sworks);
+			mod.addObject("sworks", sworks);
+			if(data.getTho_homeworktype() == 2) {
+				String[] ansarr = service.makeType2Answer(sworks.get(0));
+				mod.addObject("sanswer", ansarr);
+			}
 		}
-		return "homework/detail";
+		mod.setViewName("homework/detail");
+		return mod;
 		
 	}
 	
@@ -215,6 +230,43 @@ public class HomeworkController {
 			return "redirect:/homework/detail?tho_id=" + vo.getSho_tid();
 		} else {
 			System.out.println("homework form 업로드 실패");
+			return "homework/error";
+		}
+	}
+	
+	@RequestMapping(value="/studentupdate1", method=RequestMethod.POST)
+	public String studentHomeworkUpdate1(S_HomeworkVO vo) {
+		System.out.println(vo);
+		boolean res = service.updateSHContents(vo);
+		if(res) {
+			System.out.println("homework form 수정 성공");
+			return "redirect:/homework/detail?tho_id=" + vo.getSho_tid();
+		} else {
+			System.out.println("homework form 수정 실패");
+			return "homework/error";
+		}
+	}
+	
+	@RequestMapping(value="/studentup2", method=RequestMethod.POST)
+	public String studentHomeworkUp2(S_HomeworkVO vo) {
+		boolean res = service.insertSH(vo);
+		if(res) {
+			System.out.println("homework form 업로드 성공");
+			return "redirect:/homework/detail?tho_id=" + vo.getSho_tid();
+		} else {
+			System.out.println("homework form 업로드 실패");
+			return "homework/error";
+		}
+	}
+	
+	@RequestMapping(value="/studentupdate2", method=RequestMethod.POST)
+	public String studentHomeworkUpdate2(S_HomeworkVO vo) {
+		boolean res = service.updateSHContents(vo);
+		if(res) {
+			System.out.println("homework form 수정 성공");
+			return "redirect:/homework/detail?tho_id=" + vo.getSho_tid();
+		} else {
+			System.out.println("homework form 수정 실패");
 			return "homework/error";
 		}
 	}

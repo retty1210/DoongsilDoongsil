@@ -122,6 +122,10 @@ public class HomeworkService {
 		return dao.selectStudentHWs(vo);
 	}
 	
+	public boolean updateSHContents(S_HomeworkVO vo) {
+		return dao.updateSHContents(vo);
+	}
+	
 	public String[] getImgList(String filelink) {
 		String[] slist = new String[1];
 		if(filelink.isEmpty()) {
@@ -190,8 +194,18 @@ public class HomeworkService {
 			type2contents.put(num, value);
 		}
 		//String r = type2contents.get(1)[0];
-		return type2contents;
 		
+		return type2contents;
+	}
+	
+	public String[] makeType2Answer(S_HomeworkVO vo) {
+		String[] type2arr = vo.getSho_contents().split("\\|\\|end\\|\\|");
+		String[] ansarr = new String[type2arr.length];
+		for(int i = 0; i < type2arr.length; i++) {
+			String[] temparr = type2arr[i].split("\\|\\|");
+			ansarr[i] = temparr[1];
+		}
+		return ansarr;
 	}
 	
 	public int selectListCount() {

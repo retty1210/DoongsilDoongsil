@@ -250,4 +250,10 @@
 		SELECT COUNT(*) AS TOTALCOUNT FROM T_HOMEWORK
 	</select>
 	
+	<update id="updateSHContents" parameterType="s_homework">
+		UPDATE S_HOMEWORK
+			SET	SHO_CONTENTS = #{sho_contents}
+			WHERE SHO_ID = #{sho_id}	
+	</update>
+	
 </mapper>

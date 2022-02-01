@@ -88,6 +88,11 @@ public class HomeworkDAO {
 		return res == 1 ? true : false;
 	}
 	
+	public boolean updateSHContents(S_HomeworkVO vo) {
+		int res = this.sess.update("HomeworkMapper.updateSHContents", vo);
+		return res == 1 ? true : false;
+	}
+	
 	public boolean updateTHCount(T_HomeworkVO vo) {
 		int res = this.sess.update("HomeworkMapper.updateTHCount", vo);
 		return res == 1 ? true : false;

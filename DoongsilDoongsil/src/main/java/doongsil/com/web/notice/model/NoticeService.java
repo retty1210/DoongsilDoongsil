@@ -20,9 +20,15 @@ public class NoticeService {
 	}
 	
 	//공지사항 목록 조회
-	public List<NoticeVO> list() throws Exception{
-		return dao.list();
+	public List<NoticeVO> list(Criteria cri) throws Exception{
+		return dao.list(cri);
 	}
+	
+	//게시물 총 갯수
+	public int listCount() throws Exception{
+		return dao.listCount();
+	}
+	
 	
 	//공지사항 상세 페이지, 조회수
 	@Transactional(isolation = Isolation.READ_COMMITTED)

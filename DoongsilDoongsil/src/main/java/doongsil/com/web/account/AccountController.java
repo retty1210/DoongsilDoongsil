@@ -12,4 +12,8 @@ public class AccountController {
 	public String join() {
 		return "account/join";
 	}
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login() {
+		return "account/login";
+	}
 }

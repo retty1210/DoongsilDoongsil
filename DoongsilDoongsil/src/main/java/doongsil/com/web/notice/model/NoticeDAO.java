@@ -19,8 +19,13 @@ public class NoticeDAO {
 	}
 	
 	//공지사항 목록 조회
-	public List<NoticeVO> list() throws Exception {
-		return sess.selectList("noticeMapper.list");
+	public List<NoticeVO> list(Criteria cri) throws Exception {
+		return sess.selectList("noticeMapper.listPage", cri);
+	}
+	
+	//게시물 총 갯수
+	public int listCount() throws Exception{
+		return sess.selectOne("noticeMapper.listCount");
 	}
 	
 	//공지사항 상세 페이지
@@ -43,4 +48,5 @@ public class NoticeDAO {
 	public void noticeCount(int not_id) throws Exception {	
 		sess.update("noticeMapper.noticeCount", not_id);
 	}
+	
 }

@@ -2,21 +2,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
-  <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <title>공지사항 작성</title>
-  </head>
-<body class="container">
+<head>
+<meta charset="utf-8">
+<title>공지사항 작성</title>
+<jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
+</head>
+<body>
 <div id="root">
 	<header>
-		<h2> 공지사항 작성</h2>
-	</header><hr />
-	<!-- 네비 넣기
-		<div>
-		   <!--%@include file="" % </div> --> 
-		
+		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false"/>
+	</header>
+	<div class="container">
+	<h2> 공지사항 작성</h2><hr />
 	<section id="container">
 		<form role="writeForm" method="post" action="/notice/noticeWrite">
 		<div class="mb-3">
@@ -48,12 +45,13 @@
 			<c:out value="${today}"/>
 		</div>
 		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-			<button type="button" class="btn btn-primary" onclick="location.href='/notice/noticeList'">목록으로</button>
+			<button type="button" class="btn btn-outline-secondary" onclick="location.href='/notice/noticeList'">목록으로</button>
 			<button type="submit" class="btn btn-primary" >게시하기</button>
 		</div>
 	</form>
+<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false"/>
 </section>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</div>
 </body>
 </html>

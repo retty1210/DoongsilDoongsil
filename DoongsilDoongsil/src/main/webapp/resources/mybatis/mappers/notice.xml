@@ -22,14 +22,23 @@
     </insert>
     
     <!-- 공지사항 목록보기 -->
-    <select id="list" resultType="doongsil.com.web.notice.model.NoticeVO">
+    <select id="listPage" resultType="doongsil.com.web.notice.model.NoticeVO" parameterType="doongsil.com.web.notice.model.Criteria">
     SELECT NOT_ID
     		,NOT_TITLE
     		,NOT_WRITER
     		,NOT_WRITEDATE
     		,NOT_COUNT
-    	FROM NOTICE
- 			ORDER BY NOT_ID DESC
+	FROM ( 
+		    SELECT NOT_ID, 
+		           NOT_TITLE, 
+		           NOT_WRITER, 
+		           NOT_WRITEDATE, 
+		           NOT_COUNT, 
+		           ROW_NUMBER() OVER(ORDER BY NOT_ID DESC) AS RNUM
+		     FROM NOTICE 
+		                   ) NC
+	WHERE RNUM BETWEEN #{rowStart, jdbcType=NUMERIC} AND #{rowEnd, jdbcType=NUMERIC}
+	ORDER BY NOT_ID DESC	
     </select>
     
     <!-- 공지사항 상세페이지-->
@@ -66,5 +75,14 @@
     	   SET NOT_COUNT = NOT_COUNT+1
     	 WHERE NOT_ID = #{NOT_ID}
     </update>
+    
+    <select id="listCount" resultType="int">
+	<![CDATA[
+		SELECT COUNT(NOT_ID)
+		  FROM NOTICE
+		 WHERE NOT_ID > 0
+	]]>
+	</select>
+    
     
 </mapper>

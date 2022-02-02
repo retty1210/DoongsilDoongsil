@@ -1,26 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
-  <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <title>공지사항 목록</title>
-  </head>
-<body class=container>
+<head>
+<meta charset="utf-8">
+<title>공지사항 목록</title>
+<style type="text/css">
+			li {list-style: none; float: left; padding: 6px;}
+		</style>
+<jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
+</head>
+<body>
 	<div id="root">
 	<header>
-		<h1>공지사항</h1>
+	<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false"/>
 	</header>
-		<!-- 네비넣기nav>	  
-			</nav>-->
+	<div class="container">
+	<h1>공지사항</h1>
 	<hr />
 	<!--작성하기 버튼은 교사만 보이게 수정하기 -->
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-		<button type="button" class="btn btn-primary" onclick="location.href='/notice/noticeWrite'">작성하기</button>
+		<button type="button" class="btn btn-outline-primary" onclick="location.href='/notice/noticeWrite'">작성하기</button>
 	</div><br>
 	<section id="container">
 		<form role="form" method="post" action="/notice/noticeList">
@@ -39,19 +40,41 @@
 					<tr>
 					<th><c:out value="${list.not_id}" /></th>
 					<th>
-						<a href="/notice/noticeView?not_id=${list.not_id}">
+						<a href="/notice/noticeView?not_id=${list.not_id}" style="text-decoration:none; color:black;">
 						<c:out value="${list.not_title}" /></a>
 					</th>
-					<th><c:out value="${list.not_writer}" /></th>
+					<c:choose>
+						<c:when test="${list.not_writer eq 5}">
+						<th><c:out value="교사" /></th> </c:when>
+						<c:otherwise>
+						<th><c:out value="작성권한이없는사용자" /></th> </c:otherwise>
+					</c:choose>
 					<th><fmt:formatDate value="${list.not_writedate}" pattern="yyyy-MM-dd"/></th>
 					<th><c:out value="${list.not_count }" /></th>
 					</tr>	
 				</c:forEach>	
 			</tbody>				
 		</table>
-		</form>
-	</section>
+	<!-- 페이징 -->
+	<nav aria-label="Page navigation">
+	   <ul class="pagination justify-content-center">
+   		 <c:if test="${pageMaker.prev}">
+    	 <li class="page-item disabled"><a class="page-link" href="noticeList${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
+    	 </c:if> 
+
+   	 <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+    	<li class="page-item" aria-current="page"><a class="page-link" href="noticeList${pageMaker.makeQuery(idx)}">${idx}</a></li>
+     </c:forEach>
+
+  	  <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+    	<li class="page-item"><a class="page-link" href="noticeList${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
+   	  </c:if> 
+ 	 </ul>
+  </nav>
+</form>
+</section>
+<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false"/>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</div>
 </body>
 </html>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="replyMapper">
+	<!-- 댓글조회 -->
+	<select id="readReply" resultType="doongsil.com.web.reply.model.ReplyVO">
+		SELECT REPLY_ID
+				,REPLY_CONTENTS
+				,REPLY_WRITER
+				,REPLY_DATE
+			FROM NOT_REPLY
+			WHERE N_ID = #{N_ID}
+	</select>
+	
+	<!-- 댓글작성 -->
+	<insert id="writeReply">
+		INSERT INTO NOT_REPLY (
+					N_ID
+				   ,REPLY_ID
+				   ,REPLY_CONTENTS
+				   ,REPLY_WRITER
+				) VALUES (
+				 	 #{ n_id }	
+				 	, NOT_REPLY_SEQ.NEXTVAL
+					,#{ reply_contents }
+					,#{ reply_writer }
+				)	
+	</insert>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateReply" parameterType="doongsil.com.web.reply.model.ReplyVO">
+		UPDATE NOT_REPLY
+			SET REPLY_CONTENTS = #{ reply_contents}
+			WHERE REPLY_ID = #{ reply_id }
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReply" parameterType="doongsil.com.web.reply.model.ReplyVO">
+		DELETE FROM NOT_REPLY
+			WHERE REPLY_ID = #{ reply_id }
+	</delete>
+
+	<!-- 선택된 댓글 조회 -->
+	<select id="selectReply" resultType="doongsil.com.web.reply.model.ReplyVO">
+		SELECT REPLY_ID
+				,N_ID
+				,REPLY_CONTENTS
+				,REPLY_WRITER
+				,REPLY_DATE
+		FROM NOT_REPLY
+		WHERE REPLY_ID = #{ reply_id }
+	</select>
+</mapper>

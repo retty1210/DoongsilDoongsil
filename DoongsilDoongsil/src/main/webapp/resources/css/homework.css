@@ -78,6 +78,13 @@ tr:hover {
 }
 
 /* display */
+.absolute {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
 .none {
 	display: none;
 }
@@ -413,8 +420,36 @@ tr:hover {
 }
 
 /* percent */
+.perc5 {
+	width: 5%;
+}
+
+.perc10 {
+	width: 10%;
+}
+
+.perc20 {
+	width: 20%;
+}
+
+.perc40 {
+	width: 40%;
+}
+
+.perc60 {
+	width: 60%;
+}
+
+.perc70 {
+	width: 70%;
+}
+
 .perc80 {
 	width: 80%;
+}
+
+.perc100 {
+	width: 100%;
 }
 
 .bloc80 {

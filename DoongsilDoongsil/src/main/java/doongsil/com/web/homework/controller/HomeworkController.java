@@ -189,11 +189,17 @@ public class HomeworkController {
 			mod.addObject("sdatas", sdatas);
 			if(data.getTho_homeworktype() == 2) {
 				HashMap<Integer, String[]> type2answers = new HashMap<Integer, String[]>();
+				HashMap<Integer, String[]> type2teacGBs = new HashMap<Integer, String[]>();
 				for(S_HomeworkVO s: sdatas) {
 					String[] tempsdatas = service.makeType2Answer(s);
 					type2answers.put(s.getSho_id(), tempsdatas);
+					if(s.getSho_goodbad() != null) {
+						String[] teacGBarr = s.getSho_goodbad().split("");
+						type2teacGBs.put(s.getSho_id(), teacGBarr);
+					}
 				}
 				mod.addObject("type2answers", type2answers);
+				mod.addObject("type2GBforTeacher", type2teacGBs);
 			}
 		}
 		if(!imgarr[0].equals("noimage")) {
@@ -215,6 +221,11 @@ public class HomeworkController {
 			if(data.getTho_homeworktype() == 2) {
 				String[] ansarr = service.makeType2Answer(sworks.get(0));
 				mod.addObject("sanswer", ansarr);
+				//교사가 채점을 끝냈을때
+				if(sworks.get(0).getSho_goodbad() != null) {
+					String[] GBarr = sworks.get(0).getSho_goodbad().split("");
+					mod.addObject("type2GBforStudent", GBarr);
+				}
 			}
 		}
 		mod.setViewName("homework/detail");
@@ -291,5 +302,34 @@ public class HomeworkController {
 	@RequestMapping(value="/homework/test", method=RequestMethod.GET)
 	public String homeworktest(S_HomeworkVO vo) {
 		return "homework/empty";
+	}
+	
+	@RequestMapping(value="/deleteSH", method=RequestMethod.GET)
+	public ModelAndView deleteSH(ModelAndView mod, @RequestParam("sho_id") int sho_id) {
+		S_HomeworkVO vo = new S_HomeworkVO();
+		vo.setSho_id(sho_id);
+		boolean res = service.deleteSH(vo);
+		if(res) {
+			mod.setViewName("redirect:/homework");
+		} else {
+			mod.setViewName("homework/error");
+		}
+		return mod;
+	}
+	
+	@RequestMapping(value="/deleteHW", method=RequestMethod.GET)
+	public ModelAndView deleteHW(ModelAndView mod, @RequestParam("tho_id") int tho_id) {
+		T_HomeworkVO vo = new T_HomeworkVO();
+		vo.setTho_id(tho_id);
+		boolean res = service.deleteHW(vo);
+		//해당 id를 tid로 가지고 있는 숙제까지 삭제하는 로직 짤것
+		if(res) {
+			//mod.setViewName("homework/list");
+			//return new ModelAndView("homework/list");
+			mod.setViewName("redirect:/homework");
+		} else {
+			mod.setViewName("homework/error");
+		}
+		return mod;
 	}
 }

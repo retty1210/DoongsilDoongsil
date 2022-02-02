@@ -21,16 +21,15 @@
 	<main role="main" class="container">
 		<section class="container">
 			<div class="container tmg40">
-				<table name="t_hw_table" id="t_hw_table" class="table table-bordered">
+				<table name="t_hw_table" id="t_hw_table" class="table table-bordered perc100">
 					<thead>
-						<tr class="info" name="homework_data_maincol">
-							<td scope="col">ID</td>
-							<td scope="col" colspan="8">제목</td>
-							<td scope="col" colspan="2">날짜</td>
-							<td scope="col" colspan="2">마감기한</td>
-							<td scope="col">조회수</td>
-							<tr>
-					
+						<tr class="table-info" name="homework_data_maincol">
+							<th scope="col" class="perc10">ID</th>
+							<th scope="col" class="perc60">제목</th>
+							<th scope="col" class="perc10">날짜</th>
+							<th scope="col" class="perc10">마감기한</th>
+							<th scope="col" class="perc10">조회수</th>
+						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="datapage" begin="${pages.get('startpage') }"
@@ -38,14 +37,14 @@
 							<!-- datapage번 페이지의 데이터를 가져다가 for문으로 뿌리는 것. -->
 							<c:forEach var="data" items="${datas.get(datapage) }">
 								<tr name="homework_data_${datapage }">
-									<td>${data.getTho_id() }</td>
+									<th scope="row" class="perc10">${data.getTho_id() }</th>
 									<c:url var="t_homeURL"
 										value="/homework/detail?tho_id=${data.getTho_id() }" />
-									<td colspan="8"><a href="${t_homeURL}">${data.getTho_title()}</a></td>
-									<td colspan="2"><fmt:formatDate
+									<td class="perc60"><a href="${t_homeURL}">${data.getTho_title()}</a></td>
+									<td class="perc10"><fmt:formatDate
 											value="${data.getTho_writedate() }" type="date"
 											pattern="YY/MM/dd(E)" /></td>
-									<td colspan="2"><c:choose>
+									<td class="perc10"><c:choose>
 											<c:when test="${data.getTho_deadline() == null}">
 													X
 												</c:when>
@@ -54,20 +53,20 @@
 													type="date" pattern="YY/MM/dd(E)" />
 											</c:otherwise>
 										</c:choose></td>
-									<td>${data.getTho_count()}</td>
+									<td class="perc10">${data.getTho_count()}</td>
 								</tr>
 							</c:forEach>
 						</c:forEach>
 					</tbody>
 				</table>
 	
-				<div class="row">
+				<div class="row mg20">
 					<button type="button" onclick="location.href='/homework/write'"
 						class="btn btn-sbl btn-lg">새로운 숙제 올리기</button>
 				</div>
 				<div class="row tmg20 flex">
-					<div class="col-md-3">
-						<ul class="pagination btn">
+					<div style="display:contents;">
+						<ul class="pagination btn absolute" >
 							<li class="page-item"><a class="page-link"
 									href="/homework?pageNo=1" aria-label="FirstPage"> <span
 										aria-hidden="true">«</span>

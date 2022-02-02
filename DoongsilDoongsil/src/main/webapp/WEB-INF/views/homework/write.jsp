@@ -87,7 +87,7 @@
 							<p>기본: '|'는 금칙어로 자동으로 입력 내용에서 삭제된 후 업로드되니 주의 바랍니다.</p>
 							<div class="form-group pd10 col-md-12 tmg10">
 								<label for="tho_contents" class="col-md-2 control-label">내용</label>
-								<textarea name="tho_contents" id="tho_contents" class="form-control" rows="10" placeholder="내용을 입력해주세요"></textarea>
+								<textarea name="tho_contents" id="tho_contents_type1" class="form-control" rows="10" placeholder="내용을 입력해주세요"></textarea>
 							</div>
 							<div class="tmg20">
 								<button type="button" class="btn btn-wht btn-lg" style="width: 200px;" onclick="location='/homework'">취소</button>

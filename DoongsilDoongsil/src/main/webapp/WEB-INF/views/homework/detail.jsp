@@ -21,71 +21,51 @@
 	<div class="body-wrapper">
 		<main role="main" class="container-fluid">
 			<div class="container body-content">
-				<div class="row tmg20">
+				<div class="container row tmg20">
 					<section class="bdr-1 bdr-r5">
 						<div class="row tmg10">
-							<div class="col-md-10">
+							<div class="col-md-12">
 								<h3>${data.getTho_title() }</h3>
 							</div>
+						</div>
+						<div class= "row tmg10">
 							<div class="col-md-2">
 								<button type="button" class="btn btn-sm btn-sbl"
 									onclick="location='/homework'">목록으로</button>
-							</div>
-						</div>
-						<div class="row tmg10">
-							<div class="col-md-2">
-								<strong>글쓴이</strong>
-							</div>
-							<div class="col-md-3">
-								<p>글쓴사람이름</p>
-							</div>
-							<div class="col-md-3">
-								<p>${data.getTho_grade() }학년${data.getTho_class() }반</p>
-							</div>
-							<div class="col-md-1">
-								<strong>조회수</strong>
-							</div>
-							<div class="col-md-1">
-								<p>${data.getTho_count() }회</p>
-							</div>
-							<!-- 만약 작성자=로그인한 사람인 경우 -->
-							<div class="col-md-1">
 								<button type="button" class="btn btn-sm btn-drt"
-									onclick="TSHWupdate()">수정</button>
+									onclick="deleteHW(${data.getTho_id()})'">삭제</button>
+							</div>
+							<div class="col-md-2">
+								<p><strong>글쓴이</strong> 글쓴사람이름</p>
 							</div>
 							<div class="col-md-1">
-								<button type="button" class="btn btn-sm btn-drt"
-									onclick="THWdelete()">삭제</button>
+								<span>${data.getTho_grade() }학년${data.getTho_class() }반  </span>
 							</div>
-						</div>
-						<div class="row tmg10">
 							<div class="col-md-2">
-								<strong>글 쓴 날짜</strong>
+								<span><strong>조회수</strong> ${data.getTho_count() }회</span>
 							</div>
-							<c:choose>
-								<c:when test="${data.getTho_deadline() != null}">
-									<div class="col-md-4">${data.getTho_writedate() }</div>
-									<div class="col-md-2">
-										<strong>제출 마감일</strong>
+							<div class="col-md-5">
+								<span><strong>글 쓴 날짜</strong> ${data.getTho_writedate() }  </span>
+								<c:if test="${data.getTho_deadline() != null}">
+									<div class="pd10"></div>
+									<span><strong>제출 마감일</strong> ${data.getTho_deadline() }</span>
+									<div>
+										<input type="hidden" id="tho_deadline" value="${data.getTho_deadline() }">
 									</div>
-									<div class="col-md-4">${data.getTho_deadline() }</div>
-									<input type="hidden" id="tho_deadline"
-										value="${data.getTho_deadline() }">
-								</c:when>
-								<c:otherwise>
-									<div class="col-md-10">${data.getTho_writedate() }</div>
-								</c:otherwise>
-							</c:choose>
+								</c:if>
+							</div>
 						</div>
-						<div class="row tmg10">
+						
+						<div class="row tmg10 flex">
 							<c:if test="${img != null }">
 								<c:forEach items="${img }" var="i" varStatus="index">
-									<div class="row flex">
-										<div class="col-md-12">
-											<c:url var="imgURL" value="/stc/up/${i}" />
+									<div class="col-md-4">
+										<c:url var="imgURL" value="/stc/up/${i}" />
+										<a href="${imgURL }" target="_blank">
 											<img class="imgfull" src="${imgURL }">
-										</div>
+										</a>
 									</div>
+									
 								</c:forEach>
 							</c:if>
 							<c:choose>
@@ -208,20 +188,21 @@
 															<div class="col-md-7 tmg10 tpd10">
 																<div class="btn-group">
 																	<c:forEach var="t2answers" items="${type2answers.get(sdata.getSho_id()) }" varStatus="status">
-																		<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#makeGoodbadSc${status.count}">
+																		<button type="button" id="btn-${sdata.getSho_id() }type2GoodBad${status.count }" class="btn btn-secondary" 
+																			name="btn-${sdata.getSho_id() }type2GoodBad" data-bs-toggle="modal" data-bs-target="#makeGoodbadSc_${sdata.getSho_id() }_${status.count}">
 																			<img src="/stc/img/question-lg.svg" class="ic20 filter-whtcream" />
 																		</button>
 																	</c:forEach>
 																</div>
 															</div>
-															<div class="col-md-2 tmg10 tpd10">
-																<button type="button" class="btn btn-sbl">채점완료하기</button>
+															<div class="col-md-2 tmg10 tpd10" id="type2${sdata.getSho_id() }CompBtnArea">
+																<button type="button" class="btn btn-sbl" onclick="type2MakeGoodBad(${sdata.getSho_id() })">채점완료하기</button>
 															</div>
 														</div>
 														<div>
 															<c:forEach var="t2answers" items="${type2answers.get(sdata.getSho_id()) }" varStatus="status">
-																<input type="hidden" id="${sdata.getSho_id() }type2q${status.count}Goodbad">
-																<div class="modal fade" id="makeGoodbadSc${status.count}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+																<input type="hidden" id="${sdata.getSho_id() }type2q${status.count}Goodbad" name="${sdata.getSho_id() }type2qAnswerInput">
+																<div class="modal fade" id="makeGoodbadSc_${sdata.getSho_id() }_${status.count}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 																	<div class="modal-dialog">
 																		<c:set var="type2cont" value="${type2contents.get(status.count) }"/>
 																		<div class="modal-content">
@@ -263,19 +244,22 @@
 																						</table>
 																					</c:when>
 																					<c:when test="${type2cont[0] == 'sc' }">
-																						<c:if test="${type2cont[2] == 'Y' }">
+																						<c:if test="${type2cont[2] == 'true' }">
 																							<div class="row">
-																								${type2cont[3] }
+																								선생님의 안내문: ${type2cont[3] }
 																							</div>
 																						</c:if>
+																						<div class="row">
+																							학생이 쓴 답: ${t2answers}
+																						</div>
 																					</c:when>
 																					<c:otherwise><span>arr[0]값 안읽힘</span></c:otherwise>
 																				</c:choose>
 																			</div>
 																		    <div class="modal-footer">
 																				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-																				<button type="button" class="btn btn-success">O</button>
-																				<button type="button" class="btn btn-danger">X</button>
+																				<button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="type2GoodMake(${sdata.getSho_id() }, ${status.count })">O</button>
+																				<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="type2BadMake(${sdata.getSho_id() }, ${status.count })">X</button>
 																			</div>
 																		</div>
 																	</div>
@@ -285,7 +269,38 @@
 													</c:when>
 													<c:otherwise>
 														<!-- 채점끝남 -->
-														
+														<c:forEach var="sdata" items="${sdatas}">
+															<div class="row"> 
+																<div class="col-md-1 tmg10 tpd10">${sdata.getSho_id() }</div>
+																<div class="col-md-2 tmg10 tpd10">${sdata.getSho_date() }</div>
+																<div class="col-md-7 tmg10 tpd10">
+																	<div class="btn-group">
+																		<c:forEach var="t2GBforT" items="${type2GBforTeacher.get(sdata.getSho_id()) }" varStatus="status">
+																			<c:choose>
+																				<c:when test="${t2GBforT == 'o'}">
+																					<button type="button" id="btn-${sdata.getSho_id() }type2GB${status.count }forT" class="btn btn-success" 
+																						name="btn-${sdata.getSho_id() }type2GoodBadforT">
+																						<img src="/stc/img/circle.svg" class="ic20 filter-whtcream" />
+																					</button>
+																				</c:when>
+																				<c:when test="${t2GBforT == 'x'}">
+																					<button type="button" id="btn-${sdata.getSho_id() }type2GB${status.count }forT" class="btn btn-danger" 
+																						name="btn-${sdata.getSho_id() }type2GoodBadforT">
+																						<img src="/stc/img/x-lg.svg" class="ic20 filter-whtcream" />
+																					</button>
+																				</c:when>
+																				<c:otherwise>
+																					<button type="button" id="btn-${sdata.getSho_id() }type2GB${status.count }forT" class="btn btn-secondary" 
+																						name="btn-${sdata.getSho_id() }type2GoodBadforT">
+																						<img src="/stc/img/question-lg.svg" class="ic20 filter-whtcream" />
+																					</button>
+																				</c:otherwise>
+																			</c:choose>
+																		</c:forEach>
+																	</div>
+																</div>
+															</div>
+														</c:forEach>
 													</c:otherwise>
 												</c:choose>
 											</form>
@@ -378,7 +393,7 @@
 																	<div class="col-md-2 " id="SHtype1basic${index.count }" name="SHtype1basic">
 																		<button type="button" class="btn btn-drt btn-sm">채점중</button>
 																		<button type="button" class="btn btn-ryl btn-sm" onclick="updateSH1(${index.count})">수정</button>
-																		<button type="button" class="btn btn-rwh btn-sm" onclick="deleteSH1(${index.count})">삭제</button>
+																		<button type="button" class="btn btn-rwh btn-sm" onclick="deleteSH(${swork.getSho_id()})">삭제</button>
 																	</div>
 																	<div class="col-md-2 inline" id="SHtype1update${index.count }" name="SHtype1update">
 																		<button type="button" class="btn btn-ryl"
@@ -480,24 +495,62 @@
 											</c:forEach>
 											<!-- type2contents -->
 											<div class="row flex tmg20" id="type2studentsmformbtnArea">
-												<div class="col-md-12">
-													<div name="type2-btnArea" id="btn-cancelSH2">
-														<button type="button" class="btn btn-wht"
-															onclick="cancleupdateSH2()">취소</button>
-													</div>
-													<div name="type2-btnArea" id="btn-submitSH2">
-														<button type="button" class="btn btn-sbl"
-															onclick="submitSH2()">숙제 내기</button>
-													</div>
-													<div name="type2-btnArea" id="btn-updateSH2">
-														<button type="button" class="btn btn-sbl"
-															onclick="updateSH2()">수정하기</button>
-													</div>
-													<div name="type2-btnArea" id="btn-updateCompSH2">
-														<button type="button" class="btn btn-sbl"
-															onclick="updateCompSH2()">수정한 답 제출하기</button>
-													</div>
-												</div>
+												<c:choose>
+													<c:when test="${sworks[0].getSho_goodbad() != null }"> <!-- 채점끝남 -->
+														<div class="col-md-12">
+															<div class="row"> 
+																<div class="col-md-1 tmg10 tpd10"><strong>채점결과</strong></div>
+																<div class="col-md-2 tmg10 tpd10">${sworks[0].getSho_date() }</div>
+																<div class="col-md-7 tmg10 tpd10">
+																	<div class="btn-group">
+																		<c:forEach var="t2GBforS" items="${type2GBforStudent}" varStatus="status">
+																			<c:choose>
+																				<c:when test="${t2GBforS == 'o'}">
+																					<button type="button" id="btn-${sworks[0].getSho_id() }type2GB${status.count }forT" class="btn btn-success" 
+																						name="btn-${sworks[0].getSho_id() }type2GoodBadforT">
+																						<img src="/stc/img/circle.svg" class="ic20 filter-whtcream" />
+																					</button>
+																				</c:when>
+																				<c:when test="${t2GBforS == 'x'}">
+																					<button type="button" id="btn-${sworks[0].getSho_id() }type2GB${status.count }forT" class="btn btn-danger" 
+																						name="btn-${sworks[0].getSho_id() }type2GoodBadforT">
+																						<img src="/stc/img/x-lg.svg" class="ic20 filter-whtcream" />
+																					</button>
+																				</c:when>
+																				<c:otherwise>
+																					<button type="button" id="btn-${sworks[0].getSho_id() }type2GB${status.count }forT" class="btn btn-secondary" 
+																						name="btn-${sworks[0].getSho_id() }type2GoodBadforT">
+																						<img src="/stc/img/question-lg.svg" class="ic20 filter-whtcream" />
+																					</button>
+																				</c:otherwise>
+																			</c:choose>
+																		</c:forEach>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</c:when>
+													<c:otherwise> <!-- 아직 채점중 -->
+														<div class="col-md-12">
+															<div name="type2-btnArea" id="btn-cancelSH2">
+																<button type="button" class="btn btn-wht"
+																	onclick="cancleupdateSH2()">취소</button>
+															</div>
+															<div name="type2-btnArea" id="btn-submitSH2">
+																<button type="button" class="btn btn-sbl"
+																	onclick="submitSH2()">숙제 내기</button>
+															</div>
+															<div name="type2-btnArea" id="btn-updateSH2">
+																<button type="button" class="btn btn-sbl"
+																	onclick="updateSH2()">수정하기</button>
+															</div>
+															<div name="type2-btnArea" id="btn-updateCompSH2">
+																<button type="button" class="btn btn-sbl"
+																	onclick="updateCompSH2()">수정한 답 제출하기</button>
+															</div>
+														</div>
+													</c:otherwise>
+												</c:choose>
 												<div>
 													<c:if test="${sworksnull == false}">
 														<input type="number" name="sho_id" id="sho_id_type2"

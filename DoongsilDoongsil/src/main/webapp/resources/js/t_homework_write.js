@@ -147,7 +147,9 @@ function fileUp() {
 }
 
 function formUp() {
-	var contents = $("#tho_contents_type1").val().replace('|','');
+	var cont = $("#tho_contents_type1").val();
+	console.log(cont);
+	var contents = cont.replace('|','');
 	$("#tho_contents_type1").attr('value', contents);
 	$('#hw_write_form').submit();
 }

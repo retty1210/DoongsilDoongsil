@@ -271,6 +271,70 @@ function submitAjaxComment(e) {
 	}
 }
 
+//type2. 답이 맞았다고 채점
+function type2GoodMake(a, e) {//sdata.getSho_id(), type2cont.key나 status.count
+	$("#"+a+"type2q"+e+"Goodbad").val('o');
+	$("#btn-"+a+"type2GoodBad"+e).removeClass('btn-secondary');
+	$("#btn-"+a+"type2GoodBad"+e).addClass('btn-success');
+	$("#btn-"+a+"type2GoodBad"+e).html('<img src="/stc/img/circle.svg" class="ic20 filter-whtcream" />');
+	$("#btn-"+a+"type2GoodBad"+e).attr('data-bs-toggle', '');
+	$("#makeGoodbadSc_"+a+"_"+e).empty();
+}
+
+//type2. 답이 틀렸다고 채점
+function type2BadMake(a, e) {//sdata.getSho_id(), type2cont.key나 status.count
+	$("#"+a+"type2q"+e+"Goodbad").val('x');
+	$("#btn-"+a+"type2GoodBad"+e).removeClass('btn-secondary');
+	$("#btn-"+a+"type2GoodBad"+e).addClass('btn-danger');
+	$("#btn-"+a+"type2GoodBad"+e).html('<img src="/stc/img/x-lg.svg" class="ic20 filter-whtcream" />');
+	$("#btn-"+a+"type2GoodBad"+e).attr('data-bs-toggle', '');
+	$("#makeGoodbadSc_"+a+"_"+e).empty();
+}
+
+function type2MakeGoodBad(a) {//sdata.getSho_id()
+	var ansarr = [];
+	var isblank = false;
+	$("input[name="+a+"type2qAnswerInput]").each(function(index, item) {
+		var v = $(this).val();
+		var num = index + 1;
+		if(v == "" || typeof v == "undefined" || v == null || v == 0 || v == NaN) {
+			alert(num + "번 문제를 채점하지 않았습니다.");
+			isblank=true;
+			return false;
+		} else {
+			console.log(num+"번 문제: " + v);
+			ansarr.push(v);
+		}
+	});
+	if(isblank) {
+		console.log("빈칸있음, 중단");
+		return false;
+	} else {
+		console.log("빈칸없음, 진행");
+	}
+	var answer = ansarr.join('');
+	console.log("answer: " + answer);
+	$.ajax({
+			url: '/ajaxComment',
+			type: 'POST',
+			cache: false,
+			data: {
+				sho_id: a,
+				sho_goodbad: answer
+			},
+			success: function(data) {
+				$("button[name=btn-"+a+"type2GoodBad]").attr('disabled', true);
+				$("#type2"+a+"CompBtnArea").hide();
+				
+			},
+			error: function() {
+				alert("ajax error 발생");
+			}
+		});
+}
+
+
+
 function maketype2answer() {
 	var type2answers = [];
 	var questionlength = $("div[name=type2questionArea]").length;
@@ -331,7 +395,7 @@ function updateSH2() {
 	$("#type2studentsmform input:radio").attr('disabled', false);
 	$("div[name=type2-btnArea]").hide();
 	$("#btn-updateCompSH2").show();
-	$("#btn-cancleupdateSH2").show();
+	$("#btn-cancelSH2").show();
 }
 
 function cancelupdateSH1(e) {
@@ -361,4 +425,12 @@ function updateCompSH2() {
 	maketype2answer();
 	$("#type2studentsmform").attr("action","/studentupdate2");
 	$("#type2studentsmform").submit();
+}
+
+function deleteHW(e) {
+	window.location.replace("/deleteHW?tho_id="+e);
+}
+
+function deleteSH(e) {
+	window.location.replace("/deleteSH?sho_id="+e);
 }

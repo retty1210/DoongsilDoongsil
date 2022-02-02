@@ -18,4 +18,21 @@
 		(SELECT * FROM NOTICE ORDER BY NOT_ID DESC) 
 		 WHERE ROWNUM &lt;= 2
 	</select>
+	
+	<select id="selectHomework" resultType="doongsil.com.web.homework.model.T_HomeworkVO">
+		SELECT THO_ID, THO_TITLE FROM 
+		(SELECT * FROM T_HOMEWORK ORDER BY THO_ID DESC) 
+		 WHERE ROWNUM &lt;= 2
+	</select>
+	
+	<select id="selectCalendar" resultType="calendarDTO">
+		SELECT * FROM CALENDAR
+	</select>
+	
+	<delete id="deleteEvent" parameterType="calendarDTO">
+		DELETE FROM CALENDAR
+		 WHERE CAL_TITLE = #{cal_title}
+		   AND CAL_START = #{cal_start}
+		   AND CAL_END = #{cal_end}
+	</delete>
 </mapper>

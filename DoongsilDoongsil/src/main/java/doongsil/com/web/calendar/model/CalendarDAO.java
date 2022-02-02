@@ -19,9 +19,7 @@ public class CalendarDAO {
 	private SqlSession sess;
 
 	public boolean insertEvents(CalendarDTO dto) {
-		logger.info("dao 동작");
 		int data = this.sess.insert("mainPageMapper.addEvent", dto);
-		logger.info("dao 동작 = " + data);
 		if(data == 1) {
 			return true;			
 		}else {
@@ -44,6 +42,16 @@ public class CalendarDAO {
 	public List<CalendarDTO> selectCalendar() {
 		logger.info("DAO 동작");
 		return this.sess.selectList("mainPageMapper.selectCalendar");
+	}
+
+	public boolean deleteEvent(CalendarDTO dto) {
+		logger.info("dao 동작");
+		int res = this.sess.delete("mainPageMapper.deleteEvent", dto);
+		logger.info("dao 동작 = " + res);
+		if(res == 1) {
+			return true;
+		}
+		return false;
 	}
 	
 }

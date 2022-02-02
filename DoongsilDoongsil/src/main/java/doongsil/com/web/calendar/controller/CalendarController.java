@@ -22,6 +22,7 @@ public class CalendarController {
 	
 	@Autowired
 	private CalendarService service;
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	
 	@RequestMapping(value="/mainpage", method=RequestMethod.GET)
 	public String calendar(Model model) {
@@ -33,7 +34,7 @@ public class CalendarController {
 		model.addAttribute("homeworkList", homework_list);
 		// 캘린더 출력 부분
 		List<CalendarDTO> calendar_list = service.selectCalendar();
-		System.out.println(calendar_list);
+		//System.out.println(calendar_list);
 		model.addAttribute("calendarList", calendar_list);
 		logger.info("controller 동작");
 		// 학사일정 출력 부분
@@ -42,29 +43,33 @@ public class CalendarController {
 	
 	@RequestMapping(value="/mainpage", method=RequestMethod.POST)
 	@ResponseBody
-	public String calendar(CalendarDTO dto, Model model, HttpServletRequest req) throws Exception {
+	public String calendar(CalendarDTO dto, HttpServletRequest req) throws Exception {
 		String title = req.getParameter("cal_title");
-		
-		SimpleDateFormat start = new SimpleDateFormat("yyyy-MM-dd");
-		java.sql.Date realStart = new java.sql.Date(start.parse(req.getParameter("cal_start")).getTime());
+		//strat & end 데이터포맷변환
+		java.sql.Date realStart = new java.sql.Date(dateFormat.parse(req.getParameter("cal_start")).getTime());
 		dto.setCal_start(realStart);
-		SimpleDateFormat end = new SimpleDateFormat("yyyy-MM-dd");
-		java.sql.Date realEnd = new java.sql.Date(end.parse(req.getParameter("cal_end")).getTime());
-		dto.setCal_end(realEnd);
-		//System.out.println(start.parse(req.getParameter("cal_start")).getTime());
-		//System.out.println(start.parse(req.getParameter("cal_end")).getTime());
-		//System.out.println(dto.getCal_title());
-		//System.out.println(dto.getCal_start());
-		//System.out.println(dto.getCal_end());
-	   
-		//CalendarDTO data = new CalendarDTO(title, realStart, realEnd);
 		
-		//if(data != null) {
+		java.sql.Date realEnd = new java.sql.Date(dateFormat.parse(req.getParameter("cal_end")).getTime());
+		dto.setCal_end(realEnd);
+		
 			service.InsertEvent(dto);
 			logger.info("post 동작");
-		//}
 	   
-		return "main/mainpage";
+		return "redirect:/main/mainpage";
+	}
+	
+	@RequestMapping(value="/deleteEvents", method=RequestMethod.POST)
+	public String deleteEvents(CalendarDTO dto, HttpServletRequest request) throws Exception {
+		logger.info("delete부분 메서드 동작");
+		String delete_title = request.getParameter("title");
+		
+		java.sql.Date delete_start = new java.sql.Date(dateFormat.parse(request.getParameter("cal_start")).getTime());
+		dto.setCal_start(delete_start);
+		java.sql.Date delete_end = new java.sql.Date(dateFormat.parse(request.getParameter("cal_end")).getTime());
+		dto.setCal_end(delete_end);
+		
+		service.DeleteEvent(dto);
+		return"redirect:/main/mainpage";
 	}
 	
 }

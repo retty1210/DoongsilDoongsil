@@ -12,6 +12,7 @@
     max-width: 550px;
     font-size: 9px;
   }
+  
 
 /* 중복 되는 부분 */
 .notice-only-table, 
@@ -38,6 +39,11 @@
 .notice-only-table td,
 .classBoard-only-table td {
 	border-top: 1px solid gray;
+}
+
+/* myinfo-area */
+.myinfo-area {
+	margin-left:15px;
 }
 
 /* 공지사항 및 학급게시판 더보기 css */

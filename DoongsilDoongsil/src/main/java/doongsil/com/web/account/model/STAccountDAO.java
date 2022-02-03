@@ -29,8 +29,8 @@ public class STAccountDAO {
 			return false;
 		}
 	}
-	public boolean allDelete(STAccountVO vo) {
-		int res = this.sess.delete("AccountMapper.allDelete",vo);
+	public boolean allDelete(int id) {
+		int res = this.sess.delete("AccountMapper.allDelete",id);
 		if(res == 1) {
 			return true;			
 		}else {

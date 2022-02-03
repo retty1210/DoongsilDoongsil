@@ -40,10 +40,9 @@
 		   	   STA_USERTYPE = #{sta_usertype}
 		 WHERE STA_ID = #{sta_id}
 	</update>
-	<delete id="allDelete" parameterType="staccount">
+	<delete id="allDelete" parameterType="int">
 		DELETE FROM ST_ACCOUNT
-		 WHERE STA_GRADE = #{sta_grade} 
-		   AND STA_CLASS = #{sta_class}
+		 WHERE STA_ID = #{id}
 	</delete>
 	<delete id="selectDelete" parameterType="int">
 		DELETE FROM ST_ACCOUNT

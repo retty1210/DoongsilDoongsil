@@ -70,19 +70,23 @@ public class InfoController {
 		PrintWriter out = response.getWriter();
 		System.out.println("all delete = > " + all);
 		System.out.println("student delete = > " + Arrays.toString(student));
+		
+		
 		if(all) {
-			boolean allDel = staSer.allDelete((STAccountVO)session.getAttribute("account"));
-			if(allDel) {
-				out.println("<script>alert('학생데이터를 전체 삭제 했습니다.');"
-						+ "location.reload();"
-						+ "opener.location.reload();"
-						+ "</script>");
-				
-			}else {
-				out.println("<script>alert('삭제에 실패 하셨습니다. 다시 시도해주세요.');"
-						+ "location.reload();"
-						+ "opener.location.reload();"
-						+ "</script>");
+			for(String s : student) {
+				if(staSer.allDelete(Integer.parseInt(s))) {
+					out.println("<script>alert('학생데이터를 전체 삭제 했습니다.');"
+							+ "window.close();"
+							+ "</script>");
+					return "redirect:info/info";
+					
+				}else {
+					out.println("<script>alert('삭제에 실패 하셨습니다. 다시 시도해주세요.');"
+							+ "location.reload();"
+							+ "opener.location.reload();"
+							+ "</script>");
+					return "redirect:admin/popup/studentDel";
+				}
 			}
 		}else {
 			boolean selectDel = false;

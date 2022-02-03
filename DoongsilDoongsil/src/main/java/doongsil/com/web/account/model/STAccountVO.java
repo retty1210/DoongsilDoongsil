@@ -2,6 +2,9 @@ package doongsil.com.web.account.model;
 
 import java.sql.Date;
 
+import lombok.Data;
+
+@Data
 // 학생+교사 계정
 public class STAccountVO {
 	private int sta_id;
@@ -17,6 +20,11 @@ public class STAccountVO {
 	private Date sta_birthday;
 	private String sta_profile;
 	private String sta_usertype;
+	
+	// sns 로그인 받아오기(social_login)
+	private int social_id;
+	private String social_eamil;
+	private String social_type;
 	
 	public int getSta_id() {
 		return sta_id;

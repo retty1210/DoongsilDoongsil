@@ -26,15 +26,15 @@ public class InfoInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		HttpSession session = request.getSession();
-		AccountVO vo = (AccountVO) session.getAttribute("account");
+		//AccountVO vo = (AccountVO) session.getAttribute("account");
 		
-		if(vo.getUserType().equals("T")) {
-			modelAndView.setViewName("admin/" + modelAndView.getViewName());
-		} else if(vo.getUserType().equals("S")) {
-			modelAndView.setViewName("student/" + modelAndView.getViewName());
-		}else {
-			modelAndView.setViewName("parent/" + modelAndView.getViewName());
-		}
+//		if(vo.getUserType().equals("T")) {
+//			modelAndView.setViewName("admin/" + modelAndView.getViewName());
+//		} else if(vo.getUserType().equals("S")) {
+//			modelAndView.setViewName("student/" + modelAndView.getViewName());
+//		}else {
+//			modelAndView.setViewName("parent/" + modelAndView.getViewName());
+//		}
 
 	}
 

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<title>교사와 학생 회원가입</title>
 <script type="text/javascript" src="stc/jq/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -12,7 +12,7 @@
 		<div>
 			<label>아이디</label>
 			<input type="text" name="id" required>
-			<button type="button" onclick="fn_nameCheck();">중복체크</button> 
+			<button type="button" class="id_overlap_button" onclick="id_overlap_check();">중복체크</button> 
 			<span id="must-id" class="hid_span_area"> 
 				<!--필수 입력입니다.-->
 			</span>

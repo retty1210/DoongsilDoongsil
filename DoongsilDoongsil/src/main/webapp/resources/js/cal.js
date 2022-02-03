@@ -5,13 +5,13 @@
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        right: 'dayGridMonth'
       },
-      navLinks: true, // can click day/week names to navigate views
+      navLinks: false, // can click day/week names to navigate views
       selectable: true,
       selectMirror: true,
       select: function(arg) {
-        var title = prompt('Event Title:');
+        var title = prompt('일정 추가:');
         if (title) {
           calendar.addEvent({
             title: title,
@@ -19,39 +19,72 @@
             end:arg.end,
 			allDay: true
           })
-		console.log('start = >' + moment(arg.start).format('YYYY-MM-DD hh:mm:ss'));
-		console.log('end = >'+ moment(arg.end).format('YYYY-MM-DD hh:mm:ss'));
+		//console.log('start = >' + moment(arg.start).format('YYYY-MM-DD'));
+		//console.log('end = >'+ moment(arg.end).format('YYYY-MM-DD'));
 			$.ajax({
-				url:"/cal",
+				url:"/mainpage",
 				type:"post",
 				data:{
 					cal_title:title,
-					cal_start: moment(arg.start).format('YYYY-MM-DD hh:mm:ss'),
-					cal_end: moment(arg.end).format('YYYY-MM-DD hh:mm:ss')
+					cal_start: moment(arg.start).format('YYYY-MM-DD'),
+					cal_end: moment(arg.end).format('YYYY-MM-DD')
 				},
 				success: function(response){
 					alert('일정이 추가 되었습니다.');
 				},
 				error: function(data){
-					alert(data.cal_start);
+					alert('일정이 추가 되지않았습니다.');
 				}
 				
 			});
         }
         calendar.unselect()
       },
-      eventClick: function(arg) {
-        if (confirm('Are you sure you want to delete this event?')) {
-          arg.event.remove()
+      eventClick: function(removeInfo) {
+		console.log(arg.title);
+        if (confirm('일정을 삭제하시겠습니까?')) {
+			$.ajax({
+					url: '/deleteEvents',
+					type: 'POST',
+					data: {
+						cal_title: arg.title,
+						cal_start: moment(arg.start).format('YYYY-MM-DD'),
+						cal_end: moment(arg.end).format('YYYY-MM-DD')
+					}, 
+					success: function(response) {
+						 arg.event.remove();
+			  			 alert("일정이 삭제 되었습니다.");
+					},
+					error: function(response) {
+						alert('일정이 삭제 되지 않았습니다.');
+					}
+			 });
         }
       },
       editable: true,
       dayMaxEvents: true, // allow "more" link when too many events
       events: [
-	
-		]
+		function(arg) {
+			console.log(arg);
+			$.ajax({
+				url: '/mainpage',
+				type: 'GET',
+				success: function(res) {
+					var list = res;
+					console.log(list);
+					if(list) {
+						calendar.addEvent({
+							cal_title: cal_title,
+							cal_start: cal_start,
+							cal_end: cal_end,
+							backgroundColor: cal_bgc
+						});
+					}
+				}
+			});
+		 }
+	  ]
 
     });
-
     calendar.render();
   });

@@ -32,6 +32,7 @@ public class NoticeDAO {
 		return sess.selectList("noticeMapper.infoNoticeList",writer);
 	}
 	
+	
 	//공지사항 상세 페이지
 	public NoticeVO read(int not_id) throws Exception{
 		System.out.println("id = "+not_id);

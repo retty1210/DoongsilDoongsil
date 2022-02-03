@@ -7,11 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>calendar</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
 <script src="/stc/js/cal.js"></script>
-<script src='https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js'></script>
 <link href="/stc/css/doongmain.css" rel="stylesheet" type="text/css" />
 <link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -20,11 +16,7 @@
 		<jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
 		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
 	</header>
-	<form action="/cal" method="post" name="hiddenForm">
-		<input type="hidden" name="cal_title"/>
-		<input type="hidden" name="cal_start"/>
-		<input type="hidden" name="cal_end"/>
-	</form>
+
 	<div class="all-area">
 		<div class="myInfo-area">
 			<div class="myInfoBox">
@@ -63,7 +55,7 @@
 									<img src="https://img.icons8.com/ultraviolet/50/000000/airplane-mode-on.png" class="class-board-icon" />
 								</span> 
 								<span>
-									<a href="/notice/noticeView?not_id=${notice.not_id }" class="notice-list-title">${notice.not_title }</a>
+									<a href="/notice/noticeView?not_id=${notice.not_id }" class="nh-list-title">${notice.not_title }</a>
 								</span>
 							</td>
 						</tr>
@@ -74,25 +66,32 @@
 				
 				<div class="classBoard-area">
 					<table class="classBoard-table, classBoard-only-table">
-					<span><a href="" class="more-list-text">+ 더보기</a></span>
-					<th class="classBoard-table, th-text-position">학급게시판(숙제올리는 곳)</th>
-					<tr>
-						<td class="classBoard-table">
-							<span><img src="https://img.icons8.com/dusk/50/000000/filled-circle.png" class="class-board-icon"/></span>
-							<span>학급게시판1</span>
-						</td>
-					</tr>
-					<tr>
-						<td class="classBoard-table"> 
-							<span><img src="https://img.icons8.com/dusk/50/000000/filled-circle.png" class="class-board-icon"/></span>
-								<span>학급게시판2</span>
-						</td>
-					</tr>
-				</table>
+					<span><a href="/homework/list" class="more-list-text">+ 더보기</a></span>
+					<th class="classBoard-table, th-text-position">학급게시판</th>
+					<c:forEach var="homework" items="${homeworkList}">
+						<tr>
+							<td class="classBoard-table">
+								<span><img src="https://img.icons8.com/dusk/50/000000/filled-circle.png" class="class-board-icon"/></span>
+								<span>
+									<a href="/homework/detail?tho_id=${homework.tho_id}" class="nh-list-title">
+										${homework.tho_title }
+									</a>
+								</span>
+							</td>
+						</tr>
+					</c:forEach>
+					</table>
 				</div>
 			</div>
+			
+			<form action="/mainpage" method="post" name="hiddenForm">
+				<input type="hidden" name="cal_title" value="${dto.getCal_title}" />
+				<input type="hidden" name="cal_start"/>
+				<input type="hidden" name="cal_end"/>
+			</form>
 			<div class="main-second-bottom">
-				<div id='calendar' class="calendar-area">
+				<div class="calendar-area">
+					<jsp:include page="/WEB-INF/views/module/calendar.jsp" flush="false" />
 				</div>
 				<div class="school-events-area">
 					<div class="school-events"></div>

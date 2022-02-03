@@ -34,6 +34,7 @@ public class NoticeService {
 	}
 	
 	
+	
 	//공지사항 상세 페이지, 조회수
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public NoticeVO read(int not_id) throws Exception{

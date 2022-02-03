@@ -7,9 +7,15 @@ public class CalendarDTO {
 	private String cal_title;
 	private Date cal_start;
 	private Date cal_end;
-	private String cal_bgc = "#77b0bf";
+	private String cal_bgc;
 	
 	public CalendarDTO() {}
+	
+	public CalendarDTO(String cal_title, Date cal_start, Date cal_end) {
+		this.cal_title = cal_title;
+		this.cal_start = cal_start;
+		this.cal_end = cal_end;
+	}
 	
 	public int getCal_id() {
 		return cal_id;

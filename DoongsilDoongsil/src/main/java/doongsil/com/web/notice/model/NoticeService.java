@@ -23,6 +23,10 @@ public class NoticeService {
 	public List<NoticeVO> list(Criteria cri) throws Exception{
 		return dao.list(cri);
 	}
+	//내정보 페이지에 공지사항 목록 조회
+	public List<NoticeVO> infoNoticeList(int writer) throws Exception{
+		return dao.infoNoticeList(writer);
+	}
 	
 	//게시물 총 갯수
 	public int listCount() throws Exception{

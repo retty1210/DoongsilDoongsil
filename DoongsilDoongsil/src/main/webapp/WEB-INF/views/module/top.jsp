@@ -20,7 +20,8 @@ url은 경로로 인해 생기는 문제를 방지하기 위해 c:url을 사용�
         
         <c:url var="noticeURL" value="/notice/noticeList" />
         <c:url var="homeworkURL" value="/homework" />
-        <c:url var="infoURL" value="/info" />
+        <c:url var="infoURL" value="/info">
+        </c:url>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="${noticeURL }" class="nav-link px-2 link-secondary">공지사항</a></li>
@@ -35,12 +36,21 @@ url은 경로로 인해 생기는 문제를 방지하기 위해 c:url을 사용�
 
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+            <img src="${sessionScope.account.sta_profile}" alt="mdo" width="32" height="32" class="rounded-circle">
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          	<c:choose>
+          		<c:when test="${sessionScope.logined }">
+		            <li><a class="dropdown-item" href="${infoURL }">내 정보</a></li>
+		            <li><hr class="dropdown-divider"></li>
+		            <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
+	            </c:when>
+	            <c:otherwise>
+	            	 <li><a class="dropdown-item" href="/join">회원가입</a></li>
+		            <li><hr class="dropdown-divider"></li>
+		            <li><a class="dropdown-item" href="/login">로그인</a></li>
+	            </c:otherwise>
+	        </c:choose>
           </ul>
         </div>
       </div>

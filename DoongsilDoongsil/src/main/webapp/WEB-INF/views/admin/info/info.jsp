@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,12 @@
 
 	}
 	function MyInfoUpdate(href){
-		window.open('/infoUpdate','','width=500,height=700');
+		window.open('/infoUpdate?id=${sessionScope.account.sta_id}','','width=500,height=700');
+	}
+	function studentUpdate(href){
+		<c:forEach var="studentUpdate" items="${sessionScope.infoStudentList}">
+			window.open('/infoUpdate?id=${studentUpdate.sta_id}','','width=500,height=700');
+		</c:forEach>	
 	}
 </script>
 </head>
@@ -28,13 +34,17 @@
 					</svg>
 				</a>
 				<div class="myInfo_photo_box">
-					<img src="#" alt="profilePhoto" class="myInfo_photo"/>
+					<img src="${sessionScope.account.sta_profile }" alt="profilePhoto" class="myInfo_photo"/>
 				</div>
 				<table class="myInfo_text_tb">
 					<tr class="myInfo_text_tr">
-						<td class="myInfo_td">이종훈</td>
-						<td class="myInfo_td">3학년 2반</td>
-						<td class="myInfo_td">교사</td>
+							<td class="myInfo_td">${sessionScope.account.sta_name }</td>
+							<td class="myInfo_td">${sessionScope.account.sta_grade }학년 ${sessionScope.account.sta_class }반</td>
+							<td class="myInfo_td">
+								<c:if test="${sessionScope.account.sta_usertype eq 'T'}">
+									교사
+								</c:if>
+							</td>
 					</tr>
 				</table>
 			</div>
@@ -48,7 +58,7 @@
 		<div class="subMainBox">
 			<div class="studentList_box">
 				<div class="parentList_all_box">
-					<a href="#" class="parentList_all">>전체보기</a>
+					<a href="/studentDel" class="parentList_all">>전체보기</a>
 				</div>
 				<table border="1" class="studentList_tb">
 					<tr class="studentList_tr">
@@ -56,16 +66,18 @@
 						<th width="60%">Name</th>
 						<th>Birthday</th>
 					</tr>
-					<tr>
-						<td>1</td>
-						<td><a href="#">이종훈</a></td>
-						<td>1994.03.11</td>
-					</tr>
+					<c:forEach var="studentList" items="${sessionScope.infoStudentList}">
+						<tr>
+							<td>${studentList.sta_id }</td>
+							<td><a href="javascript:void(0);" onclick="studentUpdate(this);">${studentList.sta_name }</a></td>
+							<td>${studentList.sta_birthday }</td>
+						</tr>
+					</c:forEach>
 				</table>
 			</div>
 			<div class="noticeList_box">
 				<div class="noticeList_all_box">
-					<a href="#" class="noticeList_all">>전체보기</a>
+					<a href="/notice/noticeList" class="noticeList_all">>전체보기</a>
 				</div>
 				<table border="1" class="noticeList_tb">
 					<tr class="noticeList_tr">
@@ -73,11 +85,20 @@
 						<th width="70%">Title</th>
 						<th>WriterDate</th>
 					</tr>
-					<tr>
-						<td>1</td>
-						<td>공지사항 입니다.</td>
-						<td>2022.01.14</td>
-					</tr>
+					<c:forEach var="myNoticeList" items="${sessionScope.myNoticeList }">
+						<c:choose>
+							<c:when test="${myNoticeList != null }">
+								<tr>
+									<td>${myNoticeList.not_id }</td>
+									<td><a href="/notice/noticeView?not_id=${myNoticeList.not_id }">${myNoticeList.not_title }</a></td>
+									<td>${myNoticeList.not_writedate }</td>
+								</tr>
+							</c:when>
+							<c:when test="${myNoticeList == null }">
+								<th colspan="3">${myNoticeListError }</th>
+							</c:when>
+						</c:choose>
+					</c:forEach>
 				</table>
 			</div>
 		</div>

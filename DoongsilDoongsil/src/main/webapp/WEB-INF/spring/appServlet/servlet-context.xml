@@ -41,14 +41,18 @@
 	
 	
 	<!-- << DB설정 후 변경 >>외부 구성 파일 로드 -->
+<<<<<<< HEAD
 	<!--  <context:property-placeholder location="file:///C:/Users/Seohui/doongsil_connection.prop" /> -->
+=======
+	<!-- <context:property-placeholder location="file:///C:/Users/Seohui/doongsil_connection.prop" />  -->
+>>>>>>> refs/remotes/origin/이종훈
 	<context:property-placeholder location="classpath:/oracle/doongsil_connection.prop" />
 	
 	<!-- << DB설정 후 변경 >>데이터 베이스 연결을 위한 구성정보를 가지는 DataSource 객체 생성 -->
 	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></beans:property>
 		<beans:property name="url" value="${url}"></beans:property>
-		<beans:property name="username" value="${user}"></beans:property>
+		<beans:property name="username" value="${user1}"></beans:property>
 		<beans:property name="password" value="${password}"></beans:property>
 	</beans:bean>
 	
@@ -91,5 +95,11 @@
 			<beans:bean class="doongsil.com.web.interceptor.LoginCheckInterceptor"></beans:bean>
 		</interceptor>
 	 -->
+	 <interceptors>
+	 	<interceptor>
+	 		<mapping path="/info"/>
+	 		<beans:bean class="doongsil.com.web.info.interceptor.InfoInterceptor"></beans:bean>
+	 	</interceptor>
+	 </interceptors>
 	
 </beans:beans>

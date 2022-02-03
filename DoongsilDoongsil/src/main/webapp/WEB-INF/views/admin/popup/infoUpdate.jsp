@@ -55,7 +55,7 @@
 </head>
 <body>
 <h4>내 정보 수정</h4>
-	<form action="/infoUpdate" method="post">
+	<form action="/infoUpdate" method="post" encType="multipart/form-data">
 		<div class="btnBox">
 			<button type="button" class="updateBtn" onclick="infoUpdate();">수정</button>
 			<button type="button" class="updateCancel" onclick="updateCancel();">취소</button>		
@@ -64,28 +64,32 @@
 			<table border="1" class="infoUpdate_tb">
 				<tr >
 					<th><label>이름</label></th>
-					<td><input type="text" placeholder="이름" name="userName"/></td>
+					<td><input type="text" value="${studentUpdate.sta_name }" name="userName"/></td>
 				</tr>
 				<tr>
 					<th><label>학급</label></td>
-					<td><input type="text" placeholder="학년" name="userGrade"/>
-					<input type="text" placeholder="반" name="userClass"/></td>
+					<td><input type="text" value="${studentUpdate.sta_grade}" name="userGrade"/>
+					<input type="text" value="${studentUpdate.sta_class }" name="userClass"/></td>
+				</tr>
+				<tr>
+					<th><label>연락처</label></th>
+					<td><input type="text" value="${studentUpdate.sta_phonenumber }" name="userPhone"/></td>
 				</tr>
 				<tr>
 					<th><label>주소</label></th>
-					<td><input type="text" placeholder="주소" name="userAdress"/></td>
+					<td><input type="text" value="${studentUpdate.sta_address }" name="userAdress"/></td>
 				</tr>
 				<tr>
 					<th><label>이메일</label></th>
-					<td><input type="text" placeholder="이메일" name="userEmail"/></td>
+					<td><input type="text" value="${studentUpdate.sta_email }" name="userEmail"/></td>
 				</tr>
 				<tr>
 					<th><label>생일</label></th>	
-					<td><input type="date" placeholder="생일" name="userBirthday"/></td>
+					<td><input type="date" value="${studentUpdate.sta_birthday }" name="userBirthday"/></td>
 				</tr>
 				<tr>
 					<th><label>프로필<br>사진</label></th>
-					<td><input type="file" placeholder="프로필사진" name="userPhoto"></td>
+					<td><input type="file" value="${studentUpdate.sta_profile }" name="userPhoto"></td>
 				</tr>
 				<tr>
 					<th><label for="accountType">회원타입</label></th>
@@ -99,6 +103,7 @@
 				</tr>
 			</table>
 		</div>
+		<input type="hidden" value="${studentUpdate.sta_id }" name="userId"/>	
 	</form>
 </body>
 </html>

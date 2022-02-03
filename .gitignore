@@ -97,12 +97,12 @@ local.properties
 .classpath
 
 # wallet folder
-oracle/
+**/oracle/
 
 # image upload folder
-upload/
+**/upload/
 .DS_Store
 .gitignore
 
 # target folder
-target/
+**/target/

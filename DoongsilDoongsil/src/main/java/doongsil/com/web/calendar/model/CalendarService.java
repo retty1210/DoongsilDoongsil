@@ -20,8 +20,6 @@ public class CalendarService {
 	
 	
 	public boolean InsertEvent(CalendarDTO dto) {
-		
-		logger.info("service 동작");
 		boolean data = dao.insertEvents(dto);
 		return data;
 	}

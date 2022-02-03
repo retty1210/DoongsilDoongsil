@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
+import org.json.simple.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -23,6 +24,7 @@ public class CalendarController {
 	@Autowired
 	private CalendarService service;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private CalendarDTO dto;
 	
 	@RequestMapping(value="/mainpage", method=RequestMethod.GET)
 	public String calendar(Model model) {
@@ -34,8 +36,8 @@ public class CalendarController {
 		model.addAttribute("homeworkList", homework_list);
 		// 캘린더 출력 부분
 		List<CalendarDTO> calendar_list = service.selectCalendar();
-		//System.out.println(calendar_list);
-		model.addAttribute("calendarList", calendar_list);
+		//JSONObject json = new JSONObject();
+		//json.put("calendarList", calendar_list);
 		logger.info("controller 동작");
 		// 학사일정 출력 부분
 		return "main/mainpage";
@@ -62,13 +64,8 @@ public class CalendarController {
 	@ResponseBody
 	@RequestMapping(value="/deleteEvents", method=RequestMethod.POST)
 	public String deleteEvents(CalendarDTO dto, HttpServletRequest request) throws Exception {
+		System.out.println(dto);
 		logger.info("delete부분 메서드 동작");
-		String delete_title = request.getParameter("title");
-		
-		java.sql.Date delete_start = new java.sql.Date(dateFormat.parse(request.getParameter("cal_start")).getTime());
-		dto.setCal_start(delete_start);
-		java.sql.Date delete_end = new java.sql.Date(dateFormat.parse(request.getParameter("cal_end")).getTime());
-		dto.setCal_end(delete_end);
 		
 		service.DeleteEvent(dto);
 		return"redirect:/main/mainpage";

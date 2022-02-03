@@ -1,4 +1,5 @@
-  document.addEventListener('DOMContentLoaded', function() {
+
+document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 	var dateFormat = new Date();
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -32,7 +33,7 @@
 				success: function(response){
 					alert('일정이 추가 되었습니다.');
 				},
-				error: function(data){
+				error: function(response){
 					alert('일정이 추가 되지않았습니다.');
 				}
 				
@@ -40,16 +41,16 @@
         }
         calendar.unselect()
       },
-      eventClick: function(removeInfo) {
-		console.log(arg.title);
+      eventClick: function(arg) {
+		console.log(arg.event.title);
         if (confirm('일정을 삭제하시겠습니까?')) {
 			$.ajax({
 					url: '/deleteEvents',
 					type: 'POST',
 					data: {
-						cal_title: arg.title,
-						cal_start: moment(arg.start).format('YYYY-MM-DD'),
-						cal_end: moment(arg.end).format('YYYY-MM-DD')
+						cal_title: arg.event.title,
+						cal_start: moment(arg.event.start).format('YYYY-MM-DD'),
+						cal_end: moment(arg.event.end).format('YYYY-MM-DD')
 					}, 
 					success: function(response) {
 						 arg.event.remove();
@@ -66,23 +67,23 @@
       events: [
 		function(arg) {
 			console.log(arg);
+			var e = "<c:out value='${calendarList}'/>";
 			$.ajax({
 				url: '/mainpage',
 				type: 'GET',
-				success: function(res) {
-					var list = res;
-					console.log(list);
-					if(list) {
-						calendar.addEvent({
-							cal_title: cal_title,
-							cal_start: cal_start,
-							cal_end: cal_end,
-							backgroundColor: cal_bgc
-						});
-					}
-				}
+				success: function(e) {
+					console.log(data.calendarList.cal_title);
+					},
+					error: function(e){
+						console.log(e);
+						}
 			});
-		 }
+		 },
+		 {
+			title: 'aaaa',
+			start: '2022-02-05',
+			end: '2022-02-06'
+		}
 	  ]
 
     });

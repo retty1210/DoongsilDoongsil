@@ -30,7 +30,7 @@
 				<input type="hidden" name="n_id" value="${replyUpdate.n_id}" readonly="readonly"/>
 				<input type="hidden" id="rno" name="reply_id" value="${replyUpdate.reply_id}" />
 			<div class="input-group mb-3">
-				<textarea class="form-control" aria-label="With textarea" id="content" name="reply_contents" />${replyUpdate.reply_contents}</textarea>&nbsp;&nbsp;
+				<textarea class="form-control" aria-label="With textarea" id="content" name="reply_contents"><c:out value="${replyUpdate.reply_contents}" /></textarea>&nbsp;&nbsp;
 				<button type="submit" class="btn btn-outline-primary" id="update_btn">저장</button>
 
 				</div>

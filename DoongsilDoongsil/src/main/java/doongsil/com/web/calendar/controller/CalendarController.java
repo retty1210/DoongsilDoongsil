@@ -43,8 +43,9 @@ public class CalendarController {
 	
 	@RequestMapping(value="/mainpage", method=RequestMethod.POST)
 	@ResponseBody
-	public String calendar(CalendarDTO dto, HttpServletRequest req) throws Exception {
+	public String calendar(CalendarDTO dto, Model model, HttpServletRequest req) throws Exception {
 		String title = req.getParameter("cal_title");
+		model.addAttribute("title_add", dto);
 		//strat & end 데이터포맷변환
 		java.sql.Date realStart = new java.sql.Date(dateFormat.parse(req.getParameter("cal_start")).getTime());
 		dto.setCal_start(realStart);
@@ -58,6 +59,7 @@ public class CalendarController {
 		return "redirect:/main/mainpage";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="/deleteEvents", method=RequestMethod.POST)
 	public String deleteEvents(CalendarDTO dto, HttpServletRequest request) throws Exception {
 		logger.info("delete부분 메서드 동작");

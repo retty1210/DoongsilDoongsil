@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>calendar</title>
+<script src="/stc/js/cal.js"></script>
 <link href="/stc/css/doongmain.css" rel="stylesheet" type="text/css" />
 <link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -83,6 +84,11 @@
 				</div>
 			</div>
 			
+			<form action="/mainpage" method="post" name="hiddenForm">
+				<input type="hidden" name="cal_title" value="${dto.getCal_title}" />
+				<input type="hidden" name="cal_start"/>
+				<input type="hidden" name="cal_end"/>
+			</form>
 			<div class="main-second-bottom">
 				<div class="calendar-area">
 					<jsp:include page="/WEB-INF/views/module/calendar.jsp" flush="false" />

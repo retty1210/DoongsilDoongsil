@@ -30,9 +30,9 @@
 	</select>
 	
 	<delete id="deleteEvent" parameterType="calendarDTO">
-		DELETE FROM CALENDAR
+		DELETE CALENDAR
 		 WHERE CAL_TITLE = #{cal_title}
-		   AND CAL_START = #{cal_start}
-		   AND CAL_END = #{cal_end}
+		   AND CAL_START = TO_DATE('#{cal_start}', 'yyyy-MM-dd')
+		   AND CAL_END = TO_DATE('#{cal_end}', 'yyyy-MM-dd')
 	</delete>
 </mapper>

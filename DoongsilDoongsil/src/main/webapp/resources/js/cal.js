@@ -19,8 +19,8 @@
             end:arg.end,
 			allDay: true
           })
-		console.log('start = >' + moment(arg.start).format('YYYY-MM-DD'));
-		console.log('end = >'+ moment(arg.end).format('YYYY-MM-DD'));
+		//console.log('start = >' + moment(arg.start).format('YYYY-MM-DD'));
+		//console.log('end = >'+ moment(arg.end).format('YYYY-MM-DD'));
 			$.ajax({
 				url:"/mainpage",
 				type:"post",
@@ -40,27 +40,25 @@
         }
         calendar.unselect()
       },
-      eventClick: function(arg) {
-		console.log(arg);
+      eventClick: function(removeInfo) {
+		console.log(arg.title);
         if (confirm('일정을 삭제하시겠습니까?')) {
-		console.log('start = >' + moment(arg.start).format('YYYY-MM-DD'));
-		console.log('end = >'+ moment(arg.end).format('YYYY-MM-DD'));  
-		$.ajax({
-				url: '/deleteEvents',
-				type: 'POST',
-				data: {
-					cal_title: arg.title,
-					cal_start: moment(arg.start).format('YYYY-MM-DD'),
-					cal_end: moment(arg.end).format('YYYY-MM-DD')
-				},
-				success: function(response) {
-					 arg.event.remove();
-		  			 alert("일정이 삭제 되었습니다.");
-				},
-				error: function(response) {
-					alert('일정이 삭제 되지 않았습니다.');
-				}
-		 });
+			$.ajax({
+					url: '/deleteEvents',
+					type: 'POST',
+					data: {
+						cal_title: arg.title,
+						cal_start: moment(arg.start).format('YYYY-MM-DD'),
+						cal_end: moment(arg.end).format('YYYY-MM-DD')
+					}, 
+					success: function(response) {
+						 arg.event.remove();
+			  			 alert("일정이 삭제 되었습니다.");
+					},
+					error: function(response) {
+						alert('일정이 삭제 되지 않았습니다.');
+					}
+			 });
         }
       },
       editable: true,
@@ -76,10 +74,10 @@
 					console.log(list);
 					if(list) {
 						calendar.addEvent({
-							title: list.cal_title,
-							start: list.cal_start,
-							end: list.cal_end,
-							backgroundColor: list.cal_bgc
+							cal_title: cal_title,
+							cal_start: cal_start,
+							cal_end: cal_end,
+							backgroundColor: cal_bgc
 						});
 					}
 				}

@@ -1,5 +1,6 @@
 $(document).ready(function() {
 		//기본값 외의 입력창들 안 보이게 처리
+		$("#t_hw_write_type1").attr('style', "display:none;");
 		$("#t_hw_write_type2").attr('style', "display:none;");
 		
 		//deadline 기본적으로는 안 보이게 처리
@@ -89,7 +90,7 @@ function fileCheck(e) {
         $('#uploadFileName').append(
        		'<div id="file' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
        		+ '<font style="font-size:12px">' + f.name + '</font>'  
-       		+ '<img src="/stc/img/dash-circle-dotted.svg" style="width:20px; height:auto; vertical-align: middle; cursor: pointer;"/>' 
+       		+ '<img src="/stc/img/dash-circle-dotted.svg" class="ic20 skyblue"/>' 
        		+ '<div/>'
 		);
         fileNum ++;
@@ -146,72 +147,9 @@ function fileUp() {
 }
 
 function formUp() {
+	var cont = $("#tho_contents_type1").val();
+	console.log(cont);
+	var contents = cont.replace('|','');
+	$("#tho_contents_type1").attr('value', contents);
 	$('#hw_write_form').submit();
 }
-
-//form submit
-function registerAction(){
-	alert("registerAction start" + content_files.length);
-	var form = $("form")[0];        
-	var formData = new FormData(form);
-	/*
-	var stringdata = JSON.stringify({
-		tho_homeworktype:$('#tho_homeworktype').val(),
-		tho_writedate:$('#tho_writedate').val(),
-		tho_deadline:$('#tho_deadline').val(),
-		tho_title:$('#tho_title').val(),
-		tho_writer:$('#tho_writer').val(),
-		tho_grade:$('#tho_grade').val(),
-		tho_class:$('#tho_class').val(),
-		tho_count:$('#tho_count').val(),
-		tho_contents:$('#tho_contents').val()
-		});
-	*/
-	for (var x = 0; x < content_files.length; x++) {
-		alert("for문, " + x + "회째");
-		// 삭제 안한것만 담아 준다. 
-		if(!content_files[x].is_delete){
-			formData.append("article_file", content_files[x]);
-			alert("업로드파일: " + content_files[x]);
-			//$('#tho_filelink').append(
-			//	filename
-			//);
-		}
-	}
-	formData.append("tho_homeworktype",$('#tho_homeworktype').val());
-	formData.append("tho_writedate",$('#tho_writedate').val());
-	//formData.append("tho_deadline",$('#tho_deadline').val())
-	formData.append("tho_title",('#tho_title').val());
-	formData.append("tho_writer",$('#tho_writer').val());
-	formData.append("tho_grade",$('#tho_grade').val());
-	formData.append("tho_class",$('#tho_class').val());
-	formData.append("tho_count",$('#tho_count').val());
-	formData.append("tho_contents",$('#tho_contents').val());
-	
-	alert("formData append 끝<br>" + formData);
-	//ajax 서버 업로드 로직
-	$.ajax({
-		type: "POST",
-		enctype: "multipart/form-data",
-		url: "/file-upload",
-		data : formData,
-		processData: false,
-		contentType: false,
-		success: function (data) {
-			if(JSON.parse(data)['result'] == "OK"){
-				alert("파일업로드 성공");
-				
-				alert("파일 경로 모음: " + filename);
-			} else
-				alert("서버내 오류로 처리가 지연되고있습니다. 잠시 후 다시 시도해주세요");
-				alert("파일 경로 모음: " + filename);
-			},
-		error: function (xhr, status, error) {
-			alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
-			return false;
-		}
-	});
-	return false;
-}
-
-

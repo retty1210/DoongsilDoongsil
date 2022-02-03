@@ -1,9 +1,30 @@
 $(document).ready(function() {
+		var homeworktype = $("#Tho_homeworktype_conf").val();
 		
 		//날짜 관련 처리
 		var date = new Date();
 		var newday = date.toISOString().substring(0, 10);
-		$('#sho_date').attr('value', newday);
+		$('#sho_date_type'+homeworktype).attr('value', newday);
+		
+		//마감날짜 관련 처리
+		var endday = $("#tho_deadline").val();
+		if(typeof endday == "undefined" || endday == "" || endday == null) {
+			console.log("마감일 없음");
+		} else {
+			var newdayArr = newday.split('-');
+			var enddayArr = endday.split('-');
+			var newDComp = new Date(newdayArr[0], parseInt(newdayArr[1])-1, newdayArr[2]); 
+			var endDComp = new Date(enddayArr[0], parseInt(enddayArr[1])-1, enddayArr[2]);
+			if(newDComp.getTime() > endDComp.getTime()) {
+				$("#btn_up").attr('disabled', true);
+				$("#btn_img_up").attr('disabled', true);
+				$("#sho_contents").attr('disabled', true);
+				$("#sho_contents").attr('placeholder', "마감이 지나서 숙제를 올릴 수 없어요.");
+				$("#btn_submitsh").attr('disabled', true);
+				$("#type2studentsmformbtnArea").empty();
+				$("#type2studentsmformbtnArea").append('<strong>마감이 지나서 숙제를 올릴 수 없습니다.</strong>');
+			}
+		}
 		
 		//input hidden 관련 버튼 action 처리
 		$("#btn_up").click(function(e){
@@ -22,8 +43,25 @@ $(document).ready(function() {
 		$("div[name=ajax_good]").css("cursor", "pointer");
 		$("div[name=ajax_bad]").css("cursor", "pointer");
 		
-		//조회수 관련 처리
-		
+		//type2 조회관련 처리
+		console.log("숙제타입: " + homeworktype +"|| 숙제 안했는지: " + $("#sworksnull_conf").val());
+		if(homeworktype == 1) {
+			$("div[name=SHtype1update]").hide();
+			//if($("#sworksnull_conf").val() == 'false') {
+			//	$("#type2studentsmform input").attr('readonly', true);
+			//	$("#type2studentsmform input").attr('disabled', true);
+			//}
+		} else if(homeworktype == 2) {
+			$("div[name=type2-btnArea]").hide();
+			if($("#sworksnull_conf").val() == 'false') {
+				console.log("숙제타입2, 학생 숙제 끝낸상태");
+				$("#type2studentsmform input").attr('readonly', true);
+				$("#type2studentsmform input:radio").attr('disabled', true);
+				$("#btn-updateSH2").show();
+			} else {
+				$("#btn-submitSH2").show();
+			}
+		}
 });
 
 // 파일 현재 필드 숫자 totalCount랑 비교값
@@ -103,7 +141,8 @@ function fileUp() {
 				alert("업로드할 파일이 없어 업로드기 진행되지 않았습니다.");
 			} else {
 				alert(j + " 개의 파일 업로드에 성공하였습니다.");
-			$('#sho_fileurl').attr('value', data);
+				var homeworktype = $("#sho_homeworktype_type1").val()*1;
+			$('#sho_fileurl_type'+homeworktype).attr('value', data);
 			$('#btn_up').attr('disabled', true);
 			}
 		},
@@ -144,6 +183,7 @@ function ajax_good(e) {
 				$("#sho_bad"+e).attr('disabled', true);
 				$("#btn_ajaxGood"+e).css({ background: "#87CEEB", color: "#FCFBF4"});
 				$("#sho_bad"+e).hide();
+				$("#btn_ajaxGood"+e).attr('disabled', true);
 			},
 			error: function() {
 				alert("ajax error 발생");
@@ -175,6 +215,7 @@ function ajax_bad(e) {
 				$("#sho_good"+e).attr('disabled', true);
 				$("#btn_ajaxBad"+e).css({ background: "#87CEEB", color: "#FCFBF4"});
 				$("#sho_good"+e).hide();
+				$("#btn_ajaxBad"+e).attr('disabled', true);
 			},
 			error: function() {
 				alert("ajax error 발생");
@@ -192,8 +233,10 @@ function submitAjaxComment(e) {
 	if($("#ajax_good"+e).attr("disabled") && $("#ajax_bad"+e).attr("disabled")) {
 		alert("숙제 채점이 되지 않았습니다.");
 	} else {
-		var goodbad = $("#sho_good"+e).attr('disabled', false) ? 'G' : 'N';
-		alert("goodbad: " + goodbad);
+		var goodbad = 'G';
+		if($("#sho_good"+e).attr('disabled')) {
+			goodbad = 'N';
+		}
 		var comment = $("#sho_comment"+e).val();
 		$.ajax({
 			url: '/ajaxComment',
@@ -205,11 +248,14 @@ function submitAjaxComment(e) {
 				sho_comment: comment
 			},
 			success: function(data) {
-				alert(data.GBresult);
-				alert(data.Comresult);
-				alert(data.GoodBad);
+				alert(data.GoodBad + "으로 채점: " + data.GBresult + "<br>코멘트 업로드 결과: " + data.Comresult);
 				$("#sho_bad"+e).attr('disabled', true);
 				$("#sho_good"+e).attr('disabled', true);
+				$("#btn_ajaxBad"+e).attr('disabled', true);
+				$("#btn_ajaxGood"+e).attr('disabled', true);
+				$("#btn_comment"+e).hide();
+				$("#sho_comment"+e).attr('disabled', true);
+				$("#btn_submitcomm"+e).hide();
 				if(goodbad == 'G') {
 					$("#sho_bad"+e).hide();
 					$("#btn_ajaxGood"+e).css({ background: "#87CEEB", color: "#FCFBF4"});
@@ -225,6 +271,166 @@ function submitAjaxComment(e) {
 	}
 }
 
-function submitSH() {
+//type2. 답이 맞았다고 채점
+function type2GoodMake(a, e) {//sdata.getSho_id(), type2cont.key나 status.count
+	$("#"+a+"type2q"+e+"Goodbad").val('o');
+	$("#btn-"+a+"type2GoodBad"+e).removeClass('btn-secondary');
+	$("#btn-"+a+"type2GoodBad"+e).addClass('btn-success');
+	$("#btn-"+a+"type2GoodBad"+e).html('<img src="/stc/img/circle.svg" class="ic20 filter-whtcream" />');
+	$("#btn-"+a+"type2GoodBad"+e).attr('data-bs-toggle', '');
+	$("#makeGoodbadSc_"+a+"_"+e).empty();
+}
+
+//type2. 답이 틀렸다고 채점
+function type2BadMake(a, e) {//sdata.getSho_id(), type2cont.key나 status.count
+	$("#"+a+"type2q"+e+"Goodbad").val('x');
+	$("#btn-"+a+"type2GoodBad"+e).removeClass('btn-secondary');
+	$("#btn-"+a+"type2GoodBad"+e).addClass('btn-danger');
+	$("#btn-"+a+"type2GoodBad"+e).html('<img src="/stc/img/x-lg.svg" class="ic20 filter-whtcream" />');
+	$("#btn-"+a+"type2GoodBad"+e).attr('data-bs-toggle', '');
+	$("#makeGoodbadSc_"+a+"_"+e).empty();
+}
+
+function type2MakeGoodBad(a) {//sdata.getSho_id()
+	var ansarr = [];
+	var isblank = false;
+	$("input[name="+a+"type2qAnswerInput]").each(function(index, item) {
+		var v = $(this).val();
+		var num = index + 1;
+		if(v == "" || typeof v == "undefined" || v == null || v == 0 || v == NaN) {
+			alert(num + "번 문제를 채점하지 않았습니다.");
+			isblank=true;
+			return false;
+		} else {
+			console.log(num+"번 문제: " + v);
+			ansarr.push(v);
+		}
+	});
+	if(isblank) {
+		console.log("빈칸있음, 중단");
+		return false;
+	} else {
+		console.log("빈칸없음, 진행");
+	}
+	var answer = ansarr.join('');
+	console.log("answer: " + answer);
+	$.ajax({
+			url: '/ajaxComment',
+			type: 'POST',
+			cache: false,
+			data: {
+				sho_id: a,
+				sho_goodbad: answer
+			},
+			success: function(data) {
+				$("button[name=btn-"+a+"type2GoodBad]").attr('disabled', true);
+				$("#type2"+a+"CompBtnArea").hide();
+				
+			},
+			error: function() {
+				alert("ajax error 발생");
+			}
+		});
+}
+
+
+
+function maketype2answer() {
+	var type2answers = [];
+	var questionlength = $("div[name=type2questionArea]").length;
+	for(question = 1; question <= questionlength; question++) {
+		type2answers.push(question+"||");
+		var questionType = $("#type2questionType"+question).val();
+		console.log("문제타입: " + questionType);
+		if(questionType == 'mc') {
+			
+			var answer = parseInt($("input[name=type2SHquestion"+question+"mc]:checked").val());
+			console.log(question+"번 문제 답: " + answer);
+			if(answer == "" || typeof answer == "undefined" || answer == null || answer == 0 || isNaN(answer)) {
+				alert(question+ "번 문제의 답을 입력하지 않았습니다.");
+				return false;
+			}
+			type2answers.push(answer+"||end||");
+		} else if(questionType == 'sc') {
+			
+			var answer = $("#type2SHquestion"+question+"sca").val();
+			console.log(question+"번 문제 답: " + answer);
+			if(answer == "" || typeof answer == "undefined" || answer == null || answer == 0 || answer == NaN) {
+				alert(question+ "번 문제의 답을 입력하지 않았습니다.");
+				$("#type2SHquestion"+question+"sca").focus();
+				return false;
+			}
+			type2answers.push(answer+"||end||");
+		} else {
+			alert("예상치 못한 오류가 발생하였습니다.");
+			return false;
+		}
+	}
+	var type2contents = type2answers.join('');
+	$("#sho_contents_type2").val(type2contents);
+}
+
+function submitSH1() { //초기 type1 제출하는 함수
+	$("#s_homework_input").attr("action","/studentup");
 	$("#s_homework_input").submit();
+}
+
+function submitSH2() {
+	//초기 type2 숙제 제출하는 함수
+	maketype2answer();
+	$("#type2studentsmform").attr("action","/studentup2");
+	$("#type2studentsmform").submit();
+}
+
+function updateSH1(e) {
+	$("#SHtype1basic"+e).hide();
+	$("#SHtype1update"+e).show();
+	$("#sho_contents_type1_"+e).attr('readonly', false);
+	$("#sho_contents_type1_"+e).attr('disabled', false);
+}
+
+function updateSH2() {
+	//업데이트 폼 띄우는 함수
+	$("#type2studentsmform input").attr('readonly', false);
+	$("#type2studentsmform input:radio").attr('disabled', false);
+	$("div[name=type2-btnArea]").hide();
+	$("#btn-updateCompSH2").show();
+	$("#btn-cancelSH2").show();
+}
+
+function cancelupdateSH1(e) {
+	$("#SHtype1basic"+e).show();
+	$("#SHtype1update"+e).hide();
+	$("#sho_contents_type1_"+e).attr('readonly', true);
+	$("#sho_contents_type1_"+e).attr('disabled', true);
+}
+
+function cancelupdateSH2() {
+	//업데이트 폼 가리는 함수
+	$("#type2studentsmform input").attr('readonly', true);
+	$("#type2studentsmform input:radio").attr('disabled', true);
+	$("div[name=type2-btnArea]").hide();
+	$("#btn-updateSH2").show();
+}
+
+function updateCompSH1(e) {
+	$("#s_homework_input").attr("action","/studentupdate1");
+	$("#sho_id_type1_"+e).attr('readonly', false);
+	$("#sho_id_type1_"+e).attr('disabled', false);
+	$("#s_homework_input").submit();
+}
+
+function updateCompSH2() {
+	//수정한 답 제출하는 함수
+	maketype2answer();
+	$("#type2studentsmform").attr("action","/studentupdate2");
+	$("#type2studentsmform").submit();
+}
+
+function deleteHW(e) {
+	window.location.replace("/deleteHW?tho_id="+e);
+}
+
+function deleteSH(e) {
+	window.location.replace("/deleteSH?sho_id="+e);
 }

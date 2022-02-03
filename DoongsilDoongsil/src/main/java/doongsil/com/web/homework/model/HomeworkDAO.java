@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import doongsil.com.web.account.model.STAccountVO;
+import doongsil.com.web.paging.model.PagingVo;
 
 @Repository
 public class HomeworkDAO {
@@ -17,6 +18,16 @@ public class HomeworkDAO {
 	
 	public List<T_HomeworkVO> selectHWList() {
 		List<T_HomeworkVO> datas = this.sess.selectList("HomeworkMapper.selectHWList");
+		return datas;
+	}
+	//앞에서부터 해당 페이지배열의 값만 읽어오는 쿼리
+	public List<T_HomeworkVO> selectHWListFromFront(PagingVo res) {
+		List<T_HomeworkVO> datas = this.sess.selectList("HomeworkMapper.selectHWListFromFront", res);
+		return datas;
+	}
+	//뒤에서부터 해당 페이지배열의 값만 읽어오는 쿼리
+	public List<T_HomeworkVO> selectHWListFromBack(PagingVo res) {
+		List<T_HomeworkVO> datas = this.sess.selectList("HomeworkMapper.selectHWListFromBack", res);
 		return datas;
 	}
 	
@@ -77,6 +88,11 @@ public class HomeworkDAO {
 		return res == 1 ? true : false;
 	}
 	
+	public boolean updateSHContents(S_HomeworkVO vo) {
+		int res = this.sess.update("HomeworkMapper.updateSHContents", vo);
+		return res == 1 ? true : false;
+	}
+	
 	public boolean updateTHCount(T_HomeworkVO vo) {
 		int res = this.sess.update("HomeworkMapper.updateTHCount", vo);
 		return res == 1 ? true : false;
@@ -85,6 +101,16 @@ public class HomeworkDAO {
 	public List<THO_CategoryVO> selectTHOCategory() {
 		List<THO_CategoryVO> data = this.sess.selectList("HomeworkMapper.selectTHOCategory");
 		return data;
+	}
+	
+	public List<S_HomeworkVO> selectStudentHWs(S_HomeworkVO vo) {
+		List<S_HomeworkVO> datas = this.sess.selectList("HomeworkMapper.selectStudentHWs", vo);
+		return datas;
+	}
+	
+	public int selectListCount() {
+		int pageCount = this.sess.selectOne("HomeworkMapper.selectListCount");
+		return pageCount;
 	}
 	
 	//TODAY 날짜값 구하는 로직(이걸 안쓰길 바랬는데..)

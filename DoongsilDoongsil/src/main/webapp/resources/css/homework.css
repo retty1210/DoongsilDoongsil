@@ -1,0 +1,467 @@
+@charset "UTF-8";
+
+/* basic */
+html {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: auto;
+}
+
+main {
+	justify-content: center;
+	align-items: center;
+	width: 1100px;
+	padding: 0;
+	margin: 0;
+}
+
+
+
+section {
+	width: 1100px;
+	display: block;
+	text-align: center;
+	margin: auto;
+}
+
+label {
+	font-weight: bold;
+}
+
+main a {
+	text-decoration-line: none;
+	color: #344953;
+}
+
+main a:hover {
+	text-decoration-line: underline;
+	text-decoration-style: dotted;
+	text-decoration-color: #87CEEB;
+}
+
+table {
+	color: #344953;
+	text-align: center;
+	border-color: #344953;
+	align-self: center;
+}
+
+tr:hover {
+	background-color: #F0F5F6 !important;
+}
+
+/* text */
+.left {
+	text-align: left;
+}
+
+.right {
+	text-align: right;
+}
+
+/* height */
+
+.minh400 {
+	min-height: 400px;
+}
+
+.vtc {
+	vertical-align: middle;
+}
+
+/* display */
+.absolute {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.none {
+	display: none;
+}
+
+.grid {
+	display: grid;
+	place-content: center;
+}
+
+.inline {
+	display: inline;
+}
+
+.inline-b {
+	display: inline-block;
+}
+
+.flex {
+	display: flex;
+	justify-content: center;
+}
+
+.block {
+	display: block;
+	text-align: center;
+}
+
+.ctposit10 {
+	position: absolute;
+	left: 50%;
+	top: 10%;
+	transform: translate(-50%,-10%);
+}
+
+.ctposit15 {
+	position: absolute;
+	left: 50%;
+	top: 15%;
+	transform: translate(-50%,-15%);
+}
+
+.ctposit50 {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+}
+
+/* button */
+.btn-wht {
+	background-color: #FCFBF4;
+	color: #0E9BD1;
+	border: 1px solid #0E9BD1;
+	font-weight: bold;
+}
+.btn-wht:hover {
+	color: #FCFBF4;
+	background-color: #87CEEB;
+	border: 1px solid #87CEEB;
+}
+
+.btn-rwh {
+	background-color: #FCFBF4;
+	color: #4052D7;
+	border: 1px solid #4052D7;
+	font-weight: bold;
+}
+.btn-rwh:hover {
+	background-color: #4052D7;
+	color: #FCFBF4;
+	border: 1px solid #4052D7;
+}
+
+.btn-sbl {
+	background-color: #87CEEB;
+	color: #FCFBF4;
+	border: 1px solid #87CEEB;
+	font-weight: bold;
+}
+.btn-sbl:hover {
+	background-color: #FCFBF4;
+	color: #87CEEB;
+	border: 1px solid #87CEEB;
+}
+
+.btn-drt {
+	background-color: #FCFBF4;
+	color: #344953;
+	border: 1px solid #344953;
+	font-weight: bold;
+}
+.btn-drt:hover {
+	background-color: #344953;
+	color: #FCFBF4;
+	border: 1px solid #344953;
+}
+
+.btn-ryl {
+	background-color: #4052D7;
+	color: #FCFBF4;
+	border: 1px solid #4052D7;
+	font-weight: bold;
+}
+.btn-ryl:hover {
+	background-color: #FCFBF4;
+	color: #4052D7;
+	border: 1px solid #4052D7;
+}
+
+.btn-lsr {
+	background-color: #3F5EF9;
+	color: #FCFBF4;
+	border: 1px solid #3F5EF9;
+	font-weight: bold;
+}
+.btn-lsr:hover {
+	background-color: #FCFBF4;
+	color: #3F5EF9;
+	border: 1px solid #3F5EF9;
+}
+
+.btn-square {
+	width: 80px;
+	height: 80px;
+}
+
+/* border */
+.bdr-1 {
+	border: 1px solid gray;
+}
+
+.bdr-n {
+	border: none;
+}
+
+.bdr-r5 {
+	border-radius: 5px;
+}
+
+.bdr-r9 {
+	border-radius: 9px;
+}
+
+/* padding */
+.pd40 {
+	padding: 40px;
+}
+
+.pd20 {
+	padding: 20px;
+}
+
+.pd10 {
+	padding: 10px;
+}
+
+/* margin */
+.mg40 {
+	margin: 40px;
+}
+
+.tmg40 {
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+.mg20 {
+	margin: 20px;
+}
+
+.tmg20 {
+	margin-top: 20px;
+	margin-bottom:20px;
+}
+
+.mg10 {
+	margin: 10px;
+}
+
+.tmg10 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.mg5 {
+	margin: 5px;
+}
+
+.tmg5 {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+/* icon */
+.ic20 {
+	width:20px; 
+	height:auto; 
+	vertical-align: middle; 
+	cursor: pointer;
+	margin: 5px;
+}
+
+.ic30 {
+	width:30px; 
+	height:auto; 
+	vertical-align: middle; 
+	cursor: pointer;
+	margin: 5px;
+}
+
+.ic40 {
+	width:40px; 
+	height:auto; 
+	vertical-align: middle; 
+	cursor: pointer;
+	margin: 5px;
+}
+
+/* image */
+.img500 {
+	width: 500px;
+	height: auto;
+}
+
+.imgfull {
+	width: 100%;
+	height: auto;
+}
+
+/* color: color name & Hex code from color-name.com, filter from codepen.io/sosuke/pen/Pjoqqp */
+.strblue {
+	color: #0E9BD1; /* structure blue*/
+}
+.strblue-b {
+	background-color: #0E9BD1; /* structure blue*/
+}
+.filter-strblue {
+	filter: invert(62%) sepia(58%) saturate(7219%) hue-rotate(169deg) brightness(100%) contrast(89%);
+}
+.filter-strblue-hover:hover {
+	filter: invert(62%) sepia(58%) saturate(7219%) hue-rotate(169deg) brightness(100%) contrast(89%);	
+}
+
+.skyblue {
+	color: #87CEEB; /* sky blue */
+}
+.skyblue-b {
+	background-color: #87CEEB; /* sky blue */
+}
+.filter-skyblue {
+	filter: invert(73%) sepia(68%) saturate(311%) hue-rotate(166deg) brightness(96%) contrast(91%);
+}
+.filter-skyblue-hover:hover {
+	filter: invert(73%) sepia(68%) saturate(311%) hue-rotate(166deg) brightness(96%) contrast(91%);	
+}
+
+.softsblue {
+	color: #C1F1FF; /* soft sky blue */
+}
+.softsblue-b {
+	background-color: #C1F1FF;
+}
+.filter-softsblue {
+	filter: invert(91%) sepia(90%) saturate(5847%) hue-rotate(172deg) brightness(105%) contrast(101%);
+}
+.filter-softsblue-hover:hover {
+	filter: invert(91%) sepia(90%) saturate(5847%) hue-rotate(172deg) brightness(105%) contrast(101%);	
+}
+
+.palesblue {
+	color: #D3E1EB;
+}
+.palesblue-b {
+	background-color: #D3E1EB;
+}
+.filter-palesblue {
+	filter: invert(94%) sepia(7%) saturate(526%) hue-rotate(174deg) brightness(95%) contrast(95%);
+}
+.filter-palesblue-hover:hover {
+	filter: invert(94%) sepia(7%) saturate(526%) hue-rotate(174deg) brightness(95%) contrast(95%);	
+}
+
+.whtcream {
+	color: #FCFBF4; /* white cream */
+}
+.whtcream-b {
+	background-color: #FCFBF4; /* white cream */
+}
+.filter-whtcream {
+	filter: invert(88%) sepia(2%) saturate(1002%) hue-rotate(333deg) brightness(114%) contrast(98%);
+}
+.filter-whtcream-hover:hover {
+	filter: invert(88%) sepia(2%) saturate(1002%) hue-rotate(333deg) brightness(114%) contrast(98%);	
+}
+
+.drtblue {
+	color: #344953; /* dirty blue */
+}
+.drtblue-b {
+	background-color: #344953; /* dirty blue */
+}
+.filter-drtblue {
+	filter: invert(24%) sepia(22%) saturate(630%) hue-rotate(155deg) brightness(96%) contrast(88%);
+}
+.filter-drtblue-hover:hover {
+	filter: invert(24%) sepia(22%) saturate(630%) hue-rotate(155deg) brightness(96%) contrast(88%);	
+}
+
+.rylblue {
+	color: #4052D7; /* royal blue */
+}
+.rylblue-b {
+	background-color: #4052D7; 
+}
+.filter-rylblue {
+	filter: invert(27%) sepia(79%) saturate(2318%) hue-rotate(227deg) brightness(87%) contrast(93%);
+}
+.filter-rylblue-hover:hover {
+	filter: invert(27%) sepia(79%) saturate(2318%) hue-rotate(227deg) brightness(87%) contrast(93%);	
+}
+
+.lsrblue {
+	color: #3F5EF9; /* laser blue */
+}
+.lsrblue-b {
+	background-color: #3F5EF9;
+}
+.filter-lsrblue {
+	filter: invert(31%) sepia(46%) saturate(2943%) hue-rotate(219deg) brightness(97%) contrast(102%);
+}
+.filter-lsrblue-hover:hover {
+	filter: invert(31%) sepia(46%) saturate(2943%) hue-rotate(219deg) brightness(97%) contrast(102%);
+}
+
+/* percent */
+.perc5 {
+	width: 5%;
+}
+
+.perc10 {
+	width: 10%;
+}
+
+.perc20 {
+	width: 20%;
+}
+
+.perc40 {
+	width: 40%;
+}
+
+.perc60 {
+	width: 60%;
+}
+
+.perc70 {
+	width: 70%;
+}
+
+.perc80 {
+	width: 80%;
+}
+
+.perc100 {
+	width: 100%;
+}
+
+.bloc80 {
+	padding: 5px;
+    margin: 5px;
+    width: 80%;
+    display: inline-block;
+}
+
+/* text */
+.subtxt {
+	font-size: small;
+	font-weight: lighter;
+	color: gray;
+}

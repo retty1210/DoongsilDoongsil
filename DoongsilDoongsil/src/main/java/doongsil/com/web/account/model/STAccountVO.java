@@ -2,6 +2,9 @@ package doongsil.com.web.account.model;
 
 import java.sql.Date;
 
+import lombok.Data;
+
+@Data
 // 학생+교사 계정
 public class STAccountVO {
 	private int sta_id;
@@ -18,8 +21,12 @@ public class STAccountVO {
 	private String sta_profile;
 	private String sta_usertype;
 	
-	public STAccountVO() {}
+	// sns 로그인 받아오기(social_login)
+	private int social_id;
+	private String social_eamil;
+	private String social_type;
 	
+	public STAccountVO() {}
 	
 	public STAccountVO(int sta_id,String sta_name, String sta_email, String sta_address, String sta_phonenumber, int sta_grade,
 			int sta_class, Date sta_birthday, String sta_profile, String sta_usertype) {
@@ -34,8 +41,6 @@ public class STAccountVO {
 		this.sta_profile = sta_profile;
 		this.sta_usertype = sta_usertype;
 	}
-
-
 
 	public int getSta_id() {
 		return sta_id;

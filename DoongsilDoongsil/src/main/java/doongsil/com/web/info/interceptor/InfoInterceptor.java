@@ -26,6 +26,7 @@ public class InfoInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		HttpSession session = request.getSession();
+<<<<<<< HEAD
 		String userType = String.valueOf(session.getAttribute("accountType"));
 		System.out.println("userType = " + userType);
 		if(userType.equals("T")) {
@@ -35,6 +36,17 @@ public class InfoInterceptor implements HandlerInterceptor {
 		}else {
 			modelAndView.setViewName("parent/" + modelAndView.getViewName());
 		}
+=======
+		//AccountVO vo = (AccountVO) session.getAttribute("account");
+		
+//		if(vo.getUserType().equals("T")) {
+//			modelAndView.setViewName("admin/" + modelAndView.getViewName());
+//		} else if(vo.getUserType().equals("S")) {
+//			modelAndView.setViewName("student/" + modelAndView.getViewName());
+//		}else {
+//			modelAndView.setViewName("parent/" + modelAndView.getViewName());
+//		}
+>>>>>>> refs/remotes/origin/조정현
 
 	}
 

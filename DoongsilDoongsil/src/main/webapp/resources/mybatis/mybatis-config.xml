@@ -6,8 +6,12 @@
 
 	<typeAliases>
 			<typeAlias type="doongsil.com.web.account.model.LoginVO" alias="login" />
+			<typeAlias type="doongsil.com.web.account.model.STJoinVO" alias="stjoin" />
+			<typeAlias type="doongsil.com.web.account.model.PAJoinVO" alias="pajoin" />
+			
 			<typeAlias type="doongsil.com.web.account.model.STAccountVO" alias="staccount" />
 			<typeAlias type="doongsil.com.web.account.model.PAAccountVO" alias="paaccount" />
+			
 			<typeAlias type="doongsil.com.web.homework.model.T_HomeworkVO" alias="t_homework" />
 			<typeAlias type="doongsil.com.web.homework.model.S_HomeworkVO" alias="s_homework" />
 			<typeAlias type="doongsil.com.web.homework.model.THO_CategoryVO" alias="tho_category" />

@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AccountMapper">
-<<<<<<< HEAD
+
 	<!-- 학생,교사 로그인 -->
 	<select id="stLoginSelect" parameterType="login" resultType="staccount">
 		SELECT * FROM ST_ACCOUNT
@@ -50,7 +50,10 @@
 		 WHERE STA_ID = #{id}
 	</delete>
 
-=======
+	<select id="selectLoginAccount" parameterType="login" resultType="account">
+		SELECT * FROM ST_ACCOUNT
+		 WHERE STA_USERNAME = #{sta_username}
+		   AND STA_PASSWORD = #{sta_password}
+	</select>
 	
->>>>>>> refs/remotes/origin/정현실
 </mapper>

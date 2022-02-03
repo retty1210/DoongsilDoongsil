@@ -1,14 +1,10 @@
 package doongsil.com.web.paboard.model;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-
-import doongsil.com.db.conn.MybatisConnect;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class PabDAO {

@@ -9,7 +9,7 @@
 <link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
 	function MyInfoUpdate(href){
-		window.open('/infoUpdate','','width=500,height=700');
+		window.open('/infoUpdate?id=${sessionScope.account.paa_id}','','width=500,height=700');
 	}
 </script>
 </head>
@@ -28,9 +28,7 @@
 				</div>
 				<table class="myInfo_text_tb">
 					<tr class="myInfo_text_tr">
-						<td class="myInfo_td"><strong>이종훈</strong></td>
-						<td class="myInfo_td"><strong>3학년 2반</strong></td>
-						<td class="myInfo_tb"><strong>학부모</strong></td>
+						<td class="myInfo_td"><strong>${sessionScope.account.sta_name } 의 학부모</strong></td>
 					</tr>
 				</table>
 			</div>

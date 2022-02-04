@@ -12,7 +12,13 @@
 	</select>
 	<!-- 학부모 로그인 -->
 	<select id="pLoginSelect" parameterType="login" resultType="paaccount">
-		SELECT * FROM PARENTS_ACCOUNT
+		SELECT PAA_ID,
+			   PAA_USERNAME,
+			   PAA_PASSWORD,
+			   PAA_PHONENUMBER,
+			   B.STA_NAME 
+		  FROM PARENTS_ACCOUNT A
+		  JOIN ST_ACCOUNT B ON (A.PAA_CHILD_ID = B.STA_ID)
 		 WHERE PAA_USERNAME = #{username} 
 		   AND PAA_PASSWORD = #{password}
 	</select>
@@ -28,6 +34,10 @@
 		SELECT * FROM ST_ACCOUNT
 		 WHERE STA_ID = #{id}
 	</select>
+	<select id="parentUpdate" parameterType="int" resultType="paaccount">
+		SELECT PAA_PHONENUMBER FROM PARENTS_ACCOUNT
+		 WHERE PAA_ID = #{id}
+	</select>
 	<update id="infoUpdate" parameterType="staccount">
 		UPDATE ST_ACCOUNT
 		   SET STA_NAME = #{sta_name},
@@ -37,9 +47,19 @@
 		   	   STA_GRADE = #{sta_grade},
 		   	   STA_class = #{sta_class},
 		   	   STA_BIRTHDAY = #{sta_birthday},
-		   	   STA_PROFILE = #{sta_profile},
+		   	   <if test="sta_profile != null">
+		   	   	STA_PROFILE = #{sta_profile},
+		   	   </if>
 		   	   STA_USERTYPE = #{sta_usertype}
 		 WHERE STA_ID = #{sta_id}
+	</update>
+	<update id="parentInfoUpdate" parameterType="paaccount">
+		UPDATE PARENTS_ACCOUNT
+		   SET PAA_PHONENUMBER = #{paa_phonenumber},
+		   <if test="paa_password != null">
+		       PAA_PASSWORD = #{paa_password}
+		   </if>
+		 WHERE PAA_ID = #{paa_id}
 	</update>
 	<delete id="allDelete" parameterType="int">
 		DELETE FROM ST_ACCOUNT
@@ -50,7 +70,7 @@
 		 WHERE STA_ID = #{id}
 	</delete>
 
-	<select id="selectLoginAccount" parameterType="login" resultType="account">
+	<select id="selectLoginAccount" parameterType="login" resultType="staccount">
 		SELECT * FROM ST_ACCOUNT
 		 WHERE STA_USERNAME = #{sta_username}
 		   AND STA_PASSWORD = #{sta_password}

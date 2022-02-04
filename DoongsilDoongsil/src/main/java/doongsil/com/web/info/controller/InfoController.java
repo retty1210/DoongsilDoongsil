@@ -24,8 +24,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
+import doongsil.com.web.account.model.PAAccountService;
+import doongsil.com.web.account.model.PAAccountVO;
 import doongsil.com.web.account.model.STAccountService;
 import doongsil.com.web.account.model.STAccountVO;
+import doongsil.com.web.homework.model.HomeworkService;
+import doongsil.com.web.homework.model.S_HomeworkVO;
 import doongsil.com.web.notice.model.NoticeService;
 import doongsil.com.web.notice.model.NoticeVO;
 import doongsil.com.web.paging.model.PagingVo;
@@ -37,6 +41,10 @@ public class InfoController {
 	private NoticeService noticeSer;
 	@Autowired
 	private STAccountService staSer;
+	@Autowired
+	private HomeworkService hwSer;
+	@Autowired
+	private PAAccountService paaSer;
 	
 	@RequestMapping(value="/info",method=RequestMethod.GET)
 	public String Info(HttpSession session, Model model) throws Exception {
@@ -47,6 +55,8 @@ public class InfoController {
 		List<NoticeVO> noticeData = noticeSer.infoNoticeList(userNumber);
 		//학생목록 불러오기
 		List<STAccountVO> studentList = staSer.infoStudentList(staDto);
+		//채점안된 숙제 불러오기	
+		List<S_HomeworkVO> noCheck = hwSer.noCheckHomework(userNumber);
 		if(studentList.size() != 0) {
 			session.setAttribute("infoStudentList", studentList);
 		} else {
@@ -56,6 +66,11 @@ public class InfoController {
 			session.setAttribute("myNoticeList", noticeData);
 		}else {
 			model.addAttribute("myNoticeListError","내가 쓴 게시물이 없습니다.");
+		}
+		if(noCheck.size() != 0) {
+			model.addAttribute("noCheckHomeworkList",noCheck);
+		}else {
+			model.addAttribute("noCheckError","채점 안된 목록이 없습니다.");
 		}
 		return "info/info";
 	}
@@ -116,13 +131,17 @@ public class InfoController {
 		int idNumber = Integer.parseInt(req.getParameter("id"));
 		
 		STAccountVO studentUpdate = staSer.studentUpdate(idNumber);
+		PAAccountVO parentUpdate = paaSer.parentUpdate(idNumber);
 		
-		model.addAttribute("studentUpdate",studentUpdate);
-		return "admin/popup/infoUpdate";
+		req.setAttribute("parentUpdate",parentUpdate);
+		req.setAttribute("studentUpdate",studentUpdate);
+		return "popup/infoUpdate";
 	}
-	@RequestMapping(value="/infoUpdate",method=RequestMethod.POST)
+	
+	@RequestMapping(value="/admin/infoUpdate",method=RequestMethod.POST)
 	public String infoUpdate(@RequestParam("userPhoto")MultipartFile multi,HttpServletRequest request,HttpServletResponse response, STAccountVO staVo,HttpSession session,Model model) throws Exception {
-		String save = request.getServletContext().getRealPath("/stc/up/")+multi.getOriginalFilename();
+		
+		String save = request.getServletContext().getRealPath("/resources/upload/");
 		int id = Integer.parseInt(request.getParameter("userId"));
 		String name = request.getParameter("userName");
 		int grade = Integer.parseInt(request.getParameter("userGrade"));
@@ -131,15 +150,17 @@ public class InfoController {
 		String phone = request.getParameter("userPhone");
 		String email = request.getParameter("userEmail");
 		Date bd =Date.valueOf(request.getParameter("userBirthday"));
-		String path = "/stc/up/" + multi.getOriginalFilename();
+		String path = null;
 		String type = request.getParameter("userType");
-		File file = new File(save);
 		
-		if(!save.substring(save.indexOf("up/")+3,save.length()).equals("")) {
+		STAccountVO update;
+		if(!multi.getOriginalFilename().isEmpty()) {
+			path = "/stc/up/" + multi.getOriginalFilename();
+			File file = new File(save + multi.getOriginalFilename());
 			multi.transferTo(file);
 		}
-
-		STAccountVO update = new STAccountVO(id,name,email,adress,phone,grade,Gclass,bd,path,type);
+		
+		update = new STAccountVO(id,name,email,adress,phone,grade,Gclass,bd,path,type);
 		
 		PrintWriter out = response.getWriter();
 		if(staSer.infoUpdate(update)) {
@@ -151,6 +172,21 @@ public class InfoController {
 		}
 		out.flush();
 		return "admin/popup/infoUpdate";
+	}
+	@RequestMapping(value="/parent/infoUpdate",method=RequestMethod.POST)
+	public String infoUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String phone = (String) request.getParameter("userPhone");
+		String password = (String) request.getParameter("newPassword");
+		
+		PAAccountVO vo = new PAAccountVO(password,phone);
+		
+		PrintWriter out = response.getWriter();
+		if(paaSer.parentInfoUpdate(vo)) {
+			out.println("<script>opener.location.reload(); window.close();</script>");
+		}else {
+			out.println("<script>alert('정보 수정에 실패 하였습니다.');");
+		}
+		return "parent/popup/infoUpdate";
 	}
 	
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +11,7 @@
 </head>
 <script type="text/javascript">
 	function MyInfoUpdate(href){
-		window.open('/infoUpdate','','width=500,height=700');
+		window.open('/infoUpdate?id=${sessionScope.account.sta_id}','','width=500,height=700');
 	}
 </script>
 <body>
@@ -28,9 +29,11 @@
 				</div>
 				<table class="myInfo_text_tb">
 					<tr class="myInfo_text_tr">
-						<td class="myInfo_td"><strong>이종훈</strong></td>
-						<td class="myInfo_td"><strong>3학년 2반</strong></td>
-						<td class="myInfo_td"><strong>학생</strong></td>
+						<td class="myInfo_td"><strong>${sessionScope.account.sta_name }</strong></td>
+						<td class="myInfo_td"><strong>${sessionScope.account.sta_grade }학년 ${sessionScope.account.sta_class }반</strong></td>
+						<c:if test="${sessionScope.account.sta_usertype eq 'S' }">
+							<td class="myInfo_td"><strong>학생</strong></td>
+						</c:if>
 					</tr>
 				</table>
 			</div>
@@ -45,7 +48,12 @@
 			<div class="homework_list_box">
 				<h5>채점 안된 숙제목록</h5>
 				<ul>
-					<li></li>
+					<c:if test="${noCheckError != null }">
+						<li>${noCheckError}</li>
+					</c:if>
+					<c:forEach var="noCheckHomework" items="${noCheckHomeworkList }">
+						<li>${noCheckHomework.sho_contents}</li>
+					</c:forEach>
 				</ul>
 			</div>
 			<div class="schoolEvent_list_S_box">

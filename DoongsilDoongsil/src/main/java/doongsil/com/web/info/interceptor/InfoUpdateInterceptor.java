@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-public class InfoInterceptor implements HandlerInterceptor {
+public class InfoUpdateInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -36,25 +36,13 @@ public class InfoInterceptor implements HandlerInterceptor {
 		}else {
 			modelAndView.setViewName("parent/" + modelAndView.getViewName());
 		}
-
-		//AccountVO vo = (AccountVO) session.getAttribute("account");
-		
-//		if(vo.getUserType().equals("T")) {
-//			modelAndView.setViewName("admin/" + modelAndView.getViewName());
-//		} else if(vo.getUserType().equals("S")) {
-//			modelAndView.setViewName("student/" + modelAndView.getViewName());
-//		}else {
-//			modelAndView.setViewName("parent/" + modelAndView.getViewName());
-//		}
-
-
 	}
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

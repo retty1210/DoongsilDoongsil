@@ -35,9 +35,11 @@ url은 경로로 인해 생기는 문제를 방지하기 위해 c:url을 사용�
         </form>
 
         <div class="dropdown text-end">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="${sessionScope.account.sta_profile}" alt="mdo" width="32" height="32" class="rounded-circle">
-          </a>
+	          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+       			<c:if test="${sessionScope.logined }">
+	            	<img src="${sessionScope.account.sta_profile}" alt="mdo" width="32" height="32" class="rounded-circle">
+          		</c:if>
+	          </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
           	<c:choose>
           		<c:when test="${sessionScope.logined }">

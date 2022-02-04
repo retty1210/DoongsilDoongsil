@@ -164,15 +164,16 @@
 			<artifactId>spring-social-google</artifactId>
 			<version>1.0.0.RELEASE</version>
 		</dependency>
-		
-		<!-- +추가 : Lombok -->
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-		<dependency>
-		    <groupId>org.projectlombok</groupId>
-		    <artifactId>lombok</artifactId>
-		    <version>1.18.20</version>
-		    <scope>provided</scope>
-		</dependency>
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.20</version>
+    <scope>provided</scope>
+</dependency>
+		
+
+		
 		
 		<!-- +추가 : lang3 -->
 		<dependency>
@@ -181,13 +182,6 @@
 		    <version>3.11</version>
 		</dependency>
 		
-		<!-- +추가 : jackson -->
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-core</artifactId>
-		    <version>2.8.4</version>
-		</dependency>
 
 		<!-- Logging -->
 		<dependency>
@@ -302,19 +296,8 @@
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
             </plugin>
-            <!-- +추가 : lombok -->
-            <plugin>
-            	<groupId>org.springframework.boot</groupId> 
-            	<artifactId>spring-boot-maven-plugin</artifactId> 
-            	<configuration> 
-            		<excludes> 
-            			<exclude> 
-            				<groupId>org.projectlombok</groupId> 
-            				<artifactId>lombok</artifactId> 
-            			</exclude> 
-            		</excludes> 
-            	</configuration> 
-            </plugin>
+            
+  
         </plugins>
     </build>
 </project>

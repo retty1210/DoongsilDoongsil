@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
             title: title,
             start: arg.start,
             end:arg.end,
-			allDay: true
+			allDay: true,
+			backgroundColor: '#77b0bf'
           })
 		//console.log('start = >' + moment(arg.start).format('YYYY-MM-DD'));
 		//console.log('end = >'+ moment(arg.end).format('YYYY-MM-DD'));
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				data:{
 					cal_title:title,
 					cal_start: moment(arg.start).format('YYYY-MM-DD'),
-					cal_end: moment(arg.end).format('YYYY-MM-DD')
+					cal_end: moment(arg.end).format('YYYY-MM-DD'),
 				},
 				success: function(response){
 					alert('일정이 추가 되었습니다.');

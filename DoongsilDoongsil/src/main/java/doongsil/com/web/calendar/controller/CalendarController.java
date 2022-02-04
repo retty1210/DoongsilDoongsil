@@ -56,6 +56,7 @@ public class CalendarController {
 		//js에서 지금 열려있는 calender의 월 값을 찾아서 그 값을 key로 넣어서 나오는 value값을 div에 뿌림
 		//fc-next-button이나 fc-prev-button을 클릭했을때 거기에 맞게 key값을 바꾸도록 로직 짜기
 		
+		// 밑에 로직 공부
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = mapper.writeValueAsString(calendar_list);
 		return jsonStr;

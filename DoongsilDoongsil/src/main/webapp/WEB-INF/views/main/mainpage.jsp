@@ -26,16 +26,20 @@
 					</svg>
 				</a>
 				<div class="myInfo_photo_box">
-					<img src="#" alt="profilePhoto" class="myInfo_photo"/>
+					<img src="${sessionScope.account.sta_profile }" alt="profilePhoto" class="myInfo_photo"/>
 				</div>
 				<table class="myInfo_text_tb">
 					<tr class="myInfo_text_tr">
-						<td class="myInfo_td"><strong>이종훈</strong></td>
-						<td class="myInfo_td"><strong>3학년 2반</strong></td>
-						<td class="myInfo_td"><strong>학생</strong></td>
+							<td class="myInfo_td">${sessionScope.account.sta_name }</td>
+							<td class="myInfo_td">${sessionScope.account.sta_grade }학년 ${sessionScope.account.sta_class }반</td>
+							<td class="myInfo_td">
+								<c:if test="${sessionScope.account.sta_usertype eq 'T'}">
+									교사
+								</c:if>
+							</td>
 					</tr>
 				</table>
-			 </div>
+			</div>
 			 
 			 <div class = "today-box">
 			 		캘린더 내용 나오게 하기 
@@ -88,13 +92,11 @@
 				<input type="hidden" name="cal_title" value="${dto.getCal_title}" />
 				<input type="hidden" name="cal_start"/>
 				<input type="hidden" name="cal_end"/>
+				
 			</form>
 			<div class="main-second-bottom">
 				<div class="calendar-area">
 					<jsp:include page="/WEB-INF/views/module/calendar.jsp" flush="false" />
-				</div>
-				<div class="school-events-area">
-					<div class="school-events"></div>
 				</div>
 			</div>
 		</div>

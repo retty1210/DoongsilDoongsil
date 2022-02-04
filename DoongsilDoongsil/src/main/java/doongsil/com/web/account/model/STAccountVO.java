@@ -21,11 +21,6 @@ public class STAccountVO {
 	private String sta_profile;
 	private String sta_usertype;
 	
-	// sns 로그인 받아오기(social_login)
-	private int social_id;
-	private String social_eamil;
-	private String social_type;
-	
 	public STAccountVO() {}
 	
 	public STAccountVO(int sta_id,String sta_name, String sta_email, String sta_address, String sta_phonenumber, int sta_grade,

@@ -50,10 +50,10 @@
 		 WHERE STA_ID = #{id}
 	</delete>
 
-	<select id="selectLoginAccount" parameterType="login" resultType="account">
+	<select id="selectLoginAccount" parameterType="login" resultType="staccount">
 		SELECT * FROM ST_ACCOUNT
-		 WHERE STA_USERNAME = #{sta_username}
-		   AND STA_PASSWORD = #{sta_password}
-	</select>
+		 WHERE STA_USERNAME = #{username}
+		   AND STA_PASSWORD = #{password}
+	</select> 
 	
 </mapper>

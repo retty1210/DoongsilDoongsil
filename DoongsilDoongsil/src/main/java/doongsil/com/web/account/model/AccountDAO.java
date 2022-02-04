@@ -11,24 +11,12 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 @Repository
 public class AccountDAO {
 	
-//	@Autowired
-//	private SqlSession sess;
-//	
-//	public STAccountVO selectLoginAccount(STLoginVO vo) {
-//		STAccountVO data = this.sess.selectOne("AccountMapper.selectLoginAccount", vo);
-//		return data;
-//	}
+	@Autowired
+	private SqlSession sess;
 	
-//	public STAccountVO getBySns(STAccountVO snsUser) {
-//		if(StringUtils.isNotEmpty((snsUser.getSocial_type("n"))) {
-//			return session.selectOne(GET_BY_SNS_NAVER, snsUser.getSocial_type())
-//		}
-//		return null;
-//	}
+	public STAccountVO selectLoginAccount(LoginVO vo) {
+		return this.sess.selectOne("AccountMapper.selectLoginAccount", vo);
+	}
 	
-//	public List<STAccountVO> selectLoginAccount() {
-//		List<STAccountVO> datas = this.sess.selectList("AccountMapper.selectLoginAccount");
-//		return datas;
-//	}
 	
 }

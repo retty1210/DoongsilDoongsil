@@ -6,6 +6,7 @@
 
 	<typeAliases>
 			<typeAlias type="doongsil.com.web.account.model.LoginVO" alias="login" />
+			<typeAlias type="doongsil.com.web.account.model.STLoginVO" alias="stlogin" />
 			<typeAlias type="doongsil.com.web.account.model.STJoinVO" alias="stjoin" />
 			<typeAlias type="doongsil.com.web.account.model.PAJoinVO" alias="pajoin" />
 			

@@ -6,7 +6,6 @@ public class LoginVO {
 	private String username;
 	private String password;
 	
-	
 	public String getUserType() {
 		return userType;
 	}
@@ -35,7 +34,5 @@ public class LoginVO {
 	public String toString() {
 		return "LoginVO [userType=" + userType + ", username=" + username + ", password=" + password + "]";
 	}
-	
-	
 	
 }

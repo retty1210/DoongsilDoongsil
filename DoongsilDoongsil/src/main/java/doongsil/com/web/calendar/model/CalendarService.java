@@ -37,6 +37,7 @@ public class CalendarService {
 	}
 
 	public List<CalendarDTO> selectCalendar() {
+		logger.info("Service 동작");
 		return dao.selectCalendar();
 	}
 

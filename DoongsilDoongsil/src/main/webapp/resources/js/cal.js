@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		//console.log('start = >' + moment(arg.start).format('YYYY-MM-DD'));
 		//console.log('end = >'+ moment(arg.end).format('YYYY-MM-DD'));
 			$.ajax({
-				url:"/mainpage",
+				url:"/insertDate",
 				type:"post",
 				data:{
 					cal_title:title,
@@ -64,27 +64,26 @@ document.addEventListener('DOMContentLoaded', function() {
       },
       editable: true,
       dayMaxEvents: true, // allow "more" link when too many events
-      events: [
-		function(arg) {
-			console.log(arg);
-			var e = "<c:out value='${calendarList}'/>";
+      events: function(arg, successCallback) {
 			$.ajax({
-				url: '/mainpage',
-				type: 'GET',
-				success: function(e) {
-					console.log(data.calendarList.cal_title);
-					},
-					error: function(e){
-						console.log(e);
-						}
+				url: "/getEvent",
+				type: "GET",
+				dataType: "json",
+				success: function(response) {
+					console.log(response);
+					var events = [];
+					$.each(response, function(index, data) {
+						events.push({
+							title: data.cal_title,
+							start: moment(data.cal_start).format('YYYY-MM-DD'),
+							end : moment(data.cal_end).format('YYYY-MM-DD'),
+							backgroundColor : data.cal_bgc
+						});
+					});
+				successCallback(events);
+				}
 			});
-		 },
-		 {
-			title: 'aaaa',
-			start: '2022-02-05',
-			end: '2022-02-06'
 		}
-	  ]
 
     });
     calendar.render();

@@ -94,9 +94,9 @@
 				<tr>
 					<th><label for="accountType">회원타입</label></th>
 					<td>
-					<select name="userType" id="accountType">
-						<option value="S">학생</option>
+					<select name="userType" id="accountType" >
 						<option value="T">교사</option>
+						<option value="S">학생</option>
 						<option value="P">학부모</option>
 					</select>
 					</td>

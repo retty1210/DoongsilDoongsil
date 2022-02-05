@@ -25,7 +25,7 @@
 					</svg>
 				</a>
 				<div class="myInfo_photo_box">
-					<img src="#" alt="profilePhoto" class="myInfo_photo"/>
+					<img src="${sessionScope.account.sta_profile }" alt="profilePhoto" class="myInfo_photo"/>
 				</div>
 				<table class="myInfo_text_tb">
 					<tr class="myInfo_text_tr">

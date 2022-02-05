@@ -14,6 +14,38 @@
 		window.close();
 		opener.location.reload("/info");
 	}
+	function passwordCheck() {
+		let password = document.getElementsByName("newPassword")[0];
+		let pwCheck = document.getElementsByName("newPasswordCheck")[0];
+		let newTxt = document.createElement("span");
+		let passwordTd = document.getElementsByTagName("tr")[7].children[1];
+		
+		newTxt.setAttribute("class","noPassword");
+		newTxt.style.fontSize = '12px';
+		newTxt.style.display = 'none';
+		
+		passwordTd.append(newTxt);
+		
+		let selector = document.querySelector(".noPassword");
+		
+		if(password.value == pwCheck.value){
+			password.style.borderColor = "green";
+			pwCheck.style.borderColor = "green";
+			selector.innerText = ' * 비밀번호가 일치 합니다.';
+			selector.style.color = 'green';
+			selector.style.display = '';
+			
+		} else{
+			password.style.borderColor = "red";
+			pwCheck.style.borderColor = "red";
+			selector.innerText = ' * 비밀번호가 일치하지 않습니다.';
+			selector.style.color = 'red';
+			selector.style.display = '';
+			
+		}
+		
+	}
+	
 </script>
 <style type="text/css">
 	body{
@@ -92,14 +124,12 @@
 					<td><input type="file" name="userPhoto" accept="image/*"></td>
 				</tr>
 				<tr>
-					<th><label for="accountType">회원타입</label></th>
-					<td>
-					<select name="userType" id="accountType">
-						<option value="S">학생</option>
-						<option value="T">교사</option>
-						<option value="P">학부모</option>
-					</select>
-					</td>
+					<th><label>비밀번호</label></th>
+					<td><input type="password" name="newPassword" min="8" max="20"/></td>
+				</tr>
+				<tr>
+					<th><label>비밀번호 확인</label></th>
+					<td><input type="password" name="newPasswordCheck" onblur="passwordCheck();" min="8" max="20"/></td>
 				</tr>
 			</table>
 		</div>

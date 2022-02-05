@@ -24,7 +24,6 @@ a:hover{
 .myInfo_photo_box{
 	display:flex;
 	justify-content: center;
-	border:1px solid black;
 	width:128px;
 	height:128px;
 	border-radius:50%;

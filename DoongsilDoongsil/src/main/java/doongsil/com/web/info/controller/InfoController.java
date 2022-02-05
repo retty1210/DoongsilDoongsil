@@ -129,7 +129,7 @@ public class InfoController {
 	@RequestMapping(value="/infoUpdate",method=RequestMethod.GET)
 	public String studentInfoUpdate(HttpServletRequest req, Model model) {
 		int idNumber = Integer.parseInt(req.getParameter("id"));
-		
+		System.out.println("idNumber = > " + idNumber);
 		STAccountVO studentUpdate = staSer.studentUpdate(idNumber);
 		PAAccountVO parentUpdate = paaSer.parentUpdate(idNumber);
 		
@@ -175,10 +175,15 @@ public class InfoController {
 	}
 	@RequestMapping(value="/parent/infoUpdate",method=RequestMethod.POST)
 	public String infoUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int id = Integer.parseInt(request.getParameter("userId"));
 		String phone = (String) request.getParameter("userPhone");
-		String password = (String) request.getParameter("newPassword");
+		String password = null;
 		
-		PAAccountVO vo = new PAAccountVO(password,phone);
+		if(!request.getParameter("newPassword").isEmpty()) {
+			password = (String) request.getParameter("newPassword");
+		}
+		
+		PAAccountVO vo = new PAAccountVO(id,password,phone);
 		
 		PrintWriter out = response.getWriter();
 		if(paaSer.parentInfoUpdate(vo)) {
@@ -186,6 +191,7 @@ public class InfoController {
 		}else {
 			out.println("<script>alert('정보 수정에 실패 하였습니다.');");
 		}
+		out.flush();
 		return "parent/popup/infoUpdate";
 	}
 	

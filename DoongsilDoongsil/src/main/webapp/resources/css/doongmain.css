@@ -12,7 +12,16 @@
     max-width: 800px;
     font-size: 9px;
   }
-  
+
+/* 캘린더 날짜 색상 및 날짜 밑줄 제거 */
+.fc-daygrid-day-number,
+.fc-day .fc-scrollgrid-sync-inner a{ text-decoration: none; color: black;}
+.fc-day-sat .fc-daygrid-day-frame .fc-daygrid-day-top a,
+.fc-day-sat .fc-scrollgrid-sync-inner a {color : blue;} /* 토요일 */
+.fc-day-sun .fc-daygrid-day-frame .fc-daygrid-day-top a,
+.fc-day-sun .fc-scrollgrid-sync-inner a {color : red;} /* 일요일 */
+
+
 
 /* 중복 되는 부분 */
 .notice-only-table, 
@@ -108,4 +117,5 @@
 .school-events-area {
 	margin-left : 80px;
 }
+
 

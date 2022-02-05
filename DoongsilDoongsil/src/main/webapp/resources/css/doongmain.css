@@ -34,10 +34,7 @@
 }
 
 /* 공지사항 및 학급게시판 부분 css */
-.notice-area, 
-.classBoard-area {
-	margin : 33px 0px 0px 30px;
-}
+
 
 
 .notice-only-table,
@@ -57,7 +54,7 @@
 
 /* 공지사항 및 학급게시판 더보기 css */
 .more-list-text {
-	float: right;
+	/* float: right; */
 	margin-bottom: 5px;
 	font-size: 13px;
 	text-decoration: none;
@@ -99,14 +96,18 @@
 }
 
 .main-board-area {
+	/*
 	display: flex;
 	flex-wrap: wrap;
+	*/
 }
 
 .main-first-top,
 .main-second-bottom {
+	/*
 	display:flex;
 	justify-content: space-around;
+	*/
 }
 
 /* 캘린더 학사일정 css*/
@@ -118,4 +119,22 @@
 	margin-left : 80px;
 }
 
+/* 임시 */
+
+.myInfo-area {
+	display: inline-block;
+	float: left;
+}
+
+.main-first-top {
+	display : inline-block;
+	border : 1px solid black;
+	width: 850px;
+	height: 160px;
+}
+
+.notice-area,
+.classBoard-area {
+	float : left;
+}
 

@@ -15,6 +15,7 @@ public class PAAccountDAO {
 		return this.sess.selectOne("AccountMapper.pLoginSelect",loginVo); 
 	}
 	public PAAccountVO parentUpdate(int id) {
+		System.out.println("dao 도착 ! " + id);
 		return this.sess.selectOne("AccountMapper.parentUpdate",id);
 	}
 	public int parentInfoUpdate(PAAccountVO vo) {

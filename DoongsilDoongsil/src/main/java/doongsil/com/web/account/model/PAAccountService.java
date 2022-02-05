@@ -19,6 +19,7 @@ public class PAAccountService {
 		}
 	}
 	public PAAccountVO parentUpdate(int id) {
+		System.out.println("service on " + id);
 		PAAccountVO paData = this.paaDao.parentUpdate(id);
 		
 		return paData;

@@ -35,7 +35,8 @@
 		 WHERE STA_ID = #{id}
 	</select>
 	<select id="parentUpdate" parameterType="int" resultType="paaccount">
-		SELECT PAA_PHONENUMBER FROM PARENTS_ACCOUNT
+		SELECT PAA_ID, PAA_PHONENUMBER
+		  FROM PARENTS_ACCOUNT
 		 WHERE PAA_ID = #{id}
 	</select>
 	<update id="infoUpdate" parameterType="staccount">
@@ -55,9 +56,9 @@
 	</update>
 	<update id="parentInfoUpdate" parameterType="paaccount">
 		UPDATE PARENTS_ACCOUNT
-		   SET PAA_PHONENUMBER = #{paa_phonenumber},
+		   SET PAA_PHONENUMBER = #{paa_phonenumber}
 		   <if test="paa_password != null">
-		       PAA_PASSWORD = #{paa_password}
+		       ,PAA_PASSWORD = #{paa_password}
 		   </if>
 		 WHERE PAA_ID = #{paa_id}
 	</update>

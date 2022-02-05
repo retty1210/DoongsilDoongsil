@@ -9,8 +9,9 @@ public class PAAccountVO extends STAccountVO {
 	private int paa_child_id;
 	private String sta_name;
 	
-	
-	public PAAccountVO(String paa_password, String paa_phonenumber) {
+	public PAAccountVO() {}
+	public PAAccountVO(int paa_id,String paa_password, String paa_phonenumber) {
+		this.paa_id = paa_id;
 		this.paa_password = paa_password;
 		this.paa_phonenumber = paa_phonenumber;
 	}

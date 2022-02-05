@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.*;
 
+import doongsil.com.web.account.model.*;
 import doongsil.com.web.calendar.model.*;
 import doongsil.com.web.homework.model.*;
 import doongsil.com.web.notice.model.*;
@@ -77,7 +78,6 @@ public class CalendarController {
 		
 			service.InsertEvent(dto);
 			logger.info("post 동작");
-	
 	   
 		return "redirect:/main/mainpage";
 	}

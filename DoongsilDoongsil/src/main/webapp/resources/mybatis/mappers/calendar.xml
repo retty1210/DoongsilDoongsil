@@ -16,13 +16,13 @@
 	<select id="selectNotice" resultType="doongsil.com.web.notice.model.NoticeVO">
 		SELECT NOT_TITLE, NOT_ID FROM 
 		(SELECT * FROM NOTICE ORDER BY NOT_ID DESC) 
-		 WHERE ROWNUM &lt;= 2
+		 WHERE ROWNUM &lt;= 3
 	</select>
 	
 	<select id="selectHomework" resultType="doongsil.com.web.homework.model.T_HomeworkVO">
 		SELECT THO_ID, THO_TITLE FROM 
 		(SELECT * FROM T_HOMEWORK ORDER BY THO_ID DESC) 
-		 WHERE ROWNUM &lt;= 2
+		 WHERE ROWNUM &lt;= 3
 	</select>
 	
 	<select id="selectCalendar" resultType="calendarDTO">

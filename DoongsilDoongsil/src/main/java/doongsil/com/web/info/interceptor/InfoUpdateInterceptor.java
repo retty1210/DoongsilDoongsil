@@ -7,31 +7,35 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import doongsil.com.web.account.model.PAAccountVO;
+import doongsil.com.web.account.model.STAccountVO;
+
 public class InfoUpdateInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		HttpSession session = request.getSession();
-		
-		if(session.getAttribute("logined") != null) {
-			return true;
-		} else {
-			response.sendRedirect("/login");
-			return false;
-		}
+		return true;
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		HttpSession session = request.getSession();
-
-		String userType = String.valueOf(session.getAttribute("accountType"));
 		
-		if(userType.equals("T")) {
+		String type = "";
+		
+		if(request.getAttribute("studentUpdate") != null) {
+			STAccountVO userType = (STAccountVO)request.getAttribute("studentUpdate");
+			type = userType.getSta_usertype();
+		}
+		if(request.getAttribute("parentUpdate") != null) {
+			PAAccountVO userType = (PAAccountVO)request.getAttribute("parentUpdate");
+		}
+		System.out.println("dadadada +> "+type);
+		System.out.println("interceptor => " + modelAndView.getViewName());
+		if(type.equals("T")) {
 			modelAndView.setViewName("admin/" + modelAndView.getViewName());
-		} else if(userType.equals("S")) {
+		} else if(type.equals("S")) {
 			modelAndView.setViewName("student/" + modelAndView.getViewName());
 		}else {
 			modelAndView.setViewName("parent/" + modelAndView.getViewName());

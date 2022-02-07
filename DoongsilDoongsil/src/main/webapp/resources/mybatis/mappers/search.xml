@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SearchMapper">
+	
+	<select id="searchList" parameterType="String" resultType="search">
+		SELECT NOT_ID,
+			   B.STA_USERNAME,
+			   <![CDATA['[ 공지사항 ]'||]]> NOT_TITLE AS NOT_TITLE,
+			   NOT_WRITEDATE,
+			   NOT_COUNT
+		  FROM NOTICE A JOIN ST_ACCOUNT B ON A.NOT_WRITER = B.STA_ID 
+		 WHERE NOT_TITLE LIKE '%' || #{id} || '%'
+		UNION ALL
+		SELECT THO_ID,
+			   B.STA_USERNAME,
+			    <![CDATA['[ 숙제 ]'||]]>THO_TITLE AS THO_TITLE,
+			   THO_WRITEDATE,
+			   THO_COUNT
+		  FROM T_HOMEWORK A JOIN ST_ACCOUNT B ON A.THO_WRITER = B.STA_ID 
+		 WHERE THO_TITLE LIKE '%' || #{id} || '%'
+		UNION ALL
+		SELECT PAB_ID,
+			   B.PAA_USERNAME,
+			    <![CDATA['[ 학부모소통 ]'||]]>PAB_TITLE AS PAB_TITLE,
+			   PAB_DATE,
+			   PAB_COUNT
+		  FROM PARENTS_BOARD A JOIN PARENTS_ACCOUNT B ON A.PAB_WRITER = B.PAA_ID 
+		 WHERE PAB_TITLE LIKE '%' || #{id} || '%'
+	</select>
+
+</mapper>

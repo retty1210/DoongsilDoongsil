@@ -18,5 +18,7 @@
 			
 			<typeAlias type="doongsil.com.web.calendar.model.CalendarDTO" alias="calendarDTO" />
 			<typeAlias type="doongsil.com.web.calendar.model.CalendarService" alias="cal_service" />
+			
+			<typeAlias type="doongsil.com.web.search.model.SearchDTO" alias="search" />
 	</typeAliases>
 </configuration>

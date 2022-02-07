@@ -28,6 +28,8 @@ import doongsil.com.web.account.model.PAAccountService;
 import doongsil.com.web.account.model.PAAccountVO;
 import doongsil.com.web.account.model.STAccountService;
 import doongsil.com.web.account.model.STAccountVO;
+import doongsil.com.web.calendar.model.CalendarDTO;
+import doongsil.com.web.calendar.model.CalendarService;
 import doongsil.com.web.homework.model.HomeworkService;
 import doongsil.com.web.homework.model.S_HomeworkVO;
 import doongsil.com.web.notice.model.NoticeService;
@@ -45,6 +47,8 @@ public class InfoController {
 	private HomeworkService hwSer;
 	@Autowired
 	private PAAccountService paaSer;
+	@Autowired
+	private CalendarService calSer;
 	
 	@RequestMapping(value="/info",method=RequestMethod.GET)
 	public String Info(HttpSession session, Model model) throws Exception {
@@ -57,6 +61,9 @@ public class InfoController {
 		List<STAccountVO> studentList = staSer.infoStudentList(staDto);
 		//채점안된 숙제 불러오기	
 		List<S_HomeworkVO> noCheck = hwSer.noCheckHomework(userNumber);
+		//학사일정 불러오기
+		List<CalendarDTO> cal = calSer.selectCalendar();
+		
 		if(studentList.size() != 0) {
 			session.setAttribute("infoStudentList", studentList);
 		} else {
@@ -71,6 +78,11 @@ public class InfoController {
 			model.addAttribute("noCheckHomeworkList",noCheck);
 		}else {
 			model.addAttribute("noCheckError","채점 안된 목록이 없습니다.");
+		}
+		if(cal.size() != 0) {
+			model.addAttribute("schoolCal",cal);
+		}else {
+			model.addAttribute("schoolCalError","학사 일정이 없습니다.");
 		}
 		return "info/info";
 	}

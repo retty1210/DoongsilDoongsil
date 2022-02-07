@@ -258,8 +258,8 @@
 	<!-- 학생용 내정보 페이지에 채점안된 숙제 불러오기 -->
 	<select id="noCheckHomework" parameterType="int" resultType="s_homework">
 		SELECT SHO_CONTENTS FROM S_HOMEWORK
-		 WHERE SHO_GOODBAD = NULL
-		   AND SHO_COMMENT = NULL
+		 WHERE SHO_GOODBAD is NULL
+		   AND SHO_COMMENT is NULL
 		   AND SHO_WRITER =#{id}
 	</select>
 	

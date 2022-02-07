@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,7 +62,16 @@
 			<div class="schoolEvent_list_P_box">
 				<h5>학사일정</h5>
 				<ul>
-					<li></li>
+					<c:choose>
+						<c:when test="${schoolCalError eq null}">
+							<c:forEach var="cal" items="${schoolCal }">
+								<li>${cal.cal_title }</li>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<li>${schoolCalError }</li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>

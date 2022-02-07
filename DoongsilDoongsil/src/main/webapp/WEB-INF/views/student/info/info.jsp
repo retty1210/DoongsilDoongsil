@@ -59,13 +59,23 @@
 			<div class="schoolEvent_list_S_box">
 				<h5>학사일정</h5>
 				<ul>
-					<li></li>
+					<c:choose>
+						<c:when test="${schoolCalError eq null}">
+							<c:forEach var="cal" items="${schoolCal }">
+								<li>${cal.cal_title }</li>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<li>${schoolCalError }</li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>
 			<div class="calendar_box">
 				<h5>캘린더</h5>
 					<!-- 캘린더 API 불러오기. -->
+					<jsp:include page="/WEB-INF/views/module/calendar.jsp" flush="false"></jsp:include>
 			</div>
 		</div>
 	</div>

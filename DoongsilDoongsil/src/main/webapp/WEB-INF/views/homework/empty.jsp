@@ -27,6 +27,9 @@ EMPTY
 		<div class="row tmg10"><button type="button" class="btn btn-ryl">royal blue 버튼</button></div>
 		<div class="row tmg10"><button type="button" class="btn btn-lsr">laser blue버튼</button></div>
 	</div>
+	
+	<img src='<c:url value="/stc/img/table_first.png"/>' />
+	
 </div>
 </body>
 </html>

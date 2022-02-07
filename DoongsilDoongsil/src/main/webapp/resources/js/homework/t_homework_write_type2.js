@@ -150,7 +150,6 @@ function type2qplus(a) {
 			+'</div>'
 			+'<hr>'
 			+'<div class="row flex tmg10">'
-			+'<div class="col-md-5"></div>'
 			+'<div id="type2_q_plusArea'+numb+'" name="type2_q_plusArea" onclick="type2qplus('+numb+')" class="col-md-1">'
 			+'<img src="/stc/img/plus-circle-fill.svg" class="ic40 filter-lsrblue filter-skyblue-hover" />'
 			+'</div>'
@@ -271,8 +270,8 @@ function type2makeContents() {
 		console.log("전체 입력값: " + contents);
 		//$("#tho_contents_type1").attr('disabled', true);
 		//textarea hidden으로 만들어서 거기에 값 input
-		$("#tho_contents").val('');
-		$("#tho_contents").val(contents);
+		$("#tho_contents_type1").val('');
+		$("#tho_contents_type1").val(contents);
 		//$("#type2_q_textarea").attr('value', contents);
 		$('#hw_write_form').submit();
 	} else {//업로드 못함

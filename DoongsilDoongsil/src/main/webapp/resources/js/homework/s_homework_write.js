@@ -61,6 +61,8 @@ $(document).ready(function() {
 			} else {
 				$("#btn-submitSH2").show();
 			}
+		} else if(homeworktype == 3) {
+			
 		}
 });
 

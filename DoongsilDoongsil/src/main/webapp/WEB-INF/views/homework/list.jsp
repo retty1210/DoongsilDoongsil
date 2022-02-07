@@ -10,7 +10,7 @@
 <title>학년 반의 학급게시판</title>
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
 <c:url var="hwr_css_url" value="/stc/css/homework.css" />
-<c:url var="hwr_list_url" value="/stc/js/homework_list.js" />
+<c:url var="hwr_list_url" value="/stc/js/homework/homework_list.js" />
 <link href="${hwr_css_url}" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${hwr_list_url}"></script>
 </head>
@@ -105,7 +105,7 @@
 			</div>
 		</section>
 	</main>
-	<footer class="footer mt-auto py-3">
+	<footer class="fixed-bottom">
 		<div>
 			<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false" />
 		</div>

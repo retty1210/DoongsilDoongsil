@@ -2,11 +2,14 @@ package doongsil.com.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,19 +51,19 @@ public class NoticeController {
 	
 	//공지사항 글 작성
 	@RequestMapping(value = "/notice/noticeWrite", method = RequestMethod.POST)
-	public String write(NoticeVO noticeVO) throws Exception{
+	public String write(NoticeVO noticeVO, HttpSession session) throws Exception{
 		logger.info("write");
 				
 		service.write(noticeVO);
 		
 		//session에서 grade랑 class 비교해서...학년/반에 따라서 보여지는게 다르게..
 				
-		return "redirect:/notice/noticeList";
+		return "redirect:/notice/noticeList?page="+ session.getAttribute("nowPage");
 	}
 	
 	//공지사항 목록 조회
 	@RequestMapping(value = "/notice/noticeList", method = RequestMethod.GET)
-	public String list(Model model, Criteria cri) throws Exception{
+	public String list(@RequestParam("page") Integer page,Model model, Criteria cri, HttpSession session) throws Exception{
 		logger.info("noticeList");
 		
 		model.addAttribute("list", service.list(cri));
@@ -71,13 +74,16 @@ public class NoticeController {
 		
 		model.addAttribute("pageMaker", pageMaker);
 		
+		//현재페이지 저장
+		session.setAttribute("nowPage",page);
+		
 		return "notice/noticeList";
 		
 	}
 	
 	//공지사항 상세페이지
 		@RequestMapping(value = "/notice/noticeView", method = RequestMethod.GET)
-		public String read(NoticeVO noticeVO, Model model) throws Exception{
+		public String read(NoticeVO noticeVO, @RequestParam("not_id") Integer not_id, @ModelAttribute("cri") Criteria cri,Model model) throws Exception{
 			logger.info("noticeView");
 			
 			model.addAttribute("read", service.read(noticeVO.getNot_id()));
@@ -86,6 +92,8 @@ public class NoticeController {
 			List<ReplyVO> replyList = replyService.readReply(noticeVO.getNot_id());
 			model.addAttribute("replyList", replyList);
 			
+			service.updateReplyCount(not_id);
+
 			return "notice/noticeView";
 			
 		}
@@ -103,23 +111,23 @@ public class NoticeController {
 		
 		//공지사항 수정페이지 POST
 		@RequestMapping(value = "/update", method = RequestMethod.POST)
-		public String update(NoticeVO noticeVO) throws Exception{
+		public String update(NoticeVO noticeVO, HttpSession session) throws Exception{
 			logger.info("update");
 					
 			service.update(noticeVO);
 					
-			return "redirect:/notice/noticeList";
+			return "redirect:/notice/noticeList?page="+ session.getAttribute("nowPage");
 					
 			}
 		
 		//공지사항 삭제 
 		@RequestMapping(value = "/delete", method = RequestMethod.GET)
-		public String delete(int not_id) throws Exception{
+		public String delete(int not_id, HttpSession session) throws Exception{
 			logger.info("delete");
 
 			service.delete(not_id);
 			
-			return "redirect:/notice/noticeList";				
+			return "redirect:/notice/noticeList?page=" + session.getAttribute("nowPage");				
 		}
 		
 		//댓글 작성

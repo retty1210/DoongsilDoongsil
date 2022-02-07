@@ -50,7 +50,7 @@
 		<fmt:formatDate value="${update.not_writedate}" pattern="yyyy-MM-dd"/>
 	</div>
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-		<button type="button" class="btn btn-outline-secondary" id="cancel_btn" onclick="location.href='/notice/noticeList'">돌아가기</button>
+		<button type="button" class="btn btn-outline-secondary" id="cancel_btn" onclick="history.back()">돌아가기</button>
 		<button type="submit" class="btn btn-primary" id="update_btn">저장</button>
 	</div>
 	</form>

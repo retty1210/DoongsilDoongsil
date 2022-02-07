@@ -42,8 +42,8 @@
 		</div>
 	  </div>
 	  </div>
-
-		</form>
+	</form>
 	</section>
+<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false"/>
 </body>
 </html>

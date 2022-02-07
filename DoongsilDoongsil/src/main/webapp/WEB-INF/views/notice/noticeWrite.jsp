@@ -31,12 +31,14 @@
   			<input type="text" name="not_title" class="form-control" id="exampleFormControlInput1" >
 		</div>
 		<div class="mb-3">
+		
   			<label for="exampleFormControlTextarea1" class="form-label">내용을 작성하세요</label>
- 			 <textarea name="not_contents" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+ 			 <textarea name="not_contents" class="form-control" id="exampleFormControlTextarea1" rows="3" style="height:350px;"></textarea>
 		</div>
 		<div class="mb-3">
- 			 <label for="exampleFormControlInput1" class="form-label">작성자</label>
-  			<input type="text" name="not_writer" class="form-control" id="exampleFormControlInput1" >
+			<c:if test="${accountType eq 'T' }">
+  			<input type="hidden" name="not_writer" class="form-control" id="exampleFormControlInput1" value="${accountNumber }"/>
+  			</c:if>
 		</div>
 		<div class="mb-3">
  			 <label for="exampleFormControlInput1" class="form-label">작성일 : </label>
@@ -45,13 +47,13 @@
 			<c:out value="${today}"/>
 		</div>
 		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-			<button type="button" class="btn btn-outline-secondary" onclick="location.href='/notice/noticeList'">목록으로</button>
+			<button type="button" class="btn btn-outline-secondary" onclick="history.back()">목록으로</button>
 			<button type="submit" class="btn btn-primary" >게시하기</button>
 		</div>
 	</form>
-<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false"/>
 </section>
 </div>
 </div>
+<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false"/>
 </body>
 </html>

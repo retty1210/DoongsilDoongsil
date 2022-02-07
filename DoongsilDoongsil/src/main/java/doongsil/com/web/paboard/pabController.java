@@ -31,15 +31,15 @@ public class pabController {
 	// 글쓰기
 	@RequestMapping(value = "/paboard/paboardWrite", method = RequestMethod.POST)
 	public String write(PabVO pabVO) throws Exception{
-		logger.info("insert");
-				
+		logger.info("insert" + pabVO);
+			
 		service.insert(pabVO);
 		
 		return "redirect:paboard/paboardList";
 	}
 	
 	// 목록 조회
-	@RequestMapping(value = "/paboard/paboardList", method = RequestMethod.GET)
+	@RequestMapping(value = "/paboardList", method = RequestMethod.GET)
 	public String list(Model model) throws Exception{
 		logger.info("paboardList");
 		

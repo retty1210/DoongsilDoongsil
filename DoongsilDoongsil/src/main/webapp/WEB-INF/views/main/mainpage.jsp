@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>calendar</title>
+
 <script src="/stc/js/cal.js"></script>
 <link href="/stc/css/doongmain.css" rel="stylesheet" type="text/css" />
 <link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
@@ -16,6 +17,11 @@
 		display : inline-block;
 	}
 </style>
+<script type="text/javascript">
+	function MyInfoUpdate(href){
+		window.open('/infoUpdate?id=${sessionScope.accountNumber}','','width=500,height=700');
+	}
+</script>
 </head>
 <body>
 	<header>
@@ -47,14 +53,33 @@
 			</div>
 			 
 			 <div class = "today-box">
-			 		캘린더 내용 나오게 하기 
+				<script type="text/javascript">
+					$.ajax({
+						url: '/getList',
+						type: 'GET',
+						success: function(response) {
+							var monthNum = $('h2').text();
+							var arr = [];
+							$.each(response, function(index, data) {
+								arr.push(index, data);
+							});
+							if(monthNum.substring(6,7) == arr[2]){
+								alert('성공');
+							}
+							console.log(arr);
+						},
+						error: function(response) {
+							alert('실패');
+						}
+					});
+				</script>		 	
 			 </div>
 		</div>
 		<div class="main-board-area">
 			<div class="main-first-top">
 				<div class="notice-area">
 				<table class="notice-table, notice-only-table">
-					<span><a href="/notice/noticeList" class="more-list-text">+ 더보기</a></span>
+					<span><a href="/notice/noticeList?page=1" class="more-list-text">+ 더보기</a></span>
 					<th class="notice-table, th-text-position">공지사항</th>
 					<c:forEach var="notice" items="${noticeList}">
 						<tr>

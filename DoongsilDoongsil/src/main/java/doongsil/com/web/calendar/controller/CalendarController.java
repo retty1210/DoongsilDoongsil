@@ -28,7 +28,7 @@ public class CalendarController {
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	private CalendarDTO dto;
 	
-	@RequestMapping(value="/mainpage", method=RequestMethod.GET)
+	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String calendar(Model model) {
 		// 공지사항 출력하는 부분
 		List<NoticeVO> notice_list = service.selectNotice_two();
@@ -47,16 +47,8 @@ public class CalendarController {
 	@RequestMapping(value="/getEvent", produces="application/text; charset=utf8", method=RequestMethod.GET)
 	@ResponseBody
 	public String getEvents(Model model) throws Exception {
-		logger.info("getController 동작");
 		List<CalendarDTO> calendar_list = service.selectCalendar();
-		//HashMap<Integer, CalenderDTO> Integer: 달, CalenderDTO
-		//for문을 1~12까지 돌게 만들어서
-		//for문 안에서 임시로 쓸 CalenderDTO[]를 만들어서 Date중에 월이 for문 i와 동일한 거를 []에 넣고
-		//HashMap에 key로 월, value로 CalenderDTO[]를 넣고
-		//이걸 model에 넣어서 session에 뿌리고
-		//js에서 지금 열려있는 calender의 월 값을 찾아서 그 값을 key로 넣어서 나오는 value값을 div에 뿌림
-		//fc-next-button이나 fc-prev-button을 클릭했을때 거기에 맞게 key값을 바꾸도록 로직 짜기
-		
+		System.out.println(calendar_list);
 		// 밑에 로직 공부
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = mapper.writeValueAsString(calendar_list);
@@ -66,7 +58,6 @@ public class CalendarController {
 	@RequestMapping(value="/insertDate", method=RequestMethod.POST)
 	@ResponseBody
 	public String calendar(CalendarDTO dto, Model model, HttpServletRequest req) throws Exception {
-		// 로그인 하고 로그인 한 사람의 id가 선생님이면 일정 추가 가능 아니면 안되게 하기 
 		String title = req.getParameter("cal_title");
 		model.addAttribute("title_add", dto);
 		//strat & end 데이터포맷변환
@@ -77,7 +68,6 @@ public class CalendarController {
 		dto.setCal_end(realEnd);
 		
 			service.InsertEvent(dto);
-			logger.info("post 동작");
 	   
 		return "redirect:/main/mainpage";
 	}
@@ -85,11 +75,38 @@ public class CalendarController {
 	@ResponseBody
 	@RequestMapping(value="/deleteEvents", method=RequestMethod.POST)
 	public String deleteEvents(CalendarDTO dto, HttpServletRequest request) throws Exception {
-		System.out.println(dto);
-		logger.info("delete부분 메서드 동작");
 		
 		service.DeleteEvent(dto);
 		return"redirect:/main/mainpage";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getList", method=RequestMethod.GET)
+	public HashMap<Integer, CalendarDTO[]> getList(Model model, HttpSession session) {
+		List<CalendarDTO> calendar_list = service.selectCalendar();
+		HashMap<Integer, CalendarDTO[]> exNum = new HashMap<Integer, CalendarDTO[]>();
+		
+		for(int i=1; i < 13; i++) {
+			List<CalendarDTO> temparr = new ArrayList<CalendarDTO>();
+			for(CalendarDTO Date: calendar_list) {
+				if(Date.getCal_start().toLocalDate().getMonthValue() == i) {
+					temparr.add(Date);
+				}
+			}
+			CalendarDTO[] calArr = new CalendarDTO[temparr.size()];
+			temparr.toArray(calArr);
+			exNum.put(i, calArr);
+		}
+		model.addAttribute("academic", exNum);
+		//System.out.println(exNum);
+		//for문을 1~12까지 돌게 만들어서
+		//for문 안에서 임시로 쓸 CalenderDTO[]를 만들어서 Date중에 월이 for문 i와 동일한 거를 []에 넣고
+		//HashMap에 key로 월, value로 CalenderDTO[]를 넣고
+		//이걸 model에 넣어서 session에 뿌리고
+		//js에서 지금 열려있는 calender의 월 값을 찾아서 그 값을 key로 넣어서 나오는 value값을 div에 뿌림
+		//fc-next-button이나 fc-prev-button을 클릭했을때 거기에 맞게 key값을 바꾸도록 로직 짜기
+
+		return exNum;
 	}
 	
 }

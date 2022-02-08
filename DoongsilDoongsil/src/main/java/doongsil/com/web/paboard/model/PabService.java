@@ -12,8 +12,14 @@ public class PabService {
 	private PabDAO dao;
 	
 	
-	public void insert(PabVO pabVO) throws Exception {
-		dao.insert(pabVO);
+	public boolean insert(PabVO pabVO) throws Exception {
+		int res = dao.insert(pabVO);
+		
+		if(res == 1) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	

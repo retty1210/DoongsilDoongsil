@@ -12,8 +12,8 @@ public class PabDAO {
 	@Autowired
 	private SqlSession sess;
 		
-	public void insert(PabVO pabVO) throws Exception {
-		sess.insert("PabMapper.insert", pabVO);		
+	public int insert(PabVO pabVO) throws Exception {
+		return this.sess.insert("PabMapper.insert", pabVO);		
 	}
 	
 	public void update(PabVO pabVO) throws Exception{

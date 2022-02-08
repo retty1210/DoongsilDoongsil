@@ -8,11 +8,20 @@
   }
 
   #calendar {
-  	width: 450px;
-    max-width: 550px;
+  	width: 700px;
+    max-width: 800px;
     font-size: 9px;
   }
-  
+
+/* 캘린더 날짜 색상 및 날짜 밑줄 제거 */
+.fc-daygrid-day-number,
+.fc-day .fc-scrollgrid-sync-inner a{ text-decoration: none; color: black;}
+.fc-day-sat .fc-daygrid-day-frame .fc-daygrid-day-top a,
+.fc-day-sat .fc-scrollgrid-sync-inner a {color : blue;} /* 토요일 */
+.fc-day-sun .fc-daygrid-day-frame .fc-daygrid-day-top a,
+.fc-day-sun .fc-scrollgrid-sync-inner a {color : red;} /* 일요일 */
+
+
 
 /* 중복 되는 부분 */
 .notice-only-table, 
@@ -25,10 +34,7 @@
 }
 
 /* 공지사항 및 학급게시판 부분 css */
-.notice-area, 
-.classBoard-area {
-	margin : 33px 0px 0px 30px;
-}
+
 
 
 .notice-only-table,
@@ -48,7 +54,7 @@
 
 /* 공지사항 및 학급게시판 더보기 css */
 .more-list-text {
-	float: right;
+	/* float: right; */
 	margin-bottom: 5px;
 	font-size: 13px;
 	text-decoration: none;
@@ -90,14 +96,18 @@
 }
 
 .main-board-area {
+	/*
 	display: flex;
 	flex-wrap: wrap;
+	*/
 }
 
 .main-first-top,
 .main-second-bottom {
+	/*
 	display:flex;
 	justify-content: space-around;
+	*/
 }
 
 /* 캘린더 학사일정 css*/
@@ -107,5 +117,24 @@
 
 .school-events-area {
 	margin-left : 80px;
+}
+
+/* 임시 */
+
+.myInfo-area {
+	display: inline-block;
+	float: left;
+}
+
+.main-first-top {
+	display : inline-block;
+	border : 1px solid black;
+	width: 850px;
+	height: 160px;
+}
+
+.notice-area,
+.classBoard-area {
+	float : left;
 }
 

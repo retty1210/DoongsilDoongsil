@@ -7,18 +7,29 @@
 <head>
 <meta charset="UTF-8">
 <title>calendar</title>
+
 <script src="/stc/js/cal.js"></script>
 <link href="/stc/css/doongmain.css" rel="stylesheet" type="text/css" />
 <link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
+<style type="text/css">
+  	/* mainpage에서는 mainbodybox에 걸려있는 flex 불필요 제거함 */
+	.mainbodybox {
+		display : inline-block;
+	}
+</style>
+<script type="text/javascript">
+	function MyInfoUpdate(href){
+		window.open('/infoUpdate?id=${sessionScope.accountNumber}','','width=500,height=700');
+	}
+</script>
 </head>
 <body>
 	<header>
 		<jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
 		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
 	</header>
-
 	<div class="all-area">
-		<div class="myInfo-area">
+		<div class="myInfo-area mainbodybox">
 			<div class="myInfoBox">
 				<a href="javascript:void(0);" onclick="MyInfoUpdate(this);" class="myInfo_setting">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
@@ -26,27 +37,49 @@
 					</svg>
 				</a>
 				<div class="myInfo_photo_box">
-					<img src="#" alt="profilePhoto" class="myInfo_photo"/>
+					<img src="${sessionScope.account.sta_profile }" alt="profilePhoto" class="myInfo_photo"/>
 				</div>
 				<table class="myInfo_text_tb">
 					<tr class="myInfo_text_tr">
-						<td class="myInfo_td"><strong>이종훈</strong></td>
-						<td class="myInfo_td"><strong>3학년 2반</strong></td>
-						<td class="myInfo_td"><strong>학생</strong></td>
+						<td class="myInfo_td">${sessionScope.account.sta_name }</td>
+						<td class="myInfo_td">${sessionScope.account.sta_grade }학년 ${sessionScope.account.sta_class }반</td>
+						<td class="myInfo_td" id="T_check">
+							<c:if test="${sessionScope.account.sta_usertype eq 'T'}">
+								교사
+							</c:if>
+						</td>
 					</tr>
 				</table>
-			 </div>
+			</div>
 			 
 			 <div class = "today-box">
-			 		캘린더 내용 나오게 하기 
+				<script type="text/javascript">
+					$.ajax({
+						url: '/getList',
+						type: 'GET',
+						success: function(response) {
+							var monthNum = $('h2').text();
+							var arr = [];
+							$.each(response, function(index, data) {
+								arr.push(index, data);
+							});
+							if(monthNum.substring(6,7) == arr[2]){
+								alert('성공');
+							}
+							console.log(arr);
+						},
+						error: function(response) {
+							alert('실패');
+						}
+					});
+				</script>		 	
 			 </div>
 		</div>
-	
 		<div class="main-board-area">
 			<div class="main-first-top">
 				<div class="notice-area">
 				<table class="notice-table, notice-only-table">
-					<span><a href="/notice/noticeList" class="more-list-text">+ 더보기</a></span>
+					<span><a href="/notice/noticeList?page=1" class="more-list-text">+ 더보기</a></span>
 					<th class="notice-table, th-text-position">공지사항</th>
 					<c:forEach var="notice" items="${noticeList}">
 						<tr>
@@ -88,16 +121,17 @@
 				<input type="hidden" name="cal_title" value="${dto.getCal_title}" />
 				<input type="hidden" name="cal_start"/>
 				<input type="hidden" name="cal_end"/>
+				
 			</form>
 			<div class="main-second-bottom">
 				<div class="calendar-area">
 					<jsp:include page="/WEB-INF/views/module/calendar.jsp" flush="false" />
 				</div>
-				<div class="school-events-area">
-					<div class="school-events"></div>
-				</div>
 			</div>
 		</div>
 	</div>
+	<footer>
+		<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false" />
+	</footer>
 </body>
 </html>

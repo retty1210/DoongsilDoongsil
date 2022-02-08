@@ -24,7 +24,7 @@
     </insert>
     
     <update id="update" parameterType="doongsil.com.web.paboard.model.PabVO">
-    	UPDATE PARENTS_BOARD SET PAB_TITLE = #{pab_title}, PAB_CONTENTS = #{pab_contents} WHERE PAB_ID = #{pab_id}	   	
+    	UPDATE PARENTS_BOARD SET PAB_TITLE = #{pab_title}, PAB_CONTENTS = #{pab_contents}, PAB_COUNT = PAB_COUNT - 1 WHERE PAB_ID = #{pab_id}	   	
     </update>
     
    
@@ -33,10 +33,30 @@
     </delete>
     
     <select id="list" resultType="doongsil.com.web.paboard.model.PabVO">
-    SELECT PAB_ID, PAB_TITLE, PAB_WRITER, PAB_DATE FROM PARENTS_BOARD ORDER BY PAB_ID DESC
+    SELECT PAB_ID
+         , PAB_TITLE
+         , B.PAA_USERNAME
+         , PAB_DATE
+         , PAB_COUNT
+      FROM PARENTS_BOARD A JOIN PARENTS_ACCOUNT B
+        ON A.PAB_WRITER = B.PAA_ID
+     ORDER BY PAB_ID DESC
     </select>
     
+    <update id="CountUpdate" parameterType="doongsil.com.web.paboard.model.PabVO">
+    	UPDATE PARENTS_BOARD
+    	   SET PAB_COUNT = #{pab_Count}
+    	 WHERE PAB_ID = #{pab_id}
+    </update>
     <select id="view" parameterType="int" resultType="doongsil.com.web.paboard.model.PabVO" >
-     SELECT PAB_ID, PAB_TITLE, PAB_CONTENTS, PAB_DATE FROM PARENTS_BOARD WHERE PAB_ID = #{pab_id}
+     SELECT PAB_ID
+     	  , B.PAA_USERNAME
+     	  , PAB_TITLE
+     	  , PAB_CONTENTS
+     	  , PAB_DATE
+     	  , PAB_COUNT
+       FROM PARENTS_BOARD A JOIN PARENTS_ACCOUNT B
+         ON A.PAB_WRITER = B.PAA_ID
+      WHERE PAB_ID = #{pab_id}
     </select>
 </mapper>

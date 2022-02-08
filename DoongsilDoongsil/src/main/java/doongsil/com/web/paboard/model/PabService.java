@@ -31,8 +31,9 @@ public class PabService {
 	public PabVO view(int pab_id) throws Exception{
 		return dao.view(pab_id);
 	}
-	
-
+	public void countUpdate(PabVO pabVO) {
+		this.dao.countUpdate(pabVO);
+	}
 	public void update(PabVO pabVO) throws Exception{
 		dao.update(pabVO);
 	}

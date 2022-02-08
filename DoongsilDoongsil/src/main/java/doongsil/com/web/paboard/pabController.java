@@ -1,5 +1,10 @@
 package doongsil.com.web.paboard;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,34 +56,26 @@ public class pabController {
 	
 	// 상세페이지
 		@RequestMapping(value = "/paboardView", method = RequestMethod.GET)
-		public String view(PabVO pabVO, Model model) throws Exception{
+		public String view(PabVO pabVO, Model model,HttpSession session) throws Exception{
 			logger.info("paboardView");
 			
-			model.addAttribute("view", service.view(pabVO.getPab_id()));
+			pabVO = service.view(pabVO.getPab_id());
+			
+			this.service.countUpdate(pabVO);
+			
+			model.addAttribute("view",pabVO);
 			
 			return "paboard/paboardView";
 			
 		}
-
-		// 수정페이지 GET
-		@RequestMapping(value = "/paboardUpdate", method = RequestMethod.GET)
-		public String updateView(PabVO pabVO, Model model) throws Exception{
-			logger.info("pabupdate");
-		
-			model.addAttribute("update", service.view(pabVO.getPab_id()));
-			
-			return "paboard/pabupdate";
-		}
-		
 		
 		// 수정페이지 POST
 		@RequestMapping(value = "/paboardUpdate", method = RequestMethod.POST)
 		public String update(PabVO pabVO) throws Exception{
 			logger.info("update");
-					
+			
 			service.update(pabVO);
-					
-			return "redirect:/paboardList";
+			return "redirect:/paboardView?pab_id="+pabVO.getPab_id();
 					
 			}
 		

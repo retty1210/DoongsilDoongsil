@@ -34,6 +34,9 @@ public class PabDAO {
 	public PabVO view(int pab_id) throws Exception{
 		return sess.selectOne("PabMapper.view", pab_id);
 	}
+	public void countUpdate(PabVO pabVO) {
+		this.sess.update("PabMapper.CountUpdate",pabVO);
+	}
 	
 
 }

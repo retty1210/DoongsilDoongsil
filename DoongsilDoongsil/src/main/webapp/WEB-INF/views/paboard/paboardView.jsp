@@ -14,14 +14,14 @@
 		// 수정 
 		$(".update_btn").on("click", function(){
 			formObj.attr("action", "/paboardUpdate");
-			formObj.attr("method", "get");
+			formObj.attr("method", "post");
 			formObj.submit();				
 		})
 		
 		// 삭제
 		$(".delete_btn").on("click", function(){
 			formObj.attr("action", "/paboardDelete");
-			formObj.attr("method", "post");
+			formObj.attr("method", "get");
 			formObj.submit();
 		})
 		
@@ -43,12 +43,12 @@
 			</header>
 			
 			<section id="container">
-				<form role="form" method="post">
+				<form role="form" method="post" name="readForm">
 					<table>
 						<tbody>
 							<tr>
 								<td>
-									<label for="pab_id">글 번호</label><input type="text" id="pab_id" name="pab_id" value="${view.pab_id}"/>
+									<label for="pab_id">글 번호</label><input type="text" id="pab_id" name="pab_id" value="${view.pab_id}" readOnly/>
 								</td>
 							</tr>	
 							<tr>
@@ -58,12 +58,12 @@
 							</tr>	
 							<tr>
 								<td>
-									<label for="pab_contents">내용</label><textarea id="pab_contents" name="pab_contents"><c:out value="${view.pab_contents}" /></textarea>
+									<label for="pab_contents">내용</label><textarea id="pab_contents" name="pab_contents" style="resize:none;"><c:out value="${view.pab_contents}" /></textarea>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<label for="pab_writer">작성자</label><input type="text" id="pab_writer" name="pab_writer" value="${view.pab_writer}" />
+									<label for="pab_writer">작성자</label><input type="text" id="pab_writer" value="${view.paa_UserName}" readOnly />
 								</td>
 							</tr>
 							<tr>
@@ -75,8 +75,8 @@
 						</tbody>			
 					</table>
 					<div>
-					<button type="submit" class="update_btn">수정</button>
-					<button type="submit" class="delete_btn">삭제</button>
+					<button type="button" class="update_btn">수정</button>
+					<button type="button" class="delete_btn">삭제</button>
 					<button type="button" class="list_btn">목록</button>
 					</div>
 				</form>
@@ -84,10 +84,6 @@
 			<hr/>
 		</div>
 	</main>
-	<footer class="fixed-bottom">
-		<div>
-			<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false" />
-		</div>
-	</footer>
+	<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false" />
 </body>
 </html>

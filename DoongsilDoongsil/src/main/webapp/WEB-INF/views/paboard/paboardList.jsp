@@ -13,7 +13,7 @@
   }
   table{
  	border-collapse: collapse;
- 	width: 1000px;    
+ 	width: 1200px;    
  	margin-top : 20px;
  	text-align: center;
   }
@@ -42,6 +42,9 @@
   .updatedate_width{
   	width: 15%;
   }
+  .count_width{
+  	width: 10%;
+  }
   .top_btn{
   	font-size: 20px;
     padding: 6px 12px;
@@ -67,15 +70,16 @@
 						<th class="title_width">제목</th>
 						<th class="writer_width">작성자</th>
 						<th class="regdate_width">작성일</th>
-		
+						<th class="count_width">조회수</th>
 					</tr>
 				</thead>
 		 		<c:forEach items="${list}" var="list">
 		            <tr>
 		                <td><c:out value="${list.pab_id}"/></td>
-		                <td><a href="/paboardView?pab_id=${list.pab_id}"><c:out value="${list.pab_title}" /></a></td>
-		                <td><c:out value="${list.pab_writer}"/></td>
+		               	<td><a href="/paboardView?pab_id=${list.pab_id}" class="titleLink"><c:out value="${list.pab_title}" /></a></td>
+		                <td><c:out value="${list.paa_UserName}"/></td>
 						<td><fmt:formatDate pattern="yyyy/MM/dd" value="${list.pab_date}"/></td>
+						<td><c:out value="${list.pab_Count}"/></td>
 		            </tr>
 		        </c:forEach>
 			</table>

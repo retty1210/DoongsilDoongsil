@@ -101,5 +101,14 @@ public class STJoinVO {
 	public void setSta_usertype(String sta_usertype) {
 		this.sta_usertype = sta_usertype;
 	}
+
+	@Override
+	public String toString() {
+		return "STJoinVO [sta_username=" + sta_username + ", sta_name=" + sta_name + ", sta_password=" + sta_password
+				+ ", sta_password_chk=" + sta_password_chk + ", sta_email=" + sta_email + ", sta_address=" + sta_address
+				+ ", sta_postcode=" + sta_postcode + ", sta_phonenumber=" + sta_phonenumber + ", sta_birthday="
+				+ sta_birthday + ", sta_usertype=" + sta_usertype + "]";
+	}
+	
 	
 }

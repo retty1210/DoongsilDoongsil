@@ -36,14 +36,14 @@
 			</div>
 			<div class="name_wrap">
 				<label>이름</label>
-				<input type="text" name="name" required>
+				<input type="text" name="sta_name" required>
 				<span id="must-name" class="hid_span_area">
 					<!--필수 입력입니다.-->
 				</span>
 			</div>
 			<div class="password_wrap">
 				<label>비밀번호</label>
-				<input type="password" name="password" required> 
+				<input type="password" name="sta_password" required> 
 				<span id="must-pw" class="hid_span_area"> 
 					<!-- 필수 입력입니다.--> 
 				</span>
@@ -57,7 +57,7 @@
 			</div>
 			<div>
 				<label>이메일</label>
-				<input type="email" name="email" required>
+				<input type="email" name="sta_email" required>
 				<span id="must-email" class="hid_span_area">
 					<!--필수 입력입니다.-->
 	            </span>
@@ -65,28 +65,27 @@
 			<div class="multi-select">
 				<label>주소</label>
 				<div>
-					<input type="text" id="sample6_postcode" name="address" placeholder="우편번호">
+					<input type="text" id="sample6_postcode" name="sta_postcode" placeholder="우편번호">
 					<input type="button" onclick="sample6_execDaumPostcode();" value="우편번호 찾기"><br>
-					<input type="text" id="sample6_address" placeholder="주소"><br>
+					<input type="text" id="sample6_address" name="sta_address" placeholder="주소"><br>
 					<input type="text" id="sample6_detailAddress" placeholder="상세주소">
 					<input type="text" id="sample6_extraAddress" placeholder="참고항목">
 				</div>
 			</div>
 			<div>
 				<label>전화번호</label>
-				<input type="text" name="phonenumber">
+				<input type="text" name="sta_phonenumber">
 			</div>
 			<div class="multi-input">
 	               <label>생년월일</label>
 	               <div class="input-form">
-	                   <select id="year" name="year" title="년도" class="custom-select"></select>
-	                   <select id="month" name="month" title="월" class="custom-select"></select>
-	                   <select id="day" name="day" title="일" class="custom-select"></select>
+	                   <input type="date" id="birthday" name="sta_birthday" class="custom-input"/>
+	                  
 	               </div>
 	           </div>
 	        <div>
-	        	<input type="checkbox" id="student" name="check1" value="S"><label for="student">학생입니다</label>
-	        	<input type="checkbox" id="teacher" name="check1" value="T"><label for="teacher">선생님입니다</label>
+	        	<input type="checkbox" id="student" name="sta_usertype" value="S"><label for="student">학생입니다</label>
+	        	<input type="checkbox" id="teacher" name="sta_usertype" value="T"><label for="teacher">선생님입니다</label>
 	        </div>
 			<div>
 				<button type="submit">가입하기</button>

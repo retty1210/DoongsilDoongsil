@@ -93,9 +93,10 @@ private static final Logger logger = LoggerFactory.getLogger(AccountController.c
 	}
 	
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
-	public String join(STJoinVO stVo, Model model) {
+	public String join(STJoinVO stVo, Model model) throws Exception {
 		if(stVo != null) {
-			logger.info("회원가입 성공");
+			logger.info("회원가입 성공 - stVo" + stVo);
+			staService.join(stVo);
 			return "redirect:/login";
 		}
 		return "account/join";
@@ -133,6 +134,7 @@ private static final Logger logger = LoggerFactory.getLogger(AccountController.c
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(LoginVO loginVo, HttpSession session, Model model, HttpServletResponse response) throws Exception{
 		logger.info("method: POST, login(), 로그인 처리 요청");
+		logger.info("LOGIN " + loginVo);
 		
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();

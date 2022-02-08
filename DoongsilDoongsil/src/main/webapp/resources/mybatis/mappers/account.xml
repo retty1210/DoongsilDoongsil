@@ -53,13 +53,16 @@
 	<insert id="insertAccount" parameterType="stjoin">
 		INSERT INTO ST_ACCOUNT VALUES(ST_ACCOUNT_SEQ.NEXTVAL 
 									  , #{sta_username}
-									  , #{sta_name}
 									  , #{sta_password}
+									  , #{sta_name}
 									  , #{sta_email}
 									  , #{sta_address}
 									  , #{sta_postcode}
 									  , #{sta_phonenumber}
+									  , 0
+									  , 0
 									  , #{sta_birthday}
+									  , '/stc/up/default.png'
 									  , #{sta_usertype}
 									  )
 	</insert>

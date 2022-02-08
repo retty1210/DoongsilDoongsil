@@ -1,6 +1,6 @@
 @charset "UTF-8";
 * {
-	font-family: 'Roboto', 'sans-serif';
+	font-family: 'Pretendard', 'Roboto', 'sans-serif';
 }
 
 body{
@@ -81,6 +81,12 @@ select ::-ms-expand {display: none;}
 	margin-right: 5px;
 }
 
+div.error {
+	font-size: 13px;
+	color: #FE2E2E;
+	padding: 5px 0 9px 16px;
+}
+
 .options {
 	display: block;
 	width: 100%;
@@ -108,9 +114,14 @@ button.signin-btn {
 	margin-right: auto;
 	border: none;
 	font-size: 18px;
+	font-weight: bolder;
 	border-radius: 30px;
-	background-color: #59cf9c;
-	color: #fff;
+	background-color: #Ffce9c;
+	color: #fff7e3;
+}
+
+button.signin-btn:hover {
+	background-color: 5b6baa;
 }
 
 .a-div {

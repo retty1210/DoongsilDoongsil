@@ -23,7 +23,12 @@ public class STAccountVO {
 	
 	public STAccountVO() {}
 	
-	public STAccountVO(int sta_id,String sta_name, String sta_email, String sta_address, String sta_phonenumber, int sta_grade,
+	public STAccountVO(String sta_username, String sta_password) {
+		this.sta_username = sta_username;
+		this.sta_password = sta_password;
+	}
+	
+	public STAccountVO(int sta_id, String sta_name, String sta_email, String sta_address, String sta_phonenumber, int sta_grade,
 			int sta_class, Date sta_birthday, String sta_profile, String sta_usertype) {
 		this.sta_id = sta_id;
 		this.sta_name = sta_name;

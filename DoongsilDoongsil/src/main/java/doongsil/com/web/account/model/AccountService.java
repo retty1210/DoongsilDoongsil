@@ -13,19 +13,32 @@ public class AccountService {
 	
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(AccountService.class);
 	
-	@Autowired
-	private AccountDAO dao;
+//	@Autowired
+//	private AccountDAO dao;
 	
-	@Transactional(rollbackFor = Exception.class)
-	public STAccountVO login(LoginVO vo) {
-		STAccountVO data = this.dao.selectLoginAccount(vo);
-		if(data == null) {
-			return null;
-		} else {
-			data.setSta_password("");
-			return data;
-		}
-	}
+//	@Transactional(rollbackFor = Exception.class)
+//	public STAccountVO login(LoginVO vo) {
+//		STAccountVO data = this.dao.selectLoginAccount(vo);
+//		if(data == null) {
+//			return null;
+//		} else {
+//			data.setSta_password("");
+//			return data;
+//		}
+//	}
+//	
+//	@Transactional(rollbackFor = Exception.class)
+//	public PAAccountVO login2(LoginVO vo) {
+//		PAAccountVO data2 = this.dao.selectLoginAccount2(vo);
+//		if(data2 == null) {
+//			return null;
+//		} else {
+//			{
+//			data2.setPaa_password("");
+//			return data2;
+//			}
+//		}
+//	}
 
 //	public STAccountVO getBySns(STAccountVO snsUser) {
 //		return null;

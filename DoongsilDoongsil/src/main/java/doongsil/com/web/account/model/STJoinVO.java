@@ -15,6 +15,13 @@ public class STJoinVO {
 	private Date sta_birthday;
 	private String sta_usertype;
 	
+	public STJoinVO() {}
+	
+	public STJoinVO(String sta_username, String sta_password) {
+		this.sta_username = sta_username;
+		this.sta_password = sta_password;
+	}
+	
 	public String getSta_username() {
 		return sta_username;
 	}

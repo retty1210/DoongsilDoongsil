@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+* {
+	font-family: 'Pretendard', 'Roboto', 'sans-serif';
+}
+
 .box {
 	width: 400px;
     margin: 30px auto;
@@ -8,6 +12,27 @@
 .box h2 {
 	display: block;
 	margin: 0 0 15px;
+	text-align: center;
+}
+
+.login-div {
+	margin: 100px auto;
+	width: 350px;
+	background-color: #fff;
+	padding: 60px;
+}
+
+.logo {
+	background-color: #fff;
+	width: 150px;
+	height: 150px;
+	border-radius: 20%;
+	margin: 0 auto;
+	margin-bottom: 10px;
+}
+
+.logo img {
+	width: 100%;
 }
 
 .box form {

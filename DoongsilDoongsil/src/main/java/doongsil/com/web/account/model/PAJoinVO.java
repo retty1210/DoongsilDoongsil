@@ -3,11 +3,10 @@ package doongsil.com.web.account.model;
 // 학부모 회원가입
 public class PAJoinVO extends STAccountVO {
 	private String paa_username;
-	private String paa_name;
 	private String paa_password;
 	private String paa_password_chk;
 	private String paa_phonenumber;
-	private String sta_name;
+	private String paa_child_id;
 	
 	public String getPaa_username() {
 		return paa_username;
@@ -15,14 +14,6 @@ public class PAJoinVO extends STAccountVO {
 	
 	public void setPaa_username(String paa_username) {
 		this.paa_username = paa_username;
-	}
-	
-	public String getPaa_name() {
-		return paa_name;
-	}
-	
-	public void setPaa_name(String paa_name) {
-		this.paa_name = paa_name;
 	}
 	
 	public String getPaa_password() {
@@ -48,12 +39,13 @@ public class PAJoinVO extends STAccountVO {
 	public void setPaa_phonenumber(String paa_phonenumber) {
 		this.paa_phonenumber = paa_phonenumber;
 	}
-	
-	public String getSta_name() {
-		return sta_name;
+
+	public String getPaa_child_id() {
+		return paa_child_id;
 	}
-	
-	public void setSta_name(String sta_name) {
-		this.sta_name = sta_name;
+
+	public void setPaa_child_id(String paa_child_id) {
+		this.paa_child_id = paa_child_id;
 	}
+
 }

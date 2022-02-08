@@ -102,12 +102,12 @@ private static final Logger logger = LoggerFactory.getLogger(AccountController.c
 		return "account/join";
 	}
 	
-	//아이디 중복검사
-	@RequestMapping(value = "join/idCheck", method = RequestMethod.POST)
-	public int idCheck(String sta_username) throws Exception {
-		int result = staService.idCheck(sta_username);
-		return result;
-	}
+//	//아이디 중복검사
+//	@RequestMapping(value = "join/idCheck", method = RequestMethod.POST)
+//	public int idCheck(String sta_username) throws Exception {
+//		int result = staService.idCheck(sta_username);
+//		return result;
+//	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {

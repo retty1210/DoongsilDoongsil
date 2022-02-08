@@ -2,23 +2,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
-	<head>
-	<meta charset="utf-8">
-		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	 	<title>게시판</title>
-	</head>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			
-			$(".cancel_btn").on("click", function(){
-				event.preventDefault();
-				location.href = "/paboard/paboardList";
-			})
+<head>
+<meta charset="utf-8">
+ <title>게시판</title>
+</head>
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$(".cancel_btn").on("click", function(){
+			event.preventDefault();
+			location.href = "/paboardList";
 		})
-	
-	</script>
-	<body>
+	})
+
+</script>
+<body>
+	<header>
+		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
+	</header>
+	<main role="main" class="container">
 		<div id="root">
 			<header>
 				<h1>수정</h1>
@@ -26,7 +28,7 @@
 			<hr/>
 			
 			<section id="container">
-				<form name="updateForm" role="form" method="post" action="/paboard/update">
+				<form name="updateForm" role="form" method="post" action="/paboardUpdate">
 					<input type="hidden" name="pab_id" value="${update.pab_id}" readonly="readonly"/>
 					<table>
 						<tbody>
@@ -55,12 +57,16 @@
 					</table>
 					<div>
 						<button type="submit" class="btn-primary">저장</button>
-						<button type="submit" class="cancel_btn" onclick="location.href='/paboard/paboardList'">취소</button>
+						<button type="submit" class="cancel_btn" onclick="location.href='/paboardList'">취소</button>
 					</div>
 				</form>
 			</section>
-			<hr />
 		</div>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-	</body>
+	</main>
+	<footer class="fixed-bottom">
+		<div>
+			<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false" />
+		</div>
+	</footer>
+</body>
 </html>

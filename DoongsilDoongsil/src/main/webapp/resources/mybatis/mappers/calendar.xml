@@ -36,7 +36,7 @@
 		   AND CAL_END = #{cal_end}
 	</delete>
 	
-	<select id="" parameterType="noticeVO">
+	<!--select id="" parameterType="doongsil.com.web.notice.model.NoticeVO">
 		SELECT * FROM NOTICE WHERE 
-	</select>
+	</select> -->
 </mapper>

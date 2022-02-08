@@ -2,39 +2,41 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
-	<head>
-	<meta charset="UTF-8">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	 	<title>상세보기</title>
-	</head>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			var formObj = $("form[name='readForm']");
-			
-			// 수정 
-			$(".update_btn").on("click", function(){
-				formObj.attr("action", "/paboard/pabupdate");
-				formObj.attr("method", "get");
-				formObj.submit();				
-			})
-			
-			// 삭제
-			$(".delete_btn").on("click", function(){
-				formObj.attr("action", "/paboard/delete");
-				formObj.attr("method", "post");
-				formObj.submit();
-			})
-			
-			// 취소
-			$(".list_btn").on("click", function(){
-				
-				location.href = "/paboard/paboardList";
-			})
+<head>
+<meta charset="UTF-8">
+<title>상세보기</title>
+<jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
+</head>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var formObj = $("form[name='readForm']");
+		
+		// 수정 
+		$(".update_btn").on("click", function(){
+			formObj.attr("action", "/paboardUpdate");
+			formObj.attr("method", "get");
+			formObj.submit();				
 		})
-	</script>
-	<body>
-	
+		
+		// 삭제
+		$(".delete_btn").on("click", function(){
+			formObj.attr("action", "/paboardDelete");
+			formObj.attr("method", "post");
+			formObj.submit();
+		})
+		
+		// 취소
+		$(".list_btn").on("click", function(){
+			
+			location.href = "/paboardList";
+		})
+	})
+</script>
+<body>
+	<header>
+		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
+	</header>
+	<main role="main" class="container">
 		<div id="root">
 			<header>
 				<h1>학부모 게시판</h1>
@@ -75,12 +77,17 @@
 					<div>
 					<button type="submit" class="update_btn">수정</button>
 					<button type="submit" class="delete_btn">삭제</button>
-					<button type="submit" class="list_btn">목록</button>
+					<button type="button" class="list_btn">목록</button>
 					</div>
 				</form>
 			</section>
 			<hr/>
 		</div>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-	</body>
+	</main>
+	<footer class="fixed-bottom">
+		<div>
+			<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false" />
+		</div>
+	</footer>
+</body>
 </html>

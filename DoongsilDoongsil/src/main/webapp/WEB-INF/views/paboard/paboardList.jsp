@@ -5,12 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <title>Insert title here</title>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
+<jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
   <style>
   a{
   	text-decoration : none;
@@ -56,31 +52,40 @@
   </style>
 </head>
 <body>
-<h1>학부모게시판</h1>
+	<header>
+		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
+	</header>
+	<main role="main" class="container">
+		<h1>학부모게시판</h1>
+	
+		<div class="table_wrap">
+			<button type="button" class="btn btn-primary" onclick="location.href='/paboardWrite'">작성하기</button>
+			<table>
+				<thead>
+					<tr>
+						<th class="bno_width">번호</th>
+						<th class="title_width">제목</th>
+						<th class="writer_width">작성자</th>
+						<th class="regdate_width">작성일</th>
+		
+					</tr>
+				</thead>
+		 		<c:forEach items="${list}" var="list">
+		            <tr>
+		                <td><c:out value="${list.pab_id}"/></td>
+		                <td><a href="/paboardView?pab_id=${list.pab_id}"><c:out value="${list.pab_title}" /></a></td>
+		                <td><c:out value="${list.pab_writer}"/></td>
+						<td><fmt:formatDate pattern="yyyy/MM/dd" value="${list.pab_date}"/></td>
+		            </tr>
+		        </c:forEach>
+			</table>
+		</div>
+	</main>
 
-<div class="table_wrap">
-	<button type="button" class="btn btn-primary" onclick="location.href='/paboard/paboardWrite'">작성하기</button>
-	<table>
-		<thead>
-			<tr>
-				<th class="bno_width">번호</th>
-				<th class="title_width">제목</th>
-				<th class="writer_width">작성자</th>
-				<th class="regdate_width">작성일</th>
-
-			</tr>
-		</thead>
- 		<c:forEach items="${list}" var="list">
-            <tr>
-                <td><c:out value="${list.pab_id}"/></td>
-                <td><a href="/paboard/paboardView?pab_id=${list.pab_id}"><c:out value="${list.pab_title}" /></a></td>
-                <td><c:out value="${list.pab_writer}"/></td>
-				<td><fmt:formatDate pattern="yyyy/MM/dd" value="${list.pab_date}"/></td>
-            </tr>
-        </c:forEach>
-	</table>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
+	<footer>
+		<div>
+			<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false" />
+		</div>
+	</footer>
 </body>
 </html>

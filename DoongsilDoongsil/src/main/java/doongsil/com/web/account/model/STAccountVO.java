@@ -2,9 +2,6 @@ package doongsil.com.web.account.model;
 
 import java.sql.Date;
 
-import lombok.Data;
-
-@Data
 // 학생+교사 계정
 public class STAccountVO {
 	private int sta_id;

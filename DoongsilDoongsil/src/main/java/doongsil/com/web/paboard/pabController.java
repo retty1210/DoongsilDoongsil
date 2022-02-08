@@ -12,7 +12,7 @@ import doongsil.com.web.paboard.model.PabService;
 import doongsil.com.web.paboard.model.PabVO;
 
 @Controller
-@RequestMapping("/paboard/*")
+//@RequestMapping("/paboard/*")
 public class pabController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(pabController.class);
@@ -22,20 +22,20 @@ public class pabController {
 	
 
 	// 글쓰기페이지
-	@RequestMapping(value = "/paboard/paboardWrite", method = RequestMethod.GET)
-	public void writeView() throws Exception{
+	@RequestMapping(value = "/paboardWrite", method = RequestMethod.GET)
+	public String writeView() throws Exception{
 		logger.info("paboardView");
-		
+		return "paboard/paboardWrite";
 	}
 	
 	// 글쓰기
-	@RequestMapping(value = "/paboard/paboardWrite", method = RequestMethod.POST)
+	@RequestMapping(value = "/paboardWrite", method = RequestMethod.POST)
 	public String write(PabVO pabVO) throws Exception{
 		logger.info("insert" + pabVO);
 			
 		service.insert(pabVO);
 		
-		return "redirect:paboard/paboardList";
+		return "redirect:/paboardList";
 	}
 	
 	// 목록 조회
@@ -50,7 +50,7 @@ public class pabController {
 	}
 	
 	// 상세페이지
-		@RequestMapping(value = "/paboard/paboardView", method = RequestMethod.GET)
+		@RequestMapping(value = "/paboardView", method = RequestMethod.GET)
 		public String view(PabVO pabVO, Model model) throws Exception{
 			logger.info("paboardView");
 			
@@ -61,7 +61,7 @@ public class pabController {
 		}
 
 		// 수정페이지 GET
-		@RequestMapping(value = "/pabupdate", method = RequestMethod.GET)
+		@RequestMapping(value = "/paboardUpdate", method = RequestMethod.GET)
 		public String updateView(PabVO pabVO, Model model) throws Exception{
 			logger.info("pabupdate");
 		
@@ -72,24 +72,24 @@ public class pabController {
 		
 		
 		// 수정페이지 POST
-		@RequestMapping(value = "/update", method = RequestMethod.POST)
+		@RequestMapping(value = "/paboardUpdate", method = RequestMethod.POST)
 		public String update(PabVO pabVO) throws Exception{
 			logger.info("update");
 					
 			service.update(pabVO);
 					
-			return "redirect:/paboard/paboardList";
+			return "redirect:/paboardList";
 					
 			}
 		
 		// 삭제 
-		@RequestMapping(value = "/delete", method = RequestMethod.GET)
+		@RequestMapping(value = "/paboardDelete", method = RequestMethod.GET)
 		public String delete(int pab_id) throws Exception{
 			logger.info("delete");
 
 			service.delete(pab_id);
 			
-			return "redirect:/paboard/paboardList";
+			return "redirect:/paboardList";
 					
 		}
 }

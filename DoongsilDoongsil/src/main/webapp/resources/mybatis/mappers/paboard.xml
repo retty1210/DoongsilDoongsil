@@ -5,7 +5,6 @@
 <mapper namespace="PabMapper">
 	 
 	  <insert id="insert" parameterType="doongsil.com.web.paboard.model.PabVO">
-<<<<<<< HEAD
 	   INSERT INTO PARENTS_BOARD(
 	     PAB_ID 
 	   , PAB_WRITER
@@ -35,33 +34,6 @@
     
     <select id="list" resultType="doongsil.com.web.paboard.model.PabVO">
     SELECT PAB_ID, PAB_TITLE, PAB_WRITER, PAB_DATE FROM PARENTS_BOARD ORDER BY PAB_ID DESC
-=======
-	   INSERT INTO PARENTS_BOARD( PAB_ID 
-	   , PAB_WRITER
-	   , PAB_TITLE
-	   , PAB_CONTENTS
-	   , PAB_DATE 
-	   )
-		VALUES( PARENTS_BOARD_SEQ.NEXTVAL 
-		, #{pab_writer} 
-		, #{pab_title}
-		, #{pab_contents}
-		, SYSDATE 
-		)
-    </insert>
-    
-    <update id="update" parameterType="doongsil.com.web.paboard.model.PabVO">
-    	UPDATE PARENTS_BOARD SET PAB_TITLE = #{pab_title}, PAB_CONTENTS = #{pab_contents} WHERE PAB_ID = #{pab_id}	   	
-    </update>
-    
-   
-    <delete id="delete" parameterType="int">
-    	DELETE FROM PARENTS_BOARD WHERE PAB_ID = #{pab_id}
-    </delete>
-    
-    <select id="list" resultType="doongsil.com.web.paboard.model.PabVO">
-    SELECT PAB_ID, PAB_TITLE, PAB_WRITER, PAB_DATE FROM PARENTS_BOARD ORDER BY NOT_ID DESC
->>>>>>> refs/remotes/origin/정현실
     </select>
     
     <select id="view" parameterType="int" resultType="doongsil.com.web.paboard.model.PabVO" >

@@ -2,6 +2,7 @@ package doongsil.com.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -63,9 +64,10 @@ public class NoticeController {
 	
 	//공지사항 목록 조회
 	@RequestMapping(value = "/notice/noticeList", method = RequestMethod.GET)
-	public String list(@RequestParam("page") Integer page,Model model, Criteria cri, HttpSession session) throws Exception{
+	public String list(@RequestParam("page") Integer page,Model model, Criteria cri, HttpSession session,HttpServletRequest request) throws Exception{
 		logger.info("noticeList");
-		
+		String s = request.getParameter("not_permit");
+		System.out.println("11111 => " + s);
 		model.addAttribute("list", service.list(cri));
 		
 		PageMaker pageMaker = new PageMaker();
@@ -74,12 +76,32 @@ public class NoticeController {
 		
 		model.addAttribute("pageMaker", pageMaker);
 		
+		
 		//현재페이지 저장
 		session.setAttribute("nowPage",page);
 		
 		return "notice/noticeList";
 		
 	}
+//	@RequestMapping(value = "/notice/noticeList", method = RequestMethod.POST)
+//	public String listPost(@RequestParam("not_permit") String permit,Model model) throws Exception{
+//		System.out.println("permit => " + permit);
+//		
+//		//NoticeVO permit2 = new NoticeVO(permit);
+//		
+////		if(permit.equals("S")|| permit.equals("P") || permit.equals("A")) {
+////			
+////		}
+//		 
+//		//List<NoticeVO> voList = service.permitlist(permit2);
+//		//model.addAttribute("voList",voList);
+//		
+//		
+//
+//		
+//		return "notice/noticeList";
+//		
+//	}
 	
 	//공지사항 상세페이지
 		@RequestMapping(value = "/notice/noticeView", method = RequestMethod.GET)

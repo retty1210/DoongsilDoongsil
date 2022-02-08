@@ -6,11 +6,37 @@
 <head>
 <meta charset="utf-8">
 <title>공지사항 목록</title>
-<style type="text/css">
-			li {list-style: none; float: left; padding: 6px;}
-		</style>
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
 </head>
+<script type="text/javascript">
+	$(function() {
+		$("#category").change(function() {
+			var category = $(this).val();
+			if(category == 'S') {
+				$("tr[name=tableRowS]").show();
+				$("tr[name=tableRowP]").hide();
+				$("tr[name=tableRowA]").hide();
+			} else if(category == 'P') {
+				$("tr[name=tableRowS]").hide();
+				$("tr[name=tableRowP]").show();
+				$("tr[name=tableRowA]").hide();
+			} else if(category == 'A') {
+				$("tr[name=tableRowS]").hide();
+				$("tr[name=tableRowP]").hide();
+				$("tr[name=tableRowA]").show();
+			} else {
+				$("tr[name=tableRowS]").show();
+				$("tr[name=tableRowP]").show();
+				$("tr[name=tableRowA]").show();
+			}
+		});
+	});
+
+	function changeSelect(){ 
+		let s = document.querySelector(".selectType");
+		s.submit();
+	}
+</script>
 <body>
 	<div id="root">
 	<header>
@@ -19,62 +45,91 @@
 	<div class="container">
 	<h1>공지사항</h1>
 	<hr />
-	<!--작성하기 버튼은 교사만 보이게 수정하기 -->
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+	<c:if test="${accountType eq 'T' }">
 		<button type="button" class="btn btn-outline-primary" onclick="location.href='/notice/noticeWrite'">작성하기</button>
-	</div><br>
+	</c:if></div><br>
+	
 	<section id="container">
-		<form role="form" method="post" action="/notice/noticeList">
+		<!-- <form role="form" method="post" action="/notice/noticeList" class="selectType">  -->	
+		
+			<div class="mb-3">
+				<select id="category" onchange="changeSelect();" class="form-select form-select-sm" aria-label=".form-select-sm example" name="not_permit">
+					<option selected>열람 권한을 선택해주세요</option>
+					<option value="S">학생</option>
+					<option value="P">학부모님</option>
+					<option value="A" >학생과 학부모님</option>
+				</select>	
+			</div>
+		<!--  </form>  -->
 		  <table class="table table-hover">
 			<thead>
-			<tr class="table-secondary">
+			<tr style="background-color:#C1F1FF;">
 			<th scope="col">No.</th>
 			<th scope="col">제목</th>
 			<th scope="col">작성자</th>
 			<th scope="col">등록일</th>
 			<th scope="col">조회수</th>
+			<th scope="col" style="diaply:none;"></th>
 			</tr>
 			</thead>	
 			<tbody>
+		
 				<c:forEach items="${list}" var = "list">
-					<tr>
+				
+					<tr name="tableRow${list.not_permit }">
 					<th><c:out value="${list.not_id}" /></th>
-					<th>
+					<td>
 						<a href="/notice/noticeView?not_id=${list.not_id}" style="text-decoration:none; color:black;">
-						<c:out value="${list.not_title}" /></a>
-					</th>
-					<c:choose>
-						<c:when test="${list.not_writer eq 5}">
-						<th><c:out value="교사" /></th> </c:when>
-						<c:otherwise>
-						<th><c:out value="작성권한이없는사용자" /></th> </c:otherwise>
-					</c:choose>
-					<th><fmt:formatDate value="${list.not_writedate}" pattern="yyyy-MM-dd"/></th>
-					<th><c:out value="${list.not_count }" /></th>
+						<c:out value="${list.not_title}" />
+							<c:if test="${list.reply_count ne 0}">
+							<small><b>[<c:out value="${list.reply_count}"/>]</b></small>
+							</c:if>
+					</a></td>		
+						<td><c:out value="교사" /></td> 		
+					<td><fmt:formatDate value="${list.not_writedate}" pattern="yyyy-MM-dd"/></td>
+					<td><c:out value="${list.not_count }" /></td>
 					</tr>	
 				</c:forEach>	
+
 			</tbody>				
 		</table>
-	<!-- 페이징 -->
-	<nav aria-label="Page navigation">
-	   <ul class="pagination justify-content-center">
-   		 <c:if test="${pageMaker.prev}">
-    	 <li class="page-item disabled"><a class="page-link" href="noticeList${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
-    	 </c:if> 
-
-   	 <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-    	<li class="page-item" aria-current="page"><a class="page-link" href="noticeList${pageMaker.makeQuery(idx)}">${idx}</a></li>
-     </c:forEach>
-
-  	  <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-    	<li class="page-item"><a class="page-link" href="noticeList${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
-   	  </c:if> 
- 	 </ul>
-  </nav>
-</form>
+	<div style="display:contents;">
+		<ul class="pagination justify-content-center">
+			
+			<!-- 이전 버튼 -->
+			<c:if test="${pageMaker.prev}">
+				<li class="page-item">
+					<a class="page-link" href="listPage${pageMaker.makeQuery(pageMaker.startPage-1)}">
+					 <span aria-hidden="true">&laquo;</span></a>
+				</li>
+			</c:if>
+		
+			
+			<!-- 페이지 번호 (시작 페이지 번호부터 끝 페이지 번호까지) -->
+			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var ="idx">
+					<li class="page-item">
+						<a class="page-link " href="/notice/noticeList${pageMaker.makeQuery(idx)}">			
+							<span>${idx}</span>
+						</a>
+					</li>
+				</c:forEach>
+			
+			<!-- next 버튼 -->
+			<c:if test="${pageMaker.next}">
+				<li class="page-item">
+			    	<a class="page-link" href="listPage${pageMaker.makeQuery(pageMaker.endPage + 1)}">
+			    	<span aria-hidden="true">&raquo;</span></a>
+				</li>
+			</c:if>
+			
+		
+			
+		</ul>
+	</div>
 </section>
+</div>
+</div>
 <jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false"/>
-</div>
-</div>
 </body>
 </html>

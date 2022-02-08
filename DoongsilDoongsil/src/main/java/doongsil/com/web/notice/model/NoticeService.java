@@ -33,8 +33,6 @@ public class NoticeService {
 		return dao.listCount();
 	}
 	
-	
-	
 	//공지사항 상세 페이지, 조회수
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public NoticeVO read(int not_id) throws Exception{
@@ -51,5 +49,15 @@ public class NoticeService {
 	public void delete(int not_id) throws Exception{
 		dao.delete(not_id);
 	}
+	
+	//댓글 수 표시
+	public void updateReplyCount(int not_id) throws Exception{
+		dao.updateReplyCount(not_id);
+	}
+	
+	public List<NoticeVO> permitlist(NoticeVO vo) {
+		return dao.permitlist(vo);
+	}
+
 
 }

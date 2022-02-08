@@ -54,4 +54,15 @@ public class NoticeDAO {
 		sess.update("noticeMapper.noticeCount", not_id);
 	}
 	
+	//댓글 수 표시
+	public void updateReplyCount(int not_id) throws Exception{
+		sess.update("noticeMapper.updateReplyCount", not_id);
+	}
+
+	public List<NoticeVO> permitlist(NoticeVO vo) {
+		
+		return sess.selectList("noticeMapper.permitlist", vo);
+	}
+
+	
 }

@@ -13,6 +13,15 @@ public class NoticeVO {
 	private Date not_writedate;
 	private Date not_eventdate;
 	private int not_count;
+	private int reply_count;
+	
+	public NoticeVO() {
+		
+	}
+	
+	public NoticeVO(String not_permit) {
+		this.not_permit = not_permit;
+	}
 	
 	public int getNot_id() {
 		return not_id;
@@ -93,5 +102,15 @@ public class NoticeVO {
 	public void setNot_count(int not_count) {
 		this.not_count = not_count;
 	}
+
+	public int getReply_count() {
+		return reply_count;
+	}
+
+	public void setReply_count(int reply_count) {
+		this.reply_count = reply_count;
+	}
+	
+	
 	
 }

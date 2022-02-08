@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+.replyDeleteBtn,
+.replyUpdateBtn {
+  	display: inline-block;
+	width: 50px;
+	height: 30px;
+	font-size: 12px;
+	text-align: center;
+	text-decoration: none;
+
+	outline: none;
+}
+button.replyDeleteBtn,
+button.replyUpdateBtn {
+	background-color: #59b1eb;
+	border: 2px solid #ffffff;
+	color: #fff;
+
+}
+
+button:active,
+button:hover,
+button:focus {
+  background-color: #fff;
+	border-color: #59b1eb;
+	color: #59b1eb;
+}
+
+

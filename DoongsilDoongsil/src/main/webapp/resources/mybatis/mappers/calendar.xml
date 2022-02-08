@@ -35,4 +35,8 @@
 		   AND CAL_START = #{cal_start}
 		   AND CAL_END = #{cal_end}
 	</delete>
+	
+	<select id="" parameterType="noticeVO">
+		SELECT * FROM NOTICE WHERE 
+	</select>
 </mapper>

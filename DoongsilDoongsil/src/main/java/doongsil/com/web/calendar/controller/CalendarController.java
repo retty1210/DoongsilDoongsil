@@ -86,6 +86,7 @@ public class CalendarController {
 		List<CalendarDTO> calendar_list = service.selectCalendar();
 		HashMap<Integer, CalendarDTO[]> exNum = new HashMap<Integer, CalendarDTO[]>();
 		
+			
 		for(int i=1; i < 13; i++) {
 			List<CalendarDTO> temparr = new ArrayList<CalendarDTO>();
 			for(CalendarDTO Date: calendar_list) {

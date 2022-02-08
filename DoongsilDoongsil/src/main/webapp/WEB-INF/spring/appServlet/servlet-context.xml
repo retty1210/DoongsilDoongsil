@@ -15,10 +15,13 @@
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
+<<<<<<< HEAD
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<mvc:annotation-driven />
 	<annotation-driven/>
 
+=======
+>>>>>>> refs/remotes/origin/정현실
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<!-- << 리소스명 설정 >> -->
 	<resources mapping="/stc/jq/**" location="/resources/jquery/" />
@@ -166,6 +169,9 @@
 	    <beans:property name="scope" value="https://www.googleapis.com/auth/userinfo.email" />
 	    <!-- <beans:property name="scope" value="https://www.googleapis.com/auth/plus.login" /> -->
 	    <beans:property name="redirectUri" ref="googleRedirectUrl" />
-	</beans:bean>	
+	</beans:bean>
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
 	
 </beans:beans>

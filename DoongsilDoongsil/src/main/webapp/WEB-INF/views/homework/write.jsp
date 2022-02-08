@@ -9,12 +9,15 @@
 <meta charset="UTF-8">
 <title>새로운 숙제 올리기</title>
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
-<c:url var="hwr_url" value="/stc/js/t_homework_write.js" />
-<c:url var="hwr_url2" value="/stc/js/t_homework_write_type2.js" />
+<c:url var="hwr_url" value="/stc/js/homework/t_homework_write.js" />
+<c:url var="hwr_url2" value="/stc/js/homework/t_homework_write_type2.js" />
 <c:url var="hwr_css_url" value="/stc/css/homework.css" />
 <script type="text/javascript" src="${hwr_url}" ></script>
 <script type="text/javascript" src="${hwr_url2}" ></script>
 <link href="${hwr_css_url}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 <body>
 	<header>
@@ -25,7 +28,7 @@
 			<div class="body-content">
 			<section class="bdr-1">
 				<div class="bdr-1 bdr-r5 strblue pd10">
-					<h3>새로운 숙제 올리기</h3><!-- 사진은 따로 업로드한 후 주소를 받아서 textarea에 뿌릴 수 있으면 좋겠는데 -->		
+					<h3>새로운 숙제 올리기</h3>		
 				</div>
 				<div class="bloc80 bdr-1 bdr-r9 pd20 tmg20">
 					<form id="hw_up_form" name="hw_up_form" class="form-horizontal" action="/homework/write/up/file" method="post" enctype="multipart/form-data">
@@ -56,13 +59,13 @@
 										</c:forEach>
 									</select>
 								</div>
-								<div class="col-md-2"><strong>숙제 작성일</strong></div>
-								<div class="col-md-4">
+								<div class="col-md-2" name="notType3" id="writeDateLabel"><strong>숙제 작성일</strong></div>
+								<div class="col-md-4" name="notType3" id="writeDateArea">
 									<input type="date" name="tho_writedate" id="tho_writedate" class="form-control whtcream-b" readonly>
 								</div>
 							</div>
 							
-							<div class="form-group pd10 flex">
+							<div class="form-group pd10 flex" name="notType3">
 								<div class="col-md-2 checkbox-inline tmg10"><strong>숙제 제출 기한</strong>
 								<input type="checkbox" id="deadlineCheck" name="deadlineCheck"></div>
 								<div class="col-md-7">
@@ -83,8 +86,15 @@
 							<input type="number" name="tho_count" value="0" style="display:none;">
 							<input type="hidden" id="tho_filelink" name="tho_filelink">
 						</div>
+						<div id="t_hw_write_type3" class="col-md-12 tmg10">
+							<p>그림일기: 일기 내용에는 한글, '.', '?', '!' 외에는 적을 수 없습니다.</p>
+							<div id="type3DateArea" class="row flex">
+								<div class="col-md-2"><strong>일기 작성 기간</strong></div>
+								<div class="col-md-10"><input type="text" id="type3DatePicker" class="form-control"></div>
+							</div>
+						</div>
 						<div id="t_hw_write_type1" class="col-md-12 tmg10">
-							<p>기본: '|'는 금칙어로 자동으로 입력 내용에서 삭제된 후 업로드되니 주의 바랍니다.</p>
+							<p>'|'는 금칙어로 자동으로 입력 내용에서 삭제된 후 업로드되니 주의 바랍니다.</p>
 							<div class="form-group pd10 col-md-12 tmg10">
 								<label for="tho_contents" class="col-md-2 control-label">내용</label>
 								<textarea name="tho_contents" id="tho_contents_type1" class="form-control" rows="10" placeholder="내용을 입력해주세요"></textarea>
@@ -143,7 +153,6 @@
 									</div>
 									<hr>
 									<div class="row flex tmg10">
-										<div class="col-md-5"></div>
 										<div id="type2_q_plusArea1" name="type2_q_plusArea" onclick="type2qplus(1)" class="col-md-1">
 											<img src="/stc/img/plus-circle-fill.svg" class="ic40 filter-lsrblue filter-skyblue-hover" />
 										</div>
@@ -162,9 +171,6 @@
 								<div id="t_hw_2_question_9" class="mg20 bdr-1 bdr-r5" style="display:none;"></div>
 								<div id="t_hw_2_question_10" class="mg20 bdr-1 bdr-r5" style="display:none;"></div>
 							</div>
-							<!--<div>
-								<textarea id="type2_q_textarea" name="tho_contents" style="display:none;"></textarea>
-							</div>  -->
 							<div class="tmg20">
 								<button type="button" class="btn btn-wht btn-lg" style="width: 200px;" onclick="location='/homework'">취소</button>
 								<button id="btn_type2submit" type="button" style="width: 200px;" onclick="type2makeContents()" class="btn btn-lsr btn-lg btn-block">작성 완료</button>

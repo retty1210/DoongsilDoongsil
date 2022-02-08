@@ -10,12 +10,32 @@
 	
 	<select id="selectHWListFromFront" parameterType="doongsil.com.web.paging.model.PagingVo" resultType="t_homework">
 		SELECT 
-		    *
+		    X.THO_ID,
+			X.THO_WRITER,
+			X.THO_GRADE,
+			X.THO_CLASS,
+			X.THO_TITLE, 
+			X.THO_WRITEDATE,
+    		X.THO_DEADLINE
 		    FROM
 		    (SELECT 
-		        A.*
+		        A.RN,
+				A.THO_ID,
+				A.THO_WRITER,
+				A.THO_GRADE,
+				A.THO_CLASS,
+				A.THO_TITLE, 
+				A.THO_WRITEDATE,
+    			A.THO_DEADLINE
 		         FROM
-		        (SELECT ROW_NUMBER() OVER (ORDER BY B.THO_ID DESC) AS RN, B.* 
+		        (SELECT ROW_NUMBER() OVER (ORDER BY B.THO_ID DESC) AS RN, 
+					B.THO_ID,
+				    B.THO_WRITER,
+				    B.THO_GRADE,
+				    B.THO_CLASS,
+				    B.THO_TITLE, 
+					B.THO_WRITEDATE,
+    				B.THO_DEADLINE
 		            FROM T_HOMEWORK B) A
 		    WHERE RN <![CDATA[<=]]> #{end}) X
 		WHERE X.RN <![CDATA[>=]]> #{start}
@@ -54,6 +74,8 @@
 		</where>
 	</select>
 	
+	
+	
 	<select id="selectSHList" parameterType="s_homework" resultType="s_homework">
 		SELECT * FROM S_HOMEWORK
 		WHERE
@@ -84,6 +106,13 @@
 				</otherwise>
 			</choose>
 		</where>
+	</select>
+	
+	<select id="selectType3SH" parameterType="s_homework" resultType="s_homework">
+		SELECT * FROM S_HOMEWORK WHERE
+			SHO_TID = #{sho_tid} AND
+			SHO_WRITER = #{sho_writer} AND
+			SHO_DATE = #{sho_date}
 	</select>
 	
 	<insert id="insertHW" parameterType="t_homework">

@@ -1,0 +1,112 @@
+@charset "UTF-8";
+
+.typingTextarea {
+	font-family: 'NanumGothicCoding';
+	background: url(/stc/img/table_3.png) center center no-repeat; 
+	border: none; 
+	height: 310px;
+    width: 500px;
+    padding-left: 6px;
+   	/* padding-top: 10px; */
+    font-size: 35pt;
+    /* font-weight: bold; */
+    letter-spacing: 0em;
+    /* word-spacing: 0.52em; */
+    line-height: 130%;
+    box-sizing: border-box;
+    resize: none;
+    outline: none;
+}
+
+.commentTextarea {
+	font-family: 'NanumJungHagSaeng';
+	resize: none;
+    outline: none;
+    background-color: #FFF !important;
+    border: none;
+    font-size: 20pt;
+    font-weight: bold;
+    letter-spacing: 0.05em
+}
+
+img {
+	width: 100%;
+	height: 100%;
+}
+
+.type3Container {
+	width: 532px;
+	height: 832px;
+}
+
+.input_bdrnone {
+	border: none;
+	outline: none;
+}
+
+.input_center {
+	text-align: center;
+}
+
+.type3_containerArea {
+	width: 510px;
+}
+
+.type3_titleArea {
+	height: 50px;
+	width: 482px;
+	margin-left: inherit;
+	/* padding-left: 20px; */
+	border-bottom: 1px solid gray;
+}
+
+.type3_titleAreaSub {
+	height: 100%;
+	align-items: center;
+}
+
+.type3_imgArea {
+	width: 500px;
+	height: 350px;
+}
+
+.type3_img_inner {
+	max-height: 350px;
+	width: auto;
+}
+
+.type3_textArea {
+	width: 500px;
+}
+
+.weatherIcon {
+	padding-top: 5px;
+}
+
+.filter-brlred { /* Brilliant Red */
+	filter: invert(36%) sepia(83%) saturate(4027%) hue-rotate(343deg) brightness(97%) contrast(104%);
+}
+
+.filter-lvdgray { /* Lavender Gray*/
+	filter: invert(67%) sepia(5%) saturate(883%) hue-rotate(224deg) brightness(88%) contrast(82%);
+}
+
+.filter-grystone { /* Gray Stone */
+	filter: invert(29%) sepia(18%) saturate(454%) hue-rotate(213deg) brightness(91%) contrast(92%);
+}
+
+#type3commentArea {
+	font-family: 'NanumJungHagSaeng';
+	font-size: 20pt;
+	width: 482px;
+	height: 120px;
+	/* padding: 0.5em; */
+    margin-left: inherit;
+    border-top: 1px solid gray;
+}
+
+#type3commentSubmit {
+	padding-left: 0;
+    padding-right: 0;
+    --bs-gutter-x: 0;
+}

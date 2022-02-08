@@ -165,5 +165,5 @@ function type3Snowy() {
 }
 
 function submitType3Student() {
-	
+	$("#type3diarySubmitButton").click();
 }

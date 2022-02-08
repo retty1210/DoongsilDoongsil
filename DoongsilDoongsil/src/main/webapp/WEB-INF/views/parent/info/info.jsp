@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +10,7 @@
 <link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
 	function MyInfoUpdate(href){
-		window.open('/infoUpdate','','width=500,height=700');
+		window.open('/infoUpdate?id=${sessionScope.account.paa_id}','','width=500,height=700');
 	}
 </script>
 </head>
@@ -24,13 +25,11 @@
 				</svg>
 			</a>
 				<div class="myInfo_photo_box">
-					<img src="#" alt="profilePhoto" class="myInfo_photo"/>
+					<img src="${reqeust.getServletContext().getRealPath() }/stc/up/default.png" alt="profilePhoto" class="myInfo_photo"/>
 				</div>
 				<table class="myInfo_text_tb">
 					<tr class="myInfo_text_tr">
-						<td class="myInfo_td"><strong>이종훈</strong></td>
-						<td class="myInfo_td"><strong>3학년 2반</strong></td>
-						<td class="myInfo_tb"><strong>학부모</strong></td>
+						<td class="myInfo_td"><strong>${sessionScope.account.sta_name } 의 학부모</strong></td>
 					</tr>
 				</table>
 			</div>
@@ -63,7 +62,16 @@
 			<div class="schoolEvent_list_P_box">
 				<h5>학사일정</h5>
 				<ul>
-					<li></li>
+					<c:choose>
+						<c:when test="${schoolCalError eq null}">
+							<c:forEach var="cal" items="${schoolCal }">
+								<li>${cal.cal_title }</li>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<li>${schoolCalError }</li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>

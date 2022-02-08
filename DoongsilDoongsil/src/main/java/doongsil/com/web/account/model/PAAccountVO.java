@@ -6,7 +6,30 @@ public class PAAccountVO extends STAccountVO {
 	private String paa_username;
 	private String paa_password;
 	private String paa_phonenumber;
-	private String paa_child_id;
+	private int paa_child_id;
+	private String sta_name;
+	
+	public PAAccountVO() {}
+	public PAAccountVO(int paa_id,String paa_password, String paa_phonenumber) {
+		this.paa_id = paa_id;
+		this.paa_password = paa_password;
+		this.paa_phonenumber = paa_phonenumber;
+	}
+
+	public String getSta_name() {
+		return sta_name;
+	}
+
+	public void setSta_name(String sta_name) {
+		this.sta_name = sta_name;
+	}
+
+	public void setPaa_child_id(int paa_child_id) {
+		this.paa_child_id = paa_child_id;
+	}
+	public int getPaa_child_id() {
+		return paa_child_id;
+	}
 
 	public int getPaa_id() {
 		return paa_id;
@@ -38,14 +61,6 @@ public class PAAccountVO extends STAccountVO {
 	
 	public void setPaa_phonenumber(String paa_phonenumber) {
 		this.paa_phonenumber = paa_phonenumber;
-	}
-	
-	public String getPaa_child_id() {
-		return paa_child_id;
-	}
-	
-	public void setPaa_child_id(String paa_child_id) {
-		this.paa_child_id = paa_child_id;
 	}
 
 	@Override

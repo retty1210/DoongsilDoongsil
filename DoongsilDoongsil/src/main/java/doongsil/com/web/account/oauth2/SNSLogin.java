@@ -14,13 +14,17 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
+
 public class SNSLogin {
 	private OAuth20Service oauthService;
 	private String profileUrl;
-
+	
 	public SNSLogin(SnsValue sns) {
-		this.oauthService = new ServiceBuilder(sns.getClientId()).apiSecret(sns.getClientSecret())
-				.callback(sns.getRedirectUrl()).scope("profile").build(sns.getApi20Instance());
+		this.oauthService = new ServiceBuilder(sns.getClientId())
+				.apiSecret(sns.getClientSecret())
+				.callback(sns.getRedirectUrl())
+				.scope("profile")
+				.build(sns.getApi20Instance());
 
 		this.profileUrl = sns.getProfileUrl();
 	}

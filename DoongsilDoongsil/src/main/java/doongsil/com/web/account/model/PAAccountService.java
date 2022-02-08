@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 public class PAAccountService {
 	
 	@Autowired
-	private PAAccountDAO paaDao; 
+	private PAAccountDAO paaDao;
+	
 	public PAAccountVO paaLogin(LoginVO loginVo) {
 		PAAccountVO paData = this.paaDao.login(loginVo);
 		if(paData == null) {
@@ -15,6 +16,21 @@ public class PAAccountService {
 		}else {
 			paData.setSta_password("");
 			return paData;
+		}
+	}
+	public PAAccountVO parentUpdate(int id) {
+		System.out.println("service on " + id);
+		PAAccountVO paData = this.paaDao.parentUpdate(id);
+		
+		return paData;
+	}
+	public boolean parentInfoUpdate(PAAccountVO vo) {
+		int res = this.paaDao.parentInfoUpdate(vo);
+		
+		if(res == 1) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 }

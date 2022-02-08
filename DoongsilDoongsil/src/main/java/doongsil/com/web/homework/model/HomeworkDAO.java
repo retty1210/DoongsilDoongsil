@@ -145,5 +145,9 @@ public class HomeworkDAO {
 		S_HomeworkVO data = this.selectOneSH(vo.getSho_id());
 		return data == null ? true : false;
 	}
+	//학생용 내정보 페이지에 채점안된 숙제 불러오기
+	public List<S_HomeworkVO> noCheckHomework(int id){
+		return this.sess.selectList("HomeworkMapper.noCheckHomework",id);
+	}
 
 }

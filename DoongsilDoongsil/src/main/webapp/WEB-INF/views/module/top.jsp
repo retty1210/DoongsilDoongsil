@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<script type="text/javascript">
+	function search(){
+		location.href="/search";
+	}
+</script>
 <!-- 
 화면 위쪽의 네비게이션 바 페이지입니다.
 html태그 필요없이 바로 div 가져다가 복사&붙여넣기 하시면 됩니다.
@@ -30,14 +34,23 @@ url은 경로로 인해 생기는 문제를 방지하기 위해 c:url을 사용�
           <li><a href="${infoURL }" class="nav-link px-2 link-dark">내 정보</a></li>
         </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="/search" method="post">
+          <input type="search" class="form-control" placeholder="Search..." aria-label="Search" name="search" onsubmit="search();">
         </form>
 
         <div class="dropdown text-end">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="${sessionScope.account.sta_profile}" alt="mdo" width="32" height="32" class="rounded-circle">
-          </a>
+	          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+       			<c:if test="${sessionScope.logined }">
+       			<c:choose>
+       				<c:when test="${sessionScope.account.sta_profile ne null}">
+	            		<img src="${sessionScope.account.sta_profile}" alt="mdo" width="32" height="32" class="rounded-circle">
+	            	</c:when>
+	            	<c:otherwise>
+	            		<img src="${reqeust.getServletContext().getRealPath()}/stc/up/default.png" alt="mdo" width="32" height="32" class="rounded-circle">
+	            	</c:otherwise>
+            	</c:choose>
+          		</c:if>
+	          </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
           	<c:choose>
           		<c:when test="${sessionScope.logined }">

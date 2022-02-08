@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="PabMapper">
 	 
-	  <insert id="insert" parameterType="doongsil.com.web.account.model.PabVO">
+	  <insert id="insert" parameterType="doongsil.com.web.paboard.model.PabVO">
 	   INSERT INTO PARENTS_BOARD( PAB_ID 
 	   , PAB_WRITER
 	   , PAB_TITLE
@@ -19,7 +19,7 @@
 		)
     </insert>
     
-    <update id="update" parameterType="doongsil.com.web.account.model.PabVO">
+    <update id="update" parameterType="doongsil.com.web.paboard.model.PabVO">
     	UPDATE PARENTS_BOARD SET PAB_TITLE = #{pab_title}, PAB_CONTENTS = #{pab_contents} WHERE PAB_ID = #{pab_id}	   	
     </update>
     
@@ -28,11 +28,11 @@
     	DELETE FROM PARENTS_BOARD WHERE PAB_ID = #{pab_id}
     </delete>
     
-    <select id="list" resultType="doongsil.com.web.account.model.PabVO">
+    <select id="list" resultType="doongsil.com.web.paboard.model.PabVO">
     SELECT PAB_ID, PAB_TITLE, PAB_WRITER, PAB_DATE FROM PARENTS_BOARD ORDER BY NOT_ID DESC
     </select>
     
-    <select id="view" parameterType="int" resultType="doongsil.com.web.account.model.PabVO" >
+    <select id="view" parameterType="int" resultType="doongsil.com.web.paboard.model.PabVO" >
      SELECT PAB_ID, PAB_TITLE, PAB_CONTENTS, PAB_DATE FROM PARENTS_BOARD WHERE PAB_ID = #{pab_id}
     </select>
 </mapper>

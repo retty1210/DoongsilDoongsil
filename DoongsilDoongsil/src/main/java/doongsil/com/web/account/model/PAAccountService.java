@@ -18,12 +18,14 @@ public class PAAccountService {
 			return paData;
 		}
 	}
+	
 	public PAAccountVO parentUpdate(int id) {
 		System.out.println("service on " + id);
 		PAAccountVO paData = this.paaDao.parentUpdate(id);
 		
 		return paData;
 	}
+	
 	public boolean parentInfoUpdate(PAAccountVO vo) {
 		int res = this.paaDao.parentInfoUpdate(vo);
 		
@@ -32,5 +34,13 @@ public class PAAccountService {
 		}else {
 			return false;
 		}
+	}
+	
+	public boolean join(PAJoinVO paVo) throws Exception {
+		int result = paaDao.insertAccount2(paVo);
+		if(result == 1) {
+			return true;
+		}
+		return false;
 	}
 }

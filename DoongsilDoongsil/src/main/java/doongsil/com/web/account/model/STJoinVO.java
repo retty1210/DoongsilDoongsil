@@ -15,6 +15,13 @@ public class STJoinVO {
 	private Date sta_birthday;
 	private String sta_usertype;
 	
+	public STJoinVO() {}
+	
+	public STJoinVO(String sta_username, String sta_password) {
+		this.sta_username = sta_username;
+		this.sta_password = sta_password;
+	}
+	
 	public String getSta_username() {
 		return sta_username;
 	}
@@ -94,5 +101,14 @@ public class STJoinVO {
 	public void setSta_usertype(String sta_usertype) {
 		this.sta_usertype = sta_usertype;
 	}
+
+	@Override
+	public String toString() {
+		return "STJoinVO [sta_username=" + sta_username + ", sta_name=" + sta_name + ", sta_password=" + sta_password
+				+ ", sta_password_chk=" + sta_password_chk + ", sta_email=" + sta_email + ", sta_address=" + sta_address
+				+ ", sta_postcode=" + sta_postcode + ", sta_phonenumber=" + sta_phonenumber + ", sta_birthday="
+				+ sta_birthday + ", sta_usertype=" + sta_usertype + "]";
+	}
+	
 	
 }

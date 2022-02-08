@@ -4,10 +4,10 @@
     var com_year = dt.getFullYear();
 
     // 년도
-    // 올해 기준으로 -50년부터 +1년을 보여준다.
+    // 올해 기준으로 -70년부터 +1년을 보여준다.
     var year = "";
     $("#year").append("<option value=''>년도</option>");
-    for (var y = (com_year - 50); y <= (com_year + 1); y++) {
+    for (var y = (com_year - 70); y <= (com_year + 1); y++) {
       $("#year").append("<option value='" + y + "'>" + y + " 년" + "</option>");
     }
 

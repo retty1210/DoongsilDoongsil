@@ -29,7 +29,7 @@
 		   AND STA_GRADE = #{sta_grade}
 		   AND STA_CLASS = #{sta_class}
 	</select>
-	<!-- 교사용 학생 정보수정  목록 불러오기 -->
+	<!-- 교사용 학생 정보수정 목록 불러오기 -->
 	<select id="studentUpdate" parameterType="int" resultType="staccount">
 		SELECT * FROM ST_ACCOUNT
 		 WHERE STA_ID = #{id}
@@ -70,11 +70,83 @@
 		DELETE FROM ST_ACCOUNT
 		 WHERE STA_ID = #{id}
 	</delete>
-
-	<select id="selectLoginAccount" parameterType="login" resultType="staccount">
+	
+	<insert id="insertAccount" parameterType="stjoin">
+		INSERT INTO ST_ACCOUNT VALUES(ST_ACCOUNT_SEQ.NEXTVAL 
+									  , #{sta_username}
+									  , #{sta_password}
+									  , #{sta_name}
+									  , #{sta_email}
+									  , #{sta_address}
+									  , #{sta_postcode}
+									  , #{sta_phonenumber}
+									  , 0
+									  , 0
+									  , #{sta_birthday}
+									  , '/stc/up/default.png'
+									  , #{sta_usertype}
+									  )
+	</insert>
+	
+	<insert id="insertAccount2" parameterType="pajoin">
+		INSERT INTO PARENTS_ACCOUNT VALUES(PARENTS_ACCOUNT_SEQ.NEXTVAL 
+									  , #{paa_username}
+									  , #{paa_password}
+									  , #{paa_phonenumber}
+									  , #{paa_child_id}
+									  )
+	</insert>
+	
+	<!-- id 중복체크 
+	<select id="idCheck" parameterType="staccount" resultType="int">
+		SELECT COUNT(*) FROM ST_ACCOUNT
+		 WHERE STA_USERNAME = #{sta_username} 
+	</select> -->
+	
+	<select id="selectAccount" parameterType="staccount" resultType="staccount">
+		SELECT * FROM ST_ACCOUNT 
+		 WHERE STA_USERNAME = #{sta_username} 
+		   AND STA_PASSWORD = #{sta_password} 
+	</select>
+	
+	<!-- 학생과 교사 중 아이디 찾기 -->
+	<select id="findId" resultType="staccount">
+		SELECT * FROM ST_ACCOUNT
+		 WHERE STA_NAME = #{sta_name} 
+		   AND STA_PHONENUMBER = #{sta_phonenumber}
+	</select> 
+	
+	<!-- 학부모 아이디 찾기 -->
+	<select id="findId2" resultType="paaccount">
+		SELECT * FROM PARENTS_ACCOUNT
+		 WHERE PAA_CHILD_ID = #{paa_child_id} 
+		   AND PAA_PHONENUMBER = #{paa_phonenumber}
+	</select>
+	
+	<select id="findPassword" resultType="staccount">
 		SELECT * FROM ST_ACCOUNT
 		 WHERE STA_USERNAME = #{sta_username}
-		   AND STA_PASSWORD = #{sta_password}
+		   AND STA_NAME = #{sta_name} 
+		   AND STA_PHONENUMBER = #{sta_phonenumber}
 	</select>
+	
+	<select id="findPassword2" resultType="paaccount">
+		SELECT * FROM PARENTS_ACCOUNT
+		 WHERE PAA_USERNAME = #{paa_username}
+		   AND PAA_CHILD_ID = #{paa_child_id} 
+		   AND PAA_PHONENUMBER = #{paa_phonenumber}
+	</select>
+	
+	<update id="updatePassword">
+		UPDATE ST_ACCOUNT 
+		   SET STA_PASSWORD = #{sta_password} 
+		 WHERE STA_USERNAME = #{sta_username}
+	</update>
+	
+	<update id="updatePassword2">
+		UPDATE PARENTS_ACCOUNT
+		   SET PAA_PASSWORD = #{paa_password} 
+		 WHERE PAA_USERNAME = #{paa_username}
+	</update>
 	
 </mapper>

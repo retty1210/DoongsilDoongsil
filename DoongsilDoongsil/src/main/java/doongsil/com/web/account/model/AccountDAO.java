@@ -13,22 +13,21 @@ public class AccountDAO {
 	
 //	@Autowired
 //	private SqlSession sess;
+	
+//	public STAccountVO selectLoginAccount(LoginVO vo) {
+//		return this.sess.selectOne("AccountMapper.selectLoginAccount", vo);
+//	}
 //	
-//	public STAccountVO selectLoginAccount(STLoginVO vo) {
-//		STAccountVO data = this.sess.selectOne("AccountMapper.selectLoginAccount", vo);
-//		return data;
+//	public PAAccountVO selectLoginAccount2(LoginVO vo) {
+//		return this.sess.selectOne("AccountMapper.selectLoginAccount2", vo);
 //	}
 	
-//	public STAccountVO getBySns(STAccountVO snsUser) {
-//		if(StringUtils.isNotEmpty((snsUser.getSocial_type("n"))) {
-//			return session.selectOne(GET_BY_SNS_NAVER, snsUser.getSocial_type())
-//		}
-//		return null;
+//	public int insertSTAccount(STJoinVO stVo) {
+//		return this.sess.insert("AccountMapper.insertSTAccount", stVo);
 //	}
-	
-//	public List<STAccountVO> selectLoginAccount() {
-//		List<STAccountVO> datas = this.sess.selectList("AccountMapper.selectLoginAccount");
-//		return datas;
+//	
+//	public int insertPAAccount(PAJoinVO paVO) {
+//		return this.sess.insert("AccountMapper.insertPAAccount", paVO);
 //	}
 	
 }

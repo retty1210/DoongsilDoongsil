@@ -113,13 +113,18 @@ public class HomeworkDAO {
 		return pageCount;
 	}
 	
-	//TODAY 날짜값 구하는 로직(이걸 안쓰길 바랬는데..)
-	public Date getToday() {
-		java.util.Date today = new java.util.Date();
-		long timeinMilli = today.getTime();
-		java.sql.Date day = new java.sql.Date(timeinMilli);
-		return day;
+	public List<T_HomeworkVO> selectTHwithClass(T_HomeworkVO vo) {
+		List<T_HomeworkVO> datas = this.sess.selectList("HomeworkMapper.selectTHwithClass", vo);
+		return datas;
 	}
+	
+	//TODAY 날짜값 구하는 로직(이걸 안쓰길 바랬는데..)
+//	public Date getToday() {
+//		java.util.Date today = new java.util.Date();
+//		long timeinMilli = today.getTime();
+//		java.sql.Date day = new java.sql.Date(timeinMilli);
+//		return day;
+//	}
 	
 	//검증 로직
 	public boolean TconfInsert(T_HomeworkVO vo) {

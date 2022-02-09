@@ -30,6 +30,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import doongsil.com.web.account.model.STAccountService;
+import doongsil.com.web.account.model.STAccountVO;
 import doongsil.com.web.homework.model.*;
 import doongsil.com.web.paging.model.PagingVo;
 
@@ -39,53 +41,60 @@ public class HomeworkController {
 	@Autowired
 	private HomeworkService service;
 	
+	@Autowired
+	private STAccountService staService;
+	
 	@RequestMapping(value = "/homework", method = RequestMethod.GET)
 	public ModelAndView homeworklist(HttpServletRequest request, HttpSession session, @RequestParam(value="pageNo", defaultValue="1") int pageNo) {
 		ModelAndView mod = new ModelAndView();
-		int totalcount = service.selectListCount();
+		//int totalcount = service.selectListCount();
 		//List<T_HomeworkVO> datas = service.selectHWList();
-		if(totalcount == 0) {
+		if(session.getAttribute("logined") == null) {
 			mod.setViewName("homework/empty");
-			
 		} else {
-			//페이지별로 가져오는 걸로 코드 고치기-여기선 1페이지 기준으로(RequestParam pageNo)
-			System.out.println("pageNo: " + pageNo);
+			STAccountVO loginUser = (STAccountVO) session.getAttribute("account");
+			System.out.println(loginUser);
+			T_HomeworkVO userdata = new T_HomeworkVO();
+			int userClass = loginUser.getSta_class();
+			int userGrade = loginUser.getSta_grade();
+			userdata.setTho_class(userClass);
+			userdata.setTho_grade(userGrade);
+			System.out.println(userdata);
+			
 			int countList = 5; //한페이지에 들어갈 글 개수
 			int pageListNum = 3; //페이지용 ul 리스트에 한번에 띄울 페이지 수
-			int totalpage = service.getTotalPage(countList);
+			HashMap<Integer, List<T_HomeworkVO>> datas = service.makeTHClassPage(userdata, countList);
+			//페이지별로 가져오는 걸로 코드 고치기-여기선 1페이지 기준으로(RequestParam pageNo)
+			System.out.println("pageNo: " + pageNo);
+			
+			int totalpage = datas.size() % countList == 0 ? (datas.size() / countList) : (datas.size() / countList + 1);
 			if(pageNo > totalpage) {
 				pageNo = totalpage;
 			} else if(pageNo < 1) {
 				pageNo = 1;
 			}
-			List<T_HomeworkVO> lists = service.getPage(pageNo, countList, pageListNum);
-			Iterator<T_HomeworkVO> iter = lists.iterator();
-			System.out.println("초기리스트 개수: " + lists.size() + "|처음: " + lists.get(0));
-			Map<String, Integer>pages = new HashMap<String, Integer>();
-			//startPage: view에서 보이는 첫 페이지 /lastPage:view에서 보이는 마지막 페이지
-			PagingVo page = service.getPageList(pageNo, pageListNum);
-			pages.put("startpage", page.getStartPage());
-			pages.put("lastpage", page.getLastPage());
-			pages.put("countlist", countList);
-			pages.put("totalpage", totalpage);
-			pages.put("pagelistnum", pageListNum);
 			
-			//페이지별로 나눠담는 작업
-			Map<Integer, List<T_HomeworkVO>> datas = new HashMap<Integer, List<T_HomeworkVO>>();
-			outer: for(int i = 0; i < pageListNum; i++) {
-				List<T_HomeworkVO> templist = new ArrayList<T_HomeworkVO>();
-				for(int j = 0; j < countList; j++) {
-					if(iter.hasNext()) {
-						templist.add(iter.next());
-					} else {
-						datas.put(i+pages.get("startpage"), templist);
-						break outer;
-					}
-				}
-				datas.put(i+pages.get("startpage"), templist);
-			}
+			PagingVo pages = new PagingVo();
+			pages.setNowPage(pageNo);
+			pages.setCntPerPage(countList);
+			pages.setTotal(totalpage);
+			
+			int pageCount = pageNo / pageListNum;
+			pages.setStartPage((pageCount * pageListNum) + 1);
+			pages.setEndPage((pageCount + 1) * pageListNum);
+			System.out.println(pages);
+			/* 
+			 * 만약 총 7페이지, 한번에 3페이지씩 나오고 지금 2페이지
+			 * 7/2 = 3, 나머지1: 마지막페이지는 지금 + 1, 시작페이지는 지금 - 1  2/3=0, 나머지2: 몫+1번째 페이지, 나머지번째에 현재페이지 있음
+			 * 2번째 페이지의 시작페이지: 1*3 + 1 3번째: 2*3 + 1
+			 * 만약 총 15페이지, 한번에 4페이지씩, 지금 5페이지
+			 * 15/5=3, 나머지0: 15/4=3, 나머지3:  5/4=1, 나머지1: 몫+1번째 페이지, 나머지번째에 현재페이지가 있음
+			 * */
+			
 			mod.addObject("pageNo", pageNo);
 			mod.addObject("pages", pages);
+//			mod.addObject("countList", countList);
+//			mod.addObject("pageListNum", pageListNum);
 			mod.addObject("datas", datas);
 			mod.setViewName("homework/list");
 		}
@@ -150,7 +159,7 @@ public class HomeworkController {
 	}
 	
 	@RequestMapping(value="/homework/detail", method=RequestMethod.GET)
-	public ModelAndView homeworkDetail(T_HomeworkVO vo, HttpServletRequest request) {
+	public ModelAndView homeworkDetail(T_HomeworkVO vo, HttpServletRequest request, HttpSession session) {
 		ModelAndView mod = new ModelAndView();
 		
 		T_HomeworkVO data = service.selectOneHW(vo);
@@ -165,6 +174,10 @@ public class HomeworkController {
 		}
 		System.out.println("count결과: " + data.getTho_count());
 		
+		//글쓴이 이름
+		STAccountVO writerData = staService.studentUpdate(data.getTho_writer());
+		mod.addObject("writerName", writerData.getSta_name());
+		
 		//이미지
 		String[] imgarr = new String[1];
 		if(data.getTho_filelink()== null) {
@@ -173,6 +186,8 @@ public class HomeworkController {
 			imgarr = service.getImgList(data.getTho_filelink());
 		}
 		
+		int durDate = 0;
+		
 		//type별 처리
 		if(data.getTho_homeworktype() == 2) {
 			System.out.println(data.getTho_contents());
@@ -180,19 +195,7 @@ public class HomeworkController {
 			System.out.println(type2contents);
 			mod.addObject("type2contents", type2contents);
 		} else if(data.getTho_homeworktype() == 3) {
-			java.sql.Date startDate = data.getTho_writedate();
-			java.sql.Date endDate = data.getTho_deadline();
-			LocalDate startLocal = startDate.toLocalDate();
-			
-			long endMinusStartSec = (endDate.getTime() - startDate.getTime()) / 1000;
-			long duration = endMinusStartSec / (24*60*60);
-			int durDate = Long.valueOf(duration).intValue();
-			//mod.addObject("type3duration", durDate);
-			
-			LocalDate[] type3DayArr = new LocalDate[durDate + 1];
-			for(int type3i = 0; type3i <= durDate; type3i++) {
-				type3DayArr[type3i] = startLocal.plusDays(type3i);
-			}
+			LocalDate[] type3DayArr = service.maketype3DayArr(data);
 			mod.addObject("type3DayArr", type3DayArr);
 		}
 		
@@ -201,86 +204,103 @@ public class HomeworkController {
 			mod.addObject("data", data);
 		} 
 		
-		//만약 선생님일 경우
-		List<S_HomeworkVO> sdatas = service.selectSHList(vo.getTho_id());
-		if(sdatas != null) {
-			mod.addObject("sdatas", sdatas);
-			HashMap<Integer, String[]> studentImages = new HashMap<Integer, String[]>();
-			for(S_HomeworkVO simg: sdatas) {
-				String[] simgarrs = new String[1];
-				if(simg.getSho_fileurl() != null) {
-					simgarrs = service.getImgList(simg.getSho_fileurl());
-					studentImages.put(simg.getSho_id(), simgarrs);
-				}
-			}
-			if(data.getTho_homeworktype() == 2) {
-				HashMap<Integer, String[]> type2answers = new HashMap<Integer, String[]>();
-				HashMap<Integer, String[]> type2teacGBs = new HashMap<Integer, String[]>();
-				for(S_HomeworkVO s: sdatas) {
-					String[] tempsdatas = service.makeType2Answer(s);
-					type2answers.put(s.getSho_id(), tempsdatas);
-					if(s.getSho_goodbad() != null) {
-						String[] teacGBarr = s.getSho_goodbad().split("");
-						type2teacGBs.put(s.getSho_id(), teacGBarr);
+		if(session.getAttribute("accountType").equals("T")) { //선생님일 때
+			List<S_HomeworkVO> sdatas = service.selectSHList(vo.getTho_id());
+			if(sdatas != null) {
+				mod.addObject("sdatas", sdatas);
+				HashMap<Integer, String[]> studentImages = new HashMap<Integer, String[]>();
+				for(S_HomeworkVO simg: sdatas) {
+					String[] simgarrs = new String[1];
+					if(simg.getSho_fileurl() != null) {
+						simgarrs = service.getImgList(simg.getSho_fileurl());
+						studentImages.put(simg.getSho_id(), simgarrs);
 					}
 				}
-				mod.addObject("studentImages", studentImages);
-				mod.addObject("type2answers", type2answers);
-				mod.addObject("type2GBforTeacher", type2teacGBs);
+				if(data.getTho_homeworktype() == 2) {
+					HashMap<Integer, String[]> type2answers = new HashMap<Integer, String[]>();
+					HashMap<Integer, String[]> type2teacGBs = new HashMap<Integer, String[]>();
+					for(S_HomeworkVO s: sdatas) {
+						String[] tempsdatas = service.makeType2Answer(s);
+						type2answers.put(s.getSho_id(), tempsdatas);
+						if(s.getSho_goodbad() != null) {
+							String[] teacGBarr = s.getSho_goodbad().split("");
+							type2teacGBs.put(s.getSho_id(), teacGBarr);
+						}
+					}
+					mod.addObject("studentImages", studentImages);
+					mod.addObject("type2answers", type2answers);
+					mod.addObject("type2GBforTeacher", type2teacGBs);
+				}
 			}
-		}
-		if(!imgarr[0].equals("noimage")) {
-			mod.addObject("img", imgarr);
+			if(!imgarr[0].equals("noimage")) {
+				mod.addObject("img", imgarr);
+			}
+		} else if(session.getAttribute("accountType").equals("S")) { //학생일 때
+			S_HomeworkVO shwVO = new S_HomeworkVO();
+			shwVO.setSho_tid(data.getTho_id()); 
+			String writers = session.getAttribute("accountNumber").toString();
+			shwVO.setSho_writer(Integer.parseInt(writers));
+			System.out.println("student writer: " + shwVO.getSho_writer());
+			List<S_HomeworkVO> sworks = service.selectStudentHWs(shwVO);
+			if(sworks == null || sworks.size() == 0) {
+				mod.addObject("sworksnull", true);
+				System.out.println("학생 숙제값 없음");
+			} else {
+				mod.addObject("sworksnull", false);
+				System.out.println("학생 숙제값 있음");
+				if(data.getTho_homeworktype() != 3) {
+					mod.addObject("sworks", sworks);
+				}
+				
+				HashMap<Integer, String[]> studentImagesForS = new HashMap<Integer, String[]>();
+				for(S_HomeworkVO simgForS: sworks) {
+					String[] simgarrsForS = new String[1];
+					if(simgForS.getSho_fileurl() != null) {
+						simgarrsForS = service.getImgList(simgForS.getSho_fileurl());
+						studentImagesForS.put(simgForS.getSho_id(), simgarrsForS);
+					}
+				}
+				mod.addObject("studentImagesForS", studentImagesForS);
+				
+				if(data.getTho_homeworktype() == 2) {
+					String[] ansarr = service.makeType2Answer(sworks.get(0));
+					mod.addObject("sanswer", ansarr);
+					//교사가 채점을 끝냈을때
+					if(sworks.get(0).getSho_goodbad() != null) {
+						String[] GBarr = sworks.get(0).getSho_goodbad().split("");
+						mod.addObject("type2GBforStudent", GBarr);
+					}
+				} else if(data.getTho_homeworktype() == 3) {
+					System.out.println("durDate: " + durDate);
+					S_HomeworkVO[] type3sWorks = new S_HomeworkVO[durDate + 1];
+					String[] type3sWeather = new String[durDate + 1];
+					String[] type3sContent = new String[durDate + 1];
+					String[] type3sComment = new String[durDate + 1];
+					LocalDate[] type3DateArr = service.maketype3DayArr(data);
+					for(int i = 0; i <= durDate; i++) {
+						for(S_HomeworkVO stype3: sworks) {
+							java.sql.Date newDate = Date.valueOf(type3DateArr[i]);
+							System.out.println("LocalDate: " + type3DateArr[i] + " | SQLDate: " + newDate);
+							if(stype3.getSho_date() == newDate) {
+								String[] temps3arr = stype3.getSho_contents().split("\\|\\|");
+//								java.sql.Date temp3sdate = sworks.get(i).getSho_date();
+								type3sWorks[i] = stype3;
+								type3sWeather[i] = temps3arr[0];
+								type3sContent[i] = temps3arr[1];
+								type3sComment[i] = stype3.getSho_comment() != null ? "true" : "false";
+							}
+						}
+					}
+					mod.addObject("type3sWorks", type3sWorks);
+					mod.addObject("type3sWeather", type3sWeather);
+					mod.addObject("type3sContent", type3sContent);
+					mod.addObject("type3sComment", type3sComment);
+				}
+			}
+		} else {
+			System.out.println("HController, session값 읽기 에러");
 		}
 		
-		//만약 학생일 경우
-		S_HomeworkVO shwVO = new S_HomeworkVO();
-		shwVO.setSho_tid(data.getTho_id()); 
-		shwVO.setSho_writer(7);//session에서 값 받아서 설정하도록 나중에 수정
-		List<S_HomeworkVO> sworks = service.selectStudentHWs(shwVO);
-		if(sworks == null || sworks.size() == 0) {
-			mod.addObject("sworksnull", true);
-			System.out.println("학생 숙제값 없음");
-		} else {
-			mod.addObject("sworksnull", false);
-			System.out.println("학생 숙제값 있음");
-			if(data.getTho_homeworktype() != 3) {
-				mod.addObject("sworks", sworks);
-			}
-			
-			HashMap<Integer, String[]> studentImagesForS = new HashMap<Integer, String[]>();
-			for(S_HomeworkVO simgForS: sworks) {
-				String[] simgarrsForS = new String[1];
-				if(simgForS.getSho_fileurl() != null) {
-					simgarrsForS = service.getImgList(simgForS.getSho_fileurl());
-					studentImagesForS.put(simgForS.getSho_id(), simgarrsForS);
-				}
-			}
-			mod.addObject("studentImagesForS", studentImagesForS);
-			
-			if(data.getTho_homeworktype() == 2) {
-				String[] ansarr = service.makeType2Answer(sworks.get(0));
-				mod.addObject("sanswer", ansarr);
-				//교사가 채점을 끝냈을때
-				if(sworks.get(0).getSho_goodbad() != null) {
-					String[] GBarr = sworks.get(0).getSho_goodbad().split("");
-					mod.addObject("type2GBforStudent", GBarr);
-				}
-			} else if(data.getTho_homeworktype() == 3) {
-				HashMap<java.sql.Date, S_HomeworkVO> type3sWorks = new HashMap<java.sql.Date, S_HomeworkVO>();
-				HashMap<java.sql.Date, String[]> type3sWeather = new HashMap<java.sql.Date, String[]>();
-				HashMap<java.sql.Date, String> type3comment = new HashMap<java.sql.Date, String>();
-				for(S_HomeworkVO stype3: sworks) {
-					String[] temps3arr = stype3.getSho_contents().split("\\|\\|");
-					java.sql.Date temp3sdate = stype3.getSho_date();
-					type3sWorks.put(temp3sdate, stype3);
-					type3sWeather.put(temp3sdate, temps3arr);
-					type3comment.put(temp3sdate, stype3.getSho_comment() != null ? "true" : "false");
-				}
-				mod.addObject("type3sWorks", type3sWorks);
-				mod.addObject("type3sWC", type3sWeather);
-			}
-		}
 		mod.setViewName("homework/detail/detail");
 		return mod;
 		
@@ -331,6 +351,19 @@ public class HomeworkController {
 			return "redirect:/homework/detail?tho_id=" + vo.getSho_tid();
 		} else {
 			System.out.println("homework form 수정 실패");
+			return "homework/error";
+		}
+	}
+	
+	@RequestMapping(value="/studentup3", method=RequestMethod.POST)
+	public String studentHomeworkUp3(S_HomeworkVO vo) {
+		System.out.println(vo);
+		boolean res = service.insertSH(vo);
+		if(res) {
+			System.out.println("homework form 업로드 성공");
+			return "redirect:/homework/detail?tho_id=" + vo.getSho_tid();
+		} else {
+			System.out.println("homework form 업로드 실패");
 			return "homework/error";
 		}
 	}

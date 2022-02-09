@@ -46,29 +46,22 @@
 						<c:otherwise>
 							<form class="form-horizontal" action="/ajaxComment"
 								method="post" id="ajaxComment${sdata.getSho_id() }">
-								<div class="form-group bdr-1 bdr-r5 tmg10"
-									style="display: flex;">
+								<div class="form-group bdr-1 bdr-r5 tmg10" style="display: flex;">
 									<div class="col-md-1 tmg10">${sdata.getSho_id() }</div>
 									<div class="col-md-9 tmg10">${sdata.getSho_contents() }</div>
 									<div class="col-md-1">
-										<div name="ajax_good" id="ajax_good${sdata.getSho_id() }"
-											class="mg10">
-											<button class="btn btn-wht btn-sm"
-												id="btn_ajaxGood${sdata.getSho_id() }" type="button"
+										<div name="ajax_good" id="ajax_good${sdata.getSho_id() }" class="mg10">
+											<button class="btn btn-wht btn-sm" id="btn_ajaxGood${sdata.getSho_id() }" type="button"
 												onclick="ajax_good(${sdata.getSho_id() })">잘했어요</button>
 										</div>
-										<input type="hidden" name="sho_goodbad"
-											id="sho_good${sdata.getSho_id() }" value="G" disabled>
+										<input type="hidden" name="sho_goodbad" id="sho_good${sdata.getSho_id() }" value="G" disabled>
 									</div>
 									<div class="col-md-1">
-										<div name="ajax_bad" id="ajax_bad${sdata.getSho_id() }"
-											class="mg10">
-											<button class="btn btn-wht btn-sm"
-												id="btn_ajaxBad${sdata.getSho_id() }" type="button"
+										<div name="ajax_bad" id="ajax_bad${sdata.getSho_id() }" class="mg10">
+											<button class="btn btn-wht btn-sm" id="btn_ajaxBad${sdata.getSho_id() }" type="button"
 												onclick="ajax_bad(${sdata.getSho_id() })">아쉬워요</button>
 										</div>
-										<input type="hidden" name="sho_goodbad"
-											id="sho_bad${sdata.getSho_id() }" value="N" disabled>
+										<input type="hidden" name="sho_goodbad" id="sho_bad${sdata.getSho_id() }" value="N" disabled>
 									</div>
 								</div>
 								<div class="form-group tmg10">
@@ -87,15 +80,12 @@
 											placeholder="학생의 숙제에 대한 평가를 입력하세요(선택)"></textarea>
 									</div>
 									<div class="col-md-2 pd10">
-										<button class="btn btn-sbl" type="button"
-											id="btn_submitcomm${sdata.getSho_id() }"
-											onclick="submitAjaxComment(${sdata.getSho_id() })">채점결과와
-											숙제에 대한 평가 함께 제출하기</button>
+										<button class="btn btn-sbl" type="button" id="btn_submitcomm${sdata.getSho_id() }"
+											onclick="submitAjaxComment(${sdata.getSho_id() })">채점결과와 숙제에 대한 평가 함께 제출하기</button>
 									</div>
 								</div>
 								<div>
-									<input type="number" name="sho_id"
-										id="sho_comment_id${sdata.getSho_id() }"
+									<input type="number" name="sho_id" id="sho_comment_id${sdata.getSho_id() }"
 										value="${sdata.getSho_id() }" style="display: none;">
 								</div>
 							</form>
@@ -107,8 +97,7 @@
 			<c:if test="${data.getTho_homeworktype() == 2 }">
 				<div class="btn-toolbar row flex">
 					<c:forEach var="sdata" items="${sdatas}">
-						<form class="form-horizontal" action="/Type2ajaxComment"
-									method="post" id="Type2ajaxComment${sdata.getSho_id() }">
+						<form class="form-horizontal" action="/Type2ajaxComment" method="post" id="Type2ajaxComment${sdata.getSho_id() }">
 							<c:choose>
 								<c:when test="${sdata.getSho_goodbad() == null }">
 									<!-- 아직 채점안됨 -->
@@ -119,7 +108,8 @@
 											<div class="btn-group">
 												<c:forEach var="t2answers" items="${type2answers.get(sdata.getSho_id()) }" varStatus="status">
 													<button type="button" id="btn-${sdata.getSho_id() }type2GoodBad${status.count }" class="btn btn-secondary" 
-														name="btn-${sdata.getSho_id() }type2GoodBad" data-bs-toggle="modal" data-bs-target="#makeGoodbadSc_${sdata.getSho_id() }_${status.count}">
+														name="btn-${sdata.getSho_id() }type2GoodBad" data-bs-toggle="modal" 
+														data-bs-target="#makeGoodbadSc_${sdata.getSho_id() }_${status.count}">
 														<img src="/stc/img/question-lg.svg" class="ic20 filter-whtcream" />
 													</button>
 												</c:forEach>

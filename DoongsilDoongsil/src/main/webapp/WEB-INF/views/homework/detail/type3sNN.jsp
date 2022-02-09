@@ -24,7 +24,7 @@
 			<div class="col-md-4 type3_titleAreaSub flex">
 				<div class="fs-2 mb-3 col-md-3 weatherIcon" id="type3_weather_sunny">
 					<c:choose>
-						<c:when test="${param.type3sWC[0] == 'sunny'}">
+						<c:when test="${param.type3sWeather eq 'sunny'}">
 							<img id="sunny_fill" src="/stc/img/brightness-high-fill.svg" class="ic20 filter-brlred" />
 						</c:when>
 						<c:otherwise>
@@ -34,7 +34,7 @@
 				</div>
 				<div class="fs-2 mb-3 col-md-3 weatherIcon" id="type3_weather_cloudy">
 					<c:choose>
-						<c:when test="${param.type3sWC[0] == 'cloudy'}">
+						<c:when test="${param.type3sWeather eq 'cloudy'}">
 							<img id="cloudy_fill" src="/stc/img/cloudy-fill.svg" class="ic20 filter-grystone" />
 						</c:when>
 						<c:otherwise>
@@ -44,7 +44,7 @@
 				</div>
 				<div class="fs-2 mb-3 col-md-3 weatherIcon" id="type3_weather_rainy">
 					<c:choose>
-						<c:when test="${param.type3sWC[0] == 'rainy'}">
+						<c:when test="${param.type3sWeather eq 'rainy'}">
 							<img id="rainy_fill" src="/stc/img/cloud-rain-fill.svg" class="ic20 filter-lsrblue" />
 						</c:when>
 						<c:otherwise>
@@ -54,7 +54,7 @@
 				</div>
 				<div class="fs-2 mb-3 col-md-3 weatherIcon bdr-r5" id="type3_weather_snowy">
 					<c:choose>
-						<c:when test="${param.type3sWC[0] == 'snowy'}">
+						<c:when test="${param.type3sWeather eq 'snowy'}">
 							<img id="snowy_fill" src="/stc/img/snow2.svg" class="ic20 filter-strblue" />s
 						</c:when>
 						<c:otherwise>
@@ -72,7 +72,7 @@
 					</div>
 					<div id="type3imgArea" class="type3_imgArea flex" >
 						<div class="type3_img_inner">
-							<img src="${param.type3sWork.getSho_fileurl() }" id="type3imgPreview">
+							<img src="${param.type3sWork }" id="type3imgPreview">
 						</div>
 					</div>
 				</div>
@@ -80,12 +80,12 @@
 			<form id="type3diarySubmit" class="form-horizontal">
 				<div class="row vtc" id="type3TextArea">
 					<div class="type3_textArea flex">
-						<textarea id="type3contentArea" class="typingTextarea" style="overflow:hidden" value="${param.type3sWC[1] }"></textarea>
+						<textarea id="type3contentArea" class="typingTextarea" style="overflow:hidden" value="${param.type3sContent }"></textarea>
 					</div>
 				</div>
 				<div>
-					<input type="hidden" id="type3weatherValue" value="${param.type3sWC[0] }">
-					<input type="hidden" id="type3imglink" value="${param.type3sWork.getSho_fileurl() }">
+					<input type="hidden" id="type3weatherValue" value="${param.type3sWeather }">
+					<input type="hidden" id="type3imglink" value="${param.type3sWork }">
 					<input type="date" id="type3date" style="display:none;" value="${type3date }">
 				</div>
 			</form>

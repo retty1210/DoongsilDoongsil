@@ -49,22 +49,29 @@
 					</div>
 				</div>
 			</form>
-			<form id="type3diarySubmit" class="form-horizontal" method="post" action="/type3diaryup">
+			<form id="type3diarySubmit" class="form-horizontal" method="post" action="/studentup3">
 				<div class="row vtc" id="type3TextArea">
 					<div class="type3_textArea flex">
-						<textarea id="type3contentArea" class="typingTextarea" name="sho_contents" style="overflow:hidden"></textarea>
+						<textarea id="type3contentArea" class="typingTextarea" style="overflow:hidden"></textarea>
 					</div>
 				</div>
 				<div>
 					<input type="hidden" id="type3weatherValue">
 					<input type="hidden" id="type3imglink" name="sho_fileurl">
-					<input type="date" id="type3date" style="display:none;" name="sho_date" value="${type3date }">
-					<input type="number" name="sho_tid" id="sho_tid_type3" value="${data.getTho_id() }" style="display: none;">
-					<input type="number" name="sho_writer" id="sho_writer_type3" value="7" style="display: none;">
-					<input type="number" name="sho_homeworktype" id="sho_homeworktype_type3"
-						value="3" style="display: none;"> 
-					<input type="number" name="sho_grade" id="sho_grade_type3" value="2" style="display: none;"> 
-					<input type="number" name="sho_class" id="sho_class_type3" value="4" style="display: none;">
+					<label for="type3date">Date</label>
+					<input type="date" id="type3date" name="sho_date" value="${param.type3date }">
+					<label for="sho_tid_type3">TID</label>
+					<input type="number" name="sho_tid" id="sho_tid_type3" value="${data.getTho_id() }" readonly>
+					<label for="sho_writer_type3">Writer</label>
+					<input type="number" name="sho_writer" id="sho_writer_type3" value="${sessionScope.accountNumber }" readonly>
+					<label for="sho_homeworktype_type3">HWtype</label>
+					<input type="number" name="sho_homeworktype" id="sho_homeworktype_type3" value="3" readonly> 
+					<label for="type3FinalContent">Content</label>
+					<textarea id="type3FinalContent" name="sho_contents" readonly></textarea>
+					<label for="sho_grade_type3">Grade</label>
+					<input type="number" name="sho_grade" id="sho_grade_type3" value="${sessionScope.account.getSta_grade()}" readonly> 
+					<label for="sho_class_type3">Class</label>
+					<input type="number" name="sho_class" id="sho_class_type3" value="${sessionScope.account.getSta_class() }" readonly>
 				</div>
 				<div>
 					<button type="submit" style="display:none;" id="type3diarySubmitButton"></button>

@@ -80,9 +80,9 @@
 							</div>
 						</div>
 						<div class="none">
-							<input type="number" name="tho_writer" value="5" style="display:none;">
-							<input type="number" name="tho_grade" value="1" style="display:none;">
-							<input type="number" name="tho_class" value="2" style="display:none;">
+							<input type="number" name="tho_writer" value="${sessionScope.accountNumber }" style="display:none;">
+							<input type="number" name="tho_grade" value="${sessionScope.account.getSta_grade()}" style="display:none;">
+							<input type="number" name="tho_class" value="${sessionScope.account.getSta_class()}" style="display:none;">
 							<input type="number" name="tho_count" value="0" style="display:none;">
 							<input type="hidden" id="tho_filelink" name="tho_filelink">
 						</div>

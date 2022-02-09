@@ -82,6 +82,7 @@ function setImageFromFile(input, expression) {
         var reader = new FileReader();
         reader.onload = function (e) {
             $(expression).attr('src', e.target.result);
+			$("#type3imglink").val(e.target.result);
         }
         reader.readAsDataURL(input.files[0]);
     }
@@ -165,5 +166,22 @@ function type3Snowy() {
 }
 
 function submitType3Student() {
-	$("#type3diarySubmitButton").click();
+	var img = $("#type3imglink").val();
+	var cont = $("#type3contentArea").val();
+	var weath = $("#type3weatherValue").val();
+	if(isThisEmpty(img) != true && isThisEmpty(cont) != true && isThisEmpty(weath) != true) {
+		$("#type3FinalContent").val(weath + "||" + cont);
+		$("#type3diarySubmitButton").click();
+	} else {
+		alert("날씨, 그림, 글을 다 썼는지 확인해주세요!");
+	}
+	
+}
+
+function isThisEmpty(e) {
+	if(e == "" || typeof e == "undefined" || e == null || e == 0 || e == NaN) {
+		return true;
+	} else {
+		return false;
+	}
 }

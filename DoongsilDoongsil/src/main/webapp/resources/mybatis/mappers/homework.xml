@@ -8,6 +8,19 @@
 		SELECT * FROM T_HOMEWORK ORDER BY THO_ID DESC
 	</select>
 	
+	<select id="selectTHwithClass" parameterType="t_homework" resultType="t_homework">
+		SELECT 
+		    THO_ID, 
+		    THO_TITLE, 
+		    THO_WRITEDATE, 
+		    THO_DEADLINE,
+			THO_COUNT
+		  FROM T_HOMEWORK
+		  WHERE THO_CLASS = #{tho_class}
+		    AND THO_GRADE = #{tho_grade}
+		  ORDER BY THO_ID DESC
+	</select>
+	
 	<select id="selectHWListFromFront" parameterType="doongsil.com.web.paging.model.PagingVo" resultType="t_homework">
 		SELECT 
 		    X.THO_ID,
@@ -41,7 +54,7 @@
 		WHERE X.RN <![CDATA[>=]]> #{start}
 	</select>
 	
-	<select id="selectHWListFromBack" parameterType="int" resultType="t_homework">
+	<select id="selectHWListFromEnd" parameterType="doongsil.com.web.paging.model.PagingVo" resultType="t_homework">
 		SELECT 
 		    *
 		    FROM
@@ -50,6 +63,7 @@
 		            FROM T_HOMEWORK A) A
 		    WHERE RN <![CDATA[>=]]> #{start}) X
 		WHERE X.RN <![CDATA[>=]]> #{end}
+		
 	</select>
 	
 	<select id="selectOneHW" parameterType="t_homework" resultType="t_homework">
@@ -276,13 +290,14 @@
 	</select>
 	
 	<select id="selectListCount" resultType="int">
-		SELECT COUNT(*) AS TOTALCOUNT FROM T_HOMEWORK
+		SELECT COUNT(*) AS TOTALCOUNT 
+			FROM T_HOMEWORK
 	</select>
 	
 	<update id="updateSHContents" parameterType="s_homework">
 		UPDATE S_HOMEWORK
 			SET	SHO_CONTENTS = #{sho_contents}
-			WHERE SHO_ID = #{sho_id}	
+			WHERE SHO_ID = #{sho_id}
 	</update>
 	<!-- 학생용 내정보 페이지에 채점안된 숙제 불러오기 -->
 	<select id="noCheckHomework" parameterType="int" resultType="s_homework">

@@ -23,9 +23,15 @@
 		
 		// 삭제
 		$(".delete_btn").on("click", function(){
-			formObj.attr("action", "/paboardDelete");
-			formObj.attr("method", "get");
-			formObj.submit();
+			if(confirm('게시물을 삭제 하시겠습니까 ?')){
+				formObj.attr("action", "/paboardDelete");
+				formObj.attr("method", "get");
+				formObj.submit();
+			}else{
+				alert('게시글 삭제를 취소하셨습니다.');
+				location.reload();
+			}
+			
 		})
 		
 		// 취소

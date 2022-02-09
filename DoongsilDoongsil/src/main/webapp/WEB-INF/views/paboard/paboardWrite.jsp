@@ -24,24 +24,30 @@
 						<tbody>
 							<tr>
 								<td>
+									<label>카테고리</label>
+									<select name="pab_category">
+										<option selected>---- 카테고리 선택 ----</option>
+										<c:forEach var="cg" items="${category }">
+											<option value="${cg.pac_id }">${cg.pac_category }</option>
+										</c:forEach>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
 									<label for="title">제목</label><input type="text" id="pab_title" name="pab_title" />
 								</td>
 							</tr>	
 							<tr>
 								<td>
-									<label for="contents">내용</label><textarea id="pab_contents" name="pab_contents" ></textarea>
+									<label for="contents">내용</label><textarea id="pab_contents" name="pab_contents" style="resize:none;"></textarea>
 								</td>
 							</tr>
 							<tr>
-								<td>
-									<label for="writer">작성자</label><input type="text" id="pab_writer" name="pab_writer" />
-								</td>
+								<td><input type="hidden" name="pab_writer" value="${sessionScope.account.paa_id }"/></td>
+							</tr>
 							<tr>
-								<td>
-										<div class="form-group form-check">
-    										<input type="checkbox" class="form-check-input" id="exampleCheck1">
-    										<label class="form-check-label" for="exampleCheck1">같은 학급만 읽기</label>
-  										</div>				
+								<td>				
 									<button type="button" class="btn btn-primary" onclick="location.href='/paboardList'">취소</button>
 									<button type="submit" class="btn btn-primary" >작성</button>
 								</td>

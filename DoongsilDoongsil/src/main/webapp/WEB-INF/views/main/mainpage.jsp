@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>calendar</title>
-
 <script src="/stc/js/cal.js"></script>
 <link href="/stc/css/doongmain.css" rel="stylesheet" type="text/css" />
 <link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
@@ -53,26 +52,10 @@
 			</div>
 			 
 			 <div class = "today-box">
-				<script type="text/javascript">
-					$.ajax({
-						url: '/getList',
-						type: 'GET',
-						success: function(response) {
-							var monthNum = $('h2').text();
-							var arr = [];
-							$.each(response, function(index, data) {
-								arr.push(index, data);
-							});
-							if(monthNum.substring(6,7) == arr[2]){
-								alert('성공');
-							}
-							console.log(arr);
-						},
-						error: function(response) {
-							alert('실패');
-						}
-					});
-				</script>		 	
+			 	<h3>학사일정</h3>
+			 	<ul class= "academic-list">
+			 		
+			 	</ul>
 			 </div>
 		</div>
 		<div class="main-board-area">
@@ -124,8 +107,10 @@
 				
 			</form>
 			<div class="main-second-bottom">
-				<div class="calendar-area">
-					<jsp:include page="/WEB-INF/views/module/calendar.jsp" flush="false" />
+				<div class="calendar-board">
+					<div class="calendar-area">
+						<jsp:include page="/WEB-INF/views/module/calendar.jsp" flush="false" />
+					</div>
 				</div>
 			</div>
 		</div>

@@ -1,16 +1,11 @@
 @charset "UTF-8";
 /* calenddar option */
-  body {
-    margin: 40px 10px;
-    padding: 0;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
-  }
 
   #calendar {
   	width: 700px;
     max-width: 800px;
-    font-size: 9px;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
   }
 
 /* 캘린더 날짜 색상 및 날짜 밑줄 제거 */
@@ -54,7 +49,7 @@
 
 /* 공지사항 및 학급게시판 더보기 css */
 .more-list-text {
-	/* float: right; */
+	float: right;
 	margin-bottom: 5px;
 	font-size: 13px;
 	text-decoration: none;
@@ -93,6 +88,7 @@
 
 .all-area {
 	display: flex;
+	justify-content: space-around;
 }
 
 .main-board-area {
@@ -111,8 +107,13 @@
 }
 
 /* 캘린더 학사일정 css*/
-.calendar-area {
-	margin-left: 30px;
+.calendar-board {
+	border : 2px solid #77B0BF;
+	width: 850px;
+	height: 600px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .school-events-area {
@@ -127,8 +128,12 @@
 }
 
 .main-first-top {
-	display : inline-block;
-	border : 1px solid black;
+	margin-top : 30px;
+	margin-bottom : 20px;
+	display : flex;
+	justify-content: space-around;
+	padding-top : 8px;
+	border : 2px solid #77B0BF;
 	width: 850px;
 	height: 160px;
 }

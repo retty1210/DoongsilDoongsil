@@ -37,12 +37,10 @@ public class CalendarService {
 	}
 
 	public List<CalendarDTO> selectCalendar() {
-		logger.info("Service 동작");
 		return dao.selectCalendar();
 	}
 
 	public boolean DeleteEvent(CalendarDTO dto) {
-		logger.info("Service 동작");
 		boolean res = dao.deleteEvent(dto);
 		return res;
 	}

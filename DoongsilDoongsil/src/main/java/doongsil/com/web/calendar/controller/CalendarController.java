@@ -41,14 +41,14 @@ public class CalendarController {
 		//json.put("calendarList", calendar_list);
 		//logger.info("controller 동작");
 		// 학사일정 출력 부분
-		return "main/mainpage";
+		return "/main/mainpage";
 	}
 	
 	@RequestMapping(value="/getEvent", produces="application/text; charset=utf8", method=RequestMethod.GET)
 	@ResponseBody
 	public String getEvents(Model model) throws Exception {
 		List<CalendarDTO> calendar_list = service.selectCalendar();
-		System.out.println(calendar_list);
+		//System.out.println(calendar_list);
 		// 밑에 로직 공부
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = mapper.writeValueAsString(calendar_list);
@@ -81,12 +81,11 @@ public class CalendarController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/getList", method=RequestMethod.GET)
-	public HashMap<Integer, CalendarDTO[]> getList(Model model, HttpSession session) {
+	@RequestMapping(value="/getList", produces="application/text; charset=utf8", method=RequestMethod.GET)
+	public String getList(Model model, HttpSession session) throws Exception{
 		List<CalendarDTO> calendar_list = service.selectCalendar();
 		HashMap<Integer, CalendarDTO[]> exNum = new HashMap<Integer, CalendarDTO[]>();
 		
-			
 		for(int i=1; i < 13; i++) {
 			List<CalendarDTO> temparr = new ArrayList<CalendarDTO>();
 			for(CalendarDTO Date: calendar_list) {
@@ -98,7 +97,9 @@ public class CalendarController {
 			temparr.toArray(calArr);
 			exNum.put(i, calArr);
 		}
-		model.addAttribute("academic", exNum);
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonStr = mapper.writeValueAsString(exNum);
+		model.addAttribute("academics", exNum);
 		//System.out.println(exNum);
 		//for문을 1~12까지 돌게 만들어서
 		//for문 안에서 임시로 쓸 CalenderDTO[]를 만들어서 Date중에 월이 for문 i와 동일한 거를 []에 넣고
@@ -107,7 +108,7 @@ public class CalendarController {
 		//js에서 지금 열려있는 calender의 월 값을 찾아서 그 값을 key로 넣어서 나오는 value값을 div에 뿌림
 		//fc-next-button이나 fc-prev-button을 클릭했을때 거기에 맞게 key값을 바꾸도록 로직 짜기
 
-		return exNum;
+		return jsonStr;
 	}
 	
 }

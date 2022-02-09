@@ -7,12 +7,15 @@ public class PabVO {
 	private int pab_writer;
 	private String pab_title;
 	private String pab_contents;
-	private String pab_category;
+	private int pab_category;
 	private String pab_grade;
 	private String pab_class;
 	private Date pab_date;
 	private int pab_Count;
 	private String paa_UserName;
+	
+	private int pac_id;
+	private String pac_category;
 	
 	
 	
@@ -53,10 +56,10 @@ public class PabVO {
 	public void setPab_contents(String pab_contents) {
 		this.pab_contents = pab_contents;
 	}
-	public String getPab_category() {
+	public int getPab_category() {
 		return pab_category;
 	}
-	public void setPab_category(String pab_category) {
+	public void setPab_category(int pab_category) {
 		this.pab_category = pab_category;
 	}
 	public String getPab_grade() {
@@ -76,6 +79,19 @@ public class PabVO {
 	}
 	public void setPab_date(Date pab_date) {
 		this.pab_date = pab_date;
+	}
+	
+	public int getPac_id() {
+		return pac_id;
+	}
+	public void setPac_id(int pac_id) {
+		this.pac_id = pac_id;
+	}
+	public String getPac_category() {
+		return pac_category;
+	}
+	public void setPac_category(String pac_category) {
+		this.pac_category = pac_category;
 	}
 	@Override
 	public String toString() {

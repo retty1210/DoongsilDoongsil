@@ -101,6 +101,10 @@
 	 		<mapping path="/infoUpdate"/>
 	 		<beans:bean class="doongsil.com.web.info.interceptor.InfoUpdateInterceptor"></beans:bean>
 	 	</interceptor>
+	 	<interceptor>
+	 		<mapping path="/paboardList"/>
+	 		<beans:bean class="doongsil.com.web.paboard.interceptor.PaBoardInterceptor"></beans:bean>
+	 	</interceptor>
 	 </interceptors>
 	
 	<!-- 소셜 로그인 Oauth 관련 - 1. 네이버 -->

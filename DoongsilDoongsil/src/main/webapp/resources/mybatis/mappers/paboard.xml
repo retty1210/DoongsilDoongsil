@@ -11,15 +11,17 @@
 	   , PAB_TITLE
 	   , PAB_CONTENTS
 	   , PAB_CATEGORY
-	   , PAB_DATE 
+	   , PAB_DATE
+	   , PAB_COUNT 
 	   )
 		VALUES(
 		  PARENTS_BOARD_SEQ.NEXTVAL 
 		, #{pab_writer} 
 		, #{pab_title}
 		, #{pab_contents}
-		, 1
-		, SYSDATE 
+		, #{pab_category}
+		, SYSDATE
+		, #{pab_Count} - 1
 		)
     </insert>
     
@@ -31,16 +33,28 @@
     <delete id="delete" parameterType="int">
     	DELETE FROM PARENTS_BOARD WHERE PAB_ID = #{pab_id}
     </delete>
-    
+    <select id="countBoard" resultType="int">
+    	SELECT COUNT(*) FROM PARENTS_BOARD
+    </select>
     <select id="list" resultType="doongsil.com.web.paboard.model.PabVO">
-    SELECT PAB_ID
-         , PAB_TITLE
-         , B.PAA_USERNAME
-         , PAB_DATE
-         , PAB_COUNT
-      FROM PARENTS_BOARD A JOIN PARENTS_ACCOUNT B
-        ON A.PAB_WRITER = B.PAA_ID
-     ORDER BY PAB_ID DESC
+    SELECT * 
+      FROM (
+      		SELECT ROWNUM RN, A.*
+      		  FROM(
+				    SELECT PAB_ID
+				         , PAB_TITLE
+				         , B.PAA_USERNAME
+				         , C.PAC_CATEGORY
+				         , PAB_DATE
+				         , PAB_COUNT
+				      FROM PARENTS_BOARD A JOIN PARENTS_ACCOUNT B
+				        ON A.PAB_WRITER = B.PAA_ID
+				      JOIN PAB_CATEGORY C
+				        ON A.PAB_CATEGORY = C.PAC_ID
+				     ORDER BY PAB_ID DESC
+				    ) A
+		    )
+	 WHERE RN BETWEEN #{start} AND #{end}
     </select>
     
     <update id="CountUpdate" parameterType="doongsil.com.web.paboard.model.PabVO">
@@ -58,5 +72,9 @@
        FROM PARENTS_BOARD A JOIN PARENTS_ACCOUNT B
          ON A.PAB_WRITER = B.PAA_ID
       WHERE PAB_ID = #{pab_id}
+    </select>
+    <select id="pab_Category" resultType="doongsil.com.web.paboard.model.PabVO">
+    	SELECT *
+    	  FROM PAB_CATEGORY
     </select>
 </mapper>

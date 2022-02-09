@@ -10,6 +10,7 @@
   <style>
   a{
   	text-decoration : none;
+  	color: black;
   }
   table{
  	border-collapse: collapse;
@@ -53,6 +54,12 @@
     font-weight: 600;
   }
   </style>
+  <script type="text/javascript">
+	function selChange() {
+		var sel = document.getElementById('cntPerPage').value;
+		location.href="/paboardList?nowPage=${paging.nowPage}&cntPerPage="+sel;
+	}
+</script>
 </head>
 <body>
 	<header>
@@ -60,7 +67,32 @@
 	</header>
 	<main role="main" class="container">
 		<h1>학부모게시판</h1>
+		
 	
+		<div style="float: right;">
+			<select id="cntPerPage" name="sel" onchange="selChange();">
+				<option value="5"
+					<c:choose>
+					<c:when test="${paging.cntPerPage == 5}">selected</c:when>
+					<c:otherwise>disabled</c:otherwise>
+					</c:choose>>5줄 보기</option>
+				<option value="10"
+					<c:choose>
+					<c:when test="${paging.cntPerPage == 10}">selected</c:when>
+					<c:otherwise>disabled</c:otherwise>
+					</c:choose>>10줄 보기</option>
+				<option value="15"
+					<c:choose>
+					<c:when test="${paging.cntPerPage == 15}">selected</c:when>
+					<c:otherwise>disabled</c:otherwise>
+					</c:choose>>15줄 보기</option>
+				<option value="20"
+					<c:choose>
+					<c:when test="${paging.cntPerPage == 20}">selected</c:when>
+					<c:otherwise>disabled</c:otherwise>
+					</c:choose>>20줄 보기</option>
+			</select>
+		</div> <!-- 옵션선택 끝 -->
 		<div class="table_wrap">
 			<button type="button" class="btn btn-primary" onclick="location.href='/paboardWrite'">작성하기</button>
 			<table>
@@ -76,13 +108,31 @@
 		 		<c:forEach items="${list}" var="list">
 		            <tr>
 		                <td><c:out value="${list.pab_id}"/></td>
-		               	<td><a href="/paboardView?pab_id=${list.pab_id}" class="titleLink"><c:out value="${list.pab_title}" /></a></td>
+		               	<td><a href="/paboardView?pab_id=${list.pab_id}" class="titleLink"><span style="opacity:0.54;"> [ ${list.pac_category} ] </span><c:out value="${list.pab_title}" /></a></td>
 		                <td><c:out value="${list.paa_UserName}"/></td>
 						<td><fmt:formatDate pattern="yyyy/MM/dd" value="${list.pab_date}"/></td>
 						<td><c:out value="${list.pab_Count}"/></td>
 		            </tr>
 		        </c:forEach>
 			</table>
+			<div style="display: block; text-align: center;">		
+				<c:if test="${paging.startPage != 1 }">
+					<a href="/paboardList?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+				</c:if>
+				<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+					<c:choose>
+						<c:when test="${p == paging.nowPage }">
+							<b>${p }</b>
+						</c:when>
+						<c:when test="${p != paging.nowPage }">
+							<a href="/paboardList?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+						</c:when>
+					</c:choose>
+				</c:forEach>
+				<c:if test="${paging.endPage != paging.lastPage}">
+					<a href="/paboardList?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+				</c:if>
+			</div>
 		</div>
 	</main>
 

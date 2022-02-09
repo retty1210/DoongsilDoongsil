@@ -13,9 +13,12 @@
 		
 		// 수정 
 		$(".update_btn").on("click", function(){
-			formObj.attr("action", "/paboardUpdate");
-			formObj.attr("method", "post");
-			formObj.submit();				
+			$("#pab_title,#pab_contents").removeAttr("readOnly");
+			$(".update_btn").on("click",function(){
+				formObj.attr("action", "/paboardUpdate");
+				formObj.attr("method", "post");
+				formObj.submit();	
+			})				
 		})
 		
 		// 삭제
@@ -53,12 +56,12 @@
 							</tr>	
 							<tr>
 								<td>
-									<label for="pab_title">제목</label><input type="text" id="pab_title" name="pab_title" value="${view.pab_title}"/>
+									<label for="pab_title">제목</label><input type="text" id="pab_title" name="pab_title" value="${view.pab_title}"readOnly/>
 								</td>
 							</tr>	
 							<tr>
 								<td>
-									<label for="pab_contents">내용</label><textarea id="pab_contents" name="pab_contents" style="resize:none;"><c:out value="${view.pab_contents}" /></textarea>
+									<label for="pab_contents">내용</label><textarea id="pab_contents" name="pab_contents" style="resize:none;" readOnly><c:out value="${view.pab_contents}" /></textarea>
 								</td>
 							</tr>
 							<tr>

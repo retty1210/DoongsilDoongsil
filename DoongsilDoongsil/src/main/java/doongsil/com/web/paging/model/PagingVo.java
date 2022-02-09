@@ -17,7 +17,7 @@ public class PagingVo {
 		calcStartEnd(getNowPage(), getCntPerPage());
 	}
 	public void calcLastPage(int total, int cntPerPage) {
-		setLastPage(((int)Math.ceil((double)nowPage/(double)cntPage)) * cntPage);
+		setLastPage(((int)Math.ceil((double)total/(double)cntPage)));
 	}
 	public void calcStartEndPage(int nowPage,int cntPage) {
 		setEndPage(((int)Math.ceil((double)nowPage / (double)cntPage)) * cntPage);

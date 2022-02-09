@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						},
 						success: function(response){
 							alert('일정이 추가 되었습니다.');
+							location.reload();
 						},
 						error: function(response){
 							alert('일정이 추가 되지않았습니다.');
@@ -61,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						success: function(response) {
 							 arg.event.remove();
 				  			 alert("일정이 삭제 되었습니다.");
+							 location.reload();
 						},
 						error: function(response) {
 							alert('일정이 삭제 되지 않았습니다.');
@@ -97,6 +99,43 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 var res;
 window.onload = function() {
+	$.ajax({
+		url: "/getList",
+		type: "GET",
+		dataType: 'json',
+		success: function(response) {
+			res = response;
+			var resArr = [];
+			var mNum;
+			var mon = $('h2').text().substring(6,7);
+			//console.log(response);
+			//console.log(response[2]);
+			for(item in res) {
+				resArr[item] = res[item];
+			}
+			    console.log(resArr[mon]);
+			
+			// 브라우저 달의 숫자와 같은 숫자를 찾아 mNum에 저장
+			for(var x = 1; x < 13; x++){
+				if(mon == x){
+					mNum = x;
+					break;
+				}
+			}
+			
+			// 브라우저 달의 숫자와 저장된 숫자가 같으면 학사일정 출력
+			if(mon == mNum) {
+				for(var i=0; i < resArr[mNum].length; i++){
+					$('.academic-list').append("<li>" + resArr[mNum][i]['cal_title'] + "</li>");
+				}
+			}
+		},
+		error: function(response) {
+			alert('error');
+		},
+	})
+	$('.fc-next-button,.fc-prev-button').on('click', function() {
+		$('.academic-list').children().remove();
 		$.ajax({
 		url: "/getList",
 		type: "GET",
@@ -109,14 +148,15 @@ window.onload = function() {
 			//console.log(response);
 			//console.log(response[2]);
 			for(item in res) {
-			    //console.log(res[item]);
 				resArr[item] = res[item];
 			}
+			    console.log(resArr[mon]);
 			
 			// 브라우저 달의 숫자와 같은 숫자를 찾아 mNum에 저장
 			for(var x = 1; x < 13; x++){
 				if(mon == x){
 					mNum = x;
+					break;
 				}
 			}
 			
@@ -126,11 +166,10 @@ window.onload = function() {
 					$('.academic-list').append("<li>" + resArr[mNum][i]['cal_title'] + "</li>");
 				}
 			}
-			
-			
 		},
 		error: function(response) {
 			alert('error');
 		}
+	})
 	})
 }

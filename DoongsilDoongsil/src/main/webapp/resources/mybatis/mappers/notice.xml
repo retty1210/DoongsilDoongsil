@@ -68,7 +68,8 @@
     	   SET 
     	   	   NOT_PERMIT = #{not_permit},
     	   	   NOT_TITLE = #{not_title},
-    	  	   NOT_CONTENTS = #{not_contents}
+    	  	   NOT_CONTENTS = #{not_contents},
+    	  	   NOT_COUNT = NOT_COUNT - 1
     	 WHERE NOT_ID = #{not_id}	   	
     </update>
     
@@ -100,19 +101,5 @@
     	SET N.REPLY_COUNT = (SELECT COUNT(REPLY_ID) FROM NOT_REPLY WHERE N_ID = #{n_id})
     		WHERE N.NOT_ID = #{not_id}
     </update>
-    
-        <!-- 공지사항 permit 목록보기 -->
-       <select id="permitlist" parameterType="doongsil.com.web.notice.model.NoticeVO" resultType="doongsil.com.web.notice.model.NoticeVO">
-       SELECT NOT_ID
-    		,NOT_TITLE
-    		,NOT_WRITER
-    		,NOT_WRITEDATE
-    		,NOT_COUNT
-    		,REPLY_COUNT
-    	FROM NOTICE
-    	WHERE NOT_PERMIT = #{not_permit}
-       </select>
-
-    
-    
+ 
 </mapper>

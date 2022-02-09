@@ -48,21 +48,19 @@
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 	<c:if test="${accountType eq 'T' }">
 		<button type="button" class="btn btn-outline-primary" onclick="location.href='/notice/noticeWrite'">작성하기</button>
-	</c:if></div><br>
+	</c:if></div>
 	
-	<section id="container">
-		<!-- <form role="form" method="post" action="/notice/noticeList" class="selectType">  -->	
-		
-			<div class="mb-3">
-				<select id="category" onchange="changeSelect();" class="form-select form-select-sm" aria-label=".form-select-sm example" name="not_permit">
-					<option selected>열람 권한을 선택해주세요</option>
+	<section id="container" >	
+		<div class="col-sm-3">
+				<select id="category" onchange="changeSelect();" class="form-select"  name="not_permit">
+					<option selected>열람 대상을 선택하세요</option>
 					<option value="S">학생</option>
 					<option value="P">학부모님</option>
 					<option value="A" >학생과 학부모님</option>
-				</select>	
-			</div>
-		<!--  </form>  -->
-		  <table class="table table-hover">
+				</select>
+				<br>
+			</div>	
+		<table class="table table-hover">
 			<thead>
 			<tr style="background-color:#C1F1FF;">
 			<th scope="col">No.</th>
@@ -70,13 +68,10 @@
 			<th scope="col">작성자</th>
 			<th scope="col">등록일</th>
 			<th scope="col">조회수</th>
-			<th scope="col" style="diaply:none;"></th>
 			</tr>
-			</thead>	
-			<tbody>
-		
-				<c:forEach items="${list}" var = "list">
-				
+		</thead>	
+			<tbody>	
+				<c:forEach items="${list}" var = "list">	
 					<tr name="tableRow${list.not_permit }">
 					<th><c:out value="${list.not_id}" /></th>
 					<td>
@@ -91,21 +86,18 @@
 					<td><c:out value="${list.not_count }" /></td>
 					</tr>	
 				</c:forEach>	
-
 			</tbody>				
 		</table>
+		
 	<div style="display:contents;">
 		<ul class="pagination justify-content-center">
-			
 			<!-- 이전 버튼 -->
 			<c:if test="${pageMaker.prev}">
 				<li class="page-item">
 					<a class="page-link" href="listPage${pageMaker.makeQuery(pageMaker.startPage-1)}">
 					 <span aria-hidden="true">&laquo;</span></a>
 				</li>
-			</c:if>
-		
-			
+			</c:if>		
 			<!-- 페이지 번호 (시작 페이지 번호부터 끝 페이지 번호까지) -->
 			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var ="idx">
 					<li class="page-item">
@@ -113,8 +105,7 @@
 							<span>${idx}</span>
 						</a>
 					</li>
-				</c:forEach>
-			
+				</c:forEach>			
 			<!-- next 버튼 -->
 			<c:if test="${pageMaker.next}">
 				<li class="page-item">
@@ -122,9 +113,6 @@
 			    	<span aria-hidden="true">&raquo;</span></a>
 				</li>
 			</c:if>
-			
-		
-			
 		</ul>
 	</div>
 </section>

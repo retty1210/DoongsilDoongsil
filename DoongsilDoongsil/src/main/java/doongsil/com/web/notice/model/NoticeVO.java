@@ -110,6 +110,14 @@ public class NoticeVO {
 	public void setReply_count(int reply_count) {
 		this.reply_count = reply_count;
 	}
+
+	@Override
+	public String toString() {
+		return "NoticeVO [not_id=" + not_id + ", not_writer=" + not_writer + ", not_grade=" + not_grade + ", not_class="
+				+ not_class + ", not_permit=" + not_permit + ", not_title=" + not_title + ", not_contents="
+				+ not_contents + ", not_writedate=" + not_writedate + ", not_eventdate=" + not_eventdate
+				+ ", not_count=" + not_count + ", reply_count=" + reply_count + "]";
+	}
 	
 	
 	

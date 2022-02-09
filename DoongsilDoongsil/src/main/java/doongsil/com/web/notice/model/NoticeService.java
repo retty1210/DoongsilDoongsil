@@ -55,9 +55,5 @@ public class NoticeService {
 		dao.updateReplyCount(not_id);
 	}
 	
-	public List<NoticeVO> permitlist(NoticeVO vo) {
-		return dao.permitlist(vo);
-	}
-
 
 }

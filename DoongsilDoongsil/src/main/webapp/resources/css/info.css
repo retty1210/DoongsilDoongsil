@@ -96,6 +96,9 @@ a:hover{
 	width:700px;
 	height:700px;
 	padding:15px;
+	max-height:650px;
+	white-space: nowrap;
+	overflow-y:auto;
 }
 .parentList_all_box{
 	width:100%;
@@ -107,11 +110,19 @@ a:hover{
 .parentBoardList_tb{
 	width:100%;
 	text-align: center;
+	margin-top: 40px;
 	
+}
+.parentBoardList_tb tr:first-child{
+	background-color:#CEF4FC;
+	border-bottom:2px solid black;
+}
+.parentBoardList_tb tr{
+	border-bottom:1px solid black;
 }
 .parentBoardList_tb th,
 .parentBoardList_tb td{
-	border:1px solid black;
+	height: 50px;
 }
 /* 상위 css는 학부모용 내정보 코드입니다.*/
 .studentList_box{
@@ -120,6 +131,9 @@ a:hover{
 	height:700px;
 	margin-right:30px;
 	padding:32px;
+	max-height:650px;
+	white-space: nowrap;
+	overflow-y:auto;
 }
 .studentList_tb{
 	width:100%;
@@ -134,6 +148,9 @@ a:hover{
 	width:500px;
 	height:700px;
 	padding:32px;
+	max-height:650px;
+	white-space: nowrap;
+	overflow-y:auto;
 }
 .noticeList_all_box{
 	width:100%;

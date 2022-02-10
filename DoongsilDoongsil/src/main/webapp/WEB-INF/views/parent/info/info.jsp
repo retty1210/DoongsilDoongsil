@@ -41,22 +41,38 @@
 		</div>
 		<div class="subMainBox">
 			<div class="parentBoardList_box">
-				<div class="parentList_all_box">
-					<a href="#" class="parentList_all">>전체보기</a>
+				<div>
+					<h3>나의 게시글</h3>
 				</div>
-				<table border="1" class="parentBoardList_tb">
+				<div class="parentList_all_box">
+					<a href="/paboardList" class="parentList_all">>전체보기</a>
+				</div>
+				<table class="parentBoardList_tb">
 					<tr>
 						<th>No</th>
 						<th width="70%">Title</th>
 						<th>WriterDate</th>
 						<th>viewCnt</th>
 					</tr>
-					<tr>
-						<td>1</td>
-						<td>askdjaslkfjasdlkasjdadadadadadada</td>
-						<td>2022.01.25</td>
-						<td>6</td>
-					</tr>
+					<c:choose>
+					<c:when test="${paboardListError == null }">
+					<c:forEach var="paboard" items="${paboardList }">
+						<tr>
+							<td>${paboard.pab_id }</td>
+							<td><a href="/paboardView?pab_id=${paboard.pab_id }"><span style="opacity:0.54;"> [ ${list.pac_category} ] </span>${paboard.pab_title }</a></td>
+							<td>${paboard.pab_date }</td>
+							<td>${paboard.pab_Count }</td>
+						</tr>
+					</c:forEach>
+					</c:when>
+					<c:when test="${paboardListError != null }">
+						<tr>
+							<td colspan="4">
+								<span style="opacity:0.54;">${paboardListError }</span>
+							</td>
+						</tr>
+					</c:when>
+					</c:choose>
 				</table>
 			</div>
 			<div class="schoolEvent_list_P_box">

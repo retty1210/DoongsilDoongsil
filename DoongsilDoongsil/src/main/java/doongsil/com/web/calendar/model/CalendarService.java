@@ -40,6 +40,10 @@ public class CalendarService {
 		logger.info("Service 동작");
 		return dao.selectCalendar();
 	}
+	public List<CalendarDTO> infoCalendar(String date) {
+		logger.info("Service 동작");
+		return dao.infoCalendar(date);
+	}
 
 	public boolean DeleteEvent(CalendarDTO dto) {
 		logger.info("Service 동작");

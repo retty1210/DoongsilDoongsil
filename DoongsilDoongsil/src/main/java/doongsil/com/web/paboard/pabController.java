@@ -71,6 +71,7 @@ public class pabController {
 		pagingVo = new PagingVo(total,Integer.parseInt(nowPage),Integer.parseInt(cntPerPage));
 		
 		model.addAttribute("paging",pagingVo);
+		model.addAttribute("total",total);
 		model.addAttribute("list",this.service.list(pagingVo));
 	
 		

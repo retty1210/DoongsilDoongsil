@@ -56,6 +56,22 @@
 		    )
 	 WHERE RN BETWEEN #{start} AND #{end}
     </select>
+    <select id="infoPaBoardList" parameterType="doongsil.com.web.paboard.model.PabVO" resultType="doongsil.com.web.paboard.model.PabVO">
+     	SELECT PAB_ID,
+     		   C.PAC_CATEGORY,
+     		   PAB_TITLE,
+     		   B.PAA_USERNAME,
+     		   PAB_DATE,
+     		   PAB_COUNT
+     	  FROM PARENTS_BOARD A JOIN PARENTS_ACCOUNT B
+     	    ON A.PAB_WRITER = B.PAA_ID
+     	  JOIN PAB_CATEGORY C
+     	    ON A.PAB_CATEGORY = C.PAC_ID
+     	 WHERE A.PAB_WRITER = #{id} 
+     	   AND ROWNUM <![CDATA[<=]]> 20
+     	 ORDER BY 1
+     		   
+    </select>
     
     <update id="CountUpdate" parameterType="doongsil.com.web.paboard.model.PabVO">
     	UPDATE PARENTS_BOARD

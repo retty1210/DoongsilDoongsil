@@ -49,5 +49,8 @@ public class PabService {
 	public List<PabVO> pab_Category(){
 		return this.dao.pab_Category();
 	}
+	public List<PabVO> infoPaBoardList(int id){
+		return this.dao.infoPaBoardList(id);
+	}
 	
 }

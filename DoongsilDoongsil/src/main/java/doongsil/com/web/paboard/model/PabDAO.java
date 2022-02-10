@@ -44,5 +44,8 @@ public class PabDAO {
 	public List<PabVO> pab_Category(){
 		return this.sess.selectList("PabMapper.pab_Category");
 	}
+	public List<PabVO> infoPaBoardList(int id){
+		return this.sess.selectList("PabMapper.infoPaBoardList",id);
+	}
 }
 	

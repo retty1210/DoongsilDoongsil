@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         right: 'dayGridMonth'
       },
 	  locale: 'ko',
+	  fixedWeekCount : false, // 월마다 나오는 주 수정할 수 있음 true면 무조건 6주
       navLinks: false, // can click day/week names to navigate views
       selectable: true,
       selectMirror: true,
@@ -99,6 +100,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 var res;
 window.onload = function() {
+	let href="/mainPop";
+	window.open(href, 'Pop', 'width=500', 'height=700', 'scrollbars=yes', 'resizeable=no');
 	$.ajax({
 		url: "/getList",
 		type: "GET",

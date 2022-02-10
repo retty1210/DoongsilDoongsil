@@ -110,5 +110,9 @@ public class CalendarController {
 
 		return jsonStr;
 	}
+	@RequestMapping(value="/mainPop", method=RequestMethod.GET)
+	public String mainPop() {
+		return "main/mainPop";
+	}
 	
 }

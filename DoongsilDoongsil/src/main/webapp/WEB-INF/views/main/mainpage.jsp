@@ -21,6 +21,7 @@
 	function MyInfoUpdate(href){
 		window.open('/infoUpdate?id=${sessionScope.accountNumber}','','width=500,height=700');
 	}
+	
 </script>
 </head>
 <body>

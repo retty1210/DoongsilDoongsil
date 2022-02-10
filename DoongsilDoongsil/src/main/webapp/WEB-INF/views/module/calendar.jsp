@@ -6,6 +6,7 @@
 --%>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.min.js"></script>
 <script src="${request.getServletContext().getRealPath() }/stc/js/cal.js"></script>
 <link href="${request.getServletContext().getRealPath() }/stc/css/doongmain.css" rel="stylesheet"></link>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>

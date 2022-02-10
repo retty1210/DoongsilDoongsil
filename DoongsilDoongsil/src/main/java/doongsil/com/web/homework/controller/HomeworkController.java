@@ -202,10 +202,12 @@ public class HomeworkController {
 		//글 값 넣기
 		if(data != null) {
 			mod.addObject("data", data);
+			System.out.println("data: " + data);
 		} 
 		
 		if(session.getAttribute("accountType").equals("T")) { //선생님일 때
-			List<S_HomeworkVO> sdatas = service.selectSHList(vo.getTho_id());
+			List<S_HomeworkVO> sdatas = service.selectSHList(data.getTho_id());
+			System.out.println("teacher, sdatas size: " + sdatas.size());
 			if(sdatas != null) {
 				mod.addObject("sdatas", sdatas);
 				HashMap<Integer, String[]> studentImages = new HashMap<Integer, String[]>();
@@ -230,6 +232,27 @@ public class HomeworkController {
 					mod.addObject("studentImages", studentImages);
 					mod.addObject("type2answers", type2answers);
 					mod.addObject("type2GBforTeacher", type2teacGBs);
+				} else if(data.getTho_homeworktype() == 3) {
+					LocalDate[] type3DayArr = service.maketype3DayArr(data);
+					int[] sizeArr = new int[type3DayArr.length];
+					HashMap<Integer, List<S_HomeworkVO>> sArrforTeacher = new HashMap<Integer, List<S_HomeworkVO>>();
+					for(int i = 0; i < type3DayArr.length; i++) {
+						java.sql.Date newDate = Date.valueOf(type3DayArr[i]);
+						List<S_HomeworkVO> sArrforT = new ArrayList<S_HomeworkVO>();
+						System.out.println("newDate: " + newDate + ", Arr: " + type3DayArr[i]);
+						System.out.println("sdatas.size: " + sdatas.size());
+						for(int j = 0; j < sdatas.size(); j++) {
+							System.out.println("inner for문 진입 : " + sdatas.get(j).getSho_date());
+							if(sdatas.get(j).getSho_date().equals(newDate)) {
+								sArrforT.add(sdatas.get(j));
+							}
+						}
+						System.out.println("i: " + sArrforT);
+						sArrforTeacher.put(i, sArrforT);
+						sizeArr[i] = sArrforT.size();
+					}
+					mod.addObject("sArrforT", sArrforTeacher);
+					mod.addObject("sizeArr", sizeArr);
 				}
 			}
 			if(!imgarr[0].equals("noimage")) {
@@ -271,26 +294,31 @@ public class HomeworkController {
 						mod.addObject("type2GBforStudent", GBarr);
 					}
 				} else if(data.getTho_homeworktype() == 3) {
-					System.out.println("durDate: " + durDate);
-					S_HomeworkVO[] type3sWorks = new S_HomeworkVO[durDate + 1];
-					String[] type3sWeather = new String[durDate + 1];
-					String[] type3sContent = new String[durDate + 1];
-					String[] type3sComment = new String[durDate + 1];
 					LocalDate[] type3DateArr = service.maketype3DayArr(data);
-					for(int i = 0; i <= durDate; i++) {
+					durDate = type3DateArr.length;
+					System.out.println("durDate: " + durDate);
+					
+					S_HomeworkVO[] type3sWorks = new S_HomeworkVO[durDate];
+					String[] type3sWeather = new String[durDate];
+					String[] type3sContent = new String[durDate];
+					String[] type3sComment = new String[durDate];
+					for(int i = 0; i < durDate; i++) {
+						System.out.println("i: " + i);
 						for(S_HomeworkVO stype3: sworks) {
 							java.sql.Date newDate = Date.valueOf(type3DateArr[i]);
 							System.out.println("LocalDate: " + type3DateArr[i] + " | SQLDate: " + newDate);
-							if(stype3.getSho_date() == newDate) {
+							if(stype3.getSho_date().equals(newDate)) {
 								String[] temps3arr = stype3.getSho_contents().split("\\|\\|");
 //								java.sql.Date temp3sdate = sworks.get(i).getSho_date();
 								type3sWorks[i] = stype3;
 								type3sWeather[i] = temps3arr[0];
 								type3sContent[i] = temps3arr[1];
 								type3sComment[i] = stype3.getSho_comment() != null ? "true" : "false";
+								System.out.println("i: " + i + ", works: " + type3sWorks[i] + ", weather: " + type3sWeather[i] +",content: " + type3sContent[i] + ", comment: " + type3sComment[i] );
 							}
 						}
 					}
+					System.out.println("for문 종료");
 					mod.addObject("type3sWorks", type3sWorks);
 					mod.addObject("type3sWeather", type3sWeather);
 					mod.addObject("type3sContent", type3sContent);
@@ -356,7 +384,11 @@ public class HomeworkController {
 	}
 	
 	@RequestMapping(value="/studentup3", method=RequestMethod.POST)
-	public String studentHomeworkUp3(S_HomeworkVO vo) {
+	public String studentHomeworkUp3(S_HomeworkVO vo, @RequestParam("sho_fileurl") String sho_fileurl) {
+		System.out.println("vo 안에 fileurl: " + vo.getSho_fileurl());
+		System.out.println(vo);
+		System.out.println("RequestParam fileurl: " + sho_fileurl);
+		vo.setSho_fileurl(sho_fileurl);
 		System.out.println(vo);
 		boolean res = service.insertSH(vo);
 		if(res) {

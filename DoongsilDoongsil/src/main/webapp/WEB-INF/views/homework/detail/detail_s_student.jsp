@@ -260,17 +260,38 @@
 			</div>
 		</c:when>
 		<c:when test="${data.getTho_homeworktype()  == 3}">
+			<div>
+				<p>들어오는 데이터 값 테스트<br>
+				<c:forEach var="day" items="${type3DayArr }" varStatus="index">
+					type3DayArr[${index.index }]: <c:out value="${day }" /><br>
+				</c:forEach>
+				<c:forEach var="work" items="${type3sWorks }" varStatus="index">
+					type3sWorks[${index.index }]: <c:out value="${work }" /><br>
+				</c:forEach>
+				<c:forEach var="weather" items="${type3sWeather }" varStatus="index">
+					type3sWeather: <c:out value="${weather }" /><br>
+				</c:forEach>
+				<c:forEach var="content" items="${type3sContent }" varStatus="index">
+					type3sContent: <c:out value="${content }" /><br>
+				</c:forEach>
+				<c:forEach var="comment" items="${type3sComment }" varStatus="index">
+					type3sComment: <c:out value="${comment }" />
+				</c:forEach>
+				</p>
+			</div>
 			<c:forEach var="type3date" items="${type3DayArr }" varStatus="dateIndex">
-				<div class="col-md-12 tmg10 bdr-r5 bdr-1 flex btn" data-bs-toggle="modal" data-bs-target="#type3ModalS${type3date }">
+				<fmt:parseDate var="parsedDate" value="${type3date }" pattern="yyyy-MM-dd" />
+				<fmt:formatDate value="${parsedDate }" var="valueDate" pattern="yyyyMMdd" />
+				<div class="col-md-12 tmg10 bdr-r5 bdr-1 flex btn" data-bs-toggle="modal" data-bs-target="#type3ModalS${valueDate }">
 					<div class="col-md-10">
 						${type3date }
 					</div>
 					<div class="col-md-2">
 						<c:choose>
-							<c:when test="${type3comment[dateIndex.index] != null}">
+							<c:when test="${type3sComment[dateIndex.index] != null}">
 								${type3comment[dateIndex.index] }
 							</c:when>
-							
+							<c:when test="${type3sComment[dateIndex.index] == null && type3sContent[dateIndex.index] != null }"></c:when>
 							<c:otherwise>
 								아직 일기를 안 썼어요.
 							</c:otherwise>
@@ -279,7 +300,7 @@
 				</div>
 				
 				 <!-- Modal -->
-				<div class="modal fade" id="type3ModalS${type3date }" tabindex="-1">
+				<div class="modal fade" id="type3ModalS${valueDate }" tabindex="-1">
 				  <div class="modal-dialog modal-lg">
 				    <div class="modal-content">
 				      <!-- <div class="modal-header">
@@ -310,7 +331,8 @@
 				     
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-				        <button type="button" class="btn btn-primary" onclick="submitType3Student()">Save changes</button>
+				        
+				        <button type="button" class="btn btn-primary" onclick="submitType3Student(${valueDate })">Save changes</button>
 				        
 				      </div>
 				    </div>

@@ -92,9 +92,8 @@
 	
 	<select id="selectSHList" parameterType="s_homework" resultType="s_homework">
 		SELECT * FROM S_HOMEWORK
-		WHERE
-		SHO_TID = #{sho_tid}
-		ORDER BY SHO_ID DESC
+			WHERE SHO_TID = #{sho_tid}
+			ORDER BY SHO_ID DESC
 	</select>
 	
 	<select id="selectOneSH" parameterType="s_homework" resultType="s_homework">
@@ -225,6 +224,9 @@
 	
 	<insert id="insertSH" parameterType="s_homework">
 		INSERT INTO S_HOMEWORK(
+			<if test="sho_fileurl != null">
+				SHO_FILEURL,
+			</if>
 			SHO_ID,
 			SHO_TID,
 			SHO_WRITER,
@@ -233,11 +235,10 @@
 			SHO_CLASS,
 			SHO_CONTENTS,
 			SHO_DATE
-			<if test="sho_fileurl != null">
-				,
-				SHO_FILEURL
-			</if>
 		) VALUES (
+			<if test="sho_fileurl != null">
+				#{sho_fileurl},
+			</if>
 			S_HOMEWORK_SEQ.NEXTVAL,
 			#{sho_tid},
 			#{sho_writer},
@@ -246,10 +247,6 @@
 			#{sho_class},
 			#{sho_contents},
 			#{sho_date}
-			<if test="sho_fileurl != null">
-				,
-				#{sho_fileurl}
-			</if>
 		)
 	</insert>
 	

@@ -2,7 +2,7 @@ $(function() {
 	var replaceChar = /[~@\#$%^&*\()\-=+_'\;<>\/\`:\"\\,\[\]|{}A-Za-z0-9]/gi;
 	var replaceNotFullKoreans = /[ㄱ-ㅎㅏ-ㅣ]/gi;
 	
-	$("#type3contentArea").keyup(function(e) {
+	$("textarea[name=type3contentArea]").keyup(function(e) {
 		var txt = $(this).val();
 		if(txt.length > 0) {
 			if(lengthCheck(txt, 100) == "false") {
@@ -33,9 +33,12 @@ $(function() {
 		}
 	});
 	
-	$("#type3imgInput").change(function() {
+	$("input[name=sho_fileurl]").change(function() {
 		console.log("file 변경: " + $(this).val());
-		setImageFromFile(this, '#type3imgPreview');
+		var imgDay = $(this).attr('id').substring(13,21);
+		console.log("imgDay: " + imgDay);
+		setImageFromFile(this, imgDay);
+		
 	});
 });
 /* 
@@ -81,97 +84,102 @@ function setImageFromFile(input, expression) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-            $(expression).attr('src', e.target.result);
-			$("#type3imglink").val(e.target.result);
+            $("#type3imgPreview" + expression).attr('src', e.target.result);
+			//$("#type3imgLink" + expression).val(e.target.readAsDataURL);
         }
         reader.readAsDataURL(input.files[0]);
+		//$("#type3imgLink" + expression).val(reader.readAsDataURL(input.files[0]));
     }
 }
 
-function type3imgup() {
-	$("#type3imgInput").click();
+function type3imgup(e) {
+	$("#type3imgInput"+e).click();
 }
 
-function type3Sunny() {
-	$(".weatherIcon").empty();
-	$("#type3_weather_sunny").append(
+function type3Sunny(e) {
+	var name = e + "";
+	$("div[name=weatherIcon"+name+"]").empty();
+	$("#type3_weather_sunny"+name).append(
 		'<img id="sunny_fill" src="/stc/img/brightness-high-fill.svg" class="ic20 filter-brlred" />'
 	);
-	$("#type3_weather_cloudy").append(
+	$("#type3_weather_cloudy"+name).append(
 		'<img id="cloudy_outline" src="/stc/img/cloudy.svg" class="ic20" />'
 	);
-	$("#type3_weather_rainy").append(
+	$("#type3_weather_rainy"+name).append(
 		'<img id="rainy_outline" src="/stc/img/cloud-rain.svg" class="ic20" />'
 	);
-	$("#type3_weather_snowy").append(
+	$("#type3_weather_snowy"+name).append(
 		'<img id="snowy_outline" src="/stc/img/snow.svg" class="ic20" />'
 	);
-	$("#type3weatherValue").val('sunny');
-	console.log($("#type3weatherValue").val());
+	$("#type3weatherValue"+name).val('sunny');
+	console.log($("#type3weatherValue"+name).val());
 }
 
-function type3Cloudy() {
-	$(".weatherIcon").empty();
-	$("#type3_weather_sunny").append(
+function type3Cloudy(e) {
+	var name = e + "";
+	$("div[name=weatherIcon"+name+"]").empty();
+	$("#type3_weather_sunny"+name).append(
 		'<img id="sunny_outline" src="/stc/img/brightness-high.svg" class="ic20" />'
 	);
-	$("#type3_weather_cloudy").append(
+	$("#type3_weather_cloudy"+name).append(
 		'<img id="cloudy_fill" src="/stc/img/cloudy-fill.svg" class="ic20 filter-grystone" />'
 	);
-	$("#type3_weather_rainy").append(
+	$("#type3_weather_rainy"+name).append(
 		'<img id="rainy_outline" src="/stc/img/cloud-rain.svg" class="ic20" />'
 	);
-	$("#type3_weather_snowy").append(
+	$("#type3_weather_snowy"+name).append(
 		'<img id="snowy_outline" src="/stc/img/snow.svg" class="ic20" />'
 	);
-	$("#type3weatherValue").val('cloudy');
-	console.log($("#type3weatherValue").val());
+	$("#type3weatherValue"+name).val('cloudy');
+	console.log($("#type3weatherValue"+name).val());
 }
 
-function type3Rainy() {
-	$(".weatherIcon").empty();
-	$("#type3_weather_sunny").append(
+function type3Rainy(e) {
+	$("div[name=weatherIcon"+e+"]").empty();
+	$("#type3_weather_sunny"+e).append(
 		'<img id="sunny_outline" src="/stc/img/brightness-high.svg" class="ic20" />'
 	);
-	$("#type3_weather_cloudy").append(
+	$("#type3_weather_cloudy"+e).append(
 		'<img id="cloudy_outline" src="/stc/img/cloudy.svg" class="ic20" />'
 	);
-	$("#type3_weather_rainy").append(
+	$("#type3_weather_rainy"+e).append(
 		'<img id="rainy_fill" src="/stc/img/cloud-rain-fill.svg" class="ic20 filter-lsrblue" />'
 	);
-	$("#type3_weather_snowy").append(
+	$("#type3_weather_snowy"+e).append(
 		'<img id="snowy_outline" src="/stc/img/snow.svg" class="ic20" />'
 	);
-	$("#type3weatherValue").val('rainy');
-	console.log($("#type3weatherValue").val());
+	$("#type3weatherValue"+e).val('rainy');
+	console.log($("#type3weatherValue"+e).val());
 }
 
-function type3Snowy() {
-	$(".weatherIcon").empty();
-	$("#type3_weather_sunny").append(
+function type3Snowy(e) {
+	$("div[name=weatherIcon"+e+"]").empty();
+	$("#type3_weather_sunny"+e).append(
 		'<img id="sunny_outline" src="/stc/img/brightness-high.svg" class="ic20" />'
 	);
-	$("#type3_weather_cloudy").append(
+	$("#type3_weather_cloudy"+e).append(
 		'<img id="cloudy_outline" src="/stc/img/cloudy.svg" class="ic20" />'
 	);
-	$("#type3_weather_rainy").append(
+	$("#type3_weather_rainy"+e).append(
 		'<img id="rainy_outline" src="/stc/img/cloud-rain.svg" class="ic20" />'
 	);
 	//$("#type3_weather_snowy").attr('background-color', '#0E9BD1');
-	$("#type3_weather_snowy").append(
+	$("#type3_weather_snowy"+e).append(
 		'<img id="snowy_fill" src="/stc/img/snow2.svg" class="ic20 filter-strblue" />'
 	);
-	$("#type3weatherValue").val('snowy');
-	console.log($("#type3weatherValue").val());
+	$("#type3weatherValue"+e).val('snowy');
+	console.log($("#type3weatherValue"+e).val());
 }
 
-function submitType3Student() {
-	var img = $("#type3imglink").val();
-	var cont = $("#type3contentArea").val();
-	var weath = $("#type3weatherValue").val();
+function submitType3Student(e) {
+	console.log("입력값: " + e);
+	var img = $("#type3imgInput"+e).val();
+	var cont = $("#type3contentArea"+e).val();
+	var weath = $("#type3weatherValue"+e).val();
+	console.log("img: " + img + ", cont: " + cont + ", weath: " + weath);
 	if(isThisEmpty(img) != true && isThisEmpty(cont) != true && isThisEmpty(weath) != true) {
-		$("#type3FinalContent").val(weath + "||" + cont);
-		$("#type3diarySubmitButton").click();
+		$("#type3FinalContent"+e).val(weath + "||" + cont);
+		$("#type3diarySubmitButton"+e).click();
 	} else {
 		alert("날씨, 그림, 글을 다 썼는지 확인해주세요!");
 	}

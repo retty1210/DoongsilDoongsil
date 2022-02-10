@@ -228,14 +228,48 @@
 				</div>
 			</c:if>
 			<c:if test="${data.getTho_homeworktype() == 3 }">
-				<c:forEach var="type3day" items="${type3DayArr }">
-					<div class="col-md-12 tmg10 bdr-r5 bdr-1 flex">
+				<c:forEach var="type3day" items="${type3DayArr }" varStatus="index">
+					<div class="col-md-12 tmg10 bdr-r5 bdr-1 flex" data-bs-toggle="modal" data-bs-target="#type3Toggle_1_${index.index }">
 						<div class="col-md-10">
 							${type3day }
 						</div>
 						<div class="col-md-2">
-							일기쓴사람수
+							${sizeArr[index.index]}
+							
 						</div>
+					</div>
+					<!-- Modal -->
+					<div class="modal fade" id="type3Toggle_1_${index.index }" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+					  <div class="modal-dialog modal-dialog-centered">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="exampleModalToggleLabel">Modal 1</h5>
+					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					      </div>
+					      <div class="modal-body">
+					        ${sArrforT[index.index] }
+					      </div>
+					      <div class="modal-footer">
+					        <button class="btn btn-primary" data-bs-target="#type3Toggle_2_${index.index }" data-bs-toggle="modal">Open second modal</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					<div class="modal fade" id="type3Toggle_2_${index.index }" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+					  <div class="modal-dialog modal-dialog-centered">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="exampleModalToggleLabel2">Modal 2</h5>
+					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					      </div>
+					      <div class="modal-body">
+					        Hide this modal and show the first with the button below.
+					      </div>
+					      <div class="modal-footer">
+					        <button class="btn btn-primary" data-bs-target="#type3Toggle_1_${index.index }" data-bs-toggle="modal">Back to first</button>
+					      </div>
+					    </div>
+					  </div>
 					</div>
 				</c:forEach>
 				<!-- 교사용 페이지 구상:

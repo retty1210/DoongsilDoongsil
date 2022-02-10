@@ -3,9 +3,11 @@ package doongsil.com.web.info.controller;
 import java.io.File;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,15 +16,12 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 
 import doongsil.com.web.account.model.PAAccountService;
 import doongsil.com.web.account.model.PAAccountVO;
@@ -34,7 +33,8 @@ import doongsil.com.web.homework.model.HomeworkService;
 import doongsil.com.web.homework.model.S_HomeworkVO;
 import doongsil.com.web.notice.model.NoticeService;
 import doongsil.com.web.notice.model.NoticeVO;
-import doongsil.com.web.paging.model.PagingVo;
+import doongsil.com.web.paboard.model.PabService;
+import doongsil.com.web.paboard.model.PabVO;
 
 @Controller
 public class InfoController {
@@ -49,12 +49,17 @@ public class InfoController {
 	private PAAccountService paaSer;
 	@Autowired
 	private CalendarService calSer;
+	@Autowired
+	private PabService pabSer;
 	
 	@RequestMapping(value="/info",method=RequestMethod.GET)
 	public String Info(HttpSession session, Model model) throws Exception {
 		int userNumber = (int)session.getAttribute("accountNumber");
 		STAccountVO staDto = (STAccountVO) session.getAttribute("account");
-	
+		LocalDate date = LocalDate.now();
+		String now = String.valueOf(date);
+		System.out.println(date);
+		
 		//공지사항 목록 불러오기
 		List<NoticeVO> noticeData = noticeSer.infoNoticeList(userNumber);
 		//학생목록 불러오기
@@ -62,7 +67,10 @@ public class InfoController {
 		//채점안된 숙제 불러오기	
 		List<S_HomeworkVO> noCheck = hwSer.noCheckHomework(userNumber);
 		//학사일정 불러오기
-		List<CalendarDTO> cal = calSer.selectCalendar();
+		List<CalendarDTO> cal = calSer.infoCalendar(now);
+		
+		//학사일정 불러오기
+		List<PabVO> pabList = pabSer.infoPaBoardList(userNumber);
 		
 		if(studentList.size() != 0) {
 			session.setAttribute("infoStudentList", studentList);
@@ -83,6 +91,11 @@ public class InfoController {
 			model.addAttribute("schoolCal",cal);
 		}else {
 			model.addAttribute("schoolCalError","학사 일정이 없습니다.");
+		}
+		if(pabList.size() != 0) {
+			model.addAttribute("paboardList",pabList);
+		}else {
+			model.addAttribute("paboardListError","내가 쓴 게시물 목록이 없습니다.");
 		}
 		return "info/info";
 	}

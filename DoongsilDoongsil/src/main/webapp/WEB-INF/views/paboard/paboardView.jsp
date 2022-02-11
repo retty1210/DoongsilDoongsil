@@ -41,15 +41,30 @@
 		})
 	})
 </script>
+<style type="text/css" rel=stylesheet">
+	.form-control:not(:first-child){
+		width:1300px;
+	}
+	.update_btn,
+	.delete_btn,
+	.list_btn{
+		width:80px;
+		height:30px;
+		background-color:#085ED6;
+		color:white;
+		border:none;
+		border-radius:8px;
+	}
+</style>
 <body>
 	<header>
 		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
 	</header>
 	<main role="main" class="container">
 		<div id="root">
-			<header>
-				<h1>학부모 게시판</h1>
-			</header>
+			<h1>학부모 게시판</h1>
+		
+			
 			
 			<section id="container">
 				<form role="form" method="post" name="readForm">
@@ -57,30 +72,30 @@
 						<tbody>
 							<tr>
 								<td>
-									<label for="pab_id">글 번호</label><input type="text" id="pab_id" name="pab_id" value="${view.pab_id}" readOnly/>
+									<label for="pab_id" class="form-label">글 번호</label><input type="text" id="pab_id" name="pab_id" value="${view.pab_id}" class="form-control" readOnly/>
 								</td>
 							</tr>	
 							<tr>
 								<td>
-									<label for="pab_title">제목</label><input type="text" id="pab_title" name="pab_title" value="${view.pab_title}"readOnly/>
+									<label for="pab_title" class="form-label">제목</label><input type="text" id="pab_title" name="pab_title" value="${view.pab_title}" class="form-control"readOnly/>
 								</td>
 							</tr>	
 							<tr>
 								<td>
-									<label for="pab_contents">내용</label><textarea id="pab_contents" name="pab_contents" style="resize:none;" readOnly><c:out value="${view.pab_contents}" /></textarea>
+									<label for="pab_contents" class="form-label">내용</label><textarea id="pab_contents" name="pab_contents" style="resize:none;" rows="10" class="form-control" readOnly><c:out value="${view.pab_contents}" /></textarea>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<label for="pab_writer">작성자</label><input type="text" id="pab_writer" value="${view.paa_UserName}" readOnly />
+									<label for="pab_writer" class="form-label">작성자</label><input type="text" id="pab_writer" value="${view.paa_UserName}" class="form-control" readOnly />
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<label for="pab_date">작성날짜</label>
+									<label for="pab_date" class="form-label">작성날짜</label>
 									<fmt:formatDate value="${view.pab_date}" pattern="yyyy-MM-dd"/>					
 								</td>
-							</tr>		
+							</tr>	
 						</tbody>			
 					</table>
 					<div>
@@ -90,7 +105,6 @@
 					</div>
 				</form>
 			</section>
-			<hr/>
 		</div>
 	</main>
 	<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false" />

@@ -90,7 +90,12 @@
   <script type="text/javascript">
 	function selChange() {
 		var sel = document.getElementById('cntPerPage').value;
-		location.href="/paboardList?nowPage=${paging.nowPage}&cntPerPage="+sel;
+		if(${paging.nowPage == 1}){
+			location.href="/paboardList?nowPage=${paging.nowPage}&cntPerPage="+sel;			
+		}else{
+			location.href="/paboardList?nowPage=1&cntPerPage="+sel;
+		}
+		
 	}
 	$(document).ready(function(){
 		$("b").parent().css("backgroundColor","#59b1eb");		
@@ -102,10 +107,10 @@
 		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
 	</header>
 	<main role="main" class="container">
-		<h1>학부모게시판</h1>
+		<h1>학부모 게시판</h1>
 		
 	
-		<div style="float: right;">
+		<div style="float: right;margin-right:50px; margin-top:50px;">
 			<select id="cntPerPage" name="sel" onchange="selChange();">
 				<option value="5"
 					<c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄 보기</option>

@@ -136,12 +136,26 @@ a:hover{
 	overflow-y:auto;
 }
 .studentList_tb{
+	border-collapse: collapse;
 	width:100%;
 	text-align: center;
+	border:none;
 }
 .studentList_tb th,
 .studentList_tb td{
-	border:1px solid black;
+	height: 50px;
+}
+.studentList_tb tr{
+  	border-bottom : 1px solid black;
+}
+.studentList_tb tr:not(:first-child):hover {
+	background-color: #F0F5F6 !important;
+}
+ 
+.studentList_tb tr:first-child{
+  	border-bottom : 2px solid black;
+  	font-weight: 700;
+  	background-color:#CEF4FC;
 }
 .noticeList_box{
 	border:2px solid #77B0BF;
@@ -162,9 +176,21 @@ a:hover{
 .noticeList_tb{
 	width:100%;
 	text-align: center;
+	border-collapse: collapse;
+	border:none;
 }
 .noticeList_tb th,
 .noticeList_tb td{
-	border:1px solid black;
+	height: 50px;
 }
-	
+.noticeList_tb tr{
+  	border-bottom : 1px solid black;
+}
+.noticeList_tb tr:not(:first-child):hover {
+	background-color: #F0F5F6 !important;
+}
+.noticeList_tb tr:first-child{
+  	border-bottom : 2px solid black;
+  	font-weight: 700;
+  	background-color:#CEF4FC;
+ }

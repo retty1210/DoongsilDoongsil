@@ -36,7 +36,7 @@ url은 경로로 인해 생기는 문제를 방지하기 위해 c:url을 사용�
           <li><a href="${infoURL }" class="nav-link px-2 link-dark">내 정보</a></li>
         </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="/search" method="post">
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="/search" method="get">
           <input type="search" class="form-control" placeholder="Search..." aria-label="Search" name="search" onsubmit="search();">
         </form>
 

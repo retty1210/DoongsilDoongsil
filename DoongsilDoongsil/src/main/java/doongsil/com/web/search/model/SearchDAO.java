@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import doongsil.com.web.paging.model.PagingVo;
+
 
 @Repository
 public class SearchDAO {
@@ -16,9 +18,12 @@ public class SearchDAO {
 	@Autowired
 	private SqlSession sess;
 	
-	public List<SearchDTO> searchList(String searchTitle){
-		logger.info("SearchDAO - " + searchTitle);
-		List<SearchDTO> datas = this.sess.selectList("SearchMapper.searchList",searchTitle);
+	public List<SearchDTO> searchList(PagingVo vo){
+		logger.info("SearchDAO - " + vo);
+		List<SearchDTO> datas = this.sess.selectList("SearchMapper.searchList",vo);
 		return datas;
+	}
+	public int CountSearch(String id) {
+		return this.sess.selectOne("SearchMapper.countSearch",id);
 	}
 }

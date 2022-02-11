@@ -14,7 +14,7 @@
 
 	}
 	function MyInfoUpdate(href){
-		window.open('/infoUpdate?id=${sessionScope.account.sta_id}','','width=500,height=700');
+		window.open('/popuppassword','','width=400,height=300');
 	}
 	function studentUpdate(href){
 		<c:forEach var="studentUpdate" items="${sessionScope.infoStudentList}">

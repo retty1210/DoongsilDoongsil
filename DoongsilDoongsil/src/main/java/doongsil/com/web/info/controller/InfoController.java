@@ -219,5 +219,9 @@ public class InfoController {
 		out.flush();
 		return "parent/popup/infoUpdate";
 	}
+	@RequestMapping(value = "/popuppassword", method=RequestMethod.GET)
+	public String popupPassword() {
+		return "popuppassword/popupPassword";
+	}
 	
 }

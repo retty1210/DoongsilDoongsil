@@ -41,7 +41,6 @@ public class STAccountService {
 		if(stData == null) {
 			return null;
 		} else {
-			stData.setSta_password("");
 			return stData;
 		}
 	}

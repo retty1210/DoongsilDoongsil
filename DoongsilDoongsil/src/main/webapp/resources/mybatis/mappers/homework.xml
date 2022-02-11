@@ -88,12 +88,36 @@
 		</where>
 	</select>
 	
-	
+	<resultMap id="sta_sHW" type="s_homework">
+		<id property="sho_id" column="SHO_ID"/>
+		<result property="sho_tid" column="SHO_TID"/>
+		<result property="sho_writer" column="SHO_WRITER"/>
+		<result property="sho_homeworktype" column="SHO_HOMEWORKTYPE"/>
+		<result property="sho_grade" column="SHO_GRADE"/>
+		<result property="sho_class" column="SHO_CLASS"/>
+		<result property="sho_contents" column="SHO_CONTENTS"/>
+		<result property="sho_goodbad" column="SHO_GOODBAD"/>
+		<result property="sho_date" column="SHO_DATE"/>
+		<result property="sho_fileurl" column="SHO_FILEURL"/>
+		<result property="sho_comment" column="SHO_COMMENT"/>
+		<association property="staccount" javaType="staccount">
+			<id property="sta_id" column="STA_ID"/>
+			<result property="sta_name" column="STA_NAME"/>
+		</association>
+	</resultMap>
 	
 	<select id="selectSHList" parameterType="s_homework" resultType="s_homework">
 		SELECT * FROM S_HOMEWORK
 			WHERE SHO_TID = #{sho_tid}
 			ORDER BY SHO_ID DESC
+	</select>
+	
+	<select id="selectSHListWithName" parameterType="s_homework" resultMap="sta_sHW">
+		SELECT A.*, B.STA_ID, B.STA_NAME
+        FROM S_HOMEWORK A JOIN ST_ACCOUNT B
+        ON(A.SHO_WRITER = B.STA_ID)
+		WHERE SHO_TID = #{sho_tid}
+		ORDER BY SHO_ID DESC
 	</select>
 	
 	<select id="selectOneSH" parameterType="s_homework" resultType="s_homework">

@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import doongsil.com.web.account.model.STAccountDAO;
 import doongsil.com.web.account.model.STAccountVO;
 import doongsil.com.web.paging.model.PagingVo;
 
@@ -17,6 +18,9 @@ public class HomeworkService {
 	
 	@Autowired
 	private HomeworkDAO dao;
+	
+	@Autowired
+	private STAccountDAO staDao;
 	
 	public List<T_HomeworkVO> selectHWList() {
 		List<T_HomeworkVO> datas = dao.selectHWList();
@@ -43,6 +47,17 @@ public class HomeworkService {
 		vo.setSho_tid(id);
 		List<S_HomeworkVO> datas = dao.selectSHList(vo);
 		return datas;
+	}
+	
+	public List<S_HomeworkVO> selectSHListWithName(int id) {
+		S_HomeworkVO vo = new S_HomeworkVO();
+		vo.setSho_tid(id);
+		List<S_HomeworkVO> datas = dao.selectSHListWithName(vo);
+		return datas;
+	}
+	
+	public List<STAccountVO> selectNameWithID(List<Integer> idArr) {
+		return staDao.selectNameFromID(idArr);
 	}
 	
 	public S_HomeworkVO selectOneSH(int id) {
@@ -126,6 +141,10 @@ public class HomeworkService {
 	
 	public boolean updateSHContents(S_HomeworkVO vo) {
 		return dao.updateSHContents(vo);
+	}
+	
+	public boolean updateSHComment(S_HomeworkVO vo) {
+		return dao.SHComment(vo);
 	}
 	
 	public String[] getImgList(String filelink) {

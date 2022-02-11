@@ -38,7 +38,6 @@ $(function() {
 		var imgDay = $(this).attr('id').substring(13,21);
 		console.log("imgDay: " + imgDay);
 		setImageFromFile(this, imgDay);
-		
 	});
 });
 /* 
@@ -184,6 +183,34 @@ function submitType3Student(e) {
 		alert("날씨, 그림, 글을 다 썼는지 확인해주세요!");
 	}
 	
+}
+
+function type3comment(elem) {
+	var id = $(elem).attr('id').substring(21,33);
+	console.log("id: " + id);
+	var comment = $("#type3comment" + id).val();
+	console.log("내용: " + comment);
+	if(isThisEmpty(comment)) {
+		alert("내용을 입력해주세요.");
+		return false;
+	} else {
+		var shoid = $("#type3id"+id).val();
+		console.log("SHO_ID: " + shoid);
+		$.ajax({
+			url: '/type3comment',
+			type: 'POST',
+			cache: false,
+			data: {
+				sho_id: shoid,
+				sho_comment: comment
+			},
+			success: function(data) {
+				alert(data);
+				$("#type3comment"+id).attr('readonly', true);
+				$("#type3SubmitBtnArea"+id).hide();
+			}
+		});
+	}
 }
 
 function isThisEmpty(e) {

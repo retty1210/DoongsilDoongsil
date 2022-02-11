@@ -127,7 +127,7 @@ public class HomeworkController {
 	@RequestMapping(value="/homework/write/up/file")
 	public String upHomeworkFile(MultipartFile[] uploadFile, HttpServletRequest request) {
 		String r = request.getServletContext().getRealPath("/resources/upload/");
-		String uploadFolder = "C:\\Users\\retty\\git\\DoongsilDoongsil\\DoongsilDoongsil\\src\\main\\webapp\\resources\\upload";
+		//String uploadFolder = "C:\\Users\\retty\\git\\DoongsilDoongsil\\DoongsilDoongsil\\src\\main\\webapp\\resources\\upload";
 		String tho_filelink = "";
 		for(MultipartFile file: uploadFile) {
 			if(!tho_filelink.isEmpty()) {
@@ -236,23 +236,50 @@ public class HomeworkController {
 					LocalDate[] type3DayArr = service.maketype3DayArr(data);
 					int[] sizeArr = new int[type3DayArr.length];
 					HashMap<Integer, List<S_HomeworkVO>> sArrforTeacher = new HashMap<Integer, List<S_HomeworkVO>>();
-					for(int i = 0; i < type3DayArr.length; i++) {
+					HashMap<Integer, List<STAccountVO>> nameArr = new HashMap<Integer, List<STAccountVO>>();
+					HashMap<Integer, List<String>> weatherArr = new HashMap<Integer, List<String>>();
+					HashMap<Integer, List<String>> contentArr = new HashMap<Integer, List<String>>();
+					
+					for(int i = 0; i < type3DayArr.length; i++) { //날짜별로 진행되는 for문
+						List<Integer> idArr = new ArrayList<Integer>();
 						java.sql.Date newDate = Date.valueOf(type3DayArr[i]);
 						List<S_HomeworkVO> sArrforT = new ArrayList<S_HomeworkVO>();
+						List<String> tempWeather = new ArrayList<String>();
+						List<String> tempContent = new ArrayList<String>();
 						System.out.println("newDate: " + newDate + ", Arr: " + type3DayArr[i]);
 						System.out.println("sdatas.size: " + sdatas.size());
-						for(int j = 0; j < sdatas.size(); j++) {
+						
+						for(int j = 0; j < sdatas.size(); j++) { //sdata별로 진행되는 for문
 							System.out.println("inner for문 진입 : " + sdatas.get(j).getSho_date());
 							if(sdatas.get(j).getSho_date().equals(newDate)) {
+								String[] tempwcArr = sdatas.get(j).getSho_contents().split("\\|\\|");
 								sArrforT.add(sdatas.get(j));
+								tempWeather.add(tempwcArr[0]);
+								tempContent.add(tempwcArr[1]);
+								if(!idArr.contains(sdatas.get(j).getSho_writer())) {
+									idArr.add(sdatas.get(j).getSho_writer());
+								}
 							}
 						}
+						
 						System.out.println("i: " + sArrforT);
+						System.out.println("idArr: " + idArr);
 						sArrforTeacher.put(i, sArrforT);
 						sizeArr[i] = sArrforT.size();
+						List<STAccountVO> nametemparr = new ArrayList<STAccountVO>();
+						if(idArr.size() > 0) {
+							nametemparr = service.selectNameWithID(idArr);
+						}
+						nameArr.put(i, nametemparr);
+						weatherArr.put(i, tempWeather);
+						contentArr.put(i, tempContent);
 					}
 					mod.addObject("sArrforT", sArrforTeacher);
 					mod.addObject("sizeArr", sizeArr);
+					mod.addObject("nameArr", nameArr);
+					mod.addObject("weatherArr", weatherArr);
+					mod.addObject("contentArr", contentArr);
+					
 				}
 			}
 			if(!imgarr[0].equals("noimage")) {
@@ -384,12 +411,31 @@ public class HomeworkController {
 	}
 	
 	@RequestMapping(value="/studentup3", method=RequestMethod.POST)
-	public String studentHomeworkUp3(S_HomeworkVO vo, @RequestParam("sho_fileurl") String sho_fileurl) {
-		System.out.println("vo 안에 fileurl: " + vo.getSho_fileurl());
-		System.out.println(vo);
-		System.out.println("RequestParam fileurl: " + sho_fileurl);
-		vo.setSho_fileurl(sho_fileurl);
-		System.out.println(vo);
+	public String studentHomeworkUp3(S_HomeworkVO vo, MultipartFile uploadFile, HttpServletRequest request) {
+		String r = request.getServletContext().getRealPath("/resources/upload/");
+		
+		//파일명 정하기
+		String originalFileName = uploadFile.getOriginalFilename();	//오리지날 파일명
+		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+		
+		String rand = UUID.randomUUID() + "";//랜덤한 문자열
+		String randomstr = rand.substring(rand.lastIndexOf("-") + 1);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("YYMMDDHHmm"); //업로드날짜와 시간
+		java.util.Date date = new java.util.Date();
+		String datetostr = sdf.format(date);
+		
+		String savedFileName = datetostr + randomstr + extension;	//저장될 파일명
+		System.out.println("HomeworkController, filename: " + savedFileName);
+		vo.setSho_fileurl(savedFileName);
+		
+		File saveFile = new File(r, savedFileName); //uploadFolder
+		try {
+			uploadFile.transferTo(saveFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		boolean res = service.insertSH(vo);
 		if(res) {
 			System.out.println("homework form 업로드 성공");
@@ -417,15 +463,22 @@ public class HomeworkController {
 		return resultmap;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/type3comment", method=RequestMethod.POST, produces = "application/text; charset=UTF-8")
+	public String type3comment(S_HomeworkVO vo) {
+		boolean res = service.updateSHComment(vo);
+		String result = "";
+		if(res) {
+			result = "입력이 성공하였습니다.";
+		} else {
+			result = "입력이 실패하였습니다.";
+		}
+		return result;
+	}
+	
 	@RequestMapping(value="/homework/test", method=RequestMethod.GET)
 	public String homeworktest(S_HomeworkVO vo) {
 		return "homework/empty";
-	}
-	
-	@RequestMapping(value="/homework/type3", method=RequestMethod.GET)
-	public String homeworktest3(@RequestParam("date") java.sql.Date sho_date) {
-		
-		return "homework/detail/type3";
 	}
 	
 	@RequestMapping(value="/deleteSH", method=RequestMethod.GET)

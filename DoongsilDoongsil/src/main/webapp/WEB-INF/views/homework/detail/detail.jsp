@@ -13,6 +13,12 @@
 <c:url var="hwr_css_url" value="/stc/css/homework.css" />
 <link href="${hwr_css_url}" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${shwr_url}"></script>
+<c:url var="hwr_css3_url" value="/stc/css/homework_type3.css" />
+<link href="${hwr_css3_url}" rel="stylesheet" type="text/css" />
+<c:url var="hwr_t3_url" value="/stc/js/homework/homework_type3.js" />
+<script type="text/javascript" src="${hwr_t3_url}" ></script>
+<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic-coding.css" rel="stylesheet">
+<link href="https://hangeul.pstatic.net/hangeul_static/css/NanumJungHagSaeng.css" rel="stylesheet">
 </head>
 <body>
 	<header>

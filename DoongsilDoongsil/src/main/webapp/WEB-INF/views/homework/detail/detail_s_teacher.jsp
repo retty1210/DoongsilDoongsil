@@ -229,7 +229,9 @@
 			</c:if>
 			<c:if test="${data.getTho_homeworktype() == 3 }">
 				<c:forEach var="type3day" items="${type3DayArr }" varStatus="index">
-					<div class="col-md-12 tmg10 bdr-r5 bdr-1 flex" data-bs-toggle="modal" data-bs-target="#type3Toggle_1_${index.index }">
+					<fmt:parseDate var="type3date" value="${type3day }" pattern="yyyy-MM-dd" />
+					<fmt:formatDate var="valueDate" value="${type3date }" pattern="yyyyMMdd" />
+					<div class="col-md-12 tmg10 bdr-r5 bdr-1 flex btn" data-bs-toggle="modal" data-bs-target="#type3Toggle_${valueDate }_${index.index }">
 						<div class="col-md-10">
 							${type3day }
 						</div>
@@ -239,38 +241,51 @@
 						</div>
 					</div>
 					<!-- Modal -->
-					<div class="modal fade" id="type3Toggle_1_${index.index }" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-					  <div class="modal-dialog modal-dialog-centered">
+					<div class="modal fade" id="type3Toggle_${valueDate }_${index.index }" tabindex="-1">
+					  <div class="modal-dialog modal-dialog-centered modal-lg">
 					    <div class="modal-content">
 					      <div class="modal-header">
-					        <h5 class="modal-title" id="exampleModalToggleLabel">Modal 1</h5>
+					        <h5 class="modal-title" id="type3ToggleLabel_${valueDate }_${index.index }">${type3day }</h5>
 					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					      </div>
-					      <div class="modal-body">
-					        ${sArrforT[index.index] }
+					      <div class="modal-body flex">
+					      	<c:forEach var="studentName" items="${nameArr[index.index] }" varStatus="nameindex">
+					      		<div class="col-md-3 bdr-1 bdr-r5 btn" id="nameBtn_${valueDate }_${studentName.getSta_id() }"
+					      			data-bs-toggle="modal" data-bs-target="#type3_submodal_${valueDate }_${studentName.getSta_id() }">
+					      			${studentName.getSta_name() }
+					      		</div>
+					      	</c:forEach>
 					      </div>
 					      <div class="modal-footer">
-					        <button class="btn btn-primary" data-bs-target="#type3Toggle_2_${index.index }" data-bs-toggle="modal">Open second modal</button>
+					        <button class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">닫기</button>
 					      </div>
 					    </div>
 					  </div>
 					</div>
-					<div class="modal fade" id="type3Toggle_2_${index.index }" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-					  <div class="modal-dialog modal-dialog-centered">
-					    <div class="modal-content">
-					      <div class="modal-header">
-					        <h5 class="modal-title" id="exampleModalToggleLabel2">Modal 2</h5>
-					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					      </div>
-					      <div class="modal-body">
-					        Hide this modal and show the first with the button below.
-					      </div>
-					      <div class="modal-footer">
-					        <button class="btn btn-primary" data-bs-target="#type3Toggle_1_${index.index }" data-bs-toggle="modal">Back to first</button>
-					      </div>
-					    </div>
-					  </div>
-					</div>
+					<c:forEach var="sDiary" items="${sArrforT[index.index] }" varStatus="modalindex">
+						<div class="modal fade" id="type3_submodal_${valueDate }_${sDiary.getSho_writer()}" tabindex="-1">
+						  <div class="modal-dialog modal-dialog-centered modal-lg">
+						    <div class="modal-content">
+						      <div class="modal-body">
+						      	${sDiary.getSho_comment() }
+						        <jsp:include page="/WEB-INF/views/homework/detail/type3tNN.jsp" flush="false">
+						        	<jsp:param value="${type3day }" name="type3date"/>
+						      		<jsp:param value="${sDiary.getSho_fileurl() }" name="type3sWork"/>
+						      		<jsp:param value="${weatherArr[index.index][modalindex.index] }" name="type3sWeather"/>
+						      		<jsp:param value="${contentArr[index.index][modalindex.index] }" name="type3content"/>
+						      		<jsp:param value="${sDiary.getSho_comment() }" name="type3comment"/>
+						      		<jsp:param value="${sDiary.getSho_id() }" name="type3id" />
+						      		<jsp:param value="${sDiary.getSho_writer() }" name="type3writer" />
+						        </jsp:include>
+						      </div>
+						      <div class="modal-footer">
+						        <button class="btn btn-primary" data-bs-target="#type3Toggle_${valueDate }_${index.index }" data-bs-toggle="modal">목록으로 돌아가기</button>
+						        <button class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">닫기</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+					</c:forEach>
 				</c:forEach>
 				<!-- 교사용 페이지 구상:
 					1. 날짜 div를 누르면 해당 날짜의 숙제를 올린 학생 명단이 뜸

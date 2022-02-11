@@ -4,12 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<c:url var="hwr_css3_url" value="/stc/css/homework_type3.css" />
-<link href="${hwr_css3_url}" rel="stylesheet" type="text/css" />
-<c:url var="hwr_t3_url" value="/stc/js/homework/homework_type3.js" />
-<script type="text/javascript" src="${hwr_t3_url}" ></script>
-<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic-coding.css" rel="stylesheet">
-<link href="https://hangeul.pstatic.net/hangeul_static/css/NanumJungHagSaeng.css" rel="stylesheet">
 <!-- ${type3date} -->
 
 <div class="container type3Container flex">
@@ -38,7 +32,7 @@
 			</div>
 		</div>
 		<div id="type3formArea${valueDate }">
-			<form id="type3diarySubmit${valueDate }" class="form-horizontal" method="post" action="/studentup3">
+			<form id="type3diarySubmit${valueDate }" class="form-horizontal" method="post" action="/studentup3" enctype="multipart/form-data">
 				<div class="row vtc">
 					<div>
 						<input type="file" id="type3imgInput${valueDate }" name="sho_fileurl">

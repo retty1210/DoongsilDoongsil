@@ -4,12 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<c:url var="hwr_css3_url" value="/stc/css/homework_type3.css" />
-<link href="${hwr_css3_url}" rel="stylesheet" type="text/css" />
-<c:url var="hwr_t3_url" value="/stc/js/homework/homework_type3.js" />
-<script type="text/javascript" src="${hwr_t3_url}" ></script>
-<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic-coding.css" rel="stylesheet">
-<link href="https://hangeul.pstatic.net/hangeul_static/css/NanumJungHagSaeng.css" rel="stylesheet">
 <!-- ${type3date} -->
 
 <div class="container type3Container flex">
@@ -90,9 +84,9 @@
 			</form>
 		</div>
 		
-		<div id="type3commentArea${valueDate }" class="container row vtc flex">
+		<div id="type3commentArea${valueDate }" class="row vtc flex">
 			<form id="type3commentSubmit${valueDate }" class="form-horizontal row">
-				<div class="col-md-2 inline-b">
+				<div class="col-md-3 inline-b commentTextLabel">
 					<span>
 						<strong>선생님의<br>한마디</strong>
 					</span>

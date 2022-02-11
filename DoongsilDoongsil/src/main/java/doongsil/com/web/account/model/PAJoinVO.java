@@ -6,7 +6,7 @@ public class PAJoinVO extends STAccountVO {
 	private String paa_password;
 	private String paa_password_chk;
 	private String paa_phonenumber;
-	private String paa_child_id;
+	private int paa_child_id;
 	
 	public String getPaa_username() {
 		return paa_username;
@@ -40,12 +40,18 @@ public class PAJoinVO extends STAccountVO {
 		this.paa_phonenumber = paa_phonenumber;
 	}
 
-	public String getPaa_child_id() {
+	public int getPaa_child_id() {
 		return paa_child_id;
 	}
 
-	public void setPaa_child_id(String paa_child_id) {
+	public void setPaa_child_id(int paa_child_id) {
 		this.paa_child_id = paa_child_id;
+	}
+
+	@Override
+	public String toString() {
+		return "PAJoinVO [paa_username=" + paa_username + ", paa_password=" + paa_password + ", paa_password_chk="
+				+ paa_password_chk + ", paa_phonenumber=" + paa_phonenumber + ", paa_child_id=" + paa_child_id + "]";
 	}
 
 }

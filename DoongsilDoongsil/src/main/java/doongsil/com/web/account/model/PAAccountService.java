@@ -9,6 +9,15 @@ public class PAAccountService {
 	@Autowired
 	private PAAccountDAO paaDao;
 	
+	public boolean idCheck2(PAAccountVO paVO) throws Exception {
+		PAAccountVO paDatas = paaDao.idCheck2(paVO);
+		if(paDatas == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	public PAAccountVO paaLogin(LoginVO loginVo) {
 		PAAccountVO paData = this.paaDao.login(loginVo);
 		if(paData == null) {
@@ -43,4 +52,5 @@ public class PAAccountService {
 		}
 		return false;
 	}
+
 }

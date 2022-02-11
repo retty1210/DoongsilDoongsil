@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page import="doongsil.com.web.account.model.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,13 +24,24 @@
 			</svg>
 			<h2 class="text-center">둥실둥실</h2>
 		</div>
+		<div class="nav-div">
+			<nav class="black">
+				<div class="underline"></div>
+				<div class="a-right">
+					<a href="/join">학생 및 교사 회원</a>
+				</div>
+				<div class="a-left">
+					<a href="/paaJoin" onClick ="ul(0)">학부모 회원</a>
+				</div>
+			</nav>
+		</div>
 		
 		<form action="./join" method="post">
 		<div class="form-group">
 			<div class="username_wrap">
 				<label>아이디</label>
 				<input type="text" name="sta_username" id="sta_username" required>
-				<button type="button" class="checkId" id="checkId" onclick="checkId();" value="N">중복체크</button> 
+				<button type="button" class="checkId" id="checkId" onclick="id_check();">중복체크</button> 
 				<span id="must-id" class="hid_span_area"> 
 					<!--필수 입력입니다.-->
 				</span>
@@ -55,7 +67,7 @@
 					<!-- 필수 입력입니다.-->
 				</span>
 			</div>
-			<div>
+			<div class="email_wrap">
 				<label>이메일</label>
 				<input type="email" name="sta_email" required>
 				<span id="must-email" class="hid_span_area">
@@ -72,15 +84,14 @@
 					<input type="text" id="sample6_extraAddress" placeholder="참고항목">
 				</div>
 			</div>
-			<div>
+			<div class="phonenumber_wrap">
 				<label>전화번호</label>
-				<input type="text" name="sta_phonenumber">
+				<input type="text" name="sta_phonenumber" required>
 			</div>
 			<div class="multi-input">
 	               <label>생년월일</label>
 	               <div class="input-form">
 	                   <input type="date" id="birthday" name="sta_birthday" class="custom-input"/>
-	                  
 	               </div>
 	           </div>
 	        <div>
@@ -88,31 +99,34 @@
 	        	<input type="checkbox" id="teacher" name="sta_usertype" value="T"><label for="teacher">선생님입니다</label>
 	        </div>
 			<div>
-				<button type="submit">가입하기</button>
+				<button type="submit" id="sign-btn">가입하기</button>
 			</div>
 		</div>
 		</form>
 	</div>
 	
-	<script>
-	function checkId() {
+	<script type="text/javascript">
+	function id_check() {
+		var sta_username = $("#sta_username").val();
+		console.log(sta_username);
+		
 		$.ajax({
-			url : "/idCheck",
-			type : "POST",
-			dataType : "JSON",
-			data : {"sta_username" : $("sta_username").val()},
-			success : function (data) {
-				if(data == 1) {
-					alert("중복된 아이디 입니다.")
-				} else if (data == 0) {
-					$("#idCheck").attr("value", "Y");
-					alert("사용 가능한 아이디 입니다.")
+			url : "/dupcheck",
+			type : "post",
+			data : {"sta_username" : sta_username},
+			dataType : "json",
+			success : function(data) {
+				if(data.state === "fail") {
+					alert("중복된 아이디 입니다.");
+				} else {
+					alert("사용 가능한 아이디 입니다.");
 				}
 			}
 		})
 	}
-	</script>
-	
+	</script> 
+<script type="text/javascript" src="stc/js/addHypen.js"></script>
+<script type="text/javascript" src="stc/js/navmenu.js"></script>
 <script type="text/javascript" src="stc/js/join.js"></script>
 <script type="text/javascript" src="stc/js/address.js"></script>
 <script type="text/javascript" src="stc/js/birthday.js"></script>

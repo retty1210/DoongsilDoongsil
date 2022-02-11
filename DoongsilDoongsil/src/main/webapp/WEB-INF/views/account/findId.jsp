@@ -12,50 +12,43 @@
 <link href="/stc/css/findId.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-	<form name="findform" action="./findId" method="post">
+	<form action="./findId" method="post" name="findform">
 		<div class="search-title">
 			<h3>휴대폰 본인확인</h3>
 		</div>
 		<section class="form-search">
 			<div class="find-name">
-				<label>이름</label> <input type="text" name="name"
-					class="btn-name" placeholder="등록한 이름"> <br>
+				<label>이름</label> 
+				<input type="text" name="sta_name" class="btn-name" placeholder="등록한 이름"> <br>
 			</div>
 			<div class="find-phone">
-				<label>번호</label> <input type="text" 
-					name="phone" class="btn-phone" placeholder="휴대폰번호를 '-'없이 입력">
+				<label>번호</label> 
+				<input type="text" name="sta_phonenumber" class="btn-phone" placeholder="휴대폰 번호 '-' 포함하여 입력">
 			</div>
 			<br>
 		</section>
 		<div class="btnSearch">
-			<input type="button" name="enter" value="check" type="submit" >
-			<input type="button" name="cancle" value="취소"
-				onClick="history.back()">
+			<button name="enter" value="check" type="submit">찾기</button>
+			<input type="button" name="cancle" value="취소" onClick="history.back()">
 		</div>
 		
 		<!-- 이름과 전화번호가 일치하지 않을 때-->
 		<c:if test ="${check == 1}">
 			<script>
-				opener.document.findform.name.value = "";
-				opener.document.findform.phone.value = "";
+				opener.document.findform.sta_name.value = "";
+				opener.document.findform.sta_phonenumber.value = "";
 			</script>
 			<label>일치하는 정보가 존재하지 않습니다.</label>
 		</c:if>
 		
-		<!-- 이름과 비밀번호가 일치하지 않을 때 -->
+		<!-- 이름과 전화번호가 일치할 때 -->
 		<c:if test ="${check == 0}">
-		<label>찾으시는 아이디는' ${sta_username}' 입니다.</label>
-		<div class="form-label-group">
+			<label>찾으시는 아이디는 "${id}" 입니다.</label>
+			<div class="form-label-group">
 				<input class="btn btn-lg btn-secondary btn-block text-uppercase"
-					type="button" value="OK" onclick="closethewindow()">
+					type="button" value="돌아가기" onclick="history.back()">
 			</div>
 		</c:if>
 	</form>
-	
-	<script type="text/javascript">
-		function closethewindow(){
-			self.close();
-		}
-	</script>
 </body>
 </html>

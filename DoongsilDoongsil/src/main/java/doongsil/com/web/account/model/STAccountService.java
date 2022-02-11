@@ -2,16 +2,21 @@ package doongsil.com.web.account.model;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class STAccountService {
 	
+	private static final Logger logger = (Logger) LoggerFactory.getLogger(STAccountService.class);
+	
 	@Autowired
 	private STAccountDAO stDao;
 	
 	public STAccountVO findId(STAccountVO stVo) {
+		logger.info("아이디 데이터 받아옴");
 		return this.stDao.findId(stVo);
 	}
 	
@@ -23,10 +28,14 @@ public class STAccountService {
 		return this.stDao.updatePassword(stVo);
 	}
 	
-//	public int idCheck(String sta_username) throws Exception {
-//		int result = stDao.idCheck(sta_username);
-//		return result;
-//	}
+	public boolean idCheck(STAccountVO stVo) throws Exception {
+		STAccountVO stDatas = stDao.idCheck(stVo);
+		if(stDatas == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 	
 	public boolean join(STJoinVO stVo) throws Exception {
 		int result = stDao.insertAccount(stVo);
@@ -44,6 +53,10 @@ public class STAccountService {
 			stData.setSta_password("");
 			return stData;
 		}
+	}
+	
+	public List<STAccountVO> findChild(STAccountVO stVo) {
+		return this.stDao.findChild(stVo);
 	}
 	
 	public List<STAccountVO> infoStudentList(STAccountVO staVo) {

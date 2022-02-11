@@ -6,8 +6,7 @@ public class PAAccountVO extends STAccountVO {
 	private String paa_username;
 	private String paa_password;
 	private String paa_phonenumber;
-	private int paa_child_id;
-	private String sta_name;
+	private int paa_child_id; // ST_ACCOUNT FK(sta_name)
 	
 	public PAAccountVO() {}
 	public PAAccountVO(int paa_id,String paa_password, String paa_phonenumber) {
@@ -16,17 +15,10 @@ public class PAAccountVO extends STAccountVO {
 		this.paa_phonenumber = paa_phonenumber;
 	}
 
-	public String getSta_name() {
-		return sta_name;
-	}
-
-	public void setSta_name(String sta_name) {
-		this.sta_name = sta_name;
-	}
-
 	public void setPaa_child_id(int paa_child_id) {
 		this.paa_child_id = paa_child_id;
 	}
+	
 	public int getPaa_child_id() {
 		return paa_child_id;
 	}

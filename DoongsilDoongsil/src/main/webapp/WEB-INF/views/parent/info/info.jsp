@@ -10,7 +10,7 @@
 <link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
 	function MyInfoUpdate(href){
-		window.open('/infoUpdate?id=${sessionScope.account.paa_id}','','width=500,height=700');
+		window.open('/popuppassword','','width=400,height=150');
 	}
 </script>
 </head>

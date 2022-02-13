@@ -50,5 +50,9 @@ public class CalendarDAO {
 		}
 		return false;
 	}
+
+	public List<CalendarDTO> acadmicList(String date) {
+		return this.sess.selectList("mainPageMapper.acadList", date);
+	}
 	
 }

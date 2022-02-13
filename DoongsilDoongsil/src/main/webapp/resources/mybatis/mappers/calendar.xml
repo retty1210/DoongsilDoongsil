@@ -36,7 +36,10 @@
 		   AND CAL_END = #{cal_end}
 	</delete>
 	
-	<!--select id="" parameterType="doongsil.com.web.notice.model.NoticeVO">
-		SELECT * FROM NOTICE WHERE 
-	</select> -->
+	<select id="acadList" parameterType ="String" resultType="calendarDTO">
+		SELECT * FROM CALENDAR
+		 WHERE CAL_START BETWEEN TO_DATE(#{date}, 'yyyy-mm') AND LAST_DAY(TO_DATE(#{date}, 'yyyy-mm'))
+		   AND CAL_END BETWEEN TO_DATE(#{date}, 'yyyy-mm') AND LAST_DAY(TO_DATE(#{date}, 'yyyy-mm')) 
+		 ORDER BY 3
+	</select>
 </mapper>

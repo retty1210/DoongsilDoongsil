@@ -12,8 +12,8 @@ import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.*;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.*;
 
-import doongsil.com.web.account.model.*;
 import doongsil.com.web.calendar.model.*;
 import doongsil.com.web.homework.model.*;
 import doongsil.com.web.notice.model.*;
@@ -82,24 +82,22 @@ public class CalendarController {
 	
 	@ResponseBody
 	@RequestMapping(value="/getList", produces="application/text; charset=utf8", method=RequestMethod.GET)
-	public String getList(Model model, HttpSession session) throws Exception{
-		List<CalendarDTO> calendar_list = service.selectCalendar();
-		HashMap<Integer, CalendarDTO[]> exNum = new HashMap<Integer, CalendarDTO[]>();
-		
-		for(int i=1; i < 13; i++) {
-			List<CalendarDTO> temparr = new ArrayList<CalendarDTO>();
-			for(CalendarDTO Date: calendar_list) {
-				if(Date.getCal_start().toLocalDate().getMonthValue() == i) {
-					temparr.add(Date);
-				}
-			}
-			CalendarDTO[] calArr = new CalendarDTO[temparr.size()];
-			temparr.toArray(calArr);
-			exNum.put(i, calArr);
-		}
+	public String getList(Model model, @RequestParam("date") String date) throws Exception{
+		List<CalendarDTO> acad_list = service.academicList(date);
+		//HashMap<Integer, CalendarDTO[]> exNum = new HashMap<Integer, CalendarDTO[]>();
+//		for(int i=1; i < 13; i++) {
+//			List<CalendarDTO> temparr = new ArrayList<CalendarDTO>();
+//			for(CalendarDTO Date: calendar_list) {
+//				if(Date.getCal_start().toLocalDate().getMonthValue() == i) {
+//					temparr.add(Date);
+//				}
+//			}
+//			CalendarDTO[] calArr = new CalendarDTO[temparr.size()];
+//			temparr.toArray(calArr);
+//			exNum.put(i, calArr);
+//		}
 		ObjectMapper mapper = new ObjectMapper();
-		String jsonStr = mapper.writeValueAsString(exNum);
-		model.addAttribute("academics", exNum);
+		String jsonStr = mapper.writeValueAsString(acad_list);
 		//System.out.println(exNum);
 		//for문을 1~12까지 돌게 만들어서
 		//for문 안에서 임시로 쓸 CalenderDTO[]를 만들어서 Date중에 월이 for문 i와 동일한 거를 []에 넣고

@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
 							cal_start: moment(arg.start).format('YYYY-MM-DD'),
 							cal_end: moment(arg.end).format('YYYY-MM-DD'),
 						},
-						success: function(response){
+						success: function(response){ 
 							alert('일정이 추가 되었습니다.');
 							location.reload();
 						},
@@ -100,79 +100,62 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 var res;
 window.onload = function() {
-	let href="/mainPop";
-	window.open(href, 'Pop', 'width=500', 'height=700', 'scrollbars=yes', 'resizeable=no');
+	//let href="/mainPop";
+	//window.open(href, 'Pop', 'width=500', 'height=700', 'scrollbars=yes', 'resizeable=no');
+	
+	var mon = $('h2').text().replace("년", "-").replace("월", "").replace(" ", "");
 	$.ajax({
 		url: "/getList",
 		type: "GET",
 		dataType: 'json',
+		data: {
+			date : mon
+		},
 		success: function(response) {
+			console.log(response);
 			res = response;
-			var resArr = [];
-			var mNum;
-			var mon = $('h2').text().substring(6,7);
-			//console.log(response);
-			//console.log(response[2]);
-			for(item in res) {
-				resArr[item] = res[item];
-			}
-			    console.log(resArr[mon]);
+			var listArr = [];
 			
-			// 브라우저 달의 숫자와 같은 숫자를 찾아 mNum에 저장
-			for(var x = 1; x < 13; x++){
-				if(mon == x){
-					mNum = x;
-					break;
-				}
-			}
+			$.each(response, function(index, data){
+				listArr.push(data['cal_title']);
+			});
+			//console.log(listArr);
 			
-			// 브라우저 달의 숫자와 저장된 숫자가 같으면 학사일정 출력
-			if(mon == mNum) {
-				for(var i=0; i < resArr[mNum].length; i++){
-					$('.academic-list').append("<li>" + resArr[mNum][i]['cal_title'] + "</li>");
-				}
+			for(var a=0; a < listArr.length; a++){
+				$('.academic-list').append("<li>" + listArr[a] + "</li>");
 			}
 		},
 		error: function(response) {
 			alert('error');
 		},
 	})
-	$('.fc-next-button,.fc-prev-button').on('click', function() {
+	$('.fc-next-button, .fc-prev-button, .fc-today-button').on('click', function() {
 		$('.academic-list').children().remove();
-		$.ajax({
-		url: "/getList",
-		type: "GET",
-		dataType: 'json',
-		success: function(response) {
-			res = response;
-			var resArr = [];
-			var mNum;
-			var mon = $('h2').text().substring(6,7);
-			//console.log(response);
-			//console.log(response[2]);
-			for(item in res) {
-				resArr[item] = res[item];
-			}
-			    console.log(resArr[mon]);
-			
-			// 브라우저 달의 숫자와 같은 숫자를 찾아 mNum에 저장
-			for(var x = 1; x < 13; x++){
-				if(mon == x){
-					mNum = x;
-					break;
+		var mon = $('h2').text().replace("년", "-").replace("월", "").replace(" ", "");
+			$.ajax({
+			url: "/getList",
+			type: "GET",
+			dataType: 'json',
+			data: {
+				date : mon
+			},
+			success: function(response) {
+				console.log(response);
+				res = response;
+				var listArr = [];
+				
+				$.each(response, function(index, data){
+					listArr.push(data['cal_title']);
+				});
+				//console.log(listArr);
+				
+				for(var a=0; a < listArr.length; a++){
+					$('.academic-list').append("<li>" + listArr[a] + "</li>");
 				}
+			},
+			error: function(response) {
+				alert('error');
 			}
-			
-			// 브라우저 달의 숫자와 저장된 숫자가 같으면 학사일정 출력
-			if(mon == mNum) {
-				for(var i=0; i < resArr[mNum].length; i++){
-					$('.academic-list').append("<li>" + resArr[mNum][i]['cal_title'] + "</li>");
-				}
-			}
-		},
-		error: function(response) {
-			alert('error');
-		}
-	})
+		})
 	})
 }

@@ -44,5 +44,10 @@ public class CalendarService {
 		boolean res = dao.deleteEvent(dto);
 		return res;
 	}
+	
+	public List<CalendarDTO> academicList(String date) {
+		//logger.info("학사일정 Service" + date);
+		return dao.acadmicList(date);
+	}
 
 }

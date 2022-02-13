@@ -1,10 +1,13 @@
 package doongsil.com.web;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +17,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
+import org.springframework.util.CollectionUtils;
 import doongsil.com.web.notice.model.Criteria;
+import doongsil.com.web.notice.model.FileUtils;
+import doongsil.com.web.notice.model.NotFileVO;
 import doongsil.com.web.notice.model.NoticeService;
 import doongsil.com.web.notice.model.NoticeVO;
 import doongsil.com.web.notice.model.PageMaker;
@@ -52,12 +61,25 @@ public class NoticeController {
 	
 	//공지사항 글 작성
 	@RequestMapping(value = "/notice/noticeWrite", method = RequestMethod.POST)
-	public String write(NoticeVO noticeVO, HttpSession session) throws Exception{
+	public String write(NoticeVO noticeVO, HttpServletRequest request, MultipartHttpServletRequest mhsr, HttpSession session) 
+			throws Exception{
+		
 		logger.info("write"+ noticeVO);
-				
+		System.out.println("글 등록 처리");
+		
+	
+
+		FileUtils fileUtils = new FileUtils();
+		List<NotFileVO> fileList = fileUtils.parseFileInfo(noticeVO.getNot_id(), request, mhsr);
+		
+		if(CollectionUtils.isEmpty(fileList) == false) {
+			service.insertBoardFileList(fileList);
+			
+		}
+
 		service.write(noticeVO);
 		
-		//session에서 grade랑 class 비교해서...학년/반에 따라서 보여지는게 다르게..
+
 				
 		return "redirect:/notice/noticeList?page="+ session.getAttribute("nowPage");
 	}
@@ -90,7 +112,6 @@ public class NoticeController {
 			logger.info("noticeView");
 			
 			model.addAttribute("read", service.read(noticeVO.getNot_id()));
-			
 			//댓글조회
 			List<ReplyVO> replyList = replyService.readReply(noticeVO.getNot_id());
 			model.addAttribute("replyList", replyList);
@@ -114,7 +135,7 @@ public class NoticeController {
 		
 		//공지사항 수정페이지 POST
 		@RequestMapping(value = "/update", method = RequestMethod.POST)
-		public String update(NoticeVO noticeVO, HttpSession session) throws Exception{
+		public String update(Model model, NoticeVO noticeVO, MultipartFile upload, HttpSession session) throws Exception{
 			logger.info("update");
 					
 			service.update(noticeVO);
@@ -122,7 +143,8 @@ public class NoticeController {
 			return "redirect:/notice/noticeList?page="+ session.getAttribute("nowPage");
 					
 			}
-		
+
+
 		//공지사항 삭제 
 		@RequestMapping(value = "/delete", method = RequestMethod.GET)
 		public String delete(int not_id, HttpSession session) throws Exception{

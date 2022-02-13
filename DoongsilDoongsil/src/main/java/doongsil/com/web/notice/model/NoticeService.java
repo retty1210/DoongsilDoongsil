@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 
 @Service
@@ -17,6 +18,8 @@ public class NoticeService {
 	//공지사항 작성
 	public void write(NoticeVO noticeVO) throws Exception {
 		dao.write(noticeVO);
+		
+
 	}
 	
 	//공지사항 목록 조회
@@ -54,6 +57,14 @@ public class NoticeService {
 	public void updateReplyCount(int not_id) throws Exception{
 		dao.updateReplyCount(not_id);
 	}
+
+	//파일첨부
+	public void insertBoardFileList(List<NotFileVO> fileList) {
+		dao.insertBoardFileList(fileList);
+	}
 	
+	public List<NotFileVO> getBoardFileList(int seq) {
+		return dao.getBoardFileList(seq);
+	}
 
 }

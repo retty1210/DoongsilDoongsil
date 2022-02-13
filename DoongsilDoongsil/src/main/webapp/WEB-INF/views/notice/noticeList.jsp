@@ -68,6 +68,7 @@
 			<th scope="col">작성자</th>
 			<th scope="col">등록일</th>
 			<th scope="col">조회수</th>
+			<th scope="col">파일</th>
 			</tr>
 		</thead>	
 			<tbody>	
@@ -84,6 +85,9 @@
 						<td><c:out value="교사" /></td> 		
 					<td><fmt:formatDate value="${list.not_writedate}" pattern="yyyy-MM-dd"/></td>
 					<td><c:out value="${list.not_count }" /></td>
+					
+					
+					
 					</tr>	
 				</c:forEach>	
 			</tbody>				

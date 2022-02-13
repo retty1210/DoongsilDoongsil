@@ -2,6 +2,8 @@ package doongsil.com.web.notice.model;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class NoticeVO {
 	private int not_id;
 	private int not_writer;
@@ -14,6 +16,7 @@ public class NoticeVO {
 	private Date not_eventdate;
 	private int not_count;
 	private int reply_count;
+	private MultipartFile uploadFile;
 	
 	public NoticeVO() {
 		
@@ -110,6 +113,15 @@ public class NoticeVO {
 	public void setReply_count(int reply_count) {
 		this.reply_count = reply_count;
 	}
+	
+	
+	public MultipartFile getUploadFile() {
+		return uploadFile;
+	}
+
+	public void setUploadFile(MultipartFile uploadFile) {
+		this.uploadFile = uploadFile;
+	}
 
 	@Override
 	public String toString() {
@@ -118,6 +130,11 @@ public class NoticeVO {
 				+ not_contents + ", not_writedate=" + not_writedate + ", not_eventdate=" + not_eventdate
 				+ ", not_count=" + not_count + ", reply_count=" + reply_count + "]";
 	}
+
+
+
+	
+	
 	
 	
 	

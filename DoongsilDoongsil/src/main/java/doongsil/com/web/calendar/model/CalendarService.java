@@ -46,7 +46,6 @@ public class CalendarService {
 	}
 	
 	public List<CalendarDTO> academicList(String date) {
-		//logger.info("학사일정 Service" + date);
 		return dao.acadmicList(date);
 	}
 

@@ -66,15 +66,4 @@ public class NoticeDAO {
 	
 
 	
-	public void insertBoardFileList(List<NotFileVO> fileList) {
-		for(NotFileVO noticeFile : fileList) {
-			sess.insert("noticeMapper.insertBoardFileList", noticeFile);
-		}
-	}
-
-	public List<NotFileVO> getBoardFileList(int seq) {
-		return sess.selectList("noticeMapper.getBoardFileList", seq);
-	}
-
-	
 }

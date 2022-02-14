@@ -12,6 +12,7 @@
 	   					    , NOT_TITLE 
 	   					    , NOT_CONTENTS
 	   					    , NOT_WRITEDATE
+	   					    , NOT_FILE_NAME
 	   					      )
 	                 VALUES(  NOTICE_SEQ.NEXTVAL 
 	                 		  , #{not_writer} 
@@ -19,6 +20,7 @@
 	                 		  , #{not_title}
 	                 		  , #{not_contents}
 	                 		  , SYSDATE
+	                 		  , #{not_file_name}
 	                 		  )
     </insert>
     
@@ -31,6 +33,7 @@
     		,NOT_COUNT
     		,REPLY_COUNT
     		,NOT_PERMIT
+    		,NOT_FILE_NAME
 	FROM ( 
 		    SELECT NOT_ID, 
 		           NOT_TITLE, 
@@ -39,6 +42,7 @@
 		           NOT_COUNT, 
 		           REPLY_COUNT,
 		           NOT_PERMIT,
+		           NOT_FILE_NAME,
 		           ROW_NUMBER() OVER(ORDER BY NOT_ID DESC) AS RNUM
 		     FROM NOTICE 
 		                   ) NC
@@ -53,6 +57,7 @@
     		,NOT_TITLE
     		,NOT_CONTENTS
     		,NOT_WRITEDATE
+    		,NOT_FILE_NAME
     	FROM NOTICE
  		WHERE NOT_ID = #{not_id}
     </select>
@@ -105,39 +110,6 @@
     </update>
     
     <!-- 첨부파일 -->
-  <insert id="insertFile" parameterType="hashMap">
-		INSERT INTO NOT_FILE(
-			SEQ,
-			F_SEQ,
-			ORIGINAL_FILE_NAME,
-			FILE_PATH,
-			FILE_SIZE
-		)VALUES(
-			#{NOT_ID},
-			F_SEQ_SEQ.NEXTVAL,
-			#{ORG_FILE_NAME},
-			#{STORED_FILE_NAME},
-			#{FILE_SIZE}
-		)
-    </insert>
-    
-    <insert id="insertBoardFileList" parameterType="doongsil.com.web.notice.model.NotFileVO">
-		INSERT INTO NOT_FILE (
-									SEQ,
-									F_SEQ,
-									ORIGINAL_FILE_NAME,
-									FILE_PATH,
-									FILE_SIZE
-								)
-						VALUES (
-									#{seq},
-									F_SEQ_SEQ.NEXTVAL,
-									#{original_file_name},
-									#{file_path},
-									#{file_size}
-								)
-	</insert>
-	
-	
+
  
 </mapper>

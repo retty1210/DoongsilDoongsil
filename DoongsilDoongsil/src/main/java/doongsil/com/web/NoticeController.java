@@ -18,14 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-import org.springframework.util.CollectionUtils;
 import doongsil.com.web.notice.model.Criteria;
-import doongsil.com.web.notice.model.FileUtils;
-import doongsil.com.web.notice.model.NotFileVO;
 import doongsil.com.web.notice.model.NoticeService;
 import doongsil.com.web.notice.model.NoticeVO;
 import doongsil.com.web.notice.model.PageMaker;
@@ -61,26 +58,28 @@ public class NoticeController {
 	
 	//공지사항 글 작성
 	@RequestMapping(value = "/notice/noticeWrite", method = RequestMethod.POST)
-	public String write(NoticeVO noticeVO, HttpServletRequest request, MultipartHttpServletRequest mhsr, HttpSession session) 
+	public String write(NoticeVO noticeVO, HttpServletRequest request, HttpSession session) 
 			throws Exception{
 		
 		logger.info("write"+ noticeVO);
-		System.out.println("글 등록 처리");
-		
-	
+        String root = request.getSession().getServletContext().getRealPath("resources");
+        String filePath = root + "\\upload";
 
-		FileUtils fileUtils = new FileUtils();
-		List<NotFileVO> fileList = fileUtils.parseFileInfo(noticeVO.getNot_id(), request, mhsr);
 		
-		if(CollectionUtils.isEmpty(fileList) == false) {
-			service.insertBoardFileList(fileList);
-			
+		String fileName=null;
+		MultipartFile uploadFile = noticeVO.getUploadFile();
+		if (!uploadFile.isEmpty()) {
+			String originalFileName = uploadFile.getOriginalFilename();
+			String ext = FilenameUtils.getExtension(originalFileName);	//확장자 구하기
+			UUID uuid = UUID.randomUUID();	//UUID 구하기
+			fileName = uuid + "." + ext;
+			uploadFile.transferTo(new File(filePath + "\\" + fileName));
+
 		}
+		noticeVO.setNot_file_name(fileName);
 
 		service.write(noticeVO);
-		
-
-				
+						
 		return "redirect:/notice/noticeList?page="+ session.getAttribute("nowPage");
 	}
 	

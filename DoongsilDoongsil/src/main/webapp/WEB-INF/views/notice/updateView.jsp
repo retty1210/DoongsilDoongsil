@@ -6,10 +6,8 @@
 <meta charset="utf-8">
 <title>공지사항 작성</title>
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
-<!--  
-<c:url var="notice_js_url" value="/stc/js/noticeView.js" />
+<c:url var="notice_js_url" value="/stc/js/noticefile.js" />
 <script type="text/javascript" src="${notice_js_url}"></script>
--->
 </head>
 <body>
 	<div id="root">
@@ -19,7 +17,7 @@
 <div class="container">
 	<h2> 공지사항 수정</h2><hr/>
 	<section id="container">
-	<form name="updateForm" role="form" method="post" action="/notice/update">
+	<form name="updateForm" role="form" method="post" action="/notice/update" enctype="multipart/form-data">
 		<div class="mb-3">
 			<label for="exampleFormControlInput1" class="form-label">글번호</label>
 			<input type="text" name="not_id" class="form-control" id="exampleFormControlInput1" value="${update.not_id}" readonly>
@@ -49,10 +47,16 @@
   		<input type="text" name="not_writer" class="form-control" id="exampleFormControlInput1" value="교사" readonly="readonly">
 	</div>
 	-->
+	<!-- 파일업로드 -->
+	<div class="mb-3">
+  		<input type="file" name="upload" class="form-control" id="exampleFormControlInput1">
+	</div>
+	
 	<div class="mb-3">
  		<label for="exampleFormControlInput1" class="form-label">작성일 : </label>
 		<fmt:formatDate value="${update.not_writedate}" pattern="yyyy-MM-dd"/>
 	</div>
+
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 		<button type="button" class="btn btn-outline-secondary" id="cancel_btn" onclick="history.back()">돌아가기</button>
 		<button type="submit" class="btn btn-primary" id="update_btn">저장</button>

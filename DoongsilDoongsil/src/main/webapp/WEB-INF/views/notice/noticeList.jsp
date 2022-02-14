@@ -7,6 +7,8 @@
 <meta charset="utf-8">
 <title>공지사항 목록</title>
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
+<c:url var="nc_css_url" value="/stc/css/notice.css" />
+<link href="${nc_css_url}" rel="stylesheet" type="text/css" />
 </head>
 <script type="text/javascript">
 	$(function() {
@@ -60,34 +62,38 @@
 				</select>
 				<br>
 			</div>	
-		<table class="table table-hover">
+		<table class="table table-hover" style="width:100%">
 			<thead>
 			<tr style="background-color:#C1F1FF;">
-			<th scope="col">No.</th>
-			<th scope="col">제목</th>
-			<th scope="col">작성자</th>
-			<th scope="col">등록일</th>
-			<th scope="col">조회수</th>
-			<th scope="col">파일</th>
+			<th style="width:10%;text-align:center;">No.</th>
+			<th style="text-align:center; width:50%">제목</th>
+			<th style="width:10%;">작성자</th>
+			<th style="width:10%;text-align:center;">등록일</th>
+			<th style="width:10%;text-align:center;">조회수</th>
+			<th style="width:10%;text-align:center;">첨부파일</th>
 			</tr>
 		</thead>	
 			<tbody>	
 				<c:forEach items="${list}" var = "list">	
 					<tr name="tableRow${list.not_permit }">
-					<th><c:out value="${list.not_id}" /></th>
-					<td>
+					<th style="width:10%; text-align:center;"><c:out value="${list.not_id}" /></th>
+					<td style="width:50%; text-align:center;" >
 						<a href="/notice/noticeView?not_id=${list.not_id}" style="text-decoration:none; color:black;">
 						<c:out value="${list.not_title}" />
 							<c:if test="${list.reply_count ne 0}">
 							<small><b>[<c:out value="${list.reply_count}"/>]</b></small>
 							</c:if>
 					</a></td>		
-						<td><c:out value="교사" /></td> 		
-					<td><fmt:formatDate value="${list.not_writedate}" pattern="yyyy-MM-dd"/></td>
-					<td><c:out value="${list.not_count }" /></td>
-					
-					
-					
+					<td style="width:10%"><c:out value="교사" /></td> 		
+					<td style="width:10%; text-align:center;"><fmt:formatDate value="${list.not_writedate}" pattern="yyyy-MM-dd"/></td>
+					<td style="width:10%; text-align:center;" ><c:out value="${list.not_count }" /></td>
+					<td style="width:10%; text-align:center;" > <c:if test="${list.not_file_name ne null}"> 
+						<a href="fileDownload.do?fileName=${list.not_file_name}" download>
+						<img src="/stc/img/clip.png" class="file-img" /> 	
+						
+						</a>			
+						</c:if> 
+					</td>				
 					</tr>	
 				</c:forEach>	
 			</tbody>				

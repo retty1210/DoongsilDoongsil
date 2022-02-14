@@ -42,7 +42,7 @@
 		</div>
 		<!-- 파일업로드 -->
 		<div class="mb-3">
-  			<input type="file" name="uploadFile" class="form-control" id="exampleFormControlInput1" multiple >
+  			<input type="file" name="uploadFile" class="form-control" id="exampleFormControlInput1" >
 		</div>
 		
 		<div class="mb-3">

@@ -16,6 +16,7 @@ public class NoticeVO {
 	private Date not_eventdate;
 	private int not_count;
 	private int reply_count;
+	private String not_file_name;
 	private MultipartFile uploadFile;
 	
 	public NoticeVO() {
@@ -114,7 +115,14 @@ public class NoticeVO {
 		this.reply_count = reply_count;
 	}
 	
-	
+	public String getNot_file_name() {
+		return not_file_name;
+	}
+
+	public void setNot_file_name(String not_file_name) {
+		this.not_file_name = not_file_name;
+	}
+
 	public MultipartFile getUploadFile() {
 		return uploadFile;
 	}
@@ -130,12 +138,5 @@ public class NoticeVO {
 				+ not_contents + ", not_writedate=" + not_writedate + ", not_eventdate=" + not_eventdate
 				+ ", not_count=" + not_count + ", reply_count=" + reply_count + "]";
 	}
-
-
-
-	
-	
-	
-	
 	
 }

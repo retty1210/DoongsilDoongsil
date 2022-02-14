@@ -58,13 +58,4 @@ public class NoticeService {
 		dao.updateReplyCount(not_id);
 	}
 
-	//파일첨부
-	public void insertBoardFileList(List<NotFileVO> fileList) {
-		dao.insertBoardFileList(fileList);
-	}
-	
-	public List<NotFileVO> getBoardFileList(int seq) {
-		return dao.getBoardFileList(seq);
-	}
-
 }

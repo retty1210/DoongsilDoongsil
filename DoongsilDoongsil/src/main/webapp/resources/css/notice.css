@@ -27,4 +27,45 @@ button:focus {
 	color: #59b1eb;
 }
 
+/* percent */
+.perc5 {
+	width: 5%;
+}
+
+.perc10 {
+	width: 10%;
+}
+
+.perc15 {
+	width: 15%;
+}
+
+.perc20 {
+	width: 20%;
+}
+
+.perc40 {
+	width: 40%;
+}
+
+.perc50 {
+	width: 50%;
+}
+
+.perc60 {
+	width: 60%;
+}
+
+.perc70 {
+	width: 70%;
+}
+
+.perc80 {
+	width: 80%;
+}
+
+.perc100 {
+	width: 100%;
+}
+
 

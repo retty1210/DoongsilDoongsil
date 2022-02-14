@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+body {
+	background-image: url('/stc/img/clouds.png');
+}
+
+.popup_header {
+	maring-left : 7px;
+}
+
+.popup_list_area {
+	border: 2px solid black;
+	border-bottom : none;
+}
+
+.popup_list_box {
+	display: flex;
+	height : 26px;
+	padding : 4px;
+	margin-bottom : 8px;
+	border-bottom : 2px solid black;
+}
+
+.ed-icons {
+	height : 16px;
+	border: 1px solid black;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-right: 5px;
+    margin-top : 2px;
+}
+
+.popup_list_box a {
+	text-decoration: none;
+	font-size : 14px;
+	color : black;
+}
+
+.ck_box {
+	display: flex;
+    justify-content: space-between;
+}
+
+.first-box input,
+.first-box label,
+.second-box button{
+	cursor: pointer;
+}
+.second-box {
+	margin-right: 4px;
+}

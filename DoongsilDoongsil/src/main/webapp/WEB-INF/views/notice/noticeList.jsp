@@ -89,10 +89,7 @@
 					<td style="width:10%; text-align:center;" ><c:out value="${list.not_count }" /></td>
 					<td style="width:10%; text-align:center;" > <c:if test="${list.not_file_name ne null}"> 
 						<a href="fileDownload.do?fileName=${list.not_file_name}" download>
-						<img src="/stc/img/clip.png" class="file-img" /> 	
-						
-						</a>			
-						</c:if> 
+						<img src="/stc/img/clip.png" class="file-img" /></a></c:if> 
 					</td>				
 					</tr>	
 				</c:forEach>	

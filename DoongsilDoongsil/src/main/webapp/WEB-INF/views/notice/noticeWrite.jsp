@@ -6,6 +6,8 @@
 <meta charset="utf-8">
 <title>공지사항 작성</title>
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
+<c:url var="notice_js_url" value="/stc/js/notice.js" />
+<script type="text/javascript" src="${notice_js_url}"></script>
 </head>
 <body>
 <div id="root">
@@ -18,8 +20,8 @@
 		<form role="writeForm" method="post" action="/notice/noticeWrite" enctype="multipart/form-data">
 		<div class="mb-3">
 		<label for="exampleFormControlInput1" class="form-label">열람 권한</label>
-			<select class="form-select form-select-sm" aria-label=".form-select-sm example" name="not_permit" >
-			<option selected>열람 대상을 선택해주세요</option>
+			<select class="form-select form-select-sm" aria-label=".form-select-sm example" name="not_permit" id="permit" >
+			<option value="0" selected>열람 대상을 선택해주세요</option>
 			<option value="S">학생</option>
 			<option value="P">학부모님</option>
 			<option value="A">학생과 학부모님</option>
@@ -27,12 +29,12 @@
 		</div>
 
 		<div class="mb-3">
- 			 <label for="exampleFormControlInput1" class="form-label">제목을 입력하세요</label>
-  			<input type="text" name="not_title" class="form-control" id="exampleFormControlInput1" >
+ 			<label for="exampleFormControlInput1" class="form-label">제목을 입력하세요</label>
+  			<input type="text" name="not_title" class="form-control" id="title" >
 		</div>
 			<div class="mb-3">
   			<label for="exampleFormControlTextarea1" class="form-label">내용을 작성하세요</label>
- 			 <textarea name="not_contents" class="form-control" id="exampleFormControlTextarea1" rows="3" style="height:350px;"></textarea>
+ 			 <textarea name="not_contents" class="form-control" id="contents" rows="3" style="height:350px;"></textarea>
 		</div>
 
 		<div class="mb-3">

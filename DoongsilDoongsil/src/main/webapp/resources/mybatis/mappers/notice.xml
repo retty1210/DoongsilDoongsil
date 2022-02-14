@@ -108,8 +108,6 @@
     	SET N.REPLY_COUNT = (SELECT COUNT(REPLY_ID) FROM NOT_REPLY WHERE N_ID = #{n_id})
     		WHERE N.NOT_ID = #{not_id}
     </update>
-    
-    <!-- 첨부파일 -->
-
+ 
  
 </mapper>

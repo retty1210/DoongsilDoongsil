@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <title>공지사항 작성</title>
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
-<c:url var="notice_js_url" value="/stc/js/noticefile.js" />
+<c:url var="notice_js_url" value="/stc/js/notice.js" />
 <script type="text/javascript" src="${notice_js_url}"></script>
 </head>
 <body>

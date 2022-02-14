@@ -260,40 +260,27 @@
 			</div>
 		</c:when>
 		<c:when test="${data.getTho_homeworktype()  == 3}">
-			<div>
-				<p>들어오는 데이터 값 테스트<br>
-				<c:forEach var="day" items="${type3DayArr }" varStatus="index">
-					type3DayArr[${index.index }]: <c:out value="${day }" /><br>
-				</c:forEach>
-				<c:forEach var="work" items="${type3sWorks }" varStatus="index">
-					type3sWorks[${index.index }]: <c:out value="${work }" /><br>
-				</c:forEach>
-				<c:forEach var="weather" items="${type3sWeather }" varStatus="index">
-					type3sWeather: <c:out value="${weather }" /><br>
-				</c:forEach>
-				<c:forEach var="content" items="${type3sContent }" varStatus="index">
-					type3sContent: <c:out value="${content }" /><br>
-				</c:forEach>
-				<c:forEach var="comment" items="${type3sComment }" varStatus="index">
-					type3sComment: <c:out value="${comment }" />
-				</c:forEach>
-				</p>
-			</div>
 			<c:forEach var="type3date" items="${type3DayArr }" varStatus="dateIndex">
 				<fmt:parseDate var="parsedDate" value="${type3date }" pattern="yyyy-MM-dd" />
 				<fmt:formatDate value="${parsedDate }" var="valueDate" pattern="yyyyMMdd" />
-				<div class="col-md-12 tmg10 bdr-r5 bdr-1 flex btn" data-bs-toggle="modal" data-bs-target="#type3ModalS${valueDate }">
-					<div class="col-md-10">
+				<div class="col-md-12 tmg10 bdr-r5 bdr-1 flex btn" name="type3DateList" id="type3DateList${valueDate }" data-bs-toggle="modal" data-bs-target="#type3ModalS${valueDate }">
+					<div class="col-md-6">
 						${type3date }
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-6">
 						<c:choose>
-							<c:when test="${type3sComment[dateIndex.index] != null}">
-								${type3comment[dateIndex.index] }
+							<c:when test="${type3sComment[dateIndex.index] != '' && type3sContent[dateIndex.index] != null}">
+								<!-- 선생님의 한마디 보기 -->
+								${type3sComment[dateIndex.index]}
+								<input type="hidden" id="type3DateList${valueDate }Label" name="type3DateListLabel" value="comment">
 							</c:when>
-							<c:when test="${type3sComment[dateIndex.index] == null && type3sContent[dateIndex.index] != null }"></c:when>
+							<c:when test="${type3sComment[dateIndex.index] eq '' && type3sContent[dateIndex.index] != null }">
+								아직 채점중이예요.
+								<input type="hidden" id="type3DateList${valueDate }Label" name="type3DateListLabel" value="content">
+							</c:when>
 							<c:otherwise>
 								아직 일기를 안 썼어요.
+								<input type="hidden" id="type3DateList${valueDate }Label" name="type3DateListLabel" value="notyet">
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -310,7 +297,6 @@
 				      <c:choose>
 				      	<c:when test="${type3sWorks != null && type3sWorks[dateIndex.index] != null}">
 				      		 <div class="modal-body">
-				      		 	<div>기존데이터 있음</div>
 						      	<jsp:include page="/WEB-INF/views/homework/detail/type3sNN.jsp" flush="false">
 						      		<jsp:param value="${type3date }" name="type3date"/>
 						      		<jsp:param value="${type3sWorks[dateIndex.index].getSho_fileurl() }" name="type3sWork"/>
@@ -328,12 +314,17 @@
 						      </div>
 				      	</c:otherwise>
 				      </c:choose>
-				     
+				      
 				      <div class="modal-footer">
-				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-				        
-				        <button type="button" class="btn btn-primary" onclick="submitType3Student(${valueDate })">Save changes</button>
-				        
+					      <c:choose>
+					      	<c:when test="${type3sWorks != null && type3sWorks[dateIndex.index] != null}">
+					      		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+					      	</c:when>
+					      	<c:otherwise>
+					      		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+				        		<button type="button" class="btn btn-primary" onclick="submitType3Student(${valueDate })">일기 내기</button>
+					      	</c:otherwise>
+					      </c:choose>
 				      </div>
 				    </div>
 				  </div>

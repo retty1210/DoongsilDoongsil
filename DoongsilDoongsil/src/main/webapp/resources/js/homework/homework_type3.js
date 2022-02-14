@@ -33,7 +33,7 @@ $(function() {
 		}
 	});
 	
-	$("input[name=sho_fileurl]").change(function() {
+	$("input[name=uploadFile]").change(function() {
 		console.log("file 변경: " + $(this).val());
 		var imgDay = $(this).attr('id').substring(13,21);
 		console.log("imgDay: " + imgDay);

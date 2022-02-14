@@ -35,7 +35,7 @@
 			<form id="type3diarySubmit${valueDate }" class="form-horizontal" method="post" action="/studentup3" enctype="multipart/form-data">
 				<div class="row vtc">
 					<div>
-						<input type="file" id="type3imgInput${valueDate }" name="sho_fileurl">
+						<input type="file" id="type3imgInput${valueDate }" name="uploadFile" style="display:none;">
 					</div>
 					<div id="type3imgArea${valueDate }" class="type3_imgArea flex" onclick="type3imgup(${valueDate })">
 						<div class="type3_img_inner">
@@ -50,13 +50,13 @@
 				</div>
 				<div>
 					<input type="hidden" id="type3weatherValue${valueDate }">
-					<input type="date" id="type3date${valueDate }" name="sho_date" value="${param.type3date }">
+					<input type="date" id="type3date${valueDate }" name="sho_date" value="${param.type3date }" style="display:none;">
 					<input type="number" name="sho_tid" id="sho_tid_type3${valueDate }" value="${data.getTho_id() }" style="display:none;">
 					<input type="number" name="sho_writer" id="sho_writer_type3${valueDate }" value="${sessionScope.accountNumber }" style="display:none;">
 					<input type="number" name="sho_homeworktype" id="sho_homeworktype_type3${valueDate }" value="3" style="display:none;"> 
 					<textarea id="type3FinalContent${valueDate }" name="sho_contents" style="display:none;"></textarea>
-					<input type="number" name="sho_grade" id="sho_grade_type3${valueDate }" value="${sessionScope.account.getSta_grade()}" > 
-					<input type="number" name="sho_class" id="sho_class_type3${valueDate }" value="${sessionScope.account.getSta_class() }" >
+					<input type="number" name="sho_grade" id="sho_grade_type3${valueDate }" value="${sessionScope.account.getSta_grade()}" style="display:none;"> 
+					<input type="number" name="sho_class" id="sho_class_type3${valueDate }" value="${sessionScope.account.getSta_class() }" style="display:none;">
 				</div>
 				<div>
 					<button type="submit" style="display:none;" id="type3diarySubmitButton${valueDate }"></button>

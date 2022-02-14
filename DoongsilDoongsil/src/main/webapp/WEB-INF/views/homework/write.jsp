@@ -20,6 +20,19 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 <body>
+	<script type="text/javascript">
+	window.onload = function() {
+		if(session.getAttribute("error") != null) {
+			var error = '<%=(Boolean)session.getAttribute("error") %>';
+			if(error) {
+				var error_msg = '<%=(String)session.getAttribute("error_msg") %>';
+				if(error_msg != null) {
+					alert(error_msg);
+				}
+			}
+		}
+	}
+	</script>
 	<header>
 		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false"/>
 	</header>

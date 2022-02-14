@@ -62,7 +62,18 @@ $(document).ready(function() {
 				$("#btn-submitSH2").show();
 			}
 		} else if(homeworktype == 3) {
-			
+			$("div[name=type3DateList]").each(function(index, item) {
+				var id = $(item).attr('id');
+				if($("#"+id+"Label").val() == 'comment') {
+					$(item).addClass('btn-success');
+				} else if($("#"+id+"Label").val() == 'content') {
+					$(item).addClass('btn-secondary');
+				} else if($("#"+id+"Label").val() == 'notyet') {
+					$(item).addClass('btn-danger');
+				} else {
+					$(item).addClass('btn-primary');
+				}
+			});
 		}
 });
 
@@ -179,8 +190,7 @@ function ajax_good(e) {
 				sho_goodbad: 'G',
 			},
 			success: function(data) {
-				alert(data.result);
-				alert(data.GoodBad);
+				alert("'잘했어요' 로 채점에 성공했습니다.");
 				$("#sho_good"+e).attr('disabled', true);
 				$("#sho_bad"+e).attr('disabled', true);
 				$("#btn_ajaxGood"+e).css({ background: "#87CEEB", color: "#FCFBF4"});
@@ -211,8 +221,7 @@ function ajax_bad(e) {
 				sho_goodbad: goodbad,
 			},
 			success: function(data) {
-				alert(data.result);
-				alert(data.GoodBad);
+				alert("'아쉬워요'로 채점에 성공하였습니다.");
 				$("#sho_bad"+e).attr('disabled', true);
 				$("#sho_good"+e).attr('disabled', true);
 				$("#btn_ajaxBad"+e).css({ background: "#87CEEB", color: "#FCFBF4"});
@@ -250,7 +259,13 @@ function submitAjaxComment(e) {
 				sho_comment: comment
 			},
 			success: function(data) {
-				alert(data.GoodBad + "으로 채점: " + data.GBresult + "<br>코멘트 업로드 결과: " + data.Comresult);
+				var resultText = "";
+				if(data.GoodBad == 'G') {
+					resultText = "잘했어요";
+				} else if(data.GoodBad == 'N') {
+					resultText = "아쉬워요";
+				}
+				alert(data.GoodBad + "으로 채점, " + resultText+ "으로 채점에 성공했습니다.");
 				$("#sho_bad"+e).attr('disabled', true);
 				$("#sho_good"+e).attr('disabled', true);
 				$("#btn_ajaxBad"+e).attr('disabled', true);

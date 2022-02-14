@@ -15,6 +15,19 @@
 <script type="text/javascript" src="${hwr_list_url}"></script>
 </head>
 <body>
+	<script type="text/javascript">
+	window.onload = function() {
+		if(session.getAttribute("error") != null) {
+			var error = '<%=(Boolean)session.getAttribute("error") %>';
+			if(error) {
+				var error_msg = '<%=(String)session.getAttribute("error_msg") %>';
+				if(error_msg != null) {
+					alert(error_msg);
+				}
+			}
+		}
+	}
+	</script>
 	<header>
 		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
 	</header>
@@ -66,7 +79,7 @@
 				<div class="row tmg20 flex">
 					<div style="display:contents;">
 						<input id="pageNoInput" type="number" value="${pages.getNowPage() }" style="display:none;">
-						<ul class="pagination btn absolute" >
+						<ul class="pagination btn" >
 							<li class="page-item">
 								<a class="page-link" href="/homework?pageNo=1" aria-label="FirstPage">
 									<span aria-hidden="true">«</span>

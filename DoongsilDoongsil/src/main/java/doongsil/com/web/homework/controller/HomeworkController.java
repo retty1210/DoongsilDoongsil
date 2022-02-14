@@ -50,7 +50,7 @@ public class HomeworkController {
 		//int totalcount = service.selectListCount();
 		//List<T_HomeworkVO> datas = service.selectHWList();
 		if(session.getAttribute("logined") == null) {
-			mod.setViewName("homework/empty");
+			mod.setViewName("redirect:/login");
 		} else {
 			STAccountVO loginUser = (STAccountVO) session.getAttribute("account");
 			System.out.println(loginUser);
@@ -103,8 +103,7 @@ public class HomeworkController {
 	}
 	
 	@RequestMapping(value="homework/write", method = RequestMethod.GET)
-	public ModelAndView homeworkwrite() {
-		ModelAndView mod = new ModelAndView();
+	public ModelAndView homeworkwrite(ModelAndView mod) {
 		List<THO_CategoryVO> datas = service.selectTHOCategory();
 		mod.addObject("datas", datas);
 		mod.setViewName("homework/write");
@@ -112,15 +111,18 @@ public class HomeworkController {
 	}
 	
 	@RequestMapping(value="/homework/write/up", method = RequestMethod.POST)
-	public String upHomework(T_HomeworkVO vo) {
+	public ModelAndView upHomework(T_HomeworkVO vo, ModelAndView mod) {
 		boolean res = service.insertHW(vo);
 		if(res) {
 			System.out.println("homework form 업로드 성공");
-			return "redirect:/homework";
+			
 		} else {
 			System.out.println("homework form 업로드 실패");
-			return "homework/error";
+			mod.addObject("error", true);
+			mod.addObject("error_msg", "숙제 업로드에 실패하였습니다.");
 		}
+		mod.setViewName("redirect:/homework");
+		return mod;
 	}
 	
 	@ResponseBody
@@ -159,20 +161,25 @@ public class HomeworkController {
 	}
 	
 	@RequestMapping(value="/homework/detail", method=RequestMethod.GET)
-	public ModelAndView homeworkDetail(T_HomeworkVO vo, HttpServletRequest request, HttpSession session) {
-		ModelAndView mod = new ModelAndView();
-		
+	public ModelAndView homeworkDetail(T_HomeworkVO vo, HttpServletRequest request, HttpSession session, ModelAndView mod) {
 		T_HomeworkVO data = service.selectOneHW(vo);
 		
 		//조회수
-		int count = data.getTho_count() + 1;
-		data.setTho_count(count);
-		boolean countres = service.updateTHCount(data);
-		if(!countres) {
-			mod.setViewName("homework/error");
-			return mod;
+		if(session.getAttribute("count"+data.getTho_id()) == null) {
+			int count = data.getTho_count() + 1;
+			data.setTho_count(count);
+			boolean countres = service.updateTHCount(data);
+			if(!countres) {
+				mod.addObject("error", true);
+				mod.addObject("error_msg", "조회수 처리 과정에서 에러가 발생했습니다.");
+				mod.setViewName("redirect:/homework");
+				return mod;
+			} else {
+				session.setAttribute("count"+data.getTho_id(), true);
+			}
+			System.out.println("count결과: " + data.getTho_count());
 		}
-		System.out.println("count결과: " + data.getTho_count());
+		
 		
 		//글쓴이 이름
 		STAccountVO writerData = staService.studentUpdate(data.getTho_writer());
@@ -211,12 +218,21 @@ public class HomeworkController {
 			if(sdatas != null) {
 				mod.addObject("sdatas", sdatas);
 				HashMap<Integer, String[]> studentImages = new HashMap<Integer, String[]>();
+				List<Integer> idForNameArr = new ArrayList<Integer>();
 				for(S_HomeworkVO simg: sdatas) {
+					idForNameArr.add(simg.getSho_writer());
+					
 					String[] simgarrs = new String[1];
 					if(simg.getSho_fileurl() != null) {
+						System.out.println("simg input: " + simg.getSho_id());
 						simgarrs = service.getImgList(simg.getSho_fileurl());
 						studentImages.put(simg.getSho_id(), simgarrs);
 					}
+				}
+				if(data.getTho_homeworktype() != 3) {
+					List<STAccountVO> studentNameArr = service.selectNameWithID(idForNameArr);
+					mod.addObject("studentNameArr", studentNameArr);
+					mod.addObject("studentImages", studentImages);
 				}
 				if(data.getTho_homeworktype() == 2) {
 					HashMap<Integer, String[]> type2answers = new HashMap<Integer, String[]>();
@@ -229,7 +245,7 @@ public class HomeworkController {
 							type2teacGBs.put(s.getSho_id(), teacGBarr);
 						}
 					}
-					mod.addObject("studentImages", studentImages);
+					
 					mod.addObject("type2answers", type2answers);
 					mod.addObject("type2GBforTeacher", type2teacGBs);
 				} else if(data.getTho_homeworktype() == 3) {
@@ -340,7 +356,7 @@ public class HomeworkController {
 								type3sWorks[i] = stype3;
 								type3sWeather[i] = temps3arr[0];
 								type3sContent[i] = temps3arr[1];
-								type3sComment[i] = stype3.getSho_comment() != null ? "true" : "false";
+								type3sComment[i] = stype3.getSho_comment() != null ? stype3.getSho_comment() : "";
 								System.out.println("i: " + i + ", works: " + type3sWorks[i] + ", weather: " + type3sWeather[i] +",content: " + type3sContent[i] + ", comment: " + type3sComment[i] );
 							}
 						}
@@ -362,56 +378,65 @@ public class HomeworkController {
 	}
 	
 	@RequestMapping(value="/studentup", method=RequestMethod.POST)
-	public String studentHomeworkUp(S_HomeworkVO vo) {
+	public ModelAndView studentHomeworkUp(S_HomeworkVO vo, ModelAndView mod) {
 		boolean res = service.insertSH(vo);
 		if(res) {
 			System.out.println("homework form 업로드 성공");
-			return "redirect:/homework/detail?tho_id=" + vo.getSho_tid();
 		} else {
 			System.out.println("homework form 업로드 실패");
-			return "homework/error";
+			mod.addObject("error", true);
+			mod.addObject("error_msg", "숙제 업로드에 실패하였습니다.");
 		}
+		mod.setViewName("redirect:/homework/detail?tho_id=" + vo.getSho_tid());
+		return mod;
 	}
 	
 	@RequestMapping(value="/studentupdate1", method=RequestMethod.POST)
-	public String studentHomeworkUpdate1(S_HomeworkVO vo) {
+	public ModelAndView studentHomeworkUpdate1(S_HomeworkVO vo, ModelAndView mod) {
 		System.out.println(vo);
 		boolean res = service.updateSHContents(vo);
 		if(res) {
-			System.out.println("homework form 수정 성공");
-			return "redirect:/homework/detail?tho_id=" + vo.getSho_tid();
+			System.out.println("homework form 업로드 성공");
 		} else {
-			System.out.println("homework form 수정 실패");
-			return "homework/error";
+			System.out.println("homework form 업로드 실패");
+			mod.addObject("error", true);
+			mod.addObject("error_msg", "숙제 업로드에 실패하였습니다.");
 		}
+		mod.setViewName("redirect:/homework/detail?tho_id=" + vo.getSho_tid());
+		return mod;
 	}
 	
 	@RequestMapping(value="/studentup2", method=RequestMethod.POST)
-	public String studentHomeworkUp2(S_HomeworkVO vo) {
+	public ModelAndView studentHomeworkUp2(S_HomeworkVO vo, ModelAndView mod) {
 		boolean res = service.insertSH(vo);
 		if(res) {
 			System.out.println("homework form 업로드 성공");
-			return "redirect:/homework/detail?tho_id=" + vo.getSho_tid();
 		} else {
 			System.out.println("homework form 업로드 실패");
-			return "homework/error";
+			mod.addObject("error", true);
+			mod.addObject("error_msg", "숙제 업로드에 실패하였습니다.");
 		}
+		mod.setViewName("redirect:/homework/detail?tho_id=" + vo.getSho_tid());
+		return mod;
 	}
 	
 	@RequestMapping(value="/studentupdate2", method=RequestMethod.POST)
-	public String studentHomeworkUpdate2(S_HomeworkVO vo) {
+	public ModelAndView studentHomeworkUpdate2(S_HomeworkVO vo, ModelAndView mod) {
 		boolean res = service.updateSHContents(vo);
 		if(res) {
-			System.out.println("homework form 수정 성공");
-			return "redirect:/homework/detail?tho_id=" + vo.getSho_tid();
+			System.out.println("homework form 업로드 성공");
 		} else {
-			System.out.println("homework form 수정 실패");
-			return "homework/error";
+			System.out.println("homework form 업로드 실패");
+			mod.addObject("error", true);
+			mod.addObject("error_msg", "숙제 업로드에 실패하였습니다.");
 		}
+		mod.setViewName("redirect:/homework/detail?tho_id=" + vo.getSho_tid());
+		return mod;
 	}
 	
 	@RequestMapping(value="/studentup3", method=RequestMethod.POST)
-	public String studentHomeworkUp3(S_HomeworkVO vo, MultipartFile uploadFile, HttpServletRequest request) {
+	public ModelAndView studentHomeworkUp3(S_HomeworkVO vo, MultipartFile uploadFile, HttpServletRequest request, ModelAndView mod) {
+		System.out.println("studentup3" + vo);
 		String r = request.getServletContext().getRealPath("/resources/upload/");
 		
 		//파일명 정하기
@@ -427,23 +452,26 @@ public class HomeworkController {
 		
 		String savedFileName = datetostr + randomstr + extension;	//저장될 파일명
 		System.out.println("HomeworkController, filename: " + savedFileName);
-		vo.setSho_fileurl(savedFileName);
 		
 		File saveFile = new File(r, savedFileName); //uploadFolder
+		
 		try {
 			uploadFile.transferTo(saveFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		vo.setSho_fileurl(savedFileName);
 		boolean res = service.insertSH(vo);
 		if(res) {
 			System.out.println("homework form 업로드 성공");
-			return "redirect:/homework/detail?tho_id=" + vo.getSho_tid();
 		} else {
 			System.out.println("homework form 업로드 실패");
-			return "homework/error";
+			mod.addObject("error", true);
+			mod.addObject("error_msg", "숙제 업로드에 실패하였습니다.");
 		}
+		mod.setViewName("redirect:/homework/detail?tho_id=" + vo.getSho_tid());
+		return mod;
 	}
 	
 	@ResponseBody
@@ -496,14 +524,15 @@ public class HomeworkController {
 				res = service.deleteSH(vo);
 			}
 			
-			if(res) {
-				mod.setViewName("redirect:/homework");
-			} else {
-				mod.setViewName("homework/error");
+			if(!res) {
+				mod.addObject("error", true);
+				mod.addObject("error_msg", "삭제 과정에서 오류가 발생했습니다.");
 			}
 		} else {
-			mod.setViewName("homework/error");
+			mod.addObject("error", true);
+			mod.addObject("error_msg", "이미 채점이 되어있어 삭제를 할 수 없습니다.");
 		}
+		mod.setViewName("redirect:/homework");
 		return mod;
 	}
 	
@@ -519,11 +548,11 @@ public class HomeworkController {
 			res = service.deleteHW(vo);
 		}
 		
-		if(res) {
-			mod.setViewName("redirect:/homework");
-		} else {
-			mod.setViewName("homework/error");
-		}
+		if(!res) {
+			mod.addObject("error", true);
+			mod.addObject("error_msg", "삭제 과정에서 오류가 발생했습니다.");
+		} 
+		mod.setViewName("redirect:/homework");
 		return mod;
 	}
 }

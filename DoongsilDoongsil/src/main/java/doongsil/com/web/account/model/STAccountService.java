@@ -56,6 +56,9 @@ public class STAccountService {
 	public boolean infoUpdate(STAccountVO vo) {
 		return this.stDao.infoUpdate(vo);
 	}
+	public boolean studentInfoUpdate(STAccountVO vo) {
+		return this.stDao.studentInfoUpdate(vo);
+	}
 	
 	public boolean allDelete(int id) {
 		return this.stDao.allDelete(id);

@@ -59,6 +59,14 @@ public class STAccountDAO {
 			return false;
 		}
 	}
+	public boolean studentInfoUpdate(STAccountVO vo) {
+		int res = this.sess.update("AccountMapper.studentInfoUpdate", vo);
+		if(res == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	public boolean allDelete(int id) {
 		int res = this.sess.delete("AccountMapper.allDelete", id);

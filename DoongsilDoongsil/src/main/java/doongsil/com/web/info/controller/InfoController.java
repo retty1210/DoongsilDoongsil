@@ -105,6 +105,7 @@ public class InfoController {
 	}
 	@RequestMapping(value="/studentDel",method=RequestMethod.POST)
 	public String studentDel(HttpServletResponse response,HttpServletRequest request, HttpSession session) throws Exception {
+		response.setContentType("text/html; charset=UTF-8;");
 		boolean all = Boolean.valueOf(request.getParameter("selectAll"));
 		String[] student = request.getParameterValues("selectStudent");
 		PrintWriter out = response.getWriter();
@@ -165,12 +166,13 @@ public class InfoController {
 	
 	@RequestMapping(value="/admin/infoUpdate",method=RequestMethod.POST)
 	public String infoUpdate(@RequestParam("userPhoto")MultipartFile multi,HttpServletRequest request,HttpServletResponse response, STAccountVO staVo,HttpSession session,Model model) throws Exception {
-		
+		response.setContentType("text/html; charset=UTF-8;");
 		String save = request.getServletContext().getRealPath("/resources/upload/");
 		int id = Integer.parseInt(request.getParameter("userId"));
 		String name = request.getParameter("userName");
 		int grade = Integer.parseInt(request.getParameter("userGrade"));
 		int Gclass = Integer.parseInt(request.getParameter("userClass"));
+		String newPassword = null;
 		String adress = request.getParameter("userAdress");
 		String phone = request.getParameter("userPhone");
 		String email = request.getParameter("userEmail");
@@ -184,22 +186,62 @@ public class InfoController {
 			File file = new File(save + multi.getOriginalFilename());
 			multi.transferTo(file);
 		}
+		if(!request.getParameter("newPassword").isEmpty()) {
+			newPassword = request.getParameter("newPassword");
+		}
 		
-		update = new STAccountVO(id,name,email,adress,phone,grade,Gclass,bd,path,type);
-		
+		update = new STAccountVO(id,name,email,adress,phone,grade,Gclass,bd,path,type,newPassword);
 		PrintWriter out = response.getWriter();
 		if(staSer.infoUpdate(update)) {
 			update = staSer.studentUpdate(id);
 			model.addAttribute("studentUpdate", update);
-			out.println("<script>opener.location.reload(); window.close();</script>");
+			session.setAttribute("account",update);
+			out.println("<script>window.close(); opener.location.reload();</script>");
 		}else {
 			out.println("<script>alert('정보 수정에 실패 하였습니다.');");
 		}
 		out.flush();
-		return "admin/popup/infoUpdate";
+		return "popup/infoUpdate";
+	}
+	@RequestMapping(value="/student/infoUpdate",method=RequestMethod.POST)
+	public String studentInfoUpdate(@RequestParam("userPhoto")MultipartFile multi,HttpServletRequest request,HttpServletResponse response, STAccountVO staVo,HttpSession session,Model model) throws Exception {
+		response.setContentType("text/html; charset=UTF-8;");
+		String save = request.getServletContext().getRealPath("/resources/upload/");
+		int id = Integer.parseInt(request.getParameter("userId"));
+		String name = request.getParameter("userName");
+		String newPassword = null;
+		String adress = request.getParameter("userAdress");
+		String phone = request.getParameter("userPhone");
+		String email = request.getParameter("userEmail");
+		Date bd =Date.valueOf(request.getParameter("userBirthday"));
+		String path = null;
+		
+		STAccountVO update;
+		if(!multi.getOriginalFilename().isEmpty()) {
+			path = "/stc/up/" + multi.getOriginalFilename();
+			File file = new File(save + multi.getOriginalFilename());
+			multi.transferTo(file);
+		}
+		if(!request.getParameter("newPassword").isEmpty()) {
+			newPassword = request.getParameter("newPassword");
+		}
+		
+		update = new STAccountVO(id,name,email,adress,phone,bd,path,newPassword);
+		PrintWriter out = response.getWriter();
+		if(staSer.studentInfoUpdate(update)) {
+			update = staSer.studentUpdate(id);
+			model.addAttribute("studentUpdate", update);
+			session.setAttribute("account",update);
+			out.println("<script>window.close(); opener.location.reload();</script>");
+		}else {
+			out.println("<script>alert('정보 수정에 실패 하였습니다.');");
+		}
+		out.flush();
+		return "popup/infoUpdate";
 	}
 	@RequestMapping(value="/parent/infoUpdate",method=RequestMethod.POST)
-	public String infoUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String infoUpdate(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws Exception {
+		response.setContentType("text/html; charset=UTF-8;");
 		int id = Integer.parseInt(request.getParameter("userId"));
 		String phone = (String) request.getParameter("userPhone");
 		String password = null;
@@ -212,12 +254,14 @@ public class InfoController {
 		
 		PrintWriter out = response.getWriter();
 		if(paaSer.parentInfoUpdate(vo)) {
-			out.println("<script>opener.location.reload(); window.close();</script>");
+			vo = paaSer.parentUpdate(vo.getPaa_id());
+			session.setAttribute("account",vo);
+			out.println("<script>window.close(); opener.location.reload();</script>");
 		}else {
 			out.println("<script>alert('정보 수정에 실패 하였습니다.');");
 		}
 		out.flush();
-		return "parent/popup/infoUpdate";
+		return "popup/infoUpdate";
 	}
 	@RequestMapping(value = "/popuppassword", method=RequestMethod.GET)
 	public String popupPassword() {

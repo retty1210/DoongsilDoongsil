@@ -105,6 +105,10 @@
 	 		<mapping path="/paboardList"/>
 	 		<beans:bean class="doongsil.com.web.paboard.interceptor.PaBoardInterceptor"></beans:bean>
 	 	</interceptor>
+	 	<interceptor>
+	 		<mapping path="/popuppassword"/>
+	 		<beans:bean class="doongsil.com.web.info.interceptor.PasswordCheckInterceptor"></beans:bean>
+	 	</interceptor>
 	 </interceptors>
 	
 	<!-- 소셜 로그인 Oauth 관련 - 1. 네이버 -->

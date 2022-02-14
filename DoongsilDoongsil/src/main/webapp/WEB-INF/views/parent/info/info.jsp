@@ -10,7 +10,7 @@
 <link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
 	function MyInfoUpdate(href){
-		window.open('/popuppassword','','width=400,height=150');
+		window.open('/popuppassword?type="P"','','width=400,height=150');
 	}
 </script>
 </head>

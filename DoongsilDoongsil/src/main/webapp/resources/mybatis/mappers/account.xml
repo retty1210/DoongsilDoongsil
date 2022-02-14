@@ -35,7 +35,7 @@
 		 WHERE STA_ID = #{id}
 	</select>
 	<select id="parentUpdate" parameterType="int" resultType="paaccount">
-		SELECT PAA_ID, PAA_PHONENUMBER
+		SELECT PAA_ID, PAA_PHONENUMBER,PAA_PASSWORD
 		  FROM PARENTS_ACCOUNT
 		 WHERE PAA_ID = #{id}
 	</select>
@@ -51,7 +51,25 @@
 		   	   <if test="sta_profile != null">
 		   	   	STA_PROFILE = #{sta_profile},
 		   	   </if>
-		   	   STA_USERTYPE = #{sta_usertype}
+		   	   STA_USERTYPE = #{sta_usertype},
+		   	   <if test="sta_password != null">
+		   	   	STA_PASSWORD = #{sta_password}
+		   	   </if>
+		 WHERE STA_ID = #{sta_id}
+	</update>
+	<update id="studentInfoUpdate" parameterType="staccount">
+		UPDATE ST_ACCOUNT
+		   SET STA_NAME = #{sta_name},
+		   	   STA_EMAIL = #{sta_email},
+		   	   STA_ADDRESS = #{sta_address},
+		   	   STA_PHONENUMBER = #{sta_phonenumber},
+		   	   STA_BIRTHDAY = #{sta_birthday},
+		   	   <if test="sta_profile != null">
+		   	   	STA_PROFILE = #{sta_profile},
+		   	   </if>
+		   	   <if test="sta_password != null">
+		   	   	STA_PASSWORD = #{sta_password}
+		   	   </if>
 		 WHERE STA_ID = #{sta_id}
 	</update>
 	<update id="parentInfoUpdate" parameterType="paaccount">

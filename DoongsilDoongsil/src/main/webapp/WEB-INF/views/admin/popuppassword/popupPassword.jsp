@@ -8,12 +8,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 	<script type="text/javascript">
-		
 		function gotoinfo(){
 			let password = $(".passwordInfo")[0].value;
-			if(password == '${sessionScope.account.paa_password}'){
+			if(password == '${sessionScope.account.sta_password}'){
 					window.close();
-					window.open('/infoUpdate?id=${sessionScope.account.paa_id}','','width=500,height=700');
+					window.open('/infoUpdate?id=${sessionScope.account.sta_id}','','width=500,height=700');
 			}else{
 					alert('패스워드가 일치하지 않습니다.');
 			}

@@ -15,7 +15,7 @@
 	<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false"/>
 	</header>
 <div class="container">
-	<h2> 공지사항 수정</h2><hr/>
+	<h2><a href="/notice/noticeList?page=1" style="text-decoration : none; color:black;"> 공지사항 수정</a></h2><hr/>
 	<section id="container">
 	<form name="updateForm" role="form" method="post" action="/notice/update" enctype="multipart/form-data">
 		<div class="mb-3">

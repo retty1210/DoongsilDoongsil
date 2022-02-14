@@ -16,6 +16,7 @@
 	.mainbodybox {
 		display : inline-block;
 	}
+
 </style>
 <script type="text/javascript">
 	function MyInfoUpdate(href){

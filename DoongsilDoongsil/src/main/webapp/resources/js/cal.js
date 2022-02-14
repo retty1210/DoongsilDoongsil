@@ -16,7 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
       select: function(arg) {
 		if(teacher.trim() == "교사"){
 	        var title = prompt('일정 추가:');
+			console.log("title1: " + title); // 일정 제목이 담김
 		        if (title) {
+				console.log("title2: " + title);
 		          calendar.addEvent({
 		            title: title,
 		            start: arg.start,
@@ -98,10 +100,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     calendar.render();
   });
+
+
 var res;
+var aTag = document.getElementsByTagName('a');
 window.onload = function() {
-	//let href="/mainPop";
-	//window.open(href, 'Pop', 'width=500', 'height=700', 'scrollbars=yes', 'resizeable=no');
+	let href="/mainPop";
+	var cookiedata = document.cookie;
+    if(cookiedata.indexOf("close=Y")<0){
+		window.open(href, 'pop', 'width=300, height=350');
+    }
+	
+	
 	
 	var mon = $('h2').text().replace("년", "-").replace("월", "").replace(" ", "");
 	$.ajax({
@@ -159,3 +169,4 @@ window.onload = function() {
 		})
 	})
 }
+

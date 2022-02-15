@@ -13,23 +13,55 @@ public class SnsValue implements SnsUrls {
 	private DefaultApi20 api20Instance;
 	private String profileUrl;
 	
+	// boolean 설정
+	private boolean isNaver;
+	private boolean isGoogle;
+	private boolean isKakao;
+	
+	public boolean isNaver() {
+		return isNaver;
+	}
+	
+	public void setNaver(boolean isNaver) {
+		this.isNaver = isNaver;
+	}
+	
+	public boolean isGoogle() {
+		return isGoogle;
+	}
+	
+	public void setGoogle(boolean isGoogle) {
+		this.isGoogle = isGoogle;
+	}
+	
+	public boolean isKakao() {
+		return isKakao;
+	}
+	
+	public void setKakao(boolean isKakao) {
+		this.isKakao = isKakao;
+	}
+	
 	public SnsValue(String service, String cid, String cs, String rurl) {
 		this.service = service;
 		this.clientId = cid;
 		this.clientSecret = cs;
 		this.redirectUrl = rurl;
 		
-		if(StringUtils.equalsIgnoreCase(service, "naver")) {
+		this.isNaver = StringUtils.equalsIgnoreCase("naver", this.service);
+		this.isGoogle = StringUtils.equalsIgnoreCase("google", this.service);
+		this.isKakao = StringUtils.equalsIgnoreCase("kakao", this.service);
+		
+		if(isNaver) {
 			this.api20Instance = NaverAPI20.instance();
 			this.profileUrl = NAVER_PROFILE_URL;
-		} else if (StringUtils.equalsIgnoreCase(service, "google")) {
+		} else if (isGoogle) {
 			this.api20Instance = GoogleApi20.instance();
 			this.profileUrl = GOOGLE_PROFILE_URL;
-		} else if(StringUtils.equalsIgnoreCase(service, "kakao")) {
+		} else if(isKakao) {
 			this.api20Instance = KakaoAPI20.instance();
 			this.profileUrl = KAKAO_PROFILE_URL;
 		}
-	
 	}
 
 	public String getService() {

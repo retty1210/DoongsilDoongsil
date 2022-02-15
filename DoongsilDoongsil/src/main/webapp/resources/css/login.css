@@ -51,12 +51,7 @@ select {
 	font-size: 14px;
 	color: #999;
 	border: 1px solid rgba(0,0,0,0.2);
-	background: url('./staticimg/bg-select.png') no-repeat right 13px center;
-	appearance: none; 
-	-webkit-appearance: none;
 }
-
-select ::-ms-expand {display: none;}
 
 .form-box input {
 	font-size: 18px;

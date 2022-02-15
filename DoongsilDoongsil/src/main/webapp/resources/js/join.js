@@ -1,6 +1,6 @@
    // 아이디 유효성 검사
-   $('input[name=id]').focusout(function() {
-      var userId = $('input[name=id]').val();
+   $('input[name=sta_username]').focusout(function() {
+      var userId = $('input[name=sta_username]').val();
       var ckid = /^[a-z0-9_-]{4,20}$/;
       if(!ckid.test(userId)) {
             $('#must-id').text("필수 입력 항목 입니다.");
@@ -10,19 +10,22 @@
    });
 
    // 비밀번호 유효성 검사
-   $('input[name=password]').focusout(function() {
-      var userPw = $('input[name=password]').val();
+   $('input[name=sta_password]').focusout(function() {
+      var userPw = $('input[name=sta_password]').val();
       var ckpw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
       if(!ckpw.test(userPw)) {
             $('#must-pw').text("필수 입력 항목 입니다.");
         } else if(ckpw.test(userPw)){
             $('#must-pw').text("");
         }
+        if(!ckpw.test(userPw)){
+            $('#must-pw').text("숫자와 영문자, 특수문자 조합으로 8~16 자리를 사용해야 합니다.");
+        }
    });
 
    // 비밀번호 일치 확인
    $('input[name=password_chk]').focusout(function(){
-      var userPw = $('input[name=password]').val();
+      var userPw = $('input[name=sta_password]').val();
       var userPwCk = $('input[name=password_chk]').val();
       var ckpw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,32}$/;
 
@@ -34,8 +37,8 @@
    });
 
    // 이름 유효성 검사
-   $('input[name=username]').focusout(function() {
-      var userName = $('input[name=username]').val();
+   $('input[name=sta_name]').focusout(function() {
+      var userName = $('input[name=sta_name]').val();
       var ckName = /^[가-힣a-zA-Z]{2,4}$/;
 
       if(!ckName.test(userName)) {
@@ -46,8 +49,8 @@
    });
 
    // 이메일 유효성 검사 
-   $('input[name=email]').focusout(function() {
-      var userEmail = $('input[name=email]').val();
+   $('input[name=sta_email]').focusout(function() {
+      var userEmail = $('input[name=sta_email]').val();
       var ckEmail = /^[a-z0-9_+.-]+@([a-z0-9]+\.)+[a-z0-9]{2,4}$/;
 
       if(!ckEmail.test(userEmail)) {
@@ -56,12 +59,24 @@
          $('#must-email').text("");
       }
    });
+   
+   // 전화번호 유효성 검사
+    $('input[name=sta_phonenumber]').focusout(function(){
+      var userPh = $('input[name=sta_phonenumber]').val();
+      var ckph = /(\d{3}).*(\d{3}).*(\d{4})/;
+
+      if(!ckph.test(userPh)) {
+         $('#must-ph-ck').text("필수 입력 항목입니다.");
+         } else if(ckph.test(userPh)){
+            $('#must-ph-ck').text("");
+         }
+   });
 
 // input 비어있으면 가입하기 버튼을 누를 수 없음
 $('#sign-btn').hover(function() {
    var a = document.getElementsByTagName("input");
 
-   for(var i=0; i < 6; i++){
+   for(var i = 0; i < 6; i++){
        if(a[i].value != ""){
          $('#sign-btn').css({"background-color": "gray", "color": "white"});
        } else if(a[i].value == "") {

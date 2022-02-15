@@ -25,11 +25,13 @@
 		
 		<div class="form-box">
 		<form action="./login" method="post">
-			<select name="userType">
+			<select name="userType" aria-invalid="false">
+				<option selected>가입한 유형을 선택해주세요.</option>
 				<option value="S">학생</option>
 				<option value="T">교사</option>
 				<option value="P">학부모</option>
 			</select>
+			
 			<div class="username">
 				<!-- <label>아이디</label> -->
 				<svg class="svg-icon" viewBox="0 0 20 20">

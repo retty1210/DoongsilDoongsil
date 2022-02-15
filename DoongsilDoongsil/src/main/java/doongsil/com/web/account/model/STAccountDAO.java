@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.stereotype.Repository;
 
+import doongsil.com.web.account.AccountController;
+
 @Repository
 public class STAccountDAO {
 	
@@ -27,9 +29,9 @@ public class STAccountDAO {
 		return this.sess.selectOne("AccountMapper.updatePassword", stVo);
 	}
 
-//	public int idCheck(String sta_username) {
-//		return this.sess.selectOne("AccountMapper.idCheck", sta_username);
-//	}
+	public STAccountVO idCheck(STAccountVO stVo) {
+		return this.sess.selectOne("AccountMapper.idCheck", stVo);
+	}
 	
 	public STAccountVO selectAccount(STAccountVO vo) {
 		return this.sess.selectOne("AccountMapper.selectAccount", vo);
@@ -42,6 +44,18 @@ public class STAccountDAO {
 	public STAccountVO login(LoginVO vo) {
 		return this.sess.selectOne("AccountMapper.stLoginSelect", vo);
 	}
+	
+	public List<STAccountVO> findChild(STAccountVO stVo){
+		return this.sess.selectList("AccountMapper.findChild", stVo);
+	}
+	
+	public STAccountVO snsLoginCheck(STAccountVO stVo) {
+		return this.sess.selectOne("AccountMapper.snsLoginCheck", stVo);
+	}
+	
+//	public int insertSns(STJoinVO stVo) {
+//		return this.sess.insert("AccountMapper.insertSns", stVo);
+//	}
 	
 	public List<STAccountVO> infoStudentList(STAccountVO staVo){
 		return this.sess.selectList("AccountMapper.infoStudentList", staVo);

@@ -108,18 +108,24 @@
 	
 	<insert id="insertAccount2" parameterType="pajoin">
 		INSERT INTO PARENTS_ACCOUNT VALUES(PARENTS_ACCOUNT_SEQ.NEXTVAL 
-									  , #{paa_username}
-									  , #{paa_password}
-									  , #{paa_phonenumber}
-									  , #{paa_child_id}
-									  )
+        							 , #{paa_username}
+        							 , #{paa_password}
+        							 , #{paa_phonenumber}
+        							 , #{paa_child_id}
+        							 )
 	</insert>
 	
-	<!-- id 중복체크 
-	<select id="idCheck" parameterType="staccount" resultType="int">
-		SELECT COUNT(*) FROM ST_ACCOUNT
+	<!-- 학생과 교사 id 중복체크 -->
+	<select id="idCheck" parameterType="staccount" resultType="staccount">
+		SELECT * FROM ST_ACCOUNT
 		 WHERE STA_USERNAME = #{sta_username} 
-	</select> -->
+	</select> 
+	
+	<!-- 학부모 id 중복체크 -->
+	<select id="idCheck2" parameterType="paaccount" resultType="paaccount">
+		SELECT * FROM PARENTS_ACCOUNT
+		 WHERE PAA_USERNAME = #{paa_username} 
+	</select> 
 	
 	<select id="selectAccount" parameterType="staccount" resultType="staccount">
 		SELECT * FROM ST_ACCOUNT 
@@ -128,8 +134,8 @@
 	</select>
 	
 	<!-- 학생과 교사 중 아이디 찾기 -->
-	<select id="findId" resultType="staccount">
-		SELECT * FROM ST_ACCOUNT
+	<select id="findId" parameterType="staccount" resultType="staccount">
+		SELECT STA_USERNAME FROM ST_ACCOUNT
 		 WHERE STA_NAME = #{sta_name} 
 		   AND STA_PHONENUMBER = #{sta_phonenumber}
 	</select> 
@@ -141,10 +147,9 @@
 		   AND PAA_PHONENUMBER = #{paa_phonenumber}
 	</select>
 	
-	<select id="findPassword" resultType="staccount">
+	<select id="findPassword" parameterType="staccount" resultType="staccount">
 		SELECT * FROM ST_ACCOUNT
 		 WHERE STA_USERNAME = #{sta_username}
-		   AND STA_NAME = #{sta_name} 
 		   AND STA_PHONENUMBER = #{sta_phonenumber}
 	</select>
 	
@@ -155,7 +160,7 @@
 		   AND PAA_PHONENUMBER = #{paa_phonenumber}
 	</select>
 	
-	<update id="updatePassword">
+	<update id="updatePassword" parameterType="staccount">
 		UPDATE ST_ACCOUNT 
 		   SET STA_PASSWORD = #{sta_password} 
 		 WHERE STA_USERNAME = #{sta_username}
@@ -176,5 +181,38 @@
 				#{i}
 			</foreach>
 	</select>
+	
+	<select id="findChild" parameterType="staccount" resultType="staccount">
+		SELECT * FROM ST_ACCOUNT
+		 WHERE STA_NAME = #{sta_name}
+	</select>
+	
+	<!-- 
+	<select id="snsLoginCheck" parameterType="doongsil.com.web.account.oauth2.SnsVO" resultType="staccount">
+		SELECT * FROM ST_ACCOUNT
+		 WHERE STA_EAMIL = #{social_email}
+	</select>
+	
+	<insert id="insertSns" parameterType="doongsil.com.web.account.oauth2.SnsVO">
+		INSERT INTO ST_ACCOUNT VALUES(ST_ACCOUNT_SEQ.NEXTVAL 
+									  , #{sta_username}
+									  , #{sta_password}
+									  , #{sta_name}
+									  , #{sta_email}
+									  , #{sta_address}
+									  , #{sta_postcode}
+									  , #{sta_phonenumber}
+									  , #{sta_grade}
+									  , #{sta_class}
+									  , #{sta_birthday}
+									  , '/stc/up/default.png'
+									  , 'S'
+									  )
+						 SELECT * FROM ST_ACCOUNT A
+				       LEFT OUTER JOIN SOCIAL_LOGIN B
+						            ON (A.STA_EMAIL = B.SOCIAL_EMAIL)
+						         WHERE STA_EMAIL = #{socail_email}
+	</insert>
+	-->
 	
 </mapper>

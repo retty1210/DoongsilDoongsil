@@ -34,16 +34,21 @@ section {
 	margin-top: 30px;
 }
 
-.find-name, .find-phone {
+.find-id, .find-phone {
 	display: block;
 	margin: 0 0 5px 0;
 }
 
-.form-search label {
+.find-id label, .find-phone label {
 	margin: 0 0 0 4px;
 }
 
-.find-name input, .find-phone input {
+.check-ps label, .check-psck label {
+	display: block;
+	margin: 0 0 0 4px;
+}
+
+.find-id input, .find-phone input {
 	display: inline-block;
 	width: 90%;
 	border-radius: 10px;
@@ -84,26 +89,64 @@ section {
 	color: white;
 }
 
-.class div {
+.check {
+	padding: 20px 0 0 0;
+}
+
+.dis {
 	display: block;
 	width: 100%;
-	padding: 10px;
-	margin: auto;
+	height: 25px;
+	margin: 20px;
+	float: center;
 }
 
-.check {
-	display: block;
-	margin: 10px;
+.dislike label {
+	display: inline-block;
+	height: 30px;
+	margin: 25px;
+	text-align: center;
 }
 
-.check label {
+.hidden-ps label {
 	display: inline-block;
 	width: 100%;
 	margin-right: auto;
 	margin-left: auto;
-	margin-top: 28px;
+	margin-top: 20px;
 	margin-bottom: 10px;
 	text-align: center;
+}
+
+.password-ch, .password-chk div {
+	display: block;
+	margin: 5px 0 7px 0;
+}
+
+.password-ch input, .password-chk input {
+	display: inline-block;
+	width: 90%;
+	border-radius: 10px;
+	border: 1px solid rgba(0,0,0,0.2);
+	font-size: 14px;
+	padding: 7px 20px 5px 10px;
+	margin: 10px 0;
+	background: none;
+}
+
+.form-label-group label {
+	margin: 0 0 0 4px;
+}
+
+.form-control input {
+	display: inline-block;
+	width: 90%;
+	border-radius: 10px;
+	border: 1px solid rgba(0,0,0,0.2);
+	font-size: 14px;
+	padding: 7px 20px 5px 10px;
+	margin: 10px 0;
+	background: none;
 }
 
 .btn-return {

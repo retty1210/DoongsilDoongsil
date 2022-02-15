@@ -14,7 +14,6 @@
 	height: auto;
     margin: 30px auto;
     padding: 30px;
-    position: relative;
 }
 
 .login-div {
@@ -40,7 +39,6 @@
 	border-radius: 20%;
 	margin: 0 auto;
 	margin-bottom: 10px;
-	text-align: center;
 }
 
 .logo img {
@@ -112,14 +110,14 @@ a {
 	padding: 10px 20px 10px 5px;
 }
 
-.username_wrap, .name_wrap, .password_wrap, .password_chk_wrap, .email_wrap, .phonenumber_wrap, .multi-input {
+.username_wrap, .password_wrap, .password_chk_wrap, .phonenumber_wrap, .child-wrap {
 	display: block;
 	width: 100%;
 	padding: 10px 10px auto;
 	margin: 10px auto;
 }
 
-.name, .pass, .pass-ck, .email, .phone, .add, .birth {
+.pass, .pass-ck, .phone {
 	display: inline-block;
 	width: 90%;
 	border-radius: 10px;
@@ -130,7 +128,7 @@ a {
 	background: white;
 }
 
-.id, .post {
+.id, .child {
 	display: inline-block;
 	width: 71%;
 	border-radius: 10px;
@@ -147,7 +145,7 @@ label {
 	font-weight: bolder;
 }
 
-.inner, .checkId {
+.inner {
 	width: 20%;
 	border-radius: 10px;
 	border: 1px solid rgba(0,0,0,0.2);
@@ -163,13 +161,8 @@ label {
 	width: 100%;
 }
 
-.checked {
-	width: 100%;
-	margin: 10px;
-}
-
 .signin-btn button {
-	width: 100%;
+	width: 70%;
 	padding: 12px 10px;
 	margin-left: auto;
 	margin-right: auto;

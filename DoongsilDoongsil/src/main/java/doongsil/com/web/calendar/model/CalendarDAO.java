@@ -40,7 +40,6 @@ public class CalendarDAO {
 	}
 
 	public List<CalendarDTO> selectCalendar() {
-		logger.info("DAO 동작");
 		return this.sess.selectList("mainPageMapper.selectCalendar");
 	}
 	public List<CalendarDTO> infoCalendar(String date) {
@@ -49,13 +48,15 @@ public class CalendarDAO {
 	}
 
 	public boolean deleteEvent(CalendarDTO dto) {
-		logger.info("dao 동작");
 		int res = this.sess.delete("mainPageMapper.deleteEvent", dto);
-		logger.info("dao 동작 = " + res);
 		if(res == 1) {
 			return true;
 		}
 		return false;
+	}
+
+	public List<CalendarDTO> acadmicList(String date) {
+		return this.sess.selectList("mainPageMapper.acadList", date);
 	}
 	
 }

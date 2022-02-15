@@ -9,13 +9,16 @@ document.addEventListener('DOMContentLoaded', function() {
         right: 'dayGridMonth'
       },
 	  locale: 'ko',
+	  fixedWeekCount : false, // 월마다 나오는 주 수정할 수 있음 true면 무조건 6주
       navLinks: false, // can click day/week names to navigate views
       selectable: true,
       selectMirror: true,
       select: function(arg) {
 		if(teacher.trim() == "교사"){
 	        var title = prompt('일정 추가:');
+			console.log("title1: " + title); // 일정 제목이 담김
 		        if (title) {
+				console.log("title2: " + title);
 		          calendar.addEvent({
 		            title: title,
 		            start: arg.start,
@@ -33,8 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
 							cal_start: moment(arg.start).format('YYYY-MM-DD'),
 							cal_end: moment(arg.end).format('YYYY-MM-DD'),
 						},
-						success: function(response){
+						success: function(response){ 
 							alert('일정이 추가 되었습니다.');
+							location.reload();
 						},
 						error: function(response){
 							alert('일정이 추가 되지않았습니다.');
@@ -47,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
         calendar.unselect()
       },
       eventClick: function(arg) {
-		console.log(arg.event.title);
+		//console.log(arg.event.title);
 		if(teacher.trim() == "교사"){
 	        if (confirm('일정을 삭제하시겠습니까?') ) {
 				$.ajax({
@@ -61,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						success: function(response) {
 							 arg.event.remove();
 				  			 alert("일정이 삭제 되었습니다.");
+							 location.reload();
 						},
 						error: function(response) {
 							alert('일정이 삭제 되지 않았습니다.');
@@ -69,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	        }
 		}
       },
-      editable: true,
+      editable: false,
       dayMaxEvents: true, // allow "more" link when too many events
       events: function(arg, successCallback) {
 			$.ajax({
@@ -77,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				type: "GET",
 				dataType: "json",
 				success: function(response) {
-					console.log(response);
+					//console.log(response);
 					var events = [];
 					$.each(response, function(index, data) {
 						events.push({
@@ -95,3 +100,73 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     calendar.render();
   });
+
+
+var res;
+var aTag = document.getElementsByTagName('a');
+window.onload = function() {
+	let href="/mainPop";
+	var cookiedata = document.cookie;
+    if(cookiedata.indexOf("close=Y")<0){
+		window.open(href, 'pop', 'width=300, height=350');
+    }
+	
+	
+	
+	var mon = $('h2').text().replace("년", "-").replace("월", "").replace(" ", "");
+	$.ajax({
+		url: "/getList",
+		type: "GET",
+		dataType: 'json',
+		data: {
+			date : mon
+		},
+		success: function(response) {
+			console.log(response);
+			res = response;
+			var listArr = [];
+			
+			$.each(response, function(index, data){
+				listArr.push(data['cal_title']);
+			});
+			//console.log(listArr);
+			
+			for(var a=0; a < listArr.length; a++){
+				$('.academic-list').append("<li>" + listArr[a] + "</li>");
+			}
+		},
+		error: function(response) {
+			alert('error');
+		},
+	})
+	$('.fc-next-button, .fc-prev-button, .fc-today-button').on('click', function() {
+		$('.academic-list').children().remove();
+		var mon = $('h2').text().replace("년", "-").replace("월", "").replace(" ", "");
+			$.ajax({
+			url: "/getList",
+			type: "GET",
+			dataType: 'json',
+			data: {
+				date : mon
+			},
+			success: function(response) {
+				console.log(response);
+				res = response;
+				var listArr = [];
+				
+				$.each(response, function(index, data){
+					listArr.push(data['cal_title']);
+				});
+				//console.log(listArr);
+				
+				for(var a=0; a < listArr.length; a++){
+					$('.academic-list').append("<li>" + listArr[a] + "</li>");
+				}
+			},
+			error: function(response) {
+				alert('error');
+			}
+		})
+	})
+}
+

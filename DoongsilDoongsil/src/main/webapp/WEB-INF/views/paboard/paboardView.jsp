@@ -13,16 +13,25 @@
 		
 		// 수정 
 		$(".update_btn").on("click", function(){
-			formObj.attr("action", "/paboardUpdate");
-			formObj.attr("method", "get");
-			formObj.submit();				
+			$("#pab_title,#pab_contents").removeAttr("readOnly");
+			$(".update_btn").on("click",function(){
+				formObj.attr("action", "/paboardUpdate");
+				formObj.attr("method", "post");
+				formObj.submit();	
+			})				
 		})
 		
 		// 삭제
 		$(".delete_btn").on("click", function(){
-			formObj.attr("action", "/paboardDelete");
-			formObj.attr("method", "post");
-			formObj.submit();
+			if(confirm('게시물을 삭제 하시겠습니까 ?')){
+				formObj.attr("action", "/paboardDelete");
+				formObj.attr("method", "get");
+				formObj.submit();
+			}else{
+				alert('게시글 삭제를 취소하셨습니다.');
+				location.reload();
+			}
+			
 		})
 		
 		// 취소
@@ -32,62 +41,72 @@
 		})
 	})
 </script>
+<style type="text/css" rel=stylesheet">
+	.form-control:not(:first-child){
+		width:1300px;
+	}
+	.update_btn,
+	.delete_btn,
+	.list_btn{
+		width:80px;
+		height:30px;
+		background-color:#085ED6;
+		color:white;
+		border:none;
+		border-radius:8px;
+	}
+</style>
 <body>
 	<header>
 		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
 	</header>
 	<main role="main" class="container">
 		<div id="root">
-			<header>
-				<h1>학부모 게시판</h1>
-			</header>
+			<h1>학부모 게시판</h1>
+		
+			
 			
 			<section id="container">
-				<form role="form" method="post">
+				<form role="form" method="post" name="readForm">
 					<table>
 						<tbody>
 							<tr>
 								<td>
-									<label for="pab_id">글 번호</label><input type="text" id="pab_id" name="pab_id" value="${view.pab_id}"/>
+									<label for="pab_id" class="form-label">글 번호</label><input type="text" id="pab_id" name="pab_id" value="${view.pab_id}" class="form-control" readOnly/>
 								</td>
 							</tr>	
 							<tr>
 								<td>
-									<label for="pab_title">제목</label><input type="text" id="pab_title" name="pab_title" value="${view.pab_title}"/>
+									<label for="pab_title" class="form-label">제목</label><input type="text" id="pab_title" name="pab_title" value="${view.pab_title}" class="form-control"readOnly/>
 								</td>
 							</tr>	
 							<tr>
 								<td>
-									<label for="pab_contents">내용</label><textarea id="pab_contents" name="pab_contents"><c:out value="${view.pab_contents}" /></textarea>
+									<label for="pab_contents" class="form-label">내용</label><textarea id="pab_contents" name="pab_contents" style="resize:none;" rows="10" class="form-control" readOnly><c:out value="${view.pab_contents}" /></textarea>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<label for="pab_writer">작성자</label><input type="text" id="pab_writer" name="pab_writer" value="${view.pab_writer}" />
+									<label for="pab_writer" class="form-label">작성자</label><input type="text" id="pab_writer" value="${view.paa_UserName}" class="form-control" readOnly />
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<label for="pab_date">작성날짜</label>
+									<label for="pab_date" class="form-label">작성날짜</label>
 									<fmt:formatDate value="${view.pab_date}" pattern="yyyy-MM-dd"/>					
 								</td>
-							</tr>		
+							</tr>	
 						</tbody>			
 					</table>
 					<div>
-					<button type="submit" class="update_btn">수정</button>
-					<button type="submit" class="delete_btn">삭제</button>
+					<button type="button" class="update_btn">수정</button>
+					<button type="button" class="delete_btn">삭제</button>
 					<button type="button" class="list_btn">목록</button>
 					</div>
 				</form>
 			</section>
-			<hr/>
 		</div>
 	</main>
-	<footer class="fixed-bottom">
-		<div>
-			<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false" />
-		</div>
-	</footer>
+	<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false" />
 </body>
 </html>

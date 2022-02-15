@@ -4,6 +4,7 @@ public class PagingVo {
 	//	현재페이지, 시작페이지, 끝페이지, 게시글 총 갯수, 페이지당 글 갯수, 마지막페이지, SQL쿼리에 쓸 start,end
 	private int nowPage,startPage,endPage,total,cntPerPage,lastPage,start,end;
 	private int cntPage = 5;
+	private String searchText;
 
 	public PagingVo() {
 		
@@ -16,8 +17,17 @@ public class PagingVo {
 		calcStartEndPage(getNowPage(), cntPage);
 		calcStartEnd(getNowPage(), getCntPerPage());
 	}
+	public PagingVo(int total, int nowPage, int cntPerPage, String searchText) {
+		setNowPage(nowPage);
+		setCntPerPage(cntPerPage);
+		setTotal(total);
+		setSearchText(searchText);
+		calcLastPage(getTotal(), getCntPerPage());
+		calcStartEndPage(getNowPage(), cntPage);
+		calcStartEnd(getNowPage(), getCntPerPage());
+	}
 	public void calcLastPage(int total, int cntPerPage) {
-		setLastPage(((int)Math.ceil((double)nowPage/(double)cntPage)) * cntPage);
+		setLastPage(((int)Math.ceil((double)total/(double)cntPerPage)));
 	}
 	public void calcStartEndPage(int nowPage,int cntPage) {
 		setEndPage(((int)Math.ceil((double)nowPage / (double)cntPage)) * cntPage);
@@ -88,11 +98,19 @@ public class PagingVo {
 	public void setCntPage(int cntPage) {
 		this.cntPage = cntPage;
 	}
+	
+	public String getSearchText() {
+		return searchText;
+	}
+	public void setSearchText(String searchText) {
+		this.searchText = searchText;
+	}
 	@Override
 	public String toString() {
-		return "PaingVo [nowPage=" + nowPage + ", startPage=" + startPage + ", endPage=" + endPage + ", total=" + total
+		return "PagingVo [nowPage=" + nowPage + ", startPage=" + startPage + ", endPage=" + endPage + ", total=" + total
 				+ ", cntPerPage=" + cntPerPage + ", lastPage=" + lastPage + ", start=" + start + ", end=" + end
-				+ ", cntPage=" + cntPage + "]";
+				+ ", cntPage=" + cntPage + ", searchText=" + searchText + "]";
 	}
+	
 	
 }

@@ -24,9 +24,19 @@
 		(SELECT * FROM T_HOMEWORK ORDER BY THO_ID DESC) 
 		 WHERE ROWNUM &lt;= 3
 	</select>
-	
 	<select id="selectCalendar" resultType="calendarDTO">
-		SELECT * FROM CALENDAR
+		select *
+		  from calendar
+	</select>
+	
+	<select id="infoCalendar" parameterType="String" resultType="calendarDTO">
+		select *
+		  from calendar
+ 		 where cal_start
+ 	   between to_date(add_months(last_day(to_date(#{date},'yyyy-mm-dd')+1),-1)) + 1
+    	   and last_day(to_date(#{date},'yyyy-mm-dd'))
+  		   and cal_end between to_date(add_months(last_day(to_date(#{date},'yyyy-mm-dd')+1),-1)) + 1
+  		   and last_day(to_date(#{date},'yyyy-mm-dd'))
 	</select>
 	
 	<delete id="deleteEvent" parameterType="calendarDTO">

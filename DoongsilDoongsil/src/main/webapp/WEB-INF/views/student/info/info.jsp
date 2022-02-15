@@ -11,7 +11,7 @@
 </head>
 <script type="text/javascript">
 	function MyInfoUpdate(href){
-		window.open('/infoUpdate?id=${sessionScope.account.sta_id}','','width=500,height=700');
+		window.open('/popuppassword?type=${sessionScope.account.sta_usertype}','','width=400,height=150');
 	}
 </script>
 <body>

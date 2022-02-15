@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         center: 'title',
         right: 'dayGridMonth'
       },
+	  locale: 'ko',
       navLinks: false, // can click day/week names to navigate views
       selectable: true,
       selectMirror: true,

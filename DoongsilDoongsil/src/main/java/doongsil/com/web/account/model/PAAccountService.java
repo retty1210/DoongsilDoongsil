@@ -14,7 +14,6 @@ public class PAAccountService {
 		if(paData == null) {
 			return null;
 		}else {
-			paData.setSta_password("");
 			return paData;
 		}
 	}

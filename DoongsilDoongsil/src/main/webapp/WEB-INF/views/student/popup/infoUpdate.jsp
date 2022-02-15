@@ -87,7 +87,7 @@
 </head>
 <body>
 <h4>내 정보 수정</h4>
-	<form action="/infoUpdate" method="post" encType="multipart/form-data">
+	<form action="/student/infoUpdate" method="post" encType="multipart/form-data">
 		<div class="btnBox">
 			<button type="button" class="updateBtn" onclick="infoUpdate();">수정</button>
 			<button type="button" class="updateCancel" onclick="updateCancel();">취소</button>		
@@ -97,11 +97,6 @@
 				<tr >
 					<th><label>이름</label></th>
 					<td><input type="text" value="${studentUpdate.sta_name }" name="userName"/></td>
-				</tr>
-				<tr>
-					<th><label>학급</label></td>
-					<td><input type="text" value="${studentUpdate.sta_grade}" name="userGrade"/>
-					<input type="text" value="${studentUpdate.sta_class }" name="userClass"/></td>
 				</tr>
 				<tr>
 					<th><label>연락처</label></th>

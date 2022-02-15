@@ -9,54 +9,58 @@
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
 </head>
 <body>
-	<header>
-		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
-	</header>
-	<main role="main" class="container">
-		<div id="root">
-			<header>
-				<h1>글작성</h1>
-			</header>
-			
-			<section id="container">
-				<form role="form" method="post" action="/paboardWrite">
-					<table>
-						<tbody>
-							<tr>
-								<td>
-									<label for="title">제목</label><input type="text" id="pab_title" name="pab_title" />
-								</td>
-							</tr>	
-							<tr>
-								<td>
-									<label for="contents">내용</label><textarea id="pab_contents" name="pab_contents" ></textarea>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label for="writer">작성자</label><input type="text" id="pab_writer" name="pab_writer" />
-								</td>
-							<tr>
-								<td>
-										<div class="form-group form-check">
-    										<input type="checkbox" class="form-check-input" id="exampleCheck1">
-    										<label class="form-check-label" for="exampleCheck1">같은 학급만 읽기</label>
-  										</div>				
-									<button type="button" class="btn btn-primary" onclick="location.href='/paboardList'">취소</button>
-									<button type="submit" class="btn btn-primary" >작성</button>
-								</td>
-							</tr>			
-						</tbody>			
-					</table>
-				</form>
-			</section>
+	<div id="root">
+		<header>
+			<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
+		</header>
+		<div style="padding: 15px 30px;">
+			<h1> 학부모 게시글 작성</h1>
 		</div>
-	</main>
-	<footer>
+		
+			<div class="container">
+				<section id="container">
+					<form role="form" method="post" action="/paboardWrite">
+						<table style="margin: 15px 0px;">
+							<tbody>
+								<tr>
+									<td>
+										<div class="mb-3">
+											<label class="form-label">카테고리</label>
+											<select name="pab_category" class="form-select form-select-sm" style="width:1300px;">
+												<option selected>---- 카테고리 선택 ----</option>
+												<c:forEach var="cg" items="${category }">
+													<option value="${cg.pac_id }">${cg.pac_category }</option>
+												</c:forEach>
+											</select>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="title" class="form-label">제목</label><input type="text" id="pab_title" name="pab_title" class="form-control" />
+									</td>
+								</tr>	
+								<tr>
+									<td>
+										<label for="contents" class="form-label">내용</label><textarea id="pab_contents" name="pab_contents" style="resize:none;" class="form-control" rows="20" ></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td><input type="hidden" name="pab_writer" value="${sessionScope.account.paa_id }"/></td>
+								</tr>
+							</tbody>			
+						</table>
+						<div>
+							<button type="button" class="btn btn-primary" onclick="location.href='/paboardList'">취소</button>
+							<button type="submit" class="btn btn-primary" >작성</button>
+						</div>
+					</form>
+				</section>
+			</div>
+		</div>
 		<div>
 			<jsp:include page="/WEB-INF/views/module/footer.jsp" flush="false" />
 		</div>
-	</footer>
 </body>
 </html>
 

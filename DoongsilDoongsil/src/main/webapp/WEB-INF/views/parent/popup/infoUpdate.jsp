@@ -18,7 +18,7 @@
 		let password = document.getElementsByName("newPassword")[0];
 		let pwCheck = document.getElementsByName("newPasswordCheck")[0];
 		let newTxt = document.createElement("span");
-		let passwordTd = document.getElementsByTagName("tr")[7].children[1];
+		let passwordTd = document.getElementsByTagName("tr")[2].children[1];
 		
 		newTxt.setAttribute("class","noPassword");
 		newTxt.style.fontSize = '12px';

@@ -14,6 +14,37 @@
 		window.close();
 		opener.location.reload("/info");
 	}
+	function passwordCheck() {
+		let password = document.getElementsByName("newPassword")[0];
+		let pwCheck = document.getElementsByName("newPasswordCheck")[0];
+		let newTxt = document.createElement("span");
+		let passwordTd = document.getElementsByTagName("tr")[3].children[1];
+		
+		newTxt.setAttribute("class","noPassword");
+		newTxt.style.fontSize = '12px';
+		newTxt.style.display = 'none';
+		
+		passwordTd.append(newTxt);
+		
+		let selector = document.querySelector(".noPassword");
+		
+		if(password.value == pwCheck.value){
+			password.style.borderColor = "green";
+			pwCheck.style.borderColor = "green";
+			selector.innerText = ' * 비밀번호가 일치 합니다.';
+			selector.style.color = 'green';
+			selector.style.display = '';
+			
+		} else{
+			password.style.borderColor = "red";
+			pwCheck.style.borderColor = "red";
+			selector.innerText = ' * 비밀번호가 일치하지 않습니다.';
+			selector.style.color = 'red';
+			selector.style.display = '';
+			
+		}
+		
+	}
 </script>
 <style type="text/css">
 	body{
@@ -55,7 +86,7 @@
 </head>
 <body>
 <h4>내 정보 수정</h4>
-	<form action="/infoUpdate" method="post" encType="multipart/form-data">
+	<form action="/admin/infoUpdate" method="post" encType="multipart/form-data">
 		<div class="btnBox">
 			<button type="button" class="updateBtn" onclick="infoUpdate();">수정</button>
 			<button type="button" class="updateCancel" onclick="updateCancel();">취소</button>		
@@ -67,9 +98,17 @@
 					<td><input type="text" value="${studentUpdate.sta_name }" name="userName"/></td>
 				</tr>
 				<tr>
-					<th><label>학급</label></td>
+					<th><label>학급</label></th>
 					<td><input type="text" value="${studentUpdate.sta_grade}" name="userGrade"/>
 					<input type="text" value="${studentUpdate.sta_class }" name="userClass"/></td>
+				</tr>
+				<tr>
+					<th><label>비밀번호</label></th>
+					<td><input type="password" name="newPassword"/></td>
+				</tr>
+				<tr>
+					<th><label>비밀번호 확인</label></th>
+					<td><input type="password" name="newPasswordCheck" onblur="passwordCheck();"/></td>
 				</tr>
 				<tr>
 					<th><label>연락처</label></th>

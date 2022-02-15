@@ -14,13 +14,14 @@
 
 	}
 	function MyInfoUpdate(href){
-		window.open('/infoUpdate?id=${sessionScope.account.sta_id}','','width=500,height=700');
+		window.open('/popuppassword?type=${sessionScope.account.sta_usertype}','','width=400,height=150');
 	}
 	function studentUpdate(href){
 		<c:forEach var="studentUpdate" items="${sessionScope.infoStudentList}">
 			window.open('/infoUpdate?id=${studentUpdate.sta_id}','','width=500,height=700');
 		</c:forEach>	
 	}
+	
 </script>
 </head>
 <body>

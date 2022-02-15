@@ -85,10 +85,9 @@
 	margin:30px 0px;
 	padding:32px;
 }
-
 .all-area {
-	display: flex;
-	justify-content: space-around;
+		display: flex;
+		justify-content: center;
 }
 
 .main-board-area {

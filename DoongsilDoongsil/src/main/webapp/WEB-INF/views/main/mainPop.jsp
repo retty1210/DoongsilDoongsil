@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div class="popup-area">
-		<h2 class="popup-header">둥실팝업존</h2>
+		<h2 class="popup_header">둥실둥실</h2>
 		<div class="popup_list_area">
 			<div class="popup_list">
 				<div class="popup_list_box">

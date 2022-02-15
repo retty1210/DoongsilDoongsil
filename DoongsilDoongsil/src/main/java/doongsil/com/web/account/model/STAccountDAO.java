@@ -51,6 +51,10 @@ public class STAccountDAO {
 		return this.sess.selectOne("AccountMapper.studentUpdate", id);
 	}
 	
+	public List<STAccountVO> selectNameFromID(List<Integer> idArr){
+		return this.sess.selectList("AccountMapper.selectNameFromID", idArr);
+	}
+	
 	public boolean infoUpdate(STAccountVO vo) {
 		int res = this.sess.update("AccountMapper.infoUpdate", vo);
 		if(res == 1) {

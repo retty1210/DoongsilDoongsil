@@ -5,14 +5,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <section class="bdr-1 bdr-r5">
-	<span>교사용 숙제 확인 페이지</span>
+	<!-- 교사용 숙제 확인 페이지 -->
 	<c:choose>
 		<c:when test="${sdatas != null }">
 			<c:if test="${data.getTho_homeworktype() == 1 }">
-				<c:forEach var="sdata" items="${sdatas }">
+				<c:forEach var="sdata" items="${sdatas }" varStatus="sdataIndex">
 					<div class="row tmg10 flex">
 						<c:if test="${sdata.getSho_fileurl() != null }">
-							<c:forEach items="${studentImages.get(sdata.getSho_id()) }" var="i" varStatus="index">
+							<c:set var="sho_id" value="${sdata.getSho_id() }"></c:set>
+							<c:forEach items="${studentImages[sho_id] }" var="i" varStatus="IMGindex">
 								<div class="col-md-4">
 									<c:url var="imgURL" value="/stc/up/${i}" />
 									<a href="${imgURL }" target="_blank">
@@ -26,7 +27,7 @@
 					<c:choose>
 						<c:when test="${sdata.getSho_goodbad() != null }">
 							<div class="row tmg10">
-								<div class="col-md-1 tmg10 tpd10">${sdata.getSho_id() }</div>
+								<div class="col-md-1 tmg10 tpd10">${studentNameArr[sdataIndex.index].getSta_name()}</div>
 								<div class="col-md-2 tmg10 tpd10">${sdata.getSho_date() }</div>
 								<div class="col-md-7 tmg10 tpd10">${sdata.getSho_contents() }</div>
 								<c:if test="${sdata.getSho_goodbad() == 'G' }">
@@ -46,29 +47,22 @@
 						<c:otherwise>
 							<form class="form-horizontal" action="/ajaxComment"
 								method="post" id="ajaxComment${sdata.getSho_id() }">
-								<div class="form-group bdr-1 bdr-r5 tmg10"
-									style="display: flex;">
-									<div class="col-md-1 tmg10">${sdata.getSho_id() }</div>
+								<div class="form-group bdr-1 bdr-r5 tmg10" style="display: flex;">
+									<div class="col-md-1 tmg10">${studentNameArr[sdataIndex.index].getSta_name()}</div>
 									<div class="col-md-9 tmg10">${sdata.getSho_contents() }</div>
 									<div class="col-md-1">
-										<div name="ajax_good" id="ajax_good${sdata.getSho_id() }"
-											class="mg10">
-											<button class="btn btn-wht btn-sm"
-												id="btn_ajaxGood${sdata.getSho_id() }" type="button"
+										<div name="ajax_good" id="ajax_good${sdata.getSho_id() }" class="mg10">
+											<button class="btn btn-wht btn-sm" id="btn_ajaxGood${sdata.getSho_id() }" type="button"
 												onclick="ajax_good(${sdata.getSho_id() })">잘했어요</button>
 										</div>
-										<input type="hidden" name="sho_goodbad"
-											id="sho_good${sdata.getSho_id() }" value="G" disabled>
+										<input type="hidden" name="sho_goodbad" id="sho_good${sdata.getSho_id() }" value="G" disabled>
 									</div>
 									<div class="col-md-1">
-										<div name="ajax_bad" id="ajax_bad${sdata.getSho_id() }"
-											class="mg10">
-											<button class="btn btn-wht btn-sm"
-												id="btn_ajaxBad${sdata.getSho_id() }" type="button"
+										<div name="ajax_bad" id="ajax_bad${sdata.getSho_id() }" class="mg10">
+											<button class="btn btn-wht btn-sm" id="btn_ajaxBad${sdata.getSho_id() }" type="button"
 												onclick="ajax_bad(${sdata.getSho_id() })">아쉬워요</button>
 										</div>
-										<input type="hidden" name="sho_goodbad"
-											id="sho_bad${sdata.getSho_id() }" value="N" disabled>
+										<input type="hidden" name="sho_goodbad" id="sho_bad${sdata.getSho_id() }" value="N" disabled>
 									</div>
 								</div>
 								<div class="form-group tmg10">
@@ -87,15 +81,12 @@
 											placeholder="학생의 숙제에 대한 평가를 입력하세요(선택)"></textarea>
 									</div>
 									<div class="col-md-2 pd10">
-										<button class="btn btn-sbl" type="button"
-											id="btn_submitcomm${sdata.getSho_id() }"
-											onclick="submitAjaxComment(${sdata.getSho_id() })">채점결과와
-											숙제에 대한 평가 함께 제출하기</button>
+										<button class="btn btn-sbl" type="button" id="btn_submitcomm${sdata.getSho_id() }"
+											onclick="submitAjaxComment(${sdata.getSho_id() })">채점결과와 숙제에 대한 평가 함께 제출하기</button>
 									</div>
 								</div>
 								<div>
-									<input type="number" name="sho_id"
-										id="sho_comment_id${sdata.getSho_id() }"
+									<input type="number" name="sho_id" id="sho_comment_id${sdata.getSho_id() }"
 										value="${sdata.getSho_id() }" style="display: none;">
 								</div>
 							</form>
@@ -107,19 +98,19 @@
 			<c:if test="${data.getTho_homeworktype() == 2 }">
 				<div class="btn-toolbar row flex">
 					<c:forEach var="sdata" items="${sdatas}">
-						<form class="form-horizontal" action="/Type2ajaxComment"
-									method="post" id="Type2ajaxComment${sdata.getSho_id() }">
+						<form class="form-horizontal" action="/Type2ajaxComment" method="post" id="Type2ajaxComment${sdata.getSho_id() }">
 							<c:choose>
 								<c:when test="${sdata.getSho_goodbad() == null }">
 									<!-- 아직 채점안됨 -->
 									<div class="row"> 
-										<div class="col-md-1 tmg10 tpd10">${sdata.getSho_id() }</div>
+										<div class="col-md-1 tmg10 tpd10">${studentNameArr[sdataIndex.index].getSta_name()}</div>
 										<div class="col-md-2 tmg10 tpd10">${sdata.getSho_date() }</div>
 										<div class="col-md-7 tmg10 tpd10">
 											<div class="btn-group">
 												<c:forEach var="t2answers" items="${type2answers.get(sdata.getSho_id()) }" varStatus="status">
 													<button type="button" id="btn-${sdata.getSho_id() }type2GoodBad${status.count }" class="btn btn-secondary" 
-														name="btn-${sdata.getSho_id() }type2GoodBad" data-bs-toggle="modal" data-bs-target="#makeGoodbadSc_${sdata.getSho_id() }_${status.count}">
+														name="btn-${sdata.getSho_id() }type2GoodBad" data-bs-toggle="modal" 
+														data-bs-target="#makeGoodbadSc_${sdata.getSho_id() }_${status.count}">
 														<img src="/stc/img/question-lg.svg" class="ic20 filter-whtcream" />
 													</button>
 												</c:forEach>
@@ -199,9 +190,9 @@
 								</c:when>
 								<c:otherwise>
 									<!-- 채점끝남 -->
-									<c:forEach var="sdata" items="${sdatas}">
+									
 										<div class="row"> 
-											<div class="col-md-1 tmg10 tpd10">${sdata.getSho_id() }</div>
+											<div class="col-md-1 tmg10 tpd10">${studentNameArr[sdataIndex.index].getSta_name()}</div>
 											<div class="col-md-2 tmg10 tpd10">${sdata.getSho_date() }</div>
 											<div class="col-md-7 tmg10 tpd10">
 												<div class="btn-group">
@@ -230,7 +221,7 @@
 												</div>
 											</div>
 										</div>
-									</c:forEach>
+									
 								</c:otherwise>
 							</c:choose>
 						</form>
@@ -238,22 +229,74 @@
 				</div>
 			</c:if>
 			<c:if test="${data.getTho_homeworktype() == 3 }">
-				<c:forEach var="type3day" items="${type3DayArr }">
-					<div class="col-md-12 tmg10 bdr-r5 bdr-1 flex">
-						<div class="col-md-10">
+				<c:forEach var="type3day" items="${type3DayArr }" varStatus="index">
+					<fmt:parseDate var="type3date" value="${type3day }" pattern="yyyy-MM-dd" />
+					<fmt:formatDate var="valueDate" value="${type3date }" pattern="yyyyMMdd" />
+					<div class="col-md-12 tmg10 bdr-r5 bdr-1 flex btn" data-bs-toggle="modal" data-bs-target="#type3Toggle_${valueDate }_${index.index }">
+						<div class="col-md-6">
 							${type3day }
 						</div>
-						<div class="col-md-2">
-							일기쓴사람수
+						<div class="col-md-6">
+							${sizeArr[index.index]}
+							
 						</div>
 					</div>
+					<!-- Modal -->
+					<div class="modal fade" id="type3Toggle_${valueDate }_${index.index }" tabindex="-1">
+					  <div class="modal-dialog modal-dialog-centered modal-lg">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="type3ToggleLabel_${valueDate }_${index.index }">${type3day }</h5>
+					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					      </div>
+					      <div class="modal-body flex">
+					      	<c:forEach var="studentName" items="${nameArr[index.index] }" varStatus="nameindex">
+					      		<c:choose>
+					      			<c:when test="${sArrforT[index.index][nameindex.index].getSho_comment() != null }">
+					      				<div class="col-md-3 bdr-1 bdr-r5 btn btn-secondary" id="nameBtn_${valueDate }_${studentName.getSta_id() }"
+							      			data-bs-toggle="modal" data-bs-target="#type3_submodal_${valueDate }_${studentName.getSta_id() }">
+							      			${studentName.getSta_name() }
+							      		</div>
+					      			</c:when>
+					      			<c:otherwise>
+					      				<div class="col-md-3 bdr-1 bdr-r5 btn btn-success" id="nameBtn_${valueDate }_${studentName.getSta_id() }"
+							      			data-bs-toggle="modal" data-bs-target="#type3_submodal_${valueDate }_${studentName.getSta_id() }">
+							      			${studentName.getSta_name() }
+							      		</div>
+					      			</c:otherwise>
+					      		</c:choose>
+					      	</c:forEach>
+					      </div>
+					      <div class="modal-footer">
+					        <button class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">닫기</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					<c:forEach var="sDiary" items="${sArrforT[index.index] }" varStatus="modalindex">
+						<div class="modal fade" id="type3_submodal_${valueDate }_${sDiary.getSho_writer()}" tabindex="-1">
+						  <div class="modal-dialog modal-dialog-centered modal-lg">
+						    <div class="modal-content">
+						      <div class="modal-body">
+						        <jsp:include page="/WEB-INF/views/homework/detail/type3tNN.jsp" flush="false">
+						        	<jsp:param value="${type3day }" name="type3date"/>
+						      		<jsp:param value="${sDiary.getSho_fileurl() }" name="type3sWork"/>
+						      		<jsp:param value="${weatherArr[index.index][modalindex.index] }" name="type3sWeather"/>
+						      		<jsp:param value="${contentArr[index.index][modalindex.index] }" name="type3content"/>
+						      		<jsp:param value="${sDiary.getSho_comment() }" name="type3comment"/>
+						      		<jsp:param value="${sDiary.getSho_id() }" name="type3id" />
+						      		<jsp:param value="${sDiary.getSho_writer() }" name="type3writer" />
+						        </jsp:include>
+						      </div>
+						      <div class="modal-footer">
+						        <button class="btn btn-primary" data-bs-target="#type3Toggle_${valueDate }_${index.index }" data-bs-toggle="modal">목록으로 돌아가기</button>
+						        <button class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">닫기</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+					</c:forEach>
 				</c:forEach>
-				<!-- 교사용 페이지 구상:
-					1. 날짜 div를 누르면 해당 날짜의 숙제를 올린 학생 명단이 뜸
-					2. 이미 코멘트를 쓴 일기는 명단 배경이 회색
-					3. 아직 코멘트를 안 쓴 일기는 명단 배경이 초록색
-					4. 명단을 클릭하면 type3.jsp에 해당 숙제값이 insert되어 출력
-				 -->
 			</c:if>
 		</c:when>
 		<c:otherwise>

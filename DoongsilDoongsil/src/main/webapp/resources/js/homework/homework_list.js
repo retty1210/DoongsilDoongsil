@@ -35,14 +35,19 @@ function nextPage() {
 	console.log("nextNo" + nextNo);
 	var lastpage = $("#lastpage").val() * 1;
 	console.log("다음페이지: " + nextNo + " | 마지막페이지: " + lastpage);
-	if(nextNo <= lastpage) {
-		$("tr[name=homework_data_"+pageNo+"]").hide();
-		$("tr[name=homework_data_"+nextNo+"]").show();
-		$("#pageNo").val(nextNo);
-		$("#page-item"+pageNo).removeClass("active");
-		$("#page-item"+nextNo).addClass("active");
+	var total = $("#total").val() * 1;
+	if(nextNo > total) {
+		location.href= "/homework?pageNo="+total;
 	} else {
-		location.href= "/homework?pageNo="+nextNo;
+		if(nextNo <= lastpage) {
+			$("tr[name=homework_data_"+pageNo+"]").hide();
+			$("tr[name=homework_data_"+nextNo+"]").show();
+			$("#pageNo").val(nextNo);
+			$("#page-item"+pageNo).removeClass("active");
+			$("#page-item"+nextNo).addClass("active");
+		} else {
+			location.href= "/homework?pageNo="+nextNo;
+		}
 	}
 }
 

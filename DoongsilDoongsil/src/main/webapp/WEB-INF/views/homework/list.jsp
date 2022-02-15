@@ -15,6 +15,19 @@
 <script type="text/javascript" src="${hwr_list_url}"></script>
 </head>
 <body>
+	<script type="text/javascript">
+	window.onload = function() {
+		if(session.getAttribute("error") != null) {
+			var error = '<%=(Boolean)session.getAttribute("error") %>';
+			if(error) {
+				var error_msg = '<%=(String)session.getAttribute("error_msg") %>';
+				if(error_msg != null) {
+					alert(error_msg);
+				}
+			}
+		}
+	}
+	</script>
 	<header>
 		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
 	</header>
@@ -32,73 +45,76 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="datapage" begin="${pages.get('startpage') }"
-							end="${pages.get('lastpage')}">
-							<!-- datapage번 페이지의 데이터를 가져다가 for문으로 뿌리는 것. -->
-							<c:forEach var="data" items="${datas.get(datapage) }">
-								<tr name="homework_data_${datapage }">
+						<c:forEach var="homeworkList" begin="1" end="${pages.getTotal() }">
+							<c:forEach var="data" items="${datas.get(homeworkList) }">
+								<tr name="homework_data_${homeworkList }" >
 									<th scope="row" class="perc10">${data.getTho_id() }</th>
-									<c:url var="t_homeURL"
-										value="/homework/detail?tho_id=${data.getTho_id() }" />
+									<c:url var="t_homeURL" value="/homework/detail?tho_id=${data.getTho_id() }" />
 									<td class="perc60"><a href="${t_homeURL}">${data.getTho_title()}</a></td>
-									<td class="perc10"><fmt:formatDate
-											value="${data.getTho_writedate() }" type="date"
-											pattern="YY/MM/dd(E)" /></td>
-									<td class="perc10"><c:choose>
+									<td class="perc10">
+										<fmt:formatDate value="${data.getTho_writedate() }" type="date" pattern="YY/MM/dd(E)" />
+									</td>
+									<td class="perc10">
+										<c:choose>
 											<c:when test="${data.getTho_deadline() == null}">
 													X
-												</c:when>
+											</c:when>
 											<c:otherwise>
-												<fmt:formatDate value="${data.getTho_deadline() }"
-													type="date" pattern="YY/MM/dd(E)" />
+												<fmt:formatDate value="${data.getTho_deadline() }" type="date" pattern="YY/MM/dd(E)" />
 											</c:otherwise>
 										</c:choose></td>
 									<td class="perc10">${data.getTho_count()}</td>
 								</tr>
 							</c:forEach>
 						</c:forEach>
+						
 					</tbody>
 				</table>
-	
-				<div class="row mg20">
-					<button type="button" onclick="location.href='/homework/write'"
-						class="btn btn-sbl btn-lg">새로운 숙제 올리기</button>
-				</div>
+				<c:if test="${sessionScope.accountType == 'T'}">
+					<div class="row mg20">
+						<button type="button" onclick="location.href='/homework/write'"
+							class="btn btn-sbl btn-lg">새로운 숙제 올리기</button>
+					</div>
+				</c:if>
 				<div class="row tmg20 flex">
 					<div style="display:contents;">
-						<ul class="pagination btn absolute" >
-							<li class="page-item"><a class="page-link"
-									href="/homework?pageNo=1" aria-label="FirstPage"> <span
-										aria-hidden="true">«</span>
-							</a></li>
-							<li class="page-item"><a class="page-link" onclick="prePage()"
-									aria-label="Previous">
+						<input id="pageNoInput" type="number" value="${pages.getNowPage() }" style="display:none;">
+						<ul class="pagination btn" >
+							<li class="page-item">
+								<a class="page-link" href="/homework?pageNo=1" aria-label="FirstPage">
+									<span aria-hidden="true">«</span>
+								</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" onclick="prePage()" aria-label="Previous">
 									<span aria-hidden="true">‹</span>
-							</a></li>
+								</a>
+							</li>
+							<!-- startpage를 현재페이지 기준 jquery로 작업하도록 로직 짤 것 -->
 							
-							<c:forEach var="page" begin="${pages.get('startpage') }"
-									end="${pages.get('lastpage')}">
-								<li class="page-item" id="page-item${page }"><a
-										class="page-link" onclick="pageChange(${page })">${page }</a></li>
+							<c:forEach var="page" begin="${pages.getStartPage() }" end="${pages.getEndPage()}">
+								<li class="page-item" id="page-item${page }">
+									<a class="page-link" onclick="pageChange(${page })">${page }</a>
+								</li>
 							</c:forEach>
 							
-							<li class="page-item"><a class="page-link"
-									onclick="nextPage()" aria-label="Next"> <span
-										aria-hidden="true">›</span>
-							</a></li>
-							<li class="page-item"><a class="page-link"
-									href="/homework?pageNo=${pages.get('totalpage')}"
-									aria-label="LastPage"> <span aria-hidden="true">»</span>
-							</a></li>
+							<li class="page-item">
+								<a class="page-link" onclick="nextPage()" aria-label="Next"> 
+									<span aria-hidden="true">›</span>
+								</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="/homework?pageNo=${pages.getTotal()}" aria-label="LastPage"> 
+									<span aria-hidden="true">»</span>
+								</a>
+							</li>
 						</ul>
 					</div>
 					<div>
-						<input type="number" id="pageNo" name="pageNo"
-							style="display:none;" value="${pageNo }">
-						<input type="number" id="startpage" name="startpage"
-							style="display:none;" value="${pages.get('startpage') }">
-						<input type="number" id="lastpage" name="lastpage"
-							style="display:none;" value="${pages.get('lastpage')}">
+						<input type="number" id="pageNo" name="pageNo" style="display:none;" value="${pages.getNowPage() }">
+						<input type="number" id="startpage" name="startpage" style="display:none;" value="${pages.getStartPage() }">
+						<input type="number" id="lastpage" name="lastpage" style="display:none;" value="${pages.getEndPage()}">
+						<input type="number" id="total" name="total" style="display:none;" value="${pages.getTotal()}">
 					</div>
 				
 				</div>

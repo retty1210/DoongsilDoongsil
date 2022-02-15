@@ -166,5 +166,15 @@
 		   SET PAA_PASSWORD = #{paa_password} 
 		 WHERE PAA_USERNAME = #{paa_username}
 	</update>
+
+	<!-- ID의 정수 배열로 이름 찾기 -->	
+	<select id="selectNameFromID" parameterType="int" resultType="staccount">
+		SELECT STA_ID, STA_NAME 
+			FROM ST_ACCOUNT 
+			WHERE STA_ID in
+			<foreach collection="list" item="i" open="(" close=")" separator=",">
+				#{i}
+			</foreach>
+	</select>
 	
 </mapper>

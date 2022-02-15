@@ -52,13 +52,13 @@
 									<input type="number" name="sho_tid" id="sho_tid_type1"
 										value="${data.getTho_id() }" style="display: none;">
 									<input type="number" name="sho_writer"
-										id="sho_writer_type1" value="20" style="display: none;">
+										id="sho_writer_type1" value="${sessionScope.accountNumber }" style="display: none;">
 									<input type="number" name="sho_homeworktype" id="sho_homeworktype_type1"
 										value="${data.getTho_homeworktype() }" style="display: none;"> 
 									<input type="number" name="sho_grade" id="sho_grade_type1" 
-										value="2" style="display: none;"> 
+										value="${sessionScope.account.getSta_grade() }" style="display: none;"> 
 									<input type="number" name="sho_class" id="sho_class_type1" 
-										value="4" style="display: none;"> 
+										value="${sessionScope.account.getSta_class() }" style="display: none;"> 
 									<input type="date" name="sho_date" id="sho_date_type1" style="display: none;"> 
 									<input type="hidden" name="sho_fileurl" id="sho_fileurl_type1">
 								</div>
@@ -246,11 +246,11 @@
 								</c:if>
 								<textarea name="sho_contents" id="sho_contents_type2" style="display: none;"></textarea>
 								<input type="number" name="sho_tid" id="sho_tid_type2" value="${data.getTho_id() }" style="display: none;">
-								<input type="number" name="sho_writer" id="sho_writer_type2" value="7" style="display: none;">
+								<input type="number" name="sho_writer" id="sho_writer_type2" value="${sessionScope.accountNumber }" style="display: none;">
 								<input type="number" name="sho_homeworktype" id="sho_homeworktype_type2"
 									value="${data.getTho_homeworktype() }" style="display: none;"> 
-								<input type="number" name="sho_grade" id="sho_grade_type2" value="2" style="display: none;"> 
-								<input type="number" name="sho_class" id="sho_class_type2" value="4" style="display: none;"> 
+								<input type="number" name="sho_grade" id="sho_grade_type2" value="${sessionScope.account.getSta_grade() }" style="display: none;"> 
+								<input type="number" name="sho_class" id="sho_class_type2" value="${sessionScope.account.getSta_class() }" style="display: none;"> 
 								<input type="date" name="sho_date" id="sho_date_type2" style="display: none;">
 								<input type="hidden" name="sho_fileurl" id="sho_fileurl_type2">
 							</div>
@@ -260,25 +260,34 @@
 			</div>
 		</c:when>
 		<c:when test="${data.getTho_homeworktype()  == 3}">
-			<c:forEach var="type3date" items="${type3DayArr }">
-				<div class="col-md-12 tmg10 bdr-r5 bdr-1 flex btn" data-bs-toggle="modal" data-bs-target="#type3ModalS${type3date }">
-					<div class="col-md-10">
+			<c:forEach var="type3date" items="${type3DayArr }" varStatus="dateIndex">
+				<fmt:parseDate var="parsedDate" value="${type3date }" pattern="yyyy-MM-dd" />
+				<fmt:formatDate value="${parsedDate }" var="valueDate" pattern="yyyyMMdd" />
+				<div class="col-md-12 tmg10 bdr-r5 bdr-1 flex btn" name="type3DateList" id="type3DateList${valueDate }" data-bs-toggle="modal" data-bs-target="#type3ModalS${valueDate }">
+					<div class="col-md-6">
 						${type3date }
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-6">
 						<c:choose>
-							<c:when test="${type3comment.get(type3date) != null}">
-								${type3comment.get(type3date) }
+							<c:when test="${type3sComment[dateIndex.index] != '' && type3sContent[dateIndex.index] != null}">
+								<!-- 선생님의 한마디 보기 -->
+								${type3sComment[dateIndex.index]}
+								<input type="hidden" id="type3DateList${valueDate }Label" name="type3DateListLabel" value="comment">
+							</c:when>
+							<c:when test="${type3sComment[dateIndex.index] eq '' && type3sContent[dateIndex.index] != null }">
+								아직 채점중이예요.
+								<input type="hidden" id="type3DateList${valueDate }Label" name="type3DateListLabel" value="content">
 							</c:when>
 							<c:otherwise>
 								아직 일기를 안 썼어요.
+								<input type="hidden" id="type3DateList${valueDate }Label" name="type3DateListLabel" value="notyet">
 							</c:otherwise>
 						</c:choose>
 					</div>
 				</div>
 				
 				 <!-- Modal -->
-				<div class="modal fade" id="type3ModalS${type3date }" tabindex="-1">
+				<div class="modal fade" id="type3ModalS${valueDate }" tabindex="-1">
 				  <div class="modal-dialog modal-lg">
 				    <div class="modal-content">
 				      <!-- <div class="modal-header">
@@ -286,13 +295,14 @@
 				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				      </div> -->
 				      <c:choose>
-				      	<c:when test="${type3sWorks.get(type3date) != null}">
+				      	<c:when test="${type3sWorks != null && type3sWorks[dateIndex.index] != null}">
 				      		 <div class="modal-body">
 						      	<jsp:include page="/WEB-INF/views/homework/detail/type3sNN.jsp" flush="false">
 						      		<jsp:param value="${type3date }" name="type3date"/>
-						      		<jsp:param value="${type3sWorks.get(type3date) }" name="type3sWork"/>
-						      		<jsp:param value="${type3sWC.get(type3date) }" name="type3sWC"/>
-						      		<jsp:param value="${type3comment.get(type3date) }" name="type3comment"/>
+						      		<jsp:param value="${type3sWorks[dateIndex.index].getSho_fileurl() }" name="type3sWork"/>
+						      		<jsp:param value="${type3sWeather[dateIndex.index] }" name="type3sWeather"/>
+						      		<jsp:param value="${type3sContent[dateIndex.index] }" name="type3content"/>
+						      		<jsp:param value="${type3sComment[dateIndex.index] }" name="type3comment"/>
 						      	</jsp:include>
 						      </div>
 				      	</c:when>
@@ -304,12 +314,17 @@
 						      </div>
 				      	</c:otherwise>
 				      </c:choose>
-				     
+				      
 				      <div class="modal-footer">
-				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-				        <c:if test="${type3sWorks.get(type3date) != null}">
-				        	<button type="button" class="btn btn-primary" onclick="submitType3Student()">Save changes</button>
-				        </c:if>
+					      <c:choose>
+					      	<c:when test="${type3sWorks != null && type3sWorks[dateIndex.index] != null}">
+					      		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+					      	</c:when>
+					      	<c:otherwise>
+					      		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+				        		<button type="button" class="btn btn-primary" onclick="submitType3Student(${valueDate })">일기 내기</button>
+					      	</c:otherwise>
+					      </c:choose>
 				      </div>
 				    </div>
 				  </div>

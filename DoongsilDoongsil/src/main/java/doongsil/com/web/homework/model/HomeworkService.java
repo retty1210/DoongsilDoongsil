@@ -1,12 +1,15 @@
 package doongsil.com.web.homework.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import doongsil.com.web.account.model.STAccountDAO;
 import doongsil.com.web.account.model.STAccountVO;
 import doongsil.com.web.paging.model.PagingVo;
 
@@ -15,6 +18,9 @@ public class HomeworkService {
 	
 	@Autowired
 	private HomeworkDAO dao;
+	
+	@Autowired
+	private STAccountDAO staDao;
 	
 	public List<T_HomeworkVO> selectHWList() {
 		List<T_HomeworkVO> datas = dao.selectHWList();
@@ -41,6 +47,17 @@ public class HomeworkService {
 		vo.setSho_tid(id);
 		List<S_HomeworkVO> datas = dao.selectSHList(vo);
 		return datas;
+	}
+	
+	public List<S_HomeworkVO> selectSHListWithName(int id) {
+		S_HomeworkVO vo = new S_HomeworkVO();
+		vo.setSho_tid(id);
+		List<S_HomeworkVO> datas = dao.selectSHListWithName(vo);
+		return datas;
+	}
+	
+	public List<STAccountVO> selectNameWithID(List<Integer> idArr) {
+		return staDao.selectNameFromID(idArr);
 	}
 	
 	public S_HomeworkVO selectOneSH(int id) {
@@ -126,6 +143,10 @@ public class HomeworkService {
 		return dao.updateSHContents(vo);
 	}
 	
+	public boolean updateSHComment(S_HomeworkVO vo) {
+		return dao.SHComment(vo);
+	}
+	
 	public String[] getImgList(String filelink) {
 		String[] slist = new String[1];
 		if(filelink.isEmpty()) {
@@ -208,51 +229,98 @@ public class HomeworkService {
 		return ansarr;
 	}
 	
-	public int selectListCount() {
-		int totalCount = dao.selectListCount();
-		return totalCount;
+	public List<T_HomeworkVO> selectTHwithClass(T_HomeworkVO vo) {
+		return dao.selectTHwithClass(vo);
 	}
 	
-	public int getTotalPage(int countList) { //구하는값: 총 페이지 수 /변수: 한 페이지에 들어갈 글 개수
-		int totalCount = dao.selectListCount();
-		int totalPage = totalCount / countList;
-		if(totalCount % countList > 0) {
-			totalPage++;
-		}//총 페이지 수를 구함: 수가 countList로 딱 나눠 떨어지지 않을 경우 1을 더해줌
-		return totalPage;
+	public HashMap<Integer, List<T_HomeworkVO>> makeTHClassPage(T_HomeworkVO vo, int countList) {//한페이지, 한번에띄우는 페이지수
+		List<T_HomeworkVO> firstDatas = this.selectTHwithClass(vo);
+		HashMap<Integer, List<T_HomeworkVO>> finalDatas = new HashMap<Integer, List<T_HomeworkVO>>();
+		int firstDatasSize = firstDatas.size();
+		int index = 0;
+		for(int i = 1; i <= firstDatasSize; i++) {
+			List<T_HomeworkVO> tempList = new ArrayList<T_HomeworkVO>();
+			inner: for(int j = 0; j < countList; j++) {
+				if(index < firstDatasSize) {
+					tempList.add(firstDatas.get(index));
+					index++;
+				} else {
+					break inner;
+				}
+			}
+			finalDatas.put(i, tempList);
+		}
+		return finalDatas;
 	}
 	
-	public PagingVo getPageList(int pageNo, int pageListNum) {//현재 보고있는 페이지, 페이지용 ul에 한번에 띄울 페이지수
-		int startdata = (pageNo - 1) / pageListNum;
-		PagingVo page = new PagingVo();
-		page.setLastPage(pageListNum * (startdata + 1));//리스트의 마지막 페이지
-		page.setStartPage(page.getLastPage() - pageListNum + 1); //리스트의 첫번째 페이지
-		return page;
+	public LocalDate[] maketype3DayArr(T_HomeworkVO data) {
+		java.sql.Date startDate = data.getTho_writedate();
+		java.sql.Date endDate = data.getTho_deadline();
+		LocalDate startLocal = startDate.toLocalDate();
+		
+		long endMinusStartSec = (endDate.getTime() - startDate.getTime()) / 1000;
+		long duration = endMinusStartSec / (24*60*60);
+		int durDate = Long.valueOf(duration).intValue();
+		//mod.addObject("type3duration", durDate);
+		
+		LocalDate[] type3DayArr = new LocalDate[durDate + 1];
+		for(int type3i = 0; type3i <= durDate; type3i++) {
+			type3DayArr[type3i] = startLocal.plusDays(type3i);
+		}
+		return type3DayArr;
 	}
 	
-	public PagingVo getRNList(int pageNo, int countList, int pageListNum) {
-		PagingVo page = this.getPageList(pageNo, pageListNum);
-		int start = (page.getStartPage() - 1) * countList + 1;
-		int end = (page.getLastPage()) * countList;
-		page.setStart(start);
-		page.setEnd(end);
-		return page;
-	}
-	
-	public List<T_HomeworkVO> getPage(int pageNo, int countList, int pageListNum) {
-		//변수: 지금 보고있는 페이지, 한페이지에 들어갈 글 개수, 페이지용 ul 리스트에 한번에 띄울 페이지 수
-		int totalCount = this.getTotalPage(countList);
-		PagingVo page = this.getRNList(pageNo, countList, pageListNum);
-		System.out.println("시작 줄 수: " + page.getStart() + "마지막 줄 수: " + page.getEnd());
-		//현재페이지가 앞쪽에 가까울때/뒤쪽에 가까울때 쿼리 다르게 함
-//		if((totalCount / pageNo) > 2) {
-			List<T_HomeworkVO> datas = dao.selectHWListFromFront(page);
-			return datas;
-//		} else {
-//			List<T_HomeworkVO> datas = dao.selectHWListFromBack(page);
-//			return datas;
-//		}
-	}
+//	public int selectListCount() {
+//		int totalCount = dao.selectListCount();
+//		return totalCount;
+//	}
+//	
+//	public int getTotalPage(int countList) { //구하는값: 총 페이지 수 /변수: 한 페이지에 들어갈 글 개수
+//		int totalCount = dao.selectListCount();
+//		int totalPage = totalCount / countList;
+//		if(totalCount % countList > 0) {
+//			totalPage++;
+//		}//총 페이지 수를 구함: 수가 countList로 딱 나눠 떨어지지 않을 경우 1을 더해줌
+//		return totalPage;
+//	}
+//	
+//	public PagingVo getPageList(int pageNo, int pageListNum) {//현재 보고있는 페이지, 페이지용 ul에 한번에 띄울 페이지수
+//		int startdata = (pageNo - 1) / pageListNum;
+//		PagingVo page = new PagingVo();
+//		page.setLastPage(pageListNum * (startdata + 1));//리스트의 마지막 페이지
+//		page.setStartPage(page.getLastPage() - pageListNum + 1); //리스트의 첫번째 페이지
+//		return page;
+//	}
+//	
+//	public PagingVo getRNList(int pageNo, int countList, int pageListNum) {
+//		PagingVo page = this.getPageList(pageNo, pageListNum);
+//		int start = (page.getStartPage() - 1) * countList + 1;
+//		int end = (page.getLastPage()) * countList;
+//		page.setStart(start);
+//		page.setEnd(end);
+//		return page;
+//	}
+//	
+//	public List<T_HomeworkVO> getPage(int pageNo, int countList, int pageListNum) {
+//		//변수: 지금 보고있는 페이지, 한페이지에 들어갈 글 개수, 페이지용 ul 리스트에 한번에 띄울 페이지 수
+//		int totalCount = this.getTotalPage(countList);
+//		PagingVo page = this.getRNList(pageNo, countList, pageListNum);
+//		System.out.println("시작 줄 수: " + page.getStart() + "마지막 줄 수: " + page.getEnd());
+//		//현재페이지가 앞쪽에 가까울때/뒤쪽에 가까울때 쿼리 다르게 함
+////		if((totalCount / pageNo) > 2) {
+//			List<T_HomeworkVO> datas = dao.selectHWListFromFront(page);
+//			List<T_HomeworkVO> result = new ArrayList<T_HomeworkVO>();
+//			for(T_HomeworkVO d: datas) {
+//				if(d.getTho_class() == vo.getSta_class() && d.getTho_grade() == vo.getSta_class()) {
+//					result.add(d);
+//				}
+//			}
+//			return result;
+////		} else {
+////			List<T_HomeworkVO> datas = dao.selectHWListFromBack(page);
+////			return datas;
+////		}
+//	}
 	//학생용 내정보 페이지에 채점안된 숙제 불러오기
 	public List<S_HomeworkVO> noCheckHomework(int id){
 		return dao.noCheckHomework(id);

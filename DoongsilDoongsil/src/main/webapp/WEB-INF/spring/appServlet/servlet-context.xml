@@ -110,6 +110,13 @@
 	 		<beans:bean class="doongsil.com.web.info.interceptor.PasswordCheckInterceptor"></beans:bean>
 	 	</interceptor>
 	 </interceptors>
+	 <interceptors>
+		<interceptor>
+			<mapping path="/homework/*" />
+			<exclude-mapping path="/homework/test" />
+			<beans:bean class="doongsil.com.web.homework.interceptor.HomeworkInterceptor"></beans:bean>
+		</interceptor>
+	</interceptors>
 	
 	<!-- 소셜 로그인 Oauth 관련 - 1. 네이버 -->
 	<beans:bean id="naverClientID" class="java.lang.String">

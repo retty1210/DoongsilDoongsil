@@ -13,8 +13,27 @@
 <c:url var="hwr_css_url" value="/stc/css/homework.css" />
 <link href="${hwr_css_url}" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${shwr_url}"></script>
+<c:url var="hwr_css3_url" value="/stc/css/homework_type3.css" />
+<link href="${hwr_css3_url}" rel="stylesheet" type="text/css" />
+<c:url var="hwr_t3_url" value="/stc/js/homework/homework_type3.js" />
+<script type="text/javascript" src="${hwr_t3_url}" ></script>
+<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic-coding.css" rel="stylesheet">
+<link href="https://hangeul.pstatic.net/hangeul_static/css/NanumJungHagSaeng.css" rel="stylesheet">
 </head>
 <body>
+	<script type="text/javascript">
+		window.onload = function() {
+			if(session.getAttribute("error") != null) {
+				var error = '<%=(Boolean)session.getAttribute("error") %>';
+				if(error) {
+					var error_msg = '<%=(String)session.getAttribute("error_msg") %>';
+					if(error_msg != null) {
+						alert(error_msg);
+					}
+				}
+			}
+		}
+	</script>
 	<header>
 		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false" />
 	</header>
@@ -30,13 +49,13 @@
 						</div>
 						<div class= "row tmg10">
 							<div class="col-md-2">
-								<button type="button" class="btn btn-sm btn-sbl"
-									onclick="location='/homework'">목록으로</button>
-								<button type="button" class="btn btn-sm btn-drt"
-									onclick="deleteHW(${data.getTho_id()})'">삭제</button>
+								<button type="button" class="btn btn-sm btn-sbl" onclick="location='/homework'">목록으로</button>
+									<c:if test="${sessionScope.accountNumber == data.getTho_writer() }">
+										<button type="button" class="btn btn-sm btn-drt" onclick="deleteHW(${data.getTho_id()})'">삭제</button>
+									</c:if>
 							</div>
 							<div class="col-md-2">
-								<p><strong>글쓴이</strong> 글쓴사람이름</p>
+								<p><strong>글쓴이</strong> ${writerName }</p>
 							</div>
 							<div class="col-md-1">
 								<span>${data.getTho_grade() }학년${data.getTho_class() }반  </span>
@@ -104,13 +123,21 @@
 					<hr>
 				</div>
 				
-				<div class="container row tmg40">
-					<jsp:include page="/WEB-INF/views/homework/detail/detail_s_teacher.jsp" flush="false" />
-				</div>
-
-				<div class="container row tmg40">
-					<jsp:include page="/WEB-INF/views/homework/detail/detail_s_student.jsp" flush="false" />
-				</div>
+				<c:choose>
+					<c:when test="${sessionScope.accountType == 'T' }">
+						<div class="container row tmg40">
+							<jsp:include page="/WEB-INF/views/homework/detail/detail_s_teacher.jsp" flush="false" />
+						</div>
+					</c:when>
+					<c:when test="${sessionScope.accountType == 'S' }">
+						<div class="container row tmg40">
+							<jsp:include page="/WEB-INF/views/homework/detail/detail_s_student.jsp" flush="false" />
+						</div>
+					</c:when>
+					<c:otherwise>
+						<span>로그인 값이 없습니다.</span>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</main>
 		<footer>

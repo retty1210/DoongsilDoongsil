@@ -8,6 +8,19 @@
 		SELECT * FROM T_HOMEWORK ORDER BY THO_ID DESC
 	</select>
 	
+	<select id="selectTHwithClass" parameterType="t_homework" resultType="t_homework">
+		SELECT 
+		    THO_ID, 
+		    THO_TITLE, 
+		    THO_WRITEDATE, 
+		    THO_DEADLINE,
+			THO_COUNT
+		  FROM T_HOMEWORK
+		  WHERE THO_CLASS = #{tho_class}
+		    AND THO_GRADE = #{tho_grade}
+		  ORDER BY THO_ID DESC
+	</select>
+	
 	<select id="selectHWListFromFront" parameterType="doongsil.com.web.paging.model.PagingVo" resultType="t_homework">
 		SELECT 
 		    X.THO_ID,
@@ -41,7 +54,7 @@
 		WHERE X.RN <![CDATA[>=]]> #{start}
 	</select>
 	
-	<select id="selectHWListFromBack" parameterType="int" resultType="t_homework">
+	<select id="selectHWListFromEnd" parameterType="doongsil.com.web.paging.model.PagingVo" resultType="t_homework">
 		SELECT 
 		    *
 		    FROM
@@ -50,6 +63,7 @@
 		            FROM T_HOMEWORK A) A
 		    WHERE RN <![CDATA[>=]]> #{start}) X
 		WHERE X.RN <![CDATA[>=]]> #{end}
+		
 	</select>
 	
 	<select id="selectOneHW" parameterType="t_homework" resultType="t_homework">
@@ -74,12 +88,35 @@
 		</where>
 	</select>
 	
-	
+	<resultMap id="sta_sHW" type="s_homework">
+		<id property="sho_id" column="SHO_ID"/>
+		<result property="sho_tid" column="SHO_TID"/>
+		<result property="sho_writer" column="SHO_WRITER"/>
+		<result property="sho_homeworktype" column="SHO_HOMEWORKTYPE"/>
+		<result property="sho_grade" column="SHO_GRADE"/>
+		<result property="sho_class" column="SHO_CLASS"/>
+		<result property="sho_contents" column="SHO_CONTENTS"/>
+		<result property="sho_goodbad" column="SHO_GOODBAD"/>
+		<result property="sho_date" column="SHO_DATE"/>
+		<result property="sho_fileurl" column="SHO_FILEURL"/>
+		<result property="sho_comment" column="SHO_COMMENT"/>
+		<association property="staccount" javaType="staccount">
+			<id property="sta_id" column="STA_ID"/>
+			<result property="sta_name" column="STA_NAME"/>
+		</association>
+	</resultMap>
 	
 	<select id="selectSHList" parameterType="s_homework" resultType="s_homework">
 		SELECT * FROM S_HOMEWORK
-		WHERE
-		SHO_TID = #{sho_tid}
+			WHERE SHO_TID = #{sho_tid}
+			ORDER BY SHO_ID DESC
+	</select>
+	
+	<select id="selectSHListWithName" parameterType="s_homework" resultMap="sta_sHW">
+		SELECT A.*, B.STA_ID, B.STA_NAME
+        FROM S_HOMEWORK A JOIN ST_ACCOUNT B
+        ON(A.SHO_WRITER = B.STA_ID)
+		WHERE SHO_TID = #{sho_tid}
 		ORDER BY SHO_ID DESC
 	</select>
 	
@@ -211,6 +248,9 @@
 	
 	<insert id="insertSH" parameterType="s_homework">
 		INSERT INTO S_HOMEWORK(
+			<if test="sho_fileurl != null">
+				SHO_FILEURL,
+			</if>
 			SHO_ID,
 			SHO_TID,
 			SHO_WRITER,
@@ -219,11 +259,10 @@
 			SHO_CLASS,
 			SHO_CONTENTS,
 			SHO_DATE
-			<if test="sho_fileurl != null">
-				,
-				SHO_FILEURL
-			</if>
 		) VALUES (
+			<if test="sho_fileurl != null">
+				#{sho_fileurl},
+			</if>
 			S_HOMEWORK_SEQ.NEXTVAL,
 			#{sho_tid},
 			#{sho_writer},
@@ -232,10 +271,6 @@
 			#{sho_class},
 			#{sho_contents},
 			#{sho_date}
-			<if test="sho_fileurl != null">
-				,
-				#{sho_fileurl}
-			</if>
 		)
 	</insert>
 	
@@ -276,13 +311,14 @@
 	</select>
 	
 	<select id="selectListCount" resultType="int">
-		SELECT COUNT(*) AS TOTALCOUNT FROM T_HOMEWORK
+		SELECT COUNT(*) AS TOTALCOUNT 
+			FROM T_HOMEWORK
 	</select>
 	
 	<update id="updateSHContents" parameterType="s_homework">
 		UPDATE S_HOMEWORK
 			SET	SHO_CONTENTS = #{sho_contents}
-			WHERE SHO_ID = #{sho_id}	
+			WHERE SHO_ID = #{sho_id}
 	</update>
 	<!-- 학생용 내정보 페이지에 채점안된 숙제 불러오기 -->
 	<select id="noCheckHomework" parameterType="int" resultType="s_homework">

@@ -29,6 +29,14 @@
     letter-spacing: 0.05em
 }
 
+.commentTextLabel {
+	font-family: 'NanumJungHagSaeng';
+    border: none;
+    font-size: 15pt;
+    font-weight: bold;
+    letter-spacing: 0.05em
+}
+
 img {
 	width: 100%;
 	height: 100%;

@@ -20,6 +20,19 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 <body>
+	<script type="text/javascript">
+	window.onload = function() {
+		if(session.getAttribute("error") != null) {
+			var error = '<%=(Boolean)session.getAttribute("error") %>';
+			if(error) {
+				var error_msg = '<%=(String)session.getAttribute("error_msg") %>';
+				if(error_msg != null) {
+					alert(error_msg);
+				}
+			}
+		}
+	}
+	</script>
 	<header>
 		<jsp:include page="/WEB-INF/views/module/top.jsp" flush="false"/>
 	</header>
@@ -80,9 +93,9 @@
 							</div>
 						</div>
 						<div class="none">
-							<input type="number" name="tho_writer" value="5" style="display:none;">
-							<input type="number" name="tho_grade" value="1" style="display:none;">
-							<input type="number" name="tho_class" value="2" style="display:none;">
+							<input type="number" name="tho_writer" value="${sessionScope.accountNumber }" style="display:none;">
+							<input type="number" name="tho_grade" value="${sessionScope.account.getSta_grade()}" style="display:none;">
+							<input type="number" name="tho_class" value="${sessionScope.account.getSta_class()}" style="display:none;">
 							<input type="number" name="tho_count" value="0" style="display:none;">
 							<input type="hidden" id="tho_filelink" name="tho_filelink">
 						</div>

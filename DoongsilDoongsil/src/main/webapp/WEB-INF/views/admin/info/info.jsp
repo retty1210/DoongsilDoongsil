@@ -16,10 +16,10 @@
 	function MyInfoUpdate(href){
 		window.open('/popuppassword?type=${sessionScope.account.sta_usertype}','','width=400,height=150');
 	}
-	function studentUpdate(href){
-		<c:forEach var="studentUpdate" items="${sessionScope.infoStudentList}">
-			window.open('/infoUpdate?id=${studentUpdate.sta_id}','','width=500,height=700');
-		</c:forEach>	
+	function studentUpdate(href,id){
+		
+		window.open('/infoUpdate?id='+id,'','width=500,height=700');
+		
 	}
 	
 </script>
@@ -70,7 +70,7 @@
 					<c:forEach var="studentList" items="${sessionScope.infoStudentList}">
 						<tr>
 							<td>${studentList.sta_id }</td>
-							<td><a href="javascript:void(0);" onclick="studentUpdate(this);">${studentList.sta_name }</a></td>
+							<td><a href="javascript:void(0);" onclick="studentUpdate(this,${studentList.sta_id});">${studentList.sta_name }</a></td>
 							<td>${studentList.sta_birthday }</td>
 						</tr>
 					</c:forEach>

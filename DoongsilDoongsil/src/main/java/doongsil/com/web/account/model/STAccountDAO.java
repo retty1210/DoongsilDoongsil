@@ -49,6 +49,14 @@ public class STAccountDAO {
 		return this.sess.selectList("AccountMapper.findChild", stVo);
 	}
 	
+	public STAccountVO snsLoginCheck(STAccountVO stVo) {
+		return this.sess.selectOne("AccountMapper.snsLoginCheck", stVo);
+	}
+	
+//	public int insertSns(STJoinVO stVo) {
+//		return this.sess.insert("AccountMapper.insertSns", stVo);
+//	}
+	
 	public List<STAccountVO> infoStudentList(STAccountVO staVo){
 		return this.sess.selectList("AccountMapper.infoStudentList", staVo);
 	}

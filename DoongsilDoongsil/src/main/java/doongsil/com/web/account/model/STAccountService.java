@@ -37,6 +37,27 @@ public class STAccountService {
 		}
 	}
 	
+//	public boolean insertSns(STJoinVO stVo) throws Exception {
+//		int result = stDao.insertSns(stVo);
+//		if(result == 1) {
+//			return true;
+//		}
+//		return false;
+//	}
+	
+	public List<STAccountVO> findChild(STAccountVO stVo) {
+		return this.stDao.findChild(stVo);
+	}
+	
+	public STAccountVO snsLoginCheck(STAccountVO stVo) {
+		STAccountVO stdatas = stDao.snsLoginCheck(stVo);
+		if(stdatas == null) {
+			return null;
+		} else {
+			return stdatas;
+		}
+	}
+	
 	public boolean join(STJoinVO stVo) throws Exception {
 		int result = stDao.insertAccount(stVo);
 		if(result == 1) {
@@ -53,10 +74,6 @@ public class STAccountService {
 			stData.setSta_password("");
 			return stData;
 		}
-	}
-	
-	public List<STAccountVO> findChild(STAccountVO stVo) {
-		return this.stDao.findChild(stVo);
 	}
 	
 	public List<STAccountVO> infoStudentList(STAccountVO staVo) {
@@ -78,4 +95,5 @@ public class STAccountService {
 	public boolean selectDelete(int id) {
 		return this.stDao.selectDelete(id);	
 	}
+	
 }

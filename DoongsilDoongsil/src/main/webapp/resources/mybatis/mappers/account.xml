@@ -159,4 +159,32 @@
 		 WHERE STA_NAME = #{sta_name}
 	</select>
 	
+	<!-- 
+	<select id="snsLoginCheck" parameterType="doongsil.com.web.account.oauth2.SnsVO" resultType="staccount">
+		SELECT * FROM ST_ACCOUNT
+		 WHERE STA_EAMIL = #{social_email}
+	</select>
+	
+	<insert id="insertSns" parameterType="doongsil.com.web.account.oauth2.SnsVO">
+		INSERT INTO ST_ACCOUNT VALUES(ST_ACCOUNT_SEQ.NEXTVAL 
+									  , #{sta_username}
+									  , #{sta_password}
+									  , #{sta_name}
+									  , #{sta_email}
+									  , #{sta_address}
+									  , #{sta_postcode}
+									  , #{sta_phonenumber}
+									  , #{sta_grade}
+									  , #{sta_class}
+									  , #{sta_birthday}
+									  , '/stc/up/default.png'
+									  , 'S'
+									  )
+						 SELECT * FROM ST_ACCOUNT A
+				       LEFT OUTER JOIN SOCIAL_LOGIN B
+						            ON (A.STA_EMAIL = B.SOCIAL_EMAIL)
+						         WHERE STA_EMAIL = #{socail_email}
+	</insert>
+	-->
+	
 </mapper>

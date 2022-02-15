@@ -12,6 +12,7 @@
 <link href="/stc/css/findId.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+	<div class="box">
 	<form action="./findId" method="post" name="findform">
 		<div class="search-title">
 			<h3>휴대폰 본인확인</h3>
@@ -25,30 +26,32 @@
 				<label>번호</label> 
 				<input type="text" name="sta_phonenumber" class="btn-phone" placeholder="휴대폰 번호 '-' 포함하여 입력">
 			</div>
-			<br>
-		</section>
-		<div class="btnSearch">
-			<button name="enter" value="check" type="submit">찾기</button>
-			<input type="button" name="cancle" value="취소" onClick="history.back()">
-		</div>
-		
-		<!-- 이름과 전화번호가 일치하지 않을 때-->
-		<c:if test ="${check == 1}">
-			<script>
-				opener.document.findform.sta_name.value = "";
-				opener.document.findform.sta_phonenumber.value = "";
-			</script>
-			<label>일치하는 정보가 존재하지 않습니다.</label>
-		</c:if>
-		
-		<!-- 이름과 전화번호가 일치할 때 -->
-		<c:if test ="${check == 0}">
-			<label>찾으시는 아이디는 "${id}" 입니다.</label>
-			<div class="form-label-group">
-				<input class="btn btn-lg btn-secondary btn-block text-uppercase"
-					type="button" value="돌아가기" onclick="history.back()">
+			<div class="btnSearch">
+				<button class="enter" name="enter" value="check" type="submit">찾기</button>
+				<input type="button" class="cancle" name="cancle" value="취소" onClick="history.back()">
 			</div>
-		</c:if>
+		
+			<div class="check">
+				<!-- 이름과 전화번호가 일치하지 않을 때-->
+				<c:if test ="${check == 1}">
+					<script>
+						opener.document.findform.sta_name.value = "";
+						opener.document.findform.sta_phonenumber.value = "";
+					</script>
+					<label>일치하는 정보가 존재하지 않습니다.</label>
+				</c:if>
+				
+				<!-- 이름과 전화번호가 일치할 때 -->
+				<c:if test ="${check == 0}">
+					<label>찾으시는 아이디는 "${id}" 입니다.</label>
+				</c:if>
+			</div>
+		</section>
 	</form>
+	<div class="form-label-group">
+		<input class="btn-return"
+			type="button" value="돌아가기" onclick="history.back()">
+	</div>
+	</div>
 </body>
 </html>

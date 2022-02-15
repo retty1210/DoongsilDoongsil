@@ -12,7 +12,9 @@
 	   					    , NOT_TITLE 
 	   					    , NOT_CONTENTS
 	   					    , NOT_WRITEDATE
-	   					    , NOT_FILE_NAME
+	   					    <if test="not_file_name != null"> 
+	   					    	,NOT_FILE_NAME
+	   					    </if>
 	   					      )
 	                 VALUES(  NOTICE_SEQ.NEXTVAL 
 	                 		  , #{not_writer} 
@@ -20,7 +22,9 @@
 	                 		  , #{not_title}
 	                 		  , #{not_contents}
 	                 		  , SYSDATE
-	                 		  , #{not_file_name}
+	                 		  <if test="not_file_name != null"> 
+	                 		  	,#{not_file_name}
+	   					   	  </if>
 	                 		  )
     </insert>
     

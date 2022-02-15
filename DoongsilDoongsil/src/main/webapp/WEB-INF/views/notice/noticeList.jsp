@@ -91,7 +91,7 @@
 						<a href="fileDownload.do?fileName=${list.not_file_name}" download>
 						<img src="/stc/img/clip.png" class="file-img" /></a></c:if> 
 					</td>				
-					</tr>	
+					</tr>
 				</c:forEach>	
 			</tbody>				
 		</table>

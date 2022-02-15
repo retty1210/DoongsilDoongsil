@@ -62,7 +62,7 @@ public class NoticeController {
 			throws Exception{
 		
 		logger.info("write"+ noticeVO);
-        String root = request.getSession().getServletContext().getRealPath("resources");
+        String root = request.getServletContext().getRealPath("resources");
         String filePath = root + "\\upload";
 
 		

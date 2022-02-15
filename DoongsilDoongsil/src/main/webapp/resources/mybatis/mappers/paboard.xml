@@ -80,6 +80,7 @@
     </update>
     <select id="view" parameterType="int" resultType="doongsil.com.web.paboard.model.PabVO" >
      SELECT PAB_ID
+     	  , A.PAB_WRITER
      	  , B.PAA_USERNAME
      	  , PAB_TITLE
      	  , PAB_CONTENTS

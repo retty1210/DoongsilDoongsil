@@ -132,7 +132,9 @@
 			</select>
 		</div> <!-- 옵션선택 끝 -->
 		<div class="table_wrap">
-			<button type="button" class="btn btn-primary" onclick="location.href='/paboardWrite'">작성하기</button>
+			<c:if test="${sessionScope.account.paa_id ne null }">
+				<button type="button" class="btn btn-primary" onclick="location.href='/paboardWrite'">작성하기</button>
+			</c:if>
 			<table>
 				<tr>
 					<th class="bno_width">번호</th>

@@ -18,7 +18,7 @@ public class FileDownController {
 	
 	@RequestMapping(value = "/notice/fileDownload.do", method = RequestMethod.GET)
     public void fileDownload4(HttpServletRequest request,HttpServletResponse response) throws Exception {
-	String root = request.getSession().getServletContext().getRealPath("resources");
+	String root = request.getServletContext().getRealPath("resources");
 	String filePath = root + "\\upload";
 	
     String filename =request.getParameter("fileName");

@@ -9,6 +9,11 @@
 	font-family: 'Pretendard', 'Roboto', 'sans-serif';
 }
 
+.bg-color,
+.box .login-div,
+.bi { background-color: #77B0BF;}
+
+
 .box {
 	width: 450px;
 	height: auto;
@@ -19,10 +24,10 @@
 
 .login-div {
 	display: inline-block;
-	margin: 100px auto;
 	width: 100%;
 	background-color: #fff;
 	padding: 30px;
+	text-align: center;
 }
 
 .box h2 {
@@ -30,6 +35,8 @@
 	margin-right: auto;
 	margin-left: auto;
 	text-align: center;
+	font-family: 'Hi Melody', cursive;
+	font-size : 46px;
 }
 
 .logo {
@@ -41,6 +48,7 @@
 	margin: 0 auto;
 	margin-bottom: 10px;
 	text-align: center;
+	cursor: pointer;
 }
 
 .logo img {
@@ -149,13 +157,13 @@ label {
 
 .inner, .checkId {
 	width: 20%;
+	height : 37px;
 	border-radius: 10px;
 	border: 1px solid rgba(0,0,0,0.2);
 	font-size: 14px;
-	padding: 7px 20px 5px 10px;
 	margin: 10px 0;
 	background: white;
-	text-align: left;
+	text-align: center;
 }
 
 .custom-input input {
@@ -184,3 +192,4 @@ label {
 button.signin-btn:hover {
 	background-color: 5b6baa;
 }
+

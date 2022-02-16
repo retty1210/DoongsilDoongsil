@@ -54,6 +54,7 @@
 				</table>
 			</div>
 			 
+			 
 			 <div class = "today-box">
 			 	<h3>학사일정</h3>
 			 	<ul class= "academic-list"></ul>
@@ -83,7 +84,7 @@
 				
 				<div class="classBoard-area">
 					<table class="classBoard-table, classBoard-only-table">
-					<span><a href="/homework/list" class="more-list-text">+ 더보기</a></span>
+					<span><a href="/homework" class="more-list-text">+ 더보기</a></span>
 					<th class="classBoard-table, th-text-position">학급게시판</th>
 					<c:forEach var="homework" items="${homeworkList}">
 						<tr>

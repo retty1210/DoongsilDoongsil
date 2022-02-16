@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 * {
 	font-family: 'Pretendard', 'Roboto', 'sans-serif';
 }
@@ -21,6 +22,7 @@ body{
 	border-radius: 20%;
 	margin: 0 auto;
 	margin-bottom: 10px;
+	cursor: pointer;
 }
 
 .logo img {
@@ -32,6 +34,7 @@ body{
 	color: #505050;
 	font-weight: bolder;
 	font-size: 35px;
+	cursor: pointer;
 }
 
 .form-box {

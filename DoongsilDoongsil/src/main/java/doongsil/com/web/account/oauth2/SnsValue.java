@@ -62,6 +62,7 @@ public class SnsValue implements SnsUrls {
 			this.api20Instance = KakaoAPI20.instance();
 			this.profileUrl = KAKAO_PROFILE_URL;
 		}
+		
 	}
 
 	public String getService() {

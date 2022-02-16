@@ -19,13 +19,14 @@ import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.EnumKeySerializer;
 import com.github.scribejava.apis.GoogleApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -65,44 +66,46 @@ private static final Logger logger = LoggerFactory.getLogger(AccountController.c
 	
 	@RequestMapping(value = "/login/oauth2/{snsService}/callback",
 			method = { RequestMethod.GET, RequestMethod.POST })
-	public String snsLoginCallback(@PathVariable String snsService, Model model, @RequestParam String code, STAccountVO stVo, HttpSession session, HttpServletRequest request) throws Exception {
-		System.out.println("code => "+code);
-		
+	public String snsLoginCallback(@PathVariable String snsService, Model model, @RequestParam("code") String code, HttpSession session, HttpServletRequest request) throws Exception {
+		System.out.println("code => " + code);
 		logger.info("snsLoginCallback: service={}", snsService);
+		
 		SnsValue sns = null;
-		if(StringUtils.equals("naver", snsService)) {
+		
+		if (StringUtils.equals("naver", snsService)) {
 			sns = naverSns;
-		} else if(StringUtils.equals("kakao", snsService)) {
-			sns = kakaoSns;
-		} else if(StringUtils.equals("google", snsService)) {
+			SNSLogin snsLogin = new SNSLogin(sns);
+			SnsVO snsData = snsLogin.getUserProfile(code);
+			logger.info("Profile = " + snsData.getSocial_email());
+		} else if (StringUtils.equals("google", snsService)) {
 			sns = googleSns;
+			SNSLogin snsLogin = new SNSLogin(sns);
+			SnsVO snsData = snsLogin.getUserTokenTemp(code); // 1,2번 동시
+			logger.info("Profile = " + snsData.getSocial_email());
+		} else if (StringUtils.equals("kakao", snsService)) {
+			sns = kakaoSns;
+			SNSLoginKa snsLoginKa = new SNSLoginKa(sns);
+			SnsVO snsData = snsLoginKa.getUserProfile(code);
+			logger.info("Profile = " + snsData.getSocial_email());
 		}
 		
-		/*
-		OAuth20Service oAuth = new ServiceBuilder("536429627526-cbc02vfg4p18ltdsg4lo1ljlbg947hcd.apps.googleusercontent.com")
-				.apiSecret("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")
-				.scope("https://www.googleapis.com/auth/user.addresses.read https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/user.phonenumbers.read https://www.googleapis.com/auth/user.birthday.read openid https://www.googleapis.com/auth/user.emails.read https://www.googleapis.com/auth/userinfo.profile")
-				.callback("http://localhost/login/oauth2/google/callback")
-				.build(GoogleApi20.instance());
-		OAuth2AccessToken aToken = oAuth.getAccessToken(code);
-		System.out.println("aToken get RawRes = >" +aToken.getRawResponse());
-		aToken.getParameter("access_token");
-		
-		OAuthRequest authRequest = new OAuthRequest(Verb.GET, "https://www.googleapis.com/oauth2/v2/userinfo");
-		oAuth.signRequest(aToken, authRequest);
-		Response oAuthResponse = oAuth.execute(authRequest);
-		System.out.println("oAuthres get body => "+oAuthResponse.getBody());
-		System.out.println("email: " + oAuthResponse.getBody().substring(oAuthResponse.getBody().indexOf("email") + 9, oAuthResponse.getBody().indexOf("verified_email") - 6));
-//		System.out.println("token email = > "+oAuthResponse.);
-		*/
 		// 1. code를 이용해서 access_token 받기
 		// 2. access_token을 이용해서 사용자 profile 정보 가져오기
-		SNSLogin snsLogin = new SNSLogin(sns);
-		
-		SnsVO snsVo = snsLogin.getUserProfile(code); // 1,2번 동시
-		System.out.println("Profile : " + snsVo);
+		//System.out.println("Profile : " + snsVo);
 		
 		// 3. DB 해당 유저가 존재하는지 체크 (googleid, naverid, kakaoid 컬럼 추가)
+		/*
+		 * 1번 문제. password가 NN이라서 google id로 가입할 경우 pw 처리가 애매함.
+		 * ->pw를 구글로 로그인 한 경우엔 google로 db에 입력하고 로그인 화면에서 pw에 google을 입력했을때 
+		 * 쿼리로 넘어가기 전에 아예 false를 반환시키게.(유지보수가 쉽지 않다는 단점)
+		 * 2번. 구글에서 받는 데이터가 이메일, 프로필사진, 아이디뿐이라서 이름 주소 등등을 따로 넣어줘야 하고
+		 * 3번. 로그인할때 query문 보면 id랑 password로 select을 하게 되어 있는데 sns로 로그인한 회원은 pw가 없는 문제
+		 * 4번. 학부모가 db에서 테이블이 따로 있는데 이거 관련해서 처리(로그인, 회원가입)
+		 * ->회원가입할때 2번문제 해결하려면 추가정보 받는 창을 띄워야 하는데
+		 * 이 때 회원 타입을 선택하면 그거에 맞춰서 생성하는 VO를 다르게 생성해서(if문 사용)
+		 * 쿼리를 돌리면 되고, 로그인할때는 토큰 관련된 처리가 끝난 다음에
+		 * db에 있는 데이터랑 확인할때 로그인화면에서 입력받은 회원타입이랑 비교까지 한번에
+		 */
 		
 //		STAccountVO snsData = staService.snsLoginCheck(stVo);		
 		// 미존재시 회원가입페이지로
@@ -112,13 +115,13 @@ private static final Logger logger = LoggerFactory.getLogger(AccountController.c
 //		} 
 //		// 4. 존재시 로그인
 //		
-//		session.setAttribute("logined", true);
+		session.setAttribute("logined", true);
 //		session.setAttribute("account", snsData);
 //		session.setAttribute("accountType", snsData.getSta_usertype());
 //		session.setAttribute("accountNumber", snsData.getSta_id());
 		
 //		return "./admin/popup/infoUpdate";
-		return "redirect:/home";
+		return "redirect:/";
 	}
 	
 //	@RequestMapping(value = "/insertSns", method = RequestMethod.GET)
@@ -197,8 +200,8 @@ private static final Logger logger = LoggerFactory.getLogger(AccountController.c
 		SNSLogin snsLogin = new SNSLogin(naverSns);
 		model.addAttribute("naver_url", snsLogin.getNaverAuthURL());
 		
-		SNSLogin snSlogin = new SNSLogin(kakaoSns);
-		model.addAttribute("kakao_url", snSlogin.getKakaoAuthURL());
+		SNSLoginKa snSloginKa = new SNSLoginKa(kakaoSns);
+		model.addAttribute("kakao_url", snSloginKa.getKakaoAuthURL());
 		
 //		SNSLogin googleLogin = new SNSLogin(googleSns);
 //		model.addAttribute("google_url", googleLogin.getNaverAuthURL());

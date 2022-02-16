@@ -126,7 +126,7 @@
 		<beans:constructor-arg value="a7Ei8kKSZt" />
 	</beans:bean>
 	<beans:bean id="naverRedirectUrl" class="java.lang.String">
-		<beans:constructor-arg value="http://localhost/login/ouath2/naver/callback" />
+		<beans:constructor-arg value="http://localhost/login/oauth2/naver/callback" />
 	</beans:bean>
 
 	<beans:bean id="naverSns" class="doongsil.com.web.account.oauth2.SnsValue">
@@ -144,7 +144,7 @@
 		<beans:constructor-arg value="vpqr07m6lPpwxrW0mrz4P626NlfnwDMI" />
 	</beans:bean>
 	<beans:bean id="kakaoRedirectUrl" class="java.lang.String">
-		<beans:constructor-arg value="http://localhost/login/ouath2/kakao/callback" />
+		<beans:constructor-arg value="http://localhost/login/oauth2/kakao/callback" />
 	</beans:bean>
 
 	<beans:bean id="kakaoSns" class="doongsil.com.web.account.oauth2.SnsValue">

@@ -104,7 +104,7 @@
 				</tr>
 				<tr>
 					<th><label>비밀번호</label></th>
-					<td><input type="password" name="newPassword"/></td>
+					<td><input type="password" name="newPassword"z/></td>
 				</tr>
 				<tr>
 					<th><label>비밀번호 확인</label></th>

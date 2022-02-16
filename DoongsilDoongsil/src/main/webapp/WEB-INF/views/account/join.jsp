@@ -13,11 +13,14 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
 <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 <link href="/stc/css/join.css" rel="stylesheet" type="text/css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
 </head>
 <body>
 	<div class="box">
 		<div class="login-div">
-			<div class="logo">
+			<div class="logo" onclick="location.href='/'">
 				<svg xmlns="http://www.w3.org/2000/svg" class="bi bi-clouds" viewBox="0 0 16 16">
 				  <path d="M16 7.5a2.5 2.5 0 0 1-1.456 2.272 3.513 3.513 0 0 0-.65-.824 1.5 1.5 0 0 0-.789-2.896.5.5 0 0 1-.627-.421 3 3 0 0 0-5.22-1.625 5.587 5.587 0 0 0-1.276.088 4.002 4.002 0 0 1 7.392.91A2.5 2.5 0 0 1 16 7.5z" />
 				  <path d="M7 5a4.5 4.5 0 0 1 4.473 4h.027a2.5 2.5 0 0 1 0 5H3a3 3 0 0 1-.247-5.99A4.502 4.502 0 0 1 7 5zm3.5 4.5a3.5 3.5 0 0 0-6.89-.873.5.5 0 0 1-.51.375A2 2 0 1 0 3 13h8.5a1.5 1.5 0 1 0-.376-2.953.5.5 0 0 1-.624-.492V9.5z" />
@@ -81,7 +84,7 @@
 					<label>주소</label>
 					<div>
 						<input type="text" id="sample6_postcode" name="sta_postcode" class="post" placeholder="우편번호">
-						<input type="button" class="inner" onclick="sample6_execDaumPostcode();" value="우편번호 찾기"><br>
+						<input type="button" class="inner" onclick="sample6_execDaumPostcode();" value="우편번호 찾기" style="font-size:12px;"><br>
 						<input type="text" id="sample6_address" name="sta_address" class="add" placeholder="주소"><br>
 						<input type="text" id="sample6_detailAddress" class="add" placeholder="상세주소">
 						<input type="text" id="sample6_extraAddress" class="add" placeholder="참고항목">

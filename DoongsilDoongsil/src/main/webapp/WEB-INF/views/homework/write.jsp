@@ -46,15 +46,15 @@
 				<div class="bloc80 bdr-1 bdr-r9 pd20 tmg20">
 					<form id="hw_up_form" name="hw_up_form" class="form-horizontal" action="/homework/write/up/file" method="post" enctype="multipart/form-data">
 						<div class="form-group pd10">
-							<button id="btn_up" name="btn_up" type="button" class="btn btn-wht btn-sm">업로드할 사진 선택하기</button>
+							<button id="btn_imgSelect" name="btn_up" type="button" class="btn btn-wht btn-sm">업로드할 사진 선택하기</button>
 							<span class="text-muted">사진 업로드는 3장까지 가능합니다.</span>
 						</div>
 						<div id="uploadFileName"  class="form-group pd10">
 							
 						</div>
-						<input multiple="multiple" type="file" name="picFile" id="picFile" style="display:none;">
+						<input multiple="multiple" type="file" name="picFile" id="picFile" style="display:none;" accept="image/*">
 						<div class="form-group pd10">
-							<button type="button" onclick="fileUp()" class="btn btn-wht btn-sm">사진 업로드</button>
+							<button type="button" onclick="fileUp()" id="btn_imgup" class="btn btn-wht btn-sm">사진 업로드</button>
 						</div>
 					</form>
 				</div>

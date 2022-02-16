@@ -245,7 +245,7 @@ function submitAjaxComment(e) {
 		alert("숙제 채점이 되지 않았습니다.");
 	} else {
 		var goodbad = 'G';
-		if($("#sho_good"+e).attr('disabled')) {
+		if($("#sho_good"+e).attr('disabled', true)) {
 			goodbad = 'N';
 		}
 		var comment = $("#sho_comment"+e).val();
@@ -265,7 +265,7 @@ function submitAjaxComment(e) {
 				} else if(data.GoodBad == 'N') {
 					resultText = "아쉬워요";
 				}
-				alert(data.GoodBad + "으로 채점, " + resultText+ "으로 채점에 성공했습니다.");
+				alert(resultText+ "으로 채점에 성공했습니다.");
 				$("#sho_bad"+e).attr('disabled', true);
 				$("#sho_good"+e).attr('disabled', true);
 				$("#btn_ajaxBad"+e).attr('disabled', true);

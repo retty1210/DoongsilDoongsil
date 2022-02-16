@@ -51,7 +51,7 @@
 							<div class="col-md-2">
 								<button type="button" class="btn btn-sm btn-sbl" onclick="location='/homework'">목록으로</button>
 									<c:if test="${sessionScope.accountNumber == data.getTho_writer() }">
-										<button type="button" class="btn btn-sm btn-drt" onclick="deleteHW(${data.getTho_id()})'">삭제</button>
+										<button type="button" class="btn btn-sm btn-drt" onclick="deleteHW(${data.getTho_id()})">삭제</button>
 									</c:if>
 							</div>
 							<div class="col-md-2">

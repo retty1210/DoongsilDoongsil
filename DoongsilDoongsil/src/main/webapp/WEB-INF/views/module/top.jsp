@@ -45,10 +45,10 @@ url은 경로로 인해 생기는 문제를 방지하기 위해 c:url을 사용�
        			<c:if test="${sessionScope.logined }">
        			<c:choose>
        				<c:when test="${sessionScope.account.sta_profile ne null}">
-	            		<img src="${sessionScope.account.sta_profile}" alt="mdo" width="32" height="32" class="rounded-circle">
+	            		<img src="${sessionScope.account.sta_profile}" alt="mdo" width="32" height="32" class="rounded-circle" style="width:32px; height:32px;">
 	            	</c:when>
 	            	<c:otherwise>
-	            		<img src="${reqeust.getServletContext().getRealPath()}/stc/up/default.png" alt="mdo" width="32" height="32" class="rounded-circle">
+	            		<img src="${reqeust.getServletContext().getRealPath()}/stc/up/default.png" alt="mdo" width="32" height="32" class="rounded-circle" style="width:32px; height:32px;">
 	            	</c:otherwise>
             	</c:choose>
           		</c:if>

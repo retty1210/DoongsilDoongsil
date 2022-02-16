@@ -18,8 +18,12 @@ public class FileDownController {
 	
 	@RequestMapping(value = "/notice/fileDownload.do", method = RequestMethod.GET)
     public void fileDownload4(HttpServletRequest request,HttpServletResponse response) throws Exception {
+<<<<<<< HEAD
 	String root = request.getServletContext().getRealPath("resources");
 	String filePath = root + "\\upload";
+=======
+	String root = request.getServletContext().getRealPath("/resources/upload/");
+>>>>>>> refs/remotes/origin/이종훈
 	
     String filename =request.getParameter("fileName");
     String realFilename="";
@@ -38,7 +42,7 @@ public class FileDownController {
         } catch (UnsupportedEncodingException ex) {
             System.out.println("UnsupportedEncodingException");
         }
-        realFilename = filePath + "\\" + filename;
+        realFilename = root + filename;
         
         System.out.println(realFilename);
         File file1 = new File(realFilename);

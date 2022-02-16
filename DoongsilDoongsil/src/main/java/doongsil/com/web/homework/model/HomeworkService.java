@@ -57,7 +57,12 @@ public class HomeworkService {
 	}
 	
 	public List<STAccountVO> selectNameWithID(List<Integer> idArr) {
-		return staDao.selectNameFromID(idArr);
+		List<STAccountVO> datas = new ArrayList<STAccountVO>();
+		if(!idArr.isEmpty()) {
+			return datas =  staDao.selectNameFromID(idArr);
+		}else {
+			return datas;
+		}
 	}
 	
 	public S_HomeworkVO selectOneSH(int id) {

@@ -98,7 +98,13 @@
 				</c:if>
 				</td>
 			</tr>
-		</tbody>			
+		</tbody>
+		<tr style="background-color: #f2f5fa;border-bottom: hidden;">
+         <c:if test="${read.not_file_name ne null}">
+            <td colspan="3" >첨부파일&nbsp;<a href="fileDownload.do?fileName=${read.not_file_name}" style="text-decoration:none;">${read.not_file_name}</a>
+            &nbsp;<span class="badge rounded-pill bg-primary">download</span></td>
+         </c:if>
+      </tr>			
 		</table>
 	
 	<!-- 댓글보기 -->

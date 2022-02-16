@@ -62,10 +62,14 @@ public class NoticeController {
 			throws Exception{
 		
 		logger.info("write"+ noticeVO);
+<<<<<<< HEAD
         String root = request.getServletContext().getRealPath("resources");
         String filePath = root + "\\upload";
+=======
+        String root = request.getServletContext().getRealPath("/resources/upload/");
+>>>>>>> refs/remotes/origin/이종훈
 
-		
+		String path = "";
 		String fileName=null;
 		MultipartFile uploadFile = noticeVO.getUploadFile();
 		if (!uploadFile.isEmpty()) {
@@ -73,10 +77,11 @@ public class NoticeController {
 			String ext = FilenameUtils.getExtension(originalFileName);	//확장자 구하기
 			UUID uuid = UUID.randomUUID();	//UUID 구하기
 			fileName = uuid + "." + ext;
-			uploadFile.transferTo(new File(filePath + "\\" + fileName));
-
+			uploadFile.transferTo(new File(root + fileName));
+			
+			path = "/stc/up/" + fileName;
 		}
-		noticeVO.setNot_file_name(fileName);
+		noticeVO.setNot_file_name(path);
 
 		service.write(noticeVO);
 						

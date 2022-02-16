@@ -58,6 +58,9 @@ public class SearchController {
 		}else {
 			model.addAttribute("searchError","해당하는 검색 결과가 없습니다.");
 		}
+		for(SearchDTO s: search) {
+			System.out.println(s);
+		}
 		return "search/search";
 	}
 }

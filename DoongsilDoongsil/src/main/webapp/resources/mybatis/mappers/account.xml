@@ -51,9 +51,9 @@
 		   	   <if test="sta_profile != null">
 		   	   	STA_PROFILE = #{sta_profile},
 		   	   </if>
-		   	   STA_USERTYPE = #{sta_usertype},
+		   	   STA_USERTYPE = #{sta_usertype}
 		   	   <if test="sta_password != null">
-		   	   	STA_PASSWORD = #{sta_password}
+		   	   	, STA_PASSWORD = #{sta_password}
 		   	   </if>
 		 WHERE STA_ID = #{sta_id}
 	</update>

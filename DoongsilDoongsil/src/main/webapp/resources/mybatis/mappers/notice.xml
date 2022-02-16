@@ -70,6 +70,7 @@
      SELECT *
     	FROM NOTICE
  		WHERE NOT_WRITER = #{not_writer}
+ 		ORDER BY 1
     </select>
     
     <!-- 공지사항 수정 -->

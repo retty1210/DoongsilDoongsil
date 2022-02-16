@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -123,10 +124,22 @@
 					</tr>
 				</c:when>
 				<c:otherwise>
+					<c:set var="st" value="공지사항"/>
+					<c:set var="nt" value="숙제"/>
 					<c:forEach var="search" items="${searchList }">
 						<tr>
 							<td>${search.searchId }</td>
-							<td>${search.searchTitle}</td>
+							<c:choose>
+								<c:when test="${fn:contains(search.searchTitle,st)}">
+									<td><a href="/notice/noticeView?not_id=${search.searchId }">${search.searchTitle}</a></td>
+								</c:when>
+								<c:when test="${fn:contains(search.searchTitle,nt)}">
+									<td><a href="/homework/detail?tho_id=${search.searchId }">${search.searchTitle}</a></td>
+								</c:when>
+								<c:otherwise>
+									<td><a href="/paboardView?pab_id=${search.searchId }">${search.searchTitle}</a></td>
+								</c:otherwise>
+							</c:choose>
 							<td>${search.searchUserName}</td>
 							<td>${search.searchDate}</td>
 							<td>${search.searchCount}</td>

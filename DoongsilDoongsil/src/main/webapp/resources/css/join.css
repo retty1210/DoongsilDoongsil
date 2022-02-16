@@ -9,6 +9,11 @@
 	font-family: 'Pretendard', 'Roboto', 'sans-serif';
 }
 
+.bg-color,
+.box .login-div,
+.bi { background-color: #77B0BF;}
+
+
 .box {
 	width: 450px;
 	height: auto;

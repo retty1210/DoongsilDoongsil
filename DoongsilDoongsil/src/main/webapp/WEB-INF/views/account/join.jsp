@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="bg-color">
 	<div class="box">
 		<div class="login-div">
 			<div class="logo" onclick="location.href='/'">

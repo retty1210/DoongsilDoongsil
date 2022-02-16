@@ -102,7 +102,7 @@
 			<c:if test="${pageMaker.prev}">
 				<li class="page-item">
 					<a class="page-link" href="listPage${pageMaker.makeQuery(pageMaker.startPage-1)}">
-					 <span aria-hidden="true">&laquo;</span></a>
+					 <span aria-hidden="true">이전</span></a>
 				</li>
 			</c:if>		
 			<!-- 페이지 번호 (시작 페이지 번호부터 끝 페이지 번호까지) -->
@@ -117,7 +117,7 @@
 			<c:if test="${pageMaker.next}">
 				<li class="page-item">
 			    	<a class="page-link" href="listPage${pageMaker.makeQuery(pageMaker.endPage + 1)}">
-			    	<span aria-hidden="true">&raquo;</span></a>
+			    	<span aria-hidden="true">다음</span></a>
 				</li>
 			</c:if>
 		</ul>

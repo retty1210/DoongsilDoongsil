@@ -169,6 +169,12 @@ public class SearchDTO {
 		}
 		return searchCount;
 	}
+	@Override
+	public String toString() {
+		return "SearchDTO [searchId=" + searchId + ", searchTitle=" + searchTitle + ", searchUserName=" + searchUserName
+				+ ", searchDate=" + searchDate + ", searchCount=" + searchCount + "]";
+	}
+	
 	
 	
 	

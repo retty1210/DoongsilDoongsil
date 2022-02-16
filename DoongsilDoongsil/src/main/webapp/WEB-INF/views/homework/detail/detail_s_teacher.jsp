@@ -67,17 +67,14 @@
 								</div>
 								<div class="form-group tmg10">
 									<div class="col-md-12 tmg10">
-										<button class="btn btn-sbl" type="button"
-											id="btn_comment${sdata.getSho_id() }"
+										<button class="btn btn-sbl" type="button" id="btn_comment${sdata.getSho_id() }"
 											onclick="commentCheck(${sdata.getSho_id() })">숙제에
 											대한 평가 입력창 열기</button>
 									</div>
 								</div>
-								<div class="form-group tmg10 flex" name="commentArea"
-									id="commentArea${sdata.getSho_id() }">
+								<div class="form-group tmg10 flex" name="commentArea" id="commentArea${sdata.getSho_id() }">
 									<div class="col-md-10 pd10">
-										<textarea class="form-control" rows="1"
-											name="sho_comment" id="sho_comment${sdata.getSho_id() }"
+										<textarea class="form-control" rows="1" name="sho_comment" id="sho_comment${sdata.getSho_id() }"
 											placeholder="학생의 숙제에 대한 평가를 입력하세요(선택)"></textarea>
 									</div>
 									<div class="col-md-2 pd10">

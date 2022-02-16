@@ -282,11 +282,18 @@ public class HomeworkController {
 						System.out.println("idArr: " + idArr);
 						sArrforTeacher.put(i, sArrforT);
 						sizeArr[i] = sArrforT.size();
-						List<STAccountVO> nametemparr = new ArrayList<STAccountVO>();
+						List<STAccountVO> nameInnerArr = new ArrayList<STAccountVO>();
 						if(idArr.size() > 0) {
-							nametemparr = service.selectNameWithID(idArr);
+							List<STAccountVO> nametemparr = service.selectNameWithID(idArr);
+							for(int k = 0; k < idArr.size(); k++) {
+								for(int l = 0; l < nametemparr.size(); l++) {
+									if(idArr.get(k) == nametemparr.get(l).getSta_id()) {
+										nameInnerArr.add(nametemparr.get(l));
+									}
+								}
+							}
 						}
-						nameArr.put(i, nametemparr);
+						nameArr.put(i, nameInnerArr);
 						weatherArr.put(i, tempWeather);
 						contentArr.put(i, tempContent);
 					}

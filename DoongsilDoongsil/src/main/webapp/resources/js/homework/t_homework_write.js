@@ -169,7 +169,8 @@ function fileUp() {
 			} else {
 				alert(j + " 개의 파일 업로드에 성공하였습니다.");
 			$('#tho_filelink').attr('value', data);
-			$('#btn_up').attr('disabled', true);
+			$('#btn_imgSelect').attr('disabled', true);
+			$('#btn_imgup').attr('disabled', true);
 			}
 		},
 		error: function() {

@@ -25,7 +25,7 @@
 							</div>
 							<div id="uploadFileName" class="form-group pd10"></div>
 							<input multiple="multiple" type="file" name="picFile"
-								id="picFile" style="display: none;">
+								id="picFile" style="display: none;" accept="image/*">
 							<div class="form-group pd10">
 								<button type="button" id="btn_img_up" onclick="fileUp()"
 									class="btn btn-wht btn-sm">사진 업로드</button>

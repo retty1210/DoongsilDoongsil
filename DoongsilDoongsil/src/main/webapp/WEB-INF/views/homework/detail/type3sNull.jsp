@@ -35,7 +35,7 @@
 			<form id="type3diarySubmit${valueDate }" class="form-horizontal" method="post" action="/studentup3" enctype="multipart/form-data">
 				<div class="row vtc">
 					<div>
-						<input type="file" id="type3imgInput${valueDate }" name="uploadFile" style="display:none;">
+						<input type="file" id="type3imgInput${valueDate }" name="uploadFile" style="display:none;" accept="image/*">
 					</div>
 					<div id="type3imgArea${valueDate }" class="type3_imgArea flex" onclick="type3imgup(${valueDate })">
 						<div class="type3_img_inner">

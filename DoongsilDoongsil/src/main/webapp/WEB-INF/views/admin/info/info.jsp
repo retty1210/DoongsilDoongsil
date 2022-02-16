@@ -51,7 +51,7 @@
 			</div>
 			<div class="subMenu_box">
 				<ul>
-					<li><a href="javascript:void(0);" onclick="studentDel(this)">학생관리</a></li>
+					<li><a href="javascript:void(0);" onclick="studentDel(this);">학생관리</a></li>
 					<li><a href="javascript:void(0);" onclick="MyInfoUpdate(this);">내 정보 수정</a></li>
 				</ul>
 			</div>
@@ -59,7 +59,7 @@
 		<div class="subMainBox">
 			<div class="studentList_box">
 				<div class="parentList_all_box">
-					<a href="/studentDel" class="parentList_all">>전체보기</a>
+					<a href="javascript:void(0)" onclick="studentDel(this);" class="parentList_all">>전체보기</a>
 				</div>
 				<table border="1" class="studentList_tb">
 					<tr class="studentList_tr">

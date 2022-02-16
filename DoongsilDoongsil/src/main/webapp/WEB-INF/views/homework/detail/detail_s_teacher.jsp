@@ -252,16 +252,18 @@
 					      <div class="modal-body flex">
 					      	<c:forEach var="studentName" items="${nameArr[index.index] }" varStatus="nameindex">
 					      		<c:choose>
-					      			<c:when test="${sArrforT[index.index][nameindex.index].getSho_comment() != null }">
+					      			<c:when test="${sArrforT[index.index][nameindex.index].getSho_comment() ne null }">
 					      				<div class="col-md-3 bdr-1 bdr-r5 btn btn-secondary" id="nameBtn_${valueDate }_${studentName.getSta_id() }"
 							      			data-bs-toggle="modal" data-bs-target="#type3_submodal_${valueDate }_${studentName.getSta_id() }">
 							      			${studentName.getSta_name() }
+							      			
 							      		</div>
 					      			</c:when>
 					      			<c:otherwise>
 					      				<div class="col-md-3 bdr-1 bdr-r5 btn btn-success" id="nameBtn_${valueDate }_${studentName.getSta_id() }"
 							      			data-bs-toggle="modal" data-bs-target="#type3_submodal_${valueDate }_${studentName.getSta_id() }">
 							      			${studentName.getSta_name() }
+							      		
 							      		</div>
 					      			</c:otherwise>
 					      		</c:choose>

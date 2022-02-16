@@ -54,36 +54,7 @@ public class SNSLoginKa {
 	public SnsVO getUserProfile(String code) throws Exception {
 		System.out.println("getUserProfile start!");
 		System.out.println(code);
-		/*
-		// httpsURLConnection url -> 옛날방식이라 조금 불편
-		// REtrofit2(안드로이드에서 쓰는 라이브러리), OkHttp
-		RestTemplate rt = new RestTemplate();
-		// httpHeader 오브젝트 생성
-		HttpHeaders headers = new HttpHeaders();
-		// 현재 http 형식이 key-value 형식임을 알린다
-		headers.add("Content-type", "appplication/x-www-form-urlencoded;charset=utf-8");
 		
-		// httpBody 오브젝트 생성
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("grant-type", "authorization_code");
-		params.add("client-id", "d6cbcb45ce2bd0de56f95ef51e764ec7");
-		params.add("redirect-uri", "http://localhost/login/oauth2/kakao/callback");
-		
-		// 방금 받은 코드 출력
-		params.add("code : ", code);
-		
-		// body data와 header 값을 가지고 있는 하나의 httpEntity가 된다
-		// body 값과 header 값을 둘 다 하나로 만든다
-		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
-		
-		// http 요청하기 - Post 방식으로 + response 변수의 응답을 받음
-		ResponseEntity<String> response = rt.exchange(
-				"https://kauth.kakao.com/oauth/token", 
-				HttpMethod.POST,
-				kakaoTokenRequest,
-				String.class);
-		System.out.println(response);
-		*/
 		// OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
 		// System.out.println("accessToken complete:" + accessToken);
 		

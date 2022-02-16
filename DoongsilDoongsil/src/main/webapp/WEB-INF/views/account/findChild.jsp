@@ -8,16 +8,19 @@
 <head>
 <meta charset="UTF-8">
 <title>자녀 검색</title>
+<link href="/stc/css/findChild.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 	<section>
 	<div>
 		<h2>자녀 검색</h2>
 		<form action="./childCheck" method="post">
-			<input type="text" id="sta_name" name="sta_name" placeholder="아이 이름을 입력하세요.">
-			<button type="submit">검색</button>
+			<div class="search">
+				<input type="text" id="sta_name" name="sta_name" class="seach" placeholder="아이 이름을 입력하세요.">
+				<button type="submit">검색</button>
+			</div>
 			
-			<div>
+			<div class="not-find">
 			<c:if test="${fail_list == 1}">
 				<label>
 					정보를 찾을 수 없습니다.
@@ -26,7 +29,7 @@
 			
 			<c:if test="${success_list == 0}">
 				<div class="tbl-header">
-					<table>
+					<table cellpadding="0" cellspacing="0" border="0">
 						<thead>
 							<tr>
 								<th>아이디</th>
@@ -35,6 +38,10 @@
 								<th>반</th>
 							</tr>
 						</thead>
+					</table>
+				</div>
+				<div class="tbl-content">
+   					<table cellpadding="0" cellspacing="0" border="0">
 						<tbody>
 							<c:forEach items="${list}" var="stVo">
 								<tr>
@@ -46,14 +53,16 @@
 							</c:forEach>
 						</tbody>
 					</table>
+				</div>
 			</c:if>
 			</div>
 			
 			<div>
-				<input type="button" value="창닫기" onClick='window.close()'>
+				<input class="input" type="button" value="창닫기" onClick='window.close()'>
 			</div>
 			</form>
 	</div>
 	</section>
+<script type="text/javascript" src="stc/js/findChild.js"></script>
 </body>
 </html>

@@ -3,9 +3,15 @@ package doongsil.com.web.account.oauth2;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +29,7 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import com.github.scribejava.core.oauth.OAuthService;
 import com.google.api.client.http.HttpHeaders;
 
 public class SNSLoginKa {
@@ -77,19 +84,55 @@ public class SNSLoginKa {
 				String.class);
 		System.out.println(response);
 		*/
-		OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
-		System.out.println("accessToken complete:" + accessToken);
+		// OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
+		// System.out.println("accessToken complete:" + accessToken);
+		
+		System.out.println(sns.getClientId());
+		
+		OAuthRequest token = new OAuthRequest(Verb.POST, "https://kauth.kakao.com/oauth/token");
+		// token.addHeader("Host", "kauth.kakao.com");
+		token.addHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		token.addBodyParameter("grant_type", "authorization_code");
+		token.addBodyParameter("client_id", "d6cbcb45ce2bd0de56f95ef51e764ec7");
+		token.addBodyParameter("redirect_uri", "http://localhost/login/oauth2/kakao/callback");
+		token.addBodyParameter("code", code);
+		token.addBodyParameter("client_secret", "vpqr07m6lPpwxrW0mrz4P626NlfnwDMI");
+		
+		Response respToken = oauthService.execute(token);
+		
+		System.out.println("바디체크 : " +respToken.getBody());
+		
+		JSONParser jp = new JSONParser();
+		Object jsonObj = jp.parse(respToken.getBody());
 		
 		OAuthRequest request = new OAuthRequest(Verb.GET, this.sns.getProfileUrl());
-		System.out.println("request getProfile:" +request);
-		oauthService.signRequest(accessToken, request);
-		System.out.println("signRequest complete");
+		request.addHeader("Host", "kapi.kakao.com");
+		request.addHeader("Authorization", "Bearer " + ((HashMap<String, String>)jsonObj).get("access_token") );
+		request.addHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		System.out.println("request getProfile:" + request);
+		
+		// oauthService.signRequest(accessToken, request);
+		// System.out.println("signRequest complete");
 		
 		Response response = oauthService.execute(request);
 		System.out.println("execute complete:"+ response);
 		System.out.println("response.getbody: " +response.getBody());
 //		return response.getBody();
-		return parseJson(response.getBody());
+		jp = new JSONParser();
+		jsonObj = jp.parse(response.getBody());
+		
+		SnsVO snsVo = new SnsVO();
+		
+		Map<String, Object> jsonMap = (Map<String, Object>)jsonObj;
+		for(Entry<String, Object> e: jsonMap.entrySet()) {
+			System.out.println(e.getKey() +"|" +e.getValue());
+		}
+		jsonObj = jp.parse(jsonMap.get("kakao_account").toString());
+		jsonMap = (Map<String, Object>)jsonObj;
+		snsVo.setSocial_email((String)jsonMap.get("email"));
+		System.out.println(snsVo.getSocial_email());
+		return snsVo;
 	}
 	
 	private SnsVO parseJson(String body) throws Exception {
@@ -98,7 +141,7 @@ public class SNSLoginKa {
 
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode rootNode = mapper.readTree(body);
-			
+
 		if (this.sns.isKakao()) {
 			JsonNode resNode = rootNode.get("response");
 //			snsVo.setSocial_id(resNode.get("id").asText());

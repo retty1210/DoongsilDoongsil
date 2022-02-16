@@ -19,7 +19,6 @@
 
 .login-div {
 	display: inline-block;
-	margin: 100px auto;
 	width: 100%;
 	background-color: #fff;
 	padding: 30px;
@@ -38,13 +37,13 @@
 	width: 150px;
 	height: 150px;
 	border-radius: 20%;
-	margin: 0 auto;
 	margin-bottom: 10px;
 	text-align: center;
 }
 
-.logo img {
-	width: 100%;
+svg {
+	display: block;
+	margin: 0px auto;
 }
 
 .nav-div {
@@ -177,10 +176,7 @@ label {
 	font-size: 18px;
 	font-weight: bolder;
 	border-radius: 30px;
-	background-color: #Ffce9c;
+	background-color: blue;
 	color: #fff7e3;
-}
-
-button.signin-btn:hover {
 	background-color: 5b6baa;
 }

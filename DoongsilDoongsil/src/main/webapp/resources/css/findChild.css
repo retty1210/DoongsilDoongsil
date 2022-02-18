@@ -5,8 +5,7 @@
 }
 
 section {
-	margin: 50px;
-	width: 350px;
+	text-align : center;
 }
 
 h2 {
@@ -17,15 +16,13 @@ h2 {
   margin-bottom: 35px;
 }
 
-.search {
-	margin-top: 10px;
-	margin-bottom: 15px;
-	text-align: center;
-}
-
 .not-find {
 	margin-top: 10px;
 	margin-bottom: 15px;
+}
+
+.search input {
+	width: 232px;
 }
 
 input {
@@ -33,11 +30,10 @@ input {
 	width: 72%;
  	padding: 10px 10px;
   	margin: 18px auto;
-  	float: centar;
 }
 
 button {
-	border-radius: 15px;
+	border-radius: 5px;
  	width: 20%;
  	padding: 10px 10px;
   	margin: 18px auto;
@@ -79,9 +75,6 @@ td {
   border-bottom: solid 1px black;
 }
 
-.input {
-	
-}
 
 ::-webkit-scrollbar {
     width: 6px;

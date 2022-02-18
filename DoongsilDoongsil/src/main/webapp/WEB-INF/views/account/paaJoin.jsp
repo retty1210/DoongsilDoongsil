@@ -12,8 +12,11 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css" />
 <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 <link href="/stc/css/paajoin.css" rel="stylesheet" type="text/css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="bg-color">
 	<div class="box">
 		<div class="login-div">
 			<div class="logo">
@@ -72,9 +75,9 @@
 			<div class="child_wrap">
 				<label>학생찾기</label>
 				<input type="text" name="paa_child_id" id="paa_child_id" class="child" required>
-				<input class="inner" type="button" type="submit" onclick="findChild(this);" value="검색하기">
+				<input class="inner input_inner" type="button" type="submit" onclick="findChild(this);" value="검색하기">
 			</div>
-			<div>
+			<div class="btn_area">
 				<button type="submit" id="sign-btn" class="sign-btn">가입하기</button>
 			</div>
 		</form>
@@ -85,25 +88,30 @@
 	<script type="text/javascript">
 		function id_check2() {
 			var paa_username = $("#paa_username").val();
-			console.log(paa_username);
-			
-			$.ajax({
-				url : "/dupcheck2",
-				type : "post",
-				data : {"paa_username" : paa_username},
-				dataType : "json",
-				success : function(data) {
-					if(data.state === "fail") {
-						alert("중복된 아이디 입니다.");
-					} else {
-						alert("사용 가능한 아이디 입니다.");
+
+			if(!paa_username == "") {
+					$.ajax({
+					url : "/dupcheck2",
+					type : "post",
+					data : {"paa_username" : paa_username},
+					dataType : "json",
+					success : function(data) {
+						if(data.state === "fail") {
+							alert("중복된 아이디 입니다.");
+						} else {
+							alert("사용 가능한 아이디 입니다.");
+						}
 					}
-				}
-			})
+				})
+			} else if(paa_username == ""){
+				alert("아이디를 입력해주세요.");
+			}
+			
+			
 		}
 	
 		function findChild(href) {	
-			window.open("/childCheck","popup","width=500,height=500");
+			window.open("/childCheck","popup","width=500,height=605");
 		}
 	</script>
 <script type="text/javascript" src="stc/js/addHypen.js"></script>

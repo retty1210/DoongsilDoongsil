@@ -17,16 +17,27 @@ public class HomeworkInterceptor implements HandlerInterceptor {
 		String accountType = "";
 		if(ifLogin) {
 			accountType = session.getAttribute("accountType").toString();
-		}
-		
-		if(accountType.equals("T") || accountType.equals("S")) {
-			return true;
+			if(accountType.equals("T") || accountType.equals("S")) {
+				System.out.println("teacher/student");
+				return true;
+			} else if(accountType.equals("P")) {
+				System.out.println("parents");
+				session.setAttribute("error", true);
+				session.setAttribute("errormsg", "학급게시판은 학생, 교사만 이용 가능한 게시판입니다.");
+				response.sendRedirect("/");
+				return false;
+			} else {
+				System.out.println("other");
+				response.sendRedirect("/");
+				return false;
+			}
 		} else {
 			session.setAttribute("error", true);
 			session.setAttribute("errormsg", "학급게시판은 학생, 교사만 이용 가능한 게시판입니다. 로그인해주세요.");
 			response.sendRedirect("/login");
 			return false;
 		}
+		
 	}
 
 	@Override

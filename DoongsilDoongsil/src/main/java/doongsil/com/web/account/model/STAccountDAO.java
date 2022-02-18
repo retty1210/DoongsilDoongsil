@@ -17,8 +17,8 @@ public class STAccountDAO {
 	@Autowired
 	private SqlSession sess;
 	
-	public STAccountVO findId(STAccountVO stVo) {
-		return this.sess.selectOne("AccountMapper.findId", stVo);
+	public List<STAccountVO> findId(STAccountVO stVo) {
+		return this.sess.selectList("AccountMapper.findId", stVo);
 	}
 	
 	public STAccountVO findPassword(STAccountVO stVo) {

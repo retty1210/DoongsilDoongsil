@@ -192,6 +192,9 @@ public class HomeworkController {
 		} else {
 			imgarr = service.getImgList(data.getTho_filelink());
 		}
+		if(!imgarr[0].equals("noimage")) {
+			mod.addObject("img", imgarr);
+		}
 		
 		int durDate = 0;
 		
@@ -304,9 +307,6 @@ public class HomeworkController {
 					mod.addObject("contentArr", contentArr);
 					
 				}
-			}
-			if(!imgarr[0].equals("noimage")) {
-				mod.addObject("img", imgarr);
 			}
 		} else if(session.getAttribute("accountType").equals("S")) { //학생일 때
 			S_HomeworkVO shwVO = new S_HomeworkVO();

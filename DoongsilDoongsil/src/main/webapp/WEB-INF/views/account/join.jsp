@@ -30,7 +30,6 @@
 		</div>
 		<div class="nav-div">
 			<nav class="black">
-				<div class="underline"></div>
 				<div class="navigation">
 					<div class="a-left">
 						<a href="/join">학생 및 교사 회원</a>
@@ -54,7 +53,7 @@
 				</div>
 				<div class="name_wrap">
 					<label>이름</label>
-					<input type="text" name="sta_name" class="name" required>
+					<input type="text" name="sta_name" id="name" class="name" required>
 					<span id="must-name" class="hid_span_area">
 						<!--필수 입력입니다.-->
 					</span>
@@ -92,7 +91,7 @@
 				</div>
 				<div class="phonenumber_wrap">
 					<label>전화번호</label>
-					<input type="text" name="sta_phonenumber" class="phone" required>
+					<input type="text" name="sta_phonenumber" id="phonenumber" class="phone" required>
 				</div>
 				<div class="multi-input">
 		               <label>생년월일</label>
@@ -104,7 +103,7 @@
 		        	<input type="checkbox" id="student" name="sta_usertype" value="S"><label for="student">학생입니다</label>
 		        	<input type="checkbox" id="teacher" name="sta_usertype" value="T"><label for="teacher">선생님입니다</label>
 		        </div>
-				<div>
+				<div class="btn_area">
 					<button type="submit" id="sign-btn" class="sign-btn">가입하기</button>
 				</div>
 			</form>
@@ -114,9 +113,8 @@
 	<script type="text/javascript">
 	function id_check() {
 		var sta_username = $("#sta_username").val();
-		console.log(sta_username);
-		
-		$.ajax({
+		if(!sta_username == ""){
+			$.ajax({
 			url : "/dupcheck",
 			type : "post",
 			data : {"sta_username" : sta_username},
@@ -129,6 +127,11 @@
 				}
 			}
 		})
+		} else if(sta_username == "") {
+			alert('아이디를 입력해주세요.');
+		}
+		
+		
 	}
 	</script> 
 <script type="text/javascript" src="stc/js/addHypen.js"></script>

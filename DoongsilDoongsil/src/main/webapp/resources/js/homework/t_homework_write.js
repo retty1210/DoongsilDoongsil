@@ -15,7 +15,7 @@ $(document).ready(function() {
 		//document.getElementById('tho_writedate').value=newday;
 		
 		//input hidden 관련 버튼 action 처리
-		$("#btn_up").click(function(e){
+		$("#btn_imgSelect").click(function(e){
 			e.preventDefault();
 			$("#picFile").click();
 		});

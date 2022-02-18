@@ -27,7 +27,7 @@
          
       // 삭제
       $("#delete_btn").on("click", function(){
-         var deleteYN = confirm("삭제하시겠습니가?");
+         var deleteYN = confirm("삭제하시겠습니까?");
          if(deleteYN == true){
             formObj.attr("action", "/notice/delete");
             formObj.attr("method", "post");
@@ -71,70 +71,7 @@
    </header>
 <div class="container">
 <section id="container">
-<<<<<<< HEAD
-	<h1>공지사항</h1>
-	<hr />
-	<form name="readForm" role="form" method="post">
-		<table class="table">
-		<thead>
-		   	<tr>
-		   	 <th style="display:none;" scope="col">${read.not_id}</th> 
-		   	 <c:choose>
-		   	 	<c:when test="${read.not_permit eq 'P'}">
-		   		 <th scope="col" >[학부모님]&nbsp;${read.not_title}</th></c:when>
-		   		 <c:when test="${read.not_permit eq 'A'}">
-		   		 <th scope="col" >[학생과 학부모님]&nbsp;${read.not_title}</th></c:when>
-		   		 <c:otherwise>
-		   		 <th scope="col" >[학생]&nbsp;${read.not_title}</th></c:otherwise>
-		   	 </c:choose>
-		   	 <th scope="col" style="text-align:right"><fmt:formatDate value="${read.not_writedate}" pattern="yyyy-MM-dd"/></th>
-		  	</tr>
-		 </thead>
-		 <tbody>	
-			<tr>
-				<td colspan="3" style="border:none;">
-					<textarea readonly class="form-control-plaintext" id="not_contents" name="not_contents"  style="height:300px" ><c:out value="${read.not_contents}" /> </textarea>	
-				</td>
-			</tr>
-			<!-- 글 제목에 "지도"라는 단어가 포함되면 map.jsp를 불러옴 -->
-			 <tr>
-				<td colspan="3">
-				<c:set var="text" value="${read.not_title}" />
-				<c:if test="${fn:contains(text, '지도')}">
-				<jsp:include page="/WEB-INF/views/notice/map.jsp" flush="false" />
-				</c:if>
-				</td>
-			</tr>
-		</tbody>
-		<tr style="background-color: #f2f5fa;border-bottom: hidden;">
-         <c:if test="${read.not_file_name ne null}">
-            <td colspan="3" >첨부파일&nbsp;<a href="fileDownload.do?fileName=${read.not_file_name}" style="text-decoration:none;">${read.not_file_name}</a>
-            &nbsp;<span class="badge rounded-pill bg-primary">download</span></td>
-         </c:if>
-      </tr>			
-		</table>
-	
-	<!-- 댓글보기 -->
-	<div id="reply">
-		<ol class="replyList">
-			<c:forEach items="${replyList}" var="replyList">
-			    <li>
-	              <p>${replyList.reply_contents}</p>
-			      <p>
-			      작성자 : ${replyList.reply_writer}
-			      (<fmt:formatDate value="${replyList.reply_date}" pattern="yyyy-MM-dd"/>)
-	              </p>
-			      <div class="btn-group" role="group" aria-label="Basic outlined example">
-		       	  <button type="button" class="btn btn-outline-secondary" id="replyUpdateBtn" data-rno="${replyList.reply_id}">수정</button>  
- 				  <button type="button" class="btn btn-outline-secondary" id="replyDeleteBtn" data-rno="${replyList.reply_id}">삭제</button> 
- 				  </div><hr>
-	               <div>
-		      </div>
-			  </li>
-			 </c:forEach>  
-		</ol>
-	</div>
-=======
+
    <h1><a href="/notice/noticeList?page=1" style="text-decoration : none; color:black;">공지사항</a></h1>
    <hr />
    <form name="readForm" role="form" method="post">
@@ -177,7 +114,7 @@
       
       <tr style="background-color: #f2f5fa;border-bottom: hidden;">
          <c:if test="${read.not_file_name ne null}">
-            <td colspan="3" >첨부파일&nbsp;<a href="fileDownload.do?fileName=${read.not_file_name}" style="text-decoration:none;">${read.not_file_name}</a>
+            <td colspan="3" >첨부파일&nbsp;<a href="fileDownload.do?fileName=${read.not_file_name}" style="text-decoration:none;" download>${read.not_file_name}</a>
             &nbsp;<span class="badge rounded-pill bg-primary">download</span></td>
          </c:if>
       </tr>   
@@ -203,7 +140,6 @@
           </c:forEach>  
       </ol>
    </div>
->>>>>>> refs/remotes/origin/장재완
 </form>
    
    <!-- 댓글 작성 칸, 로그인 한 사람만 댓글 작성 가능 -->

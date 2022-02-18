@@ -37,6 +37,7 @@
    });
 
    // 이름 유효성 검사
+   /*
    $('input[name=sta_name]').focusout(function() {
       var userName = $('input[name=sta_name]').val();
       var ckName = /^[가-힣a-zA-Z]{2,4}$/;
@@ -46,6 +47,26 @@
       } else if(ckName.test(userName)){
          $('#must-name').text("");
       }
+      */
+     $('input[name=sta_name]').focusout(function() {
+    	var name = $('input[name=sta_name]').val();
+    	var nameChk = /^[가-힣]{2,15}$/;
+
+    	if(name == ""){
+    		$('#must-name').text("필수 입력 항목 입니다.");
+        	return;
+    	}
+    	if(name.match(/[0-9]|[a-z]|[A-Z]/)) { 
+    		$('#must-name').text("이름을 정확히 입력해주세요.");
+        	return;
+   	 	}
+   		if(name.match(/([^가-힣\x20])/i)){
+   			$('#must-name').text("이름을 정확히 입력해주세요.");
+        	return;
+    	}
+    	if(nameChk.test(name)){
+			$('#must-name').text("");
+		}
    });
 
    // 이메일 유효성 검사 
@@ -53,9 +74,13 @@
       var userEmail = $('input[name=sta_email]').val();
       var ckEmail = /^[a-z0-9_+.-]+@([a-z0-9]+\.)+[a-z0-9]{2,4}$/;
 
-      if(!ckEmail.test(userEmail)) {
+      if(userEmail == "") {
          $('#must-email').text("필수 입력 항목 입니다.");
-      } else if(ckEmail.test(userEmail)){
+      } 
+      if(!ckEmail.test(userEmail)) {
+		$('#must-email').text("이메일을 정확하게 입력해주세요.");
+	  }
+      if(ckEmail.test(userEmail)){
          $('#must-email').text("");
       }
    });
@@ -65,11 +90,15 @@
       var userPh = $('input[name=sta_phonenumber]').val();
       var ckph = /(\d{3}).*(\d{3}).*(\d{4})/;
 
-      if(!ckph.test(userPh)) {
+	  if(userPh == "") {
          $('#must-ph-ck').text("필수 입력 항목입니다.");
-         } else if(ckph.test(userPh)){
-            $('#must-ph-ck').text("");
-         }
+	  }
+      if(!ckph.test(userPh)) {
+		 $('#must-ph-ck').text("전화번호를 정확하게 입력해주세요.");
+      }
+      if(ckph.test(userPh)){
+         $('#must-ph-ck').text("");
+      }
    });
 
 // input 비어있으면 가입하기 버튼을 누를 수 없음
@@ -78,9 +107,9 @@ $('#sign-btn').hover(function() {
 
    for(var i = 0; i < 6; i++){
        if(a[i].value != ""){
-         $('#sign-btn').css({"background-color": "gray", "color": "white"});
+         $('#sign-btn').css({"background-color": "#77B0BF", "color": "#fff7e3", "cursor":"pointer"});
        } else if(a[i].value == "") {
-         $('#sign-btn').css({"background-color": "white", "color": "gray"});
+         $('#sign-btn').css({"background-color": "lightblue", "color": "gray"});
        }
    }
 });

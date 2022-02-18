@@ -54,7 +54,7 @@ public class InfoController {
 	
 	@RequestMapping(value="/info",method=RequestMethod.GET)
 	public String Info(HttpSession session, Model model) throws Exception {
-		int userNumber = (int)session.getAttribute("accountNumber");
+		int userNumber = (Integer) session.getAttribute("accountNumber");
 		STAccountVO staDto = (STAccountVO) session.getAttribute("account");
 		LocalDate date = LocalDate.now();
 		String now = String.valueOf(date);
@@ -118,15 +118,14 @@ public class InfoController {
 				if(staSer.allDelete(Integer.parseInt(s))) {
 					out.println("<script>alert('학생데이터를 전체 삭제 했습니다.');"
 							+ "window.close();"
+							+"opener.location.reload();"
 							+ "</script>");
-					return "redirect:info/info";
 					
 				}else {
 					out.println("<script>alert('삭제에 실패 하셨습니다. 다시 시도해주세요.');"
 							+ "location.reload();"
 							+ "opener.location.reload();"
 							+ "</script>");
-					return "redirect:admin/popup/studentDel";
 				}
 			}
 		}else {

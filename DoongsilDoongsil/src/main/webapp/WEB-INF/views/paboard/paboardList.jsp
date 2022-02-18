@@ -132,7 +132,7 @@
 			</select>
 		</div> <!-- 옵션선택 끝 -->
 		<div class="table_wrap">
-			<c:if test="${sessionScope.account.paa_id ne null }">
+			<c:if test="${sessionScope.accountType eq 'P'}">
 				<button type="button" class="btn btn-primary" onclick="location.href='/paboardWrite'">작성하기</button>
 			</c:if>
 			<table>

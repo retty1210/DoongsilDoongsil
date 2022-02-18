@@ -15,7 +15,7 @@ public class STAccountService {
 	@Autowired
 	private STAccountDAO stDao;
 	
-	public STAccountVO findId(STAccountVO stVo) {
+	public List<STAccountVO> findId(STAccountVO stVo) {
 		logger.info("아이디 데이터 받아옴");
 		return this.stDao.findId(stVo);
 	}

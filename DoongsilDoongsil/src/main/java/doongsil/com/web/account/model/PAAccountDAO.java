@@ -12,6 +12,18 @@ public class PAAccountDAO {
 	@Autowired
 	private SqlSession sess;
 	
+	public List<PAAccountVO> findId2(PAAccountVO paVO) {
+		return this.sess.selectList("AccountMapper.findId2", paVO);
+	}
+	
+	public PAAccountVO findPassword2(PAAccountVO paVO) {
+		return this.sess.selectOne("AccountMapper.findPassword2", paVO);
+	}
+	
+	public PAAccountVO updatePassword2(PAAccountVO paVO) {
+		return this.sess.selectOne("AccountMapper.updatePassword2", paVO);
+	}
+	
 	public PAAccountVO idCheck2(PAAccountVO paVO) {
 		return this.sess.selectOne("AccountMapper.idCheck2", paVO);
 	}

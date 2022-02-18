@@ -99,9 +99,11 @@
 						</tbody>			
 					</table>
 					<div>
+					<c:if test="${sessionScope.accountType eq'P' }">
 						<c:if test="${sessionScope.account.paa_id eq view.pab_writer}">
-						<button type="button" class="update_btn">수정</button>
-						<button type="button" class="delete_btn">삭제</button>
+								<button type="button" class="update_btn">수정</button>
+								<button type="button" class="delete_btn">삭제</button>
+							</c:if>
 						</c:if>
 						<button type="button" class="list_btn">목록</button>
 					</div>

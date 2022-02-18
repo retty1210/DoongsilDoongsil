@@ -13,10 +13,13 @@
    $('input[name=paa_password]').focusout(function() {
       var userPw = $('input[name=paa_password]').val();
       var ckpw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
-      if(userPw = "") {
-            $('#must-pw').text("숫자와 영문자, 특수문자 조합으로 8~16 자리를 사용해야 합니다.");
+      if(!ckpw.test(userPw)) {
+            $('#must-pw').text("필수 입력 항목 입니다.");
         } else if(ckpw.test(userPw)){
             $('#must-pw').text("");
+        }
+        if(!ckpw.test(userPw)){
+            $('#must-pw').text("숫자와 영문자, 특수문자 조합으로 8~16 자리를 사용해야 합니다.");
         }
    });
 

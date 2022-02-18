@@ -245,7 +245,7 @@ function submitAjaxComment(e) {
 		alert("숙제 채점이 되지 않았습니다.");
 	} else {
 		var goodbad = 'G';
-		if($("#sho_good"+e).attr('disabled', true)) {
+		if($("#sho_good"+e).attr('disabled', true) || $("#sho_good"+e).attr('disabled', 'disabled')) {
 			goodbad = 'N';
 		}
 		var comment = $("#sho_comment"+e).val();

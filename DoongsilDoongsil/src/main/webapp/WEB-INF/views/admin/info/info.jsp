@@ -78,7 +78,7 @@
 			</div>
 			<div class="noticeList_box">
 				<div class="noticeList_all_box">
-					<a href="/notice/noticeList" class="noticeList_all">>전체보기</a>
+					<a href="/notice/noticeList?page=1" class="noticeList_all">>전체보기</a>
 				</div>
 				<table border="1" class="noticeList_tb">
 					<tr class="noticeList_tr">

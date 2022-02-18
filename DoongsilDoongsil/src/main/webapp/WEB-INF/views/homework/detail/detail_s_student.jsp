@@ -70,7 +70,7 @@
 								<c:forEach var="swork" items="${sworks }" varStatus="index">
 									<c:if test="${swork.getSho_fileurl() != null }">
 										<div class="row tmg10 flex">
-											<c:forEach items="${studentImagesForS.get(swork.getSho_id()) }" var="i" varStatus="index">
+											<c:forEach items="${studentImagesForS.get(swork.getSho_id()) }" var="i" >
 												<div class="col-md-4">
 													<c:url var="imgURL" value="/stc/up/${i}" />
 													<a href="${imgURL }" target="_blank">

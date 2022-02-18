@@ -16,6 +16,10 @@ body {
 	border: 1px solid rgba(0,0,0,0.2);
 }
 
+form {
+	display: inline-block;
+}
+
 h3 {
 	text-align: center;
 	color: #505050;
@@ -23,8 +27,11 @@ h3 {
 	font-size: 20px;
 }
 
-form {
-	display: inline-block;
+h4 {
+	text-align: center;
+	color: #505050;
+	font-weight: bolder;
+	font-size: 17px;
 }
 
 section {
@@ -36,14 +43,57 @@ section {
 
 .find-name, .find-phone {
 	display: block;
+}
+
+.find-phone {
+	display: block;
 	margin: 0 0 5px 0;
 }
 
 .form-search label {
+	width: 100%;
 	margin: 0 0 0 4px;
 }
 
-.find-name input, .find-phone input {
+.pa_name {
+	display:block;
+}
+
+.child {
+	display: inline-block;
+	width: 65%;
+	border-radius: 10px;
+	border: 1px solid rgba(0,0,0,0.2);
+	font-size: 14px;
+	padding: 7px 20px 5px 10px;
+	margin: 10px 0;
+	background: none;
+}
+
+.inner,
+.input_inner {
+	width: 18%;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.2);
+    font-size: 13px;
+    background: white;
+    text-align: center;
+    height: 33px;
+    position: relative;
+    bottom: 2px;
+    margin: 3px;
+    padding: 5px;
+}
+
+.find-name span {
+	display: inline-block;
+	font-size: 13px;
+	margin-bottom: 3px;
+	padding: 5px;
+	color: red;
+	}
+
+.btn-name, .btn-phone {
 	display: inline-block;
 	width: 90%;
 	border-radius: 10px;
@@ -91,18 +141,19 @@ section {
 	margin: auto;
 }
 
-.check {
+.check, .check2 {
 	display: block;
-	margin: 10px;
+	margin-top: 30px;
+	padding: 15px;
 }
 
-.check label {
+.check label, .check2 label {
 	display: inline-block;
 	width: 100%;
 	margin-right: auto;
 	margin-left: auto;
-	margin-top: 28px;
-	margin-bottom: 10px;
+	margin-top: 35px;
+	margin-bottom: 1px;
 	text-align: center;
 }
 

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>학년 반의 학급게시판</title>
+<title>${sessionScope.account.getSta_grade()}학년 ${sessionScope.account.getSta_class()}반의 학급게시판</title>
 <jsp:include page="/WEB-INF/views/module/default.jsp" flush="false" />
 <c:url var="hwr_css_url" value="/stc/css/homework.css" />
 <c:url var="hwr_list_url" value="/stc/js/homework/homework_list.js" />

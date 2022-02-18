@@ -92,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
 							backgroundColor : data.cal_bgc
 						});
 					});
+					
 				successCallback(events);
 				}
 			});
@@ -108,7 +109,7 @@ window.onload = function() {
 	let href="/mainPop";
 	var cookiedata = document.cookie;
     if(cookiedata.indexOf("close=Y")<0){
-		window.open(href, 'pop', 'width=300, height=350');
+		window.open(href, 'pop', 'width=400, height=500');
     }
 	
 	

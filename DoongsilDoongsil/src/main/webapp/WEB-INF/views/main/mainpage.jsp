@@ -13,6 +13,10 @@
 <link href="/stc/css/info.css" rel="stylesheet" type="text/css"/>
 <style type="text/css">
   	/* mainpage에서는 mainbodybox에 걸려있는 flex 불필요 제거함 */
+  	.myInfo_setting{
+  		color:black;
+  	}
+  	
 	.mainbodybox {
 		display : inline-block;
 	}
@@ -20,7 +24,7 @@
 </style>
 <script type="text/javascript">
 	function MyInfoUpdate(href){
-		window.open('/infoUpdate?id=${sessionScope.accountNumber}','','width=500,height=700');
+		window.open('/popuppassword?type="P"','','width=400,height=150');
 	}
 	
 </script>
@@ -43,13 +47,32 @@
 				</div>
 				<table class="myInfo_text_tb">
 					<tr class="myInfo_text_tr">
-						<td class="myInfo_td">${sessionScope.account.sta_name }</td>
-						<td class="myInfo_td">${sessionScope.account.sta_grade }학년 ${sessionScope.account.sta_class }반</td>
-						<td class="myInfo_td" id="T_check">
-							<c:if test="${sessionScope.account.sta_usertype eq 'T'}">
-								교사
-							</c:if>
-						</td>
+					<c:choose>
+						<c:when test="${sessionScope.accountType eq 'T'}">
+							<td class="myInfo_td">${sessionScope.account.sta_name }</td>
+							<td class="myInfo_td">${sessionScope.account.sta_grade }학년 ${sessionScope.account.sta_class }반</td>
+							<td class="myInfo_td" id="T_check">
+								<c:if test="${sessionScope.account.sta_usertype eq 'T'}">
+									교사
+								</c:if>
+							</td>
+						</c:when>
+						<c:when test="${sessionScope.accountType eq 'S'}">
+							<td class="myInfo_td">${sessionScope.account.sta_name }</td>
+							<td class="myInfo_td">${sessionScope.account.sta_grade }학년 ${sessionScope.account.sta_class }반</td>
+							<td class="myInfo_td" id="T_check">
+								<c:if test="${sessionScope.account.sta_usertype eq 'S'}">
+									학생
+								</c:if>
+							</td>
+						</c:when>
+						<c:when test="${sessionScope.accountType eq 'P'}">
+							<td class="myInfo_td">${sessionScope.account.sta_name } 의 학부모</td>
+						</c:when>
+						<c:otherwise>
+							<td><span>로그인 후 이용 하세요.</span></td>
+						</c:otherwise>
+					</c:choose>
 					</tr>
 				</table>
 			</div>
@@ -73,7 +96,16 @@
 									<img src="https://img.icons8.com/ultraviolet/50/000000/airplane-mode-on.png" class="class-board-icon" />
 								</span> 
 								<span>
-									<a href="/notice/noticeView?not_id=${notice.not_id }" class="nh-list-title">${notice.not_title }</a>
+									<a href="/notice/noticeView?not_id=${notice.not_id }" class="nh-list-title">
+										<c:choose>
+											<c:when test="${fn:length(notice.not_title) >= 20}">
+												${fn:substring(notice.not_title, 0, 20) }.....
+											</c:when>
+											<c:otherwise>
+												${notice.not_title }
+											</c:otherwise>
+										</c:choose>
+									</a>
 								</span>
 							</td>
 						</tr>
@@ -92,7 +124,14 @@
 								<span><img src="https://img.icons8.com/dusk/50/000000/filled-circle.png" class="class-board-icon"/></span>
 								<span>
 									<a href="/homework/detail?tho_id=${homework.tho_id}" class="nh-list-title">
-										${homework.tho_title }
+										<c:choose>
+											<c:when test="${fn:length(homework.tho_title) >= 20}">
+												${fn:substring(homework.tho_title, 0, 20) }.....
+											</c:when>
+											<c:otherwise>
+												${homework.tho_title }
+											</c:otherwise>
+										</c:choose>
 									</a>
 								</span>
 							</td>

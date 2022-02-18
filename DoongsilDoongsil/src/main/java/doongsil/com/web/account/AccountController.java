@@ -236,7 +236,7 @@ private static final Logger logger = LoggerFactory.getLogger(AccountController.c
 			if(paData != null) {
 				session.setAttribute("logined", true);
 				session.setAttribute("account", paData);
-				session.setAttribute("accountType", paData.getSta_usertype());
+				session.setAttribute("accountType", "P");
 				session.setAttribute("accountNumber", paData.getPaa_id());
 				return "redirect:/";
 			} else {
@@ -260,15 +260,37 @@ private static final Logger logger = LoggerFactory.getLogger(AccountController.c
 	}
 	
 	@RequestMapping(value = "/findId", method = RequestMethod.POST)
-	public String findId(STAccountVO st, Model model) {
-		STAccountVO data = staService.findId(st);
-		if(data == null) {
-			logger.info("null");
-			model.addAttribute("check", 1);
-		} else {
+	public String findId(HttpSession session, STAccountVO st, Model model, HttpServletResponse response) {
+		response.setContentType("text/html; charset=UTF-8");
+		List<STAccountVO> data = staService.findId(st);
+		if(data.size() != 0) {
 			logger.info("data" + data);
 			model.addAttribute("check", 0);
-			model.addAttribute("id", data.getSta_username());
+			model.addAttribute("id", data);
+		} else {
+			logger.info("null");
+			model.addAttribute("check", 1);
+		}
+		return "account/findId";
+	}
+	
+	// 아이디 찾기 실행(학부모)
+	@RequestMapping(value = "/findId2", method = RequestMethod.GET)
+	public String findId2() {
+		return "account/findId";
+	}
+	
+	@RequestMapping(value = "/findId2", method = RequestMethod.POST)
+	public String findId2(PAAccountVO pa, Model model, HttpServletResponse response) {
+		response.setContentType("text/html; charset=UTF-8");
+		List<PAAccountVO> data = paaService.findId2(pa);
+		if(data.size() != 0) {
+			logger.info("data" + data);
+			model.addAttribute("check", 2);
+			model.addAttribute("id2", data);
+		} else {
+			logger.info("null");
+			model.addAttribute("check", 3);
 		}
 		return "account/findId";
 	}
@@ -280,9 +302,8 @@ private static final Logger logger = LoggerFactory.getLogger(AccountController.c
 	}
 	
 	@RequestMapping(value = "/findPss", method = RequestMethod.POST)
-	public String findPss(STAccountVO stVo, Model model) throws Exception {
+	public String findPss(STAccountVO stVo, Model model, HttpServletResponse res) throws Exception {
 		STAccountVO datas = staService.findPassword(stVo);
-		
 		if(datas == null) {
 			logger.info("pss null");
 			model.addAttribute("check", 1);
@@ -296,25 +317,49 @@ private static final Logger logger = LoggerFactory.getLogger(AccountController.c
     // 비밀번호 바꾸기 실행
 	@RequestMapping(value="/update_password", method = RequestMethod.POST)
 	public String updatePasswordAction(@RequestParam(value="updateid", defaultValue="", required = false) String sta_username
-		, STAccountVO stVo) {
+		, STAccountVO stVo, HttpServletResponse res) throws Exception {
 			stVo.setSta_username(sta_username);
 			System.out.println(stVo);
 			staService.updatePassword(stVo);
-			return "account/findPasswordConfirm";
-	}
-	
-    // 비밀번호 바꾸기할 경우 성공 페이지 이동
-	@RequestMapping(value="/check_password_view")
-	public String checkPasswordForModify(HttpSession session, Model model) {
-		STAccountVO loginUser = (STAccountVO) session.getAttribute("loginUser");
-		
-		if(loginUser == null) {
+			PrintWriter out = res.getWriter();
+			out.println("<script>alert('비밀번호가 변경되었습니다.');</script>");
+			out.flush();
 			return "account/login";
-		} else {
-			return "admin/infoUpdate";
-		}
 	}
 	
+	// 비밀번호 찾기 실행
+	@RequestMapping(value = "/findPss2", method = RequestMethod.GET)
+	public String findPss2() {
+		return "account/findPss";
+	}
+	
+	@RequestMapping(value = "/findPss2", method = RequestMethod.POST)
+	public String findPss2(PAAccountVO paVo, Model model, HttpServletResponse res) throws Exception {
+		PAAccountVO datas = paaService.findPassword2(paVo);
+		if(datas == null) {
+			logger.info("pss null");
+			model.addAttribute("check", 3);
+		} else {
+			model.addAttribute("check", 2);
+			model.addAttribute("updateid2", paVo.getPaa_username());
+		}
+		return "account/findPss";
+	}
+	
+    // 비밀번호 바꾸기 실행
+	@RequestMapping(value="/update_password2", method = RequestMethod.POST)
+	public String updatePasswordAction2(@RequestParam(value="updateid2", defaultValue="", required = false) String paa_username
+		, PAAccountVO paVo, HttpServletResponse res) throws Exception {
+			paVo.setPaa_username(paa_username);
+			System.out.println(paVo);
+			paaService.updatePassword2(paVo);
+			PrintWriter out = res.getWriter();
+			out.println("<script>alert('비밀번호가 변경되었습니다.');</script>");
+			out.flush();
+			return "account/login";
+	}
+	
+	// 학부모 회원가입
 	@RequestMapping(value = "/paaJoin", method = RequestMethod.GET)
 	public String paaJoin() {
 		return "account/paaJoin";

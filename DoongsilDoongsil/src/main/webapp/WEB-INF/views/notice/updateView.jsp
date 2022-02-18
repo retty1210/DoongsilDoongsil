@@ -26,7 +26,14 @@
 			<label for="exampleFormControlInput1" class="form-label" >열람 권한</label>
 			<!-- 세션으로.. if c.. p=학부모, s=학생.... -->
 			<select class="form-select form-select-sm" aria-label=".form-select-sm example" name="not_permit" >
-				<option selected >${update.not_permit}</option>
+				<c:choose>
+				<c:when test="${update.not_permit eq 'P'}">
+				<option selected value="S">학부모</option></c:when>
+				<c:when test="${update.not_permit eq 'S'}">
+				<option selected value="P">학생</option></c:when>
+				<c:otherwise>
+				<option selected value="A">학생과 학부모</option></c:otherwise>
+				</c:choose>
 				<option value="S">학생</option>
 				<option value="P">학부모님</option>
 				<option value="A">학생과 학부모님</option>

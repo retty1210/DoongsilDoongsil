@@ -68,7 +68,7 @@
 									<select name="tho_homeworktype" id="tho_homeworktype" class="form-select">
 										<option value="0" disabled selected>카테고리 선택하기</option>
 										<c:forEach var="data" items="${datas }">
-											<option value="${data.getTca_id() }">${data.getTca_category() } 선택하기</option>
+											<option value="${data.getTca_id() }">${data.getTca_category() }</option>
 										</c:forEach>
 									</select>
 								</div>

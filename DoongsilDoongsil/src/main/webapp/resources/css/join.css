@@ -98,7 +98,6 @@ a {
 
 .box form {
 	margin-top: 10px;
-	margin-bottom: 15px;
     padding: 30px;
 }
 
@@ -157,7 +156,7 @@ label {
 
 .inner, .checkId {
 	width: 20%;
-	height : 37px;
+	height : 45px;
 	border-radius: 10px;
 	border: 1px solid rgba(0,0,0,0.2);
 	font-size: 14px;
@@ -172,21 +171,25 @@ label {
 }
 
 .checked {
+	display:flex;
 	width: 100%;
-	margin: 10px;
+	margin-top: 17px;
+    margin-left: 30px;
+    margin-bottom: 5px;
 }
 
-.signin-btn button {
+.btn_area button {
 	width: 100%;
 	padding: 12px 10px;
 	margin-left: auto;
 	margin-right: auto;
+	margin-top: 25px;
 	border: none;
 	font-size: 18px;
 	font-weight: bolder;
 	border-radius: 30px;
-	background-color: blue;
-	color: #fff7e3;
+	background-color: lightblue; 
+	color: gray;
 	background-color: 5b6baa;
 }
 

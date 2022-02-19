@@ -485,7 +485,7 @@ public class HomeworkController {
 	@RequestMapping(value="/ajaxComment", method=RequestMethod.POST)
 	public HashMap<String, String> ajaxComment(S_HomeworkVO vo) {
 		System.out.println("ajaxComment: " + vo);
-		HashMap<String, String> resultmap = new HashMap();
+		HashMap<String, String> resultmap = new HashMap<String, String>();
 		if(vo.getSho_comment() == null) {
 			boolean res = service.updateSHGood(vo);
 			resultmap.put("result", res + "");

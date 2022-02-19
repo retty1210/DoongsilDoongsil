@@ -75,7 +75,7 @@
 				</div>
 				<div class="join-page">
 					<span>회원가입하기</span>
-					<span><a href="./join"> (학생 & 교사 </a></span>
+					<span><a href="./join"> (학생 &amp; 교사 </a></span>
 					<span><a href="./paaJoin"> | 학부모)</a></span>
 				</div>
 			</div>
